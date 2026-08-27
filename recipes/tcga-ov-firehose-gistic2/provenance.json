@@ -1,6 +1,9 @@
 {
   "schemaVersion": 1,
   "recipeId": "tcga-ov-firehose-gistic2",
+  "distribution": {
+    "baseUrl": "https://data.genomespy.app/datasets/tcga-ov-firehose-gistic2/v1/"
+  },
   "sources": [
     {
       "id": "broad-gdac-firehose-tcga-ov-gistic2",

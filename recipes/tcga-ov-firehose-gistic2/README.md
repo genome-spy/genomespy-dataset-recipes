@@ -77,7 +77,10 @@ evidence.
 
 ## Data rights
 
-The [rights review](RIGHTS.md) finds no explicit permission to mirror these
-exact Broad-produced archive members. The outputs therefore remain local-only.
-The TCGA Research Network acknowledgment requested by NCI must accompany any
-permitted use.
+The [rights review](RIGHTS.md) accepts the remaining licence ambiguity and
+finds these open-access analytical summaries eligible for GenomeSpy-managed
+hosting with Broad GDAC source identification, the normal TCGA Research
+Network acknowledgment, and continued TCGA responsible-use conditions.
+
+Proposed release root:
+`https://data.genomespy.app/datasets/tcga-ov-firehose-gistic2/v1/`.
