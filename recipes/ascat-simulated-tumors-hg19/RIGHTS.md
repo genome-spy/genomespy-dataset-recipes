@@ -2,44 +2,34 @@
 
 ## Scope
 
-This review covers the six simulated hg19 `ExampleData` inputs identified in
-`sources.lock.json`, the generated `ASCAT_objects.Rdata` intermediate, and all
-TSV outputs produced by this recipe for S17, S36, S54, S64, S77, S84, S96,
-S97, and S100.
+This review covers the six simulated hg19 ASCAT example inputs listed in
+`provenance.json`, the generated `ASCAT_objects.Rdata` intermediate, and all TSV
+outputs for S17, S36, S54, S64, S77, S84, S96, S97, and S100.
 
-## Evidence
+## Evidence and interpretation
 
-- The authoritative [ASCAT GitHub repository](https://github.com/VanLoo-lab/ascat)
-  declares GPL-3 and includes the exact example input files at the pinned
-  commit.
-- The local source files used for the accepted run are byte-identical to those
-  six files at commit `61ddf3b24453eea91134798cc41d4e828a82fa90`.
-- Van Loo et al., [Allele-specific copy number analysis of
-  tumors](https://doi.org/10.1073/pnas.1009843107), is the requested scientific
-  citation for ASCAT.
+The authoritative [ASCAT repository](https://github.com/VanLoo-lab/ascat)
+distributes the exact example inputs at the pinned commit under GPL-3. This
+supports redistributing the inputs and transformations under those terms. The
+files are simulated tumor examples, not participant measurements. Van Loo et
+al., [Allele-specific copy number analysis of tumors](https://doi.org/10.1073/pnas.1009843107),
+is the scientific citation.
 
-## Interpretation
-
-The official repository distributes these simulated example files under
-GPL-3. Public hosting of the files transformed by this recipe is permitted when
-the GPL-3 conditions are preserved. The inputs are simulated tumor examples,
-not measurements from human research participants.
+Running GPL software does not by itself make generated data copyrightable or
+automatically GPL-covered. Preserving the upstream notice and source link is a
+conservative condition because these outputs derive closely from example data
+distributed in the GPL repository.
 
 ## Conditions
 
-- Identify ASCAT, the pinned upstream commit, and the Van Loo et al. citation.
-- Include a GPL-3 notice and a link to the corresponding upstream source.
-- Mark the hosted TSVs as GenomeSpy-produced transformations of ASCAT example
-  data; do not present them as original ASCAT release files.
-- Make the recipe source used to produce the hosted form available through its
-  exact GitHub commit.
-- Do not apply or imply the recipe repository's CC0 dedication to any data or
-  intermediate file.
+- Identify ASCAT, the pinned commit, and the Van Loo et al. citation.
+- Include the upstream GPL-3 notice and source link.
+- Describe the TSVs as GenomeSpy-produced transformations.
+- Link to the exact recipe commit used to create them.
+- Do not imply that repository CC0 covers data or intermediates.
 
 ## Decision
 
-Eligible for GenomeSpy-managed hosting subject to the conditions above. This
-decision records eligibility; it does not claim that the files have already
-been uploaded.
+Eligible for GenomeSpy-managed hosting under the conditions above.
 
 Reviewed: 2026-08-27

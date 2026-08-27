@@ -2,24 +2,17 @@
 
 ## Scope
 
-Identify the exact source accessions or releases and every output covered by
-this review. Classify each output as original bytes, a near-complete
-transformation, a reduced extract, or a synthetic result.
+Identify the exact inputs and outputs, classifying outputs as mirrors,
+transformations, extracts, or synthetic results.
 
-## Evidence
+## Evidence and interpretation
 
-Link authoritative licenses, terms, data-use policies, public-domain
-declarations, or written permissions. Public access alone is not evidence.
-
-## Interpretation
-
-Explain briefly how the evidence applies to these outputs and whether any
-dataset-specific or controlled-access restrictions apply.
+Link authoritative terms or permission and explain briefly why they apply.
 
 ## Conditions
 
-List required attribution, notices, citations, naming, or share-alike terms.
-Write “None” when there are no conditions.
+List required attribution, notices, citations, or share-alike terms. Write
+“None” when there are none.
 
 ## Decision
 

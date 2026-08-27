@@ -15,7 +15,7 @@ def main() -> None:
     """Create standard working directories and stop at the template boundary."""
 
     recipe_dir = Path(__file__).resolve().parents[1]
-    for name in ("download", "work", "output", "publish"):
+    for name in ("download", "work", "output"):
         (recipe_dir / name).mkdir(exist_ok=True)
     raise NotImplementedError("Replace the recipe template implementation.")
 

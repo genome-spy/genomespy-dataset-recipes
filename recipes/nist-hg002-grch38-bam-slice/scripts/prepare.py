@@ -23,7 +23,6 @@ RECIPE_DIR = Path(__file__).resolve().parents[1]
 DOWNLOAD_DIR = RECIPE_DIR / "download"
 OUTPUT_DIR = RECIPE_DIR / "output"
 PROVENANCE_PATH = RECIPE_DIR / "provenance.json"
-LOCK_PATH = RECIPE_DIR / "sources.lock.json"
 REGION = "chr20:9950000-10100000"
 EXPECTED_RECORDS = 101_867
 EXPECTED_MAPPED = 101_159
@@ -105,8 +104,8 @@ def verify_accepted_outputs() -> None:
 def prepare() -> None:
     """Create the pinned regional subsample from the remote parent BAM."""
 
-    lock: dict[str, Any] = json.loads(LOCK_PATH.read_text(encoding="utf-8"))
-    source = lock["sources"][0]
+    provenance: dict[str, Any] = json.loads(PROVENANCE_PATH.read_text(encoding="utf-8"))
+    source = provenance["sources"][0]
     index = source["sourceIndex"]
     download(
         index["url"],
@@ -118,7 +117,7 @@ def prepare() -> None:
     download(
         source["baiUrl"],
         parent_bai,
-        source["checksums"]["baiMd5"]["value"],
+        source["baiMd5"],
         "md5",
     )
 

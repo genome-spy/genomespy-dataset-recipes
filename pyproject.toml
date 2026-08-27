@@ -3,14 +3,13 @@ name = "genomespy-dataset-recipes-tools"
 version = "0.0.0"
 description = "Development tools for the GenomeSpy dataset recipes repository"
 requires-python = ">=3.12"
-dependencies = ["PyYAML>=6.0.2,<7"]
+dependencies = []
 
 [dependency-groups]
 dev = [
     "mypy>=1.17,<2",
     "pytest>=8.4,<9",
     "ruff>=0.12,<1",
-    "types-pyyaml>=6.0.12,<7",
 ]
 
 [tool.ruff]

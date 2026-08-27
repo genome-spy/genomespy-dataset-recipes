@@ -16,8 +16,8 @@ CC0 does **not** apply to:
 
 - downloaded source data;
 - cached, intermediate, processed, mirrored, or hosted data;
-- files under recipe `download/`, `work/`, `output/`, or `publish/` directories;
-- `recipe.yaml`, `sources.lock.json`, or `provenance.json` records;
+- files under recipe `download/`, `work/`, or `output/` directories;
+- `provenance.json` records;
 - uv or other dependency lockfiles;
 - schemas, repository tooling, agent instructions, policy documents, or other
   files not listed above;

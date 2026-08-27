@@ -83,10 +83,8 @@ OUTPUT_FILENAMES = {
 
 @dataclass(frozen=True)
 class LockedSource:
-    """One exact source artifact from sources.lock.json."""
+    """One exact source artifact from provenance.json."""
 
-    source_id: str
-    file_accession: str
     filename: str
     url: str
     file_size_bytes: int
@@ -154,36 +152,30 @@ def file_hash(file: Path, algorithm: str = "sha256") -> str:
         return hashlib.file_digest(input_file, algorithm).hexdigest()
 
 
-def load_source_lock(recipe_dir: Path) -> tuple[LockedSource, str]:
+def load_source(
+    recipe_dir: Path,
+) -> tuple[LockedSource, dict[str, Any], dict[str, Any]]:
     """Load and validate the single pinned ENCODE source."""
 
-    lock_path = recipe_dir / "sources.lock.json"
-    lock_bytes = lock_path.read_bytes()
-    lock = json.loads(lock_bytes)
-    sources = lock.get("sources")
+    provenance = json.loads((recipe_dir / "provenance.json").read_bytes())
+    sources = provenance.get("sources")
     if not isinstance(sources, list) or len(sources) != 1:
-        raise ValueError("sources.lock.json must contain exactly one source.")
+        raise ValueError("provenance.json must contain exactly one source.")
     source = sources[0]
     if not isinstance(source, dict):
-        raise ValueError("The source lock entry must be an object.")
-    checksums = source.get("checksums")
-    if not isinstance(checksums, dict):
-        raise ValueError("The source lock must contain checksums.")
-    md5 = checksums.get("md5")
-    sha256 = checksums.get("sha256")
-    if not isinstance(md5, dict) or not isinstance(sha256, dict):
-        raise ValueError("The source lock must contain MD5 and SHA-256 objects.")
+        raise ValueError("The provenance source must be an object.")
+    distribution = provenance.get("distribution")
+    if not isinstance(distribution, dict):
+        raise ValueError("Provenance must contain a distribution object.")
 
     locked = LockedSource(
-        source_id=str(source["id"]),
-        file_accession=str(source["fileAccession"]),
         filename=str(source["filename"]),
         url=str(source["url"]),
         file_size_bytes=int(source["fileSizeBytes"]),
-        md5=str(md5["value"]),
-        sha256=str(sha256["value"]),
+        md5=str(source["md5"]),
+        sha256=str(source["sha256"]),
     )
-    return locked, hashlib.sha256(lock_bytes).hexdigest()
+    return locked, source, distribution
 
 
 def validate_source(file: Path, source: LockedSource) -> None:
@@ -198,7 +190,7 @@ def validate_source(file: Path, source: LockedSource) -> None:
 
 
 def download_source(destination: Path, source: LockedSource) -> None:
-    """Atomically download the exact URL from the source lock."""
+    """Atomically download the exact source URL from provenance."""
 
     destination.parent.mkdir(parents=True, exist_ok=True)
     temporary = destination.with_name(destination.name + ".part")
@@ -503,8 +495,8 @@ def gzip_record_count(file: Path) -> int:
 
 def write_provenance(
     recipe_dir: Path,
-    source: LockedSource,
-    source_lock_sha256: str,
+    source_record: Mapping[str, Any],
+    distribution_record: Mapping[str, Any],
     outputs: Mapping[str, Path],
     output_rows: Mapping[str, int],
     stats: Mapping[str, Any],
@@ -515,65 +507,51 @@ def write_provenance(
     provenance = {
         "schemaVersion": 1,
         "recipeId": RECIPE_ID,
-        "sourceLockSha256": source_lock_sha256,
-        "source": {
-            "id": source.source_id,
-            "fileAccession": source.file_accession,
-            "url": source.url,
-            "fileSizeBytes": source.file_size_bytes,
-            "md5": source.md5,
-            "sha256": source.sha256,
-            "recordCount": stats["sourceRows"],
-        },
+        "distribution": dict(distribution_record),
+        "sources": [dict(source_record)],
         "tools": {"python": platform.python_version()},
+        "transformations": {
+            "coordinates": (
+                "Element intervals remain zero-based and half-open; gene TSS "
+                "values remain zero-based points; elementMid = "
+                "(elementStart + elementEnd) / 2."
+            ),
+            "duplicates": (
+                "Remove only rows identical across all 12 interaction fields."
+            ),
+            "threshold": (
+                "No added threshold; the released source is already thresholded."
+            ),
+            "sorting": (
+                "GRCh38 primary chromosome order, then element and gene "
+                "coordinates, IDs, and scores."
+            ),
+        },
         "outputs": {
             name: {
                 "path": "output/" + file.name,
                 "fileSizeBytes": file.stat().st_size,
-                "uncompressedSizeBytes": gzip_uncompressed_size(file),
                 "sha256": file_hash(file),
                 "recordCount": output_rows[name],
             }
             for name, file in outputs.items()
         },
-        "transformations": {
-            "selectedAndRenamedColumns": stats["selectedColumns"],
-            "coordinates": (
-                "Element BED intervals remain zero-based and half-open. "
-                "TargetGeneTSS remains a zero-based point/boundary. "
-                "elementMid = (elementStart + elementEnd) / 2, including "
-                "half-base midpoints."
-            ),
-            "duplicateHandling": (
-                "Remove only rows identical across all 12 output columns."
-            ),
-            "scoreThreshold": (
-                "No added threshold; the released source is already thresholded."
-            ),
-            "sorting": (
-                "GRCh38 primary chromosome order, elementStart, elementEnd, "
-                "geneTss, geneId, re2gScore, abcScore."
-            ),
-        },
         "validation": {
-            "processedInteractionRecords": stats["processedRows"],
             "exactDuplicateRowsRemoved": stats["exactDuplicateRowsRemoved"],
             "halfBaseElementMidpoints": stats["halfBaseElementMidpoints"],
             "elementClasses": stats["elementClasses"],
-            "scoreRanges": stats["scoreRanges"],
-            "geneIdAnnotationConflicts": stats["geneIdAnnotationConflicts"],
-            "distanceCheck": (
-                "Every source distance equals abs(TargetGeneTSS - elementMid)."
-            ),
-            "coordinateBounds": (
-                "All element intervals and gene TSS positions are within GRCh38 "
-                "primary chromosome bounds."
-            ),
-        },
-        "initialLocus": initial_locus,
-        "publication": {
-            "status": "eligible",
-            "rightsReview": "RIGHTS.md",
+            "re2gScoreRange": stats["scoreRanges"]["re2gScore"],
+            "abcScoreRange": stats["scoreRanges"]["abcScore"],
+            "geneIdAnnotationConflictIds": sorted(stats["geneIdAnnotationConflicts"]),
+            "initialLocus": {
+                "domain": (
+                    f"{initial_locus['chrom']}:{initial_locus['start']}-"
+                    f"{initial_locus['end']}"
+                ),
+                "visibleLinks": initial_locus["visibleLinks"],
+                "uniqueElements": initial_locus["uniqueElements"],
+                "uniqueGenes": initial_locus["uniqueGenes"],
+            },
         },
     }
     destination = recipe_dir / "provenance.json"
@@ -585,24 +563,13 @@ def write_provenance(
         temporary.unlink(missing_ok=True)
 
 
-def gzip_uncompressed_size(file: Path) -> int:
-    """Return the uncompressed byte size of a gzip file."""
-
-    with gzip.open(file, "rb") as input_file:
-        return sum(
-            len(chunk) for chunk in iter(lambda: input_file.read(1024 * 1024), b"")
-        )
-
-
-def verify_outputs(recipe_dir: Path, source_lock_sha256: str) -> None:
+def verify_outputs(recipe_dir: Path) -> None:
     """Verify output fingerprints against committed provenance."""
 
     provenance_path = recipe_dir / "provenance.json"
     provenance = json.loads(provenance_path.read_text(encoding="utf-8"))
     if provenance.get("recipeId") != RECIPE_ID:
         raise ValueError("Provenance recipe ID does not match.")
-    if provenance.get("sourceLockSha256") != source_lock_sha256:
-        raise ValueError("Provenance does not match sources.lock.json.")
     outputs = provenance.get("outputs")
     if not isinstance(outputs, dict):
         raise ValueError("Provenance outputs must be an object.")
@@ -628,9 +595,9 @@ def main() -> None:
 
     args = parse_args()
     recipe_dir = Path(__file__).resolve().parents[1]
-    source, source_lock_sha256 = load_source_lock(recipe_dir)
+    source, source_record, distribution_record = load_source(recipe_dir)
     if args.verify_only:
-        verify_outputs(recipe_dir, source_lock_sha256)
+        verify_outputs(recipe_dir)
         print("Verified accepted outputs.")
         return
 
@@ -668,14 +635,14 @@ def main() -> None:
     }
     write_provenance(
         recipe_dir,
-        source,
-        source_lock_sha256,
+        source_record,
+        distribution_record,
         outputs,
         output_rows,
         stats,
         locus_stats(interactions),
     )
-    verify_outputs(recipe_dir, source_lock_sha256)
+    verify_outputs(recipe_dir)
     print("Prepared and verified pinned outputs.")
 
 

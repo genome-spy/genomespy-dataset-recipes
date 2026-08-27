@@ -23,12 +23,11 @@ def test_rejects_large_tracked_file(tmp_path: Path) -> None:
     assert any("exceeds 1000000 bytes" in error for error in errors)
 
 
-def test_rejects_remote_url_for_transform_recipe() -> None:
+def test_rejects_remote_data_url() -> None:
     errors = check_spec_values(
         "example",
         "overview.json",
         {"data": {"url": "https://example.org/data.tsv"}},
-        "transform",
     )
 
     assert errors == [
@@ -41,7 +40,6 @@ def test_accepts_relative_output_url() -> None:
         "example",
         "overview.json",
         {"data": {"url": "../output/example.tsv"}},
-        "transform",
     )
 
     assert errors == []
@@ -52,7 +50,6 @@ def test_accepts_empty_signal_value() -> None:
         "example",
         "overview.json",
         {"data": {"values": [{}]}},
-        "transform",
     )
 
     assert errors == []
@@ -63,7 +60,6 @@ def test_rejects_embedded_data_rows() -> None:
         "example",
         "overview.json",
         {"data": {"values": [{"chrom": "chr1", "pos": 1}]}},
-        "transform",
     )
 
     assert errors == ["example: embedded values in overview.json"]
@@ -72,7 +68,7 @@ def test_rejects_embedded_data_rows() -> None:
 def test_recipe_requires_rights_record(tmp_path: Path) -> None:
     recipe = tmp_path / "example-recipe"
     recipe.mkdir()
-    for name in ("README.md", "recipe.yaml", "sources.lock.json", "provenance.json"):
+    for name in ("README.md", "provenance.json"):
         (recipe / name).write_text("{}\n", encoding="utf-8")
 
     errors = check_recipe(recipe)
@@ -80,29 +76,35 @@ def test_recipe_requires_rights_record(tmp_path: Path) -> None:
     assert errors == ["example-recipe: missing RIGHTS.md"]
 
 
-def test_allowed_source_requires_rights_evidence(tmp_path: Path) -> None:
+def test_recipe_id_must_match_directory(tmp_path: Path) -> None:
     recipe = tmp_path / "example-recipe"
     recipe.mkdir()
     (recipe / "README.md").write_text("# Example\n", encoding="utf-8")
     (recipe / "RIGHTS.md").write_text("# Rights\n", encoding="utf-8")
-    (recipe / "sources.lock.json").write_text("{}\n", encoding="utf-8")
-    (recipe / "provenance.json").write_text("{}\n", encoding="utf-8")
-    (recipe / "recipe.yaml").write_text(
-        """\
-id: example-recipe
-title: Example
-status: ready
-kind: transform
-sources:
-  - id: example
-    redistribution: allowed
-outputs:
-  - path: output/example.tsv
-    publication: hosted
-""",
+    (recipe / "provenance.json").write_text(
+        '{"schemaVersion": 1, "recipeId": "wrong", '
+        '"sources": [{}], "outputs": {"x": {}}}\n',
         encoding="utf-8",
     )
 
     errors = check_recipe(recipe)
 
-    assert errors == ["example-recipe: allowed source needs rightsEvidence"]
+    assert errors == ["example-recipe: recipeId must match the directory name"]
+
+
+def test_distribution_url_must_match_recipe(tmp_path: Path) -> None:
+    recipe = tmp_path / "example-recipe"
+    recipe.mkdir()
+    (recipe / "README.md").write_text("# Example\n", encoding="utf-8")
+    (recipe / "RIGHTS.md").write_text("# Rights\n", encoding="utf-8")
+    (recipe / "provenance.json").write_text(
+        '{"schemaVersion": 1, "recipeId": "example-recipe", '
+        '"sources": [{}], "outputs": {"x": {}}, '
+        '"distribution": {"baseUrl": '
+        '"https://data.genomespy.app/datasets/another-recipe/v1/"}}\n',
+        encoding="utf-8",
+    )
+
+    errors = check_recipe(recipe)
+
+    assert errors == ["example-recipe: invalid distribution baseUrl"]

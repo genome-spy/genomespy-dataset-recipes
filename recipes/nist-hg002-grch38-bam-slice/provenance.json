@@ -1,15 +1,27 @@
 {
   "schemaVersion": 1,
   "recipeId": "nist-hg002-grch38-bam-slice",
-  "source": {
-    "id": "nist-giab-hg002-300x-grch38-bam",
-    "sample": "HG002 / NA24385",
-    "assembly": "GRCh38",
-    "parentBamMd5": "a2a85243fba525d485a6ba89d73b46a9",
-    "parentBamChecksumStatus": "reported-by-pinned-index",
-    "parentBaiMd5": "491d644a55382424c1824e3b664827da",
-    "parentBaiChecksumStatus": "reported-and-verified"
+  "distribution": {
+    "baseUrl": "https://data.genomespy.app/datasets/nist-hg002-grch38-bam-slice/v1/"
   },
+  "sources": [
+    {
+      "id": "nist-giab-hg002-300x-grch38-bam",
+      "sample": "HG002 / NA24385",
+      "assembly": "GRCh38",
+      "bamUrl": "https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/data/AshkenazimTrio/HG002_NA24385_son/NIST_HiSeq_HG002_Homogeneity-10953946/NHGRI_Illumina300X_AJtrio_novoalign_bams/HG002.GRCh38.300x.bam",
+      "baiUrl": "https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/data/AshkenazimTrio/HG002_NA24385_son/NIST_HiSeq_HG002_Homogeneity-10953946/NHGRI_Illumina300X_AJtrio_novoalign_bams/HG002.GRCh38.300x.bam.bai",
+      "bamMd5": "a2a85243fba525d485a6ba89d73b46a9",
+      "bamMd5Status": "reported-by-pinned-index",
+      "baiMd5": "491d644a55382424c1824e3b664827da",
+      "baiMd5Status": "reported-and-verified",
+      "sourceIndex": {
+        "gitCommit": "fe5327b1deffe6ccdde8912fdf98ec26863594e3",
+        "url": "https://raw.githubusercontent.com/genome-in-a-bottle/giab_data_indexes/fe5327b1deffe6ccdde8912fdf98ec26863594e3/AshkenazimTrio/alignment.index.AJtrio_Illumina300X_wgs_novoalign_GRCh37_GRCh38_NHGRI_07282015",
+        "sha256": "7a66fd6de82840c7b7a02e3370d667733e1370e6c5b671c38d5e5dc39be063a1"
+      }
+    }
+  ],
   "parameters": {
     "region": "chr20:9950000-10100000",
     "subsampleSeed": 42,
@@ -18,7 +30,6 @@
   "tools": {
     "samtools": "1.23.1"
   },
-  "reproducibility": "Byte-identical with the accepted samtools 1.23.1 workflow; semantic review is required when changing samtools versions.",
   "outputs": {
     "bam": {
       "path": "output/alignments.bam",
@@ -46,12 +57,7 @@
     "recordsWithInsertion": 2343,
     "recordsWithDeletion": 2066,
     "recordsWithSoftClip": 3892,
-    "recordsWithMdTag": 101159,
-    "recordsWithNmTag": 101159,
     "recordsWithNonzeroNm": 28849
   },
-  "publication": {
-    "status": "eligible",
-    "rightsReview": "RIGHTS.md"
-  }
+  "reproducibility": "Byte-identical with samtools 1.23.1; review semantic checks after a tool-version change."
 }

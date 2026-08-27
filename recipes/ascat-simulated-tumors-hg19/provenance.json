@@ -1,66 +1,72 @@
 {
   "schemaVersion": 1,
   "recipeId": "ascat-simulated-tumors-hg19",
-  "sourceCommit": "61ddf3b24453eea91134798cc41d4e828a82fa90",
-  "acceptedIntermediateSha256": "71a23131397f29589ec491913c337092a2cf17df613d7124c99276f3aa2e813a",
-  "samples": ["S17", "S36", "S54", "S64", "S77", "S84", "S96", "S97", "S100"],
+  "distribution": {
+    "baseUrl": "https://data.genomespy.app/datasets/ascat-simulated-tumors-hg19/v1/"
+  },
+  "sources": [
+    {
+      "id": "ascat-example-data",
+      "repository": "https://github.com/VanLoo-lab/ascat",
+      "gitCommit": "61ddf3b24453eea91134798cc41d4e828a82fa90",
+      "packageVersion": "3.2.0",
+      "assembly": "GRCh37/hg19",
+      "files": {
+        "Tumor_LogR.txt": "6a01557a81bc478a73bb7b6c92ba9249b2a700eaf47a62cf45ff5e2be54574d2",
+        "Tumor_BAF.txt": "bcb9ddbea4554ccba56dfee7e703bb715e1a256070f18a34a896ed8998e4ef1d",
+        "Germline_LogR.txt": "671be8a6975d69a662ebfa8f433cf7407463a79c34ccf831805fb64335ad8771",
+        "Germline_BAF.txt": "c66161a8118d3be45ef1f007d4b342c5a5d509a302b964e97814395f2aa790e6",
+        "GC_example.txt": "08a9c9c5f464da2c0ca9e3d134e8dfcfc9d6702c855b977437328edee9221d19",
+        "RT_example.txt": "6bf3c7efa36076c723b41fc2a754d2f1e97b9bf188606309e548d383edd22500"
+      }
+    }
+  ],
+  "parameters": {
+    "samples": ["S17", "S36", "S54", "S64", "S77", "S84", "S96", "S97", "S100"],
+    "rawProbesPerSample": 10000
+  },
   "tools": {
     "r": "4.5.2",
     "ascat": "3.2.0",
     "gzip": "Apple gzip 479"
   },
+  "intermediate": {
+    "path": "work/ASCAT_objects.Rdata",
+    "sha256": "71a23131397f29589ec491913c337092a2cf17df613d7124c99276f3aa2e813a"
+  },
   "outputs": {
-    "fileCount": 28,
-    "compressedBytes": 1062744,
-    "manifest": {
-      "algorithm": "SHA-256 of sorted '<sha256>  <repository-relative-path>' lines",
-      "sha256": "660a7571f5a1bc9a9d258f587fcc2a776678bb5febc3d45db2cebe8e274ba110"
-    },
     "fits": {
       "path": "output/fits.tsv.gz",
-      "records": 9,
+      "recordCount": 9,
       "sha256": "c0b5e104ae6d2536b8645c1fba5ff72054cf58bf4f7f3287c06f76476eecc3e0"
     },
-    "s96": {
-      "segments": {
-        "records": 84,
-        "sha256": "459faba243bfce6137df688f338714ecd447e3f72b1952f794df3eed834b0aa1"
-      },
-      "fitSegments": {
-        "records": 84,
-        "sha256": "f9e8360b5351ba113d8dcc4b9f844638a110bfe21a76e507fe9fb81a4db7e9f8"
-      },
-      "raw": {
-        "records": 10000,
-        "heterozygousBafRecords": 5927,
-        "sha256": "920dd836d2c207241e6a45c7cc2b6e31bd0811803ad65bbdf8aafeb67b180293"
-      }
+    "sampleTables": {
+      "path": "output/samples/{sample}/{segments,fit-segments,raw}.tsv.gz",
+      "fileCount": 27
+    },
+    "manifest": {
+      "fileCount": 28,
+      "compressedBytes": 1062744,
+      "sha256": "660a7571f5a1bc9a9d258f587fcc2a776678bb5febc3d45db2cebe8e274ba110"
     }
   },
-  "segmentCounts": {
-    "S17": 56,
-    "S36": 37,
-    "S54": 23,
-    "S64": 30,
-    "S77": 46,
-    "S84": 27,
-    "S96": 84,
-    "S97": 56,
-    "S100": 88
-  },
   "validation": {
-    "objectReproduction": "A clean run from the six pinned inputs reproduced the accepted intermediate SHA-256 exactly.",
-    "objectComparison": "All output fields, coordinates, copy-number calls, probe counts, and segmented values match the accepted ASCAT objects.",
+    "segmentCounts": {
+      "S17": 56,
+      "S36": 37,
+      "S54": 23,
+      "S64": 30,
+      "S77": 46,
+      "S84": 27,
+      "S96": 84,
+      "S97": 56,
+      "S100": 88
+    },
+    "s96HeterozygousBafRecords": 5927,
+    "objectReproducedByteIdentically": true,
+    "deterministicGzip": true,
     "distanceMatrixCorrelation": 1.0,
-    "maximumAbsoluteDistanceDifference": 8.7311491e-11,
-    "deterministicGzip": "Two consecutive runs produced identical checksums."
+    "maximumAbsoluteDistanceDifference": 8.7311491e-11
   },
-  "migration": {
-    "overview": "Migrated the legacy hg18 visualization to the maintained hg19 ASCAT example data.",
-    "legacyDataRetained": false
-  },
-  "publication": {
-    "status": "eligible-with-gpl-3-conditions",
-    "rightsReview": "RIGHTS.md"
-  }
+  "migration": "Legacy hg18 visualization migrated to maintained hg19 example data; hg18 artifacts are not retained."
 }

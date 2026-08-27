@@ -1,32 +1,28 @@
 # Recipe title
 
-Describe the dataset, its intended GenomeSpy use, and its current maturity.
+Describe the dataset and the intended GenomeSpy use in a few sentences.
 
-## Why this source
+## Why this dataset
 
-Record the genuine selection rationale, authoritative landing page, citation,
-assembly or coordinate system, and important limitations.
+Identify the authoritative source, assembly or coordinate system, genuine
+selection rationale, visualization value, and important limitations.
 
-## Why it works as a GenomeSpy example
+## Run
 
-Record a real visualization rationale when one exists. Remove this section for
-purely exploratory convenience rather than inventing a reason.
+List required tools and one primary preparation command. Explain only the
+transformations and options that affect the result.
 
-## Preparation
+## Outputs
 
-Document exact pinned and intentional source-refresh commands, required tools,
-inputs, outputs, transformations, and coordinate conventions.
+List files, field or format contracts, and coordinate conventions. Specs under
+`specs/` must load them with `../output/...` URLs.
 
-## Validation
+## Validation and limitations
 
-Document scientific invariants, representative features, counts, ranges,
-checksums, companions, and known anomalies.
+Summarize the scientific checks and caveats. Put exact accepted-run values in
+`provenance.json`.
 
 ## Data rights
 
-Summarize the decision in [`RIGHTS.md`](RIGHTS.md). Record the exact evidence,
-interpretation, conditions, and review date there. Unresolved outputs remain
-local-only.
-
-Repository CC0 covers this README, authored recipe scripts, and recipe specs. It
-does not cover any input or output data.
+Link to [`RIGHTS.md`](RIGHTS.md) and summarize its decision in one sentence.
+If eligible, state the proposed release root recorded in `provenance.json`.

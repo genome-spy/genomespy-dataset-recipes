@@ -1,92 +1,60 @@
 # Data rights and publication
 
-This repository can document and transform a dataset without having permission
-to host it. Each concrete recipe records its hosting decision in `RIGHTS.md`.
-That record, rather than repository CC0, determines whether recipe outputs may
-be published through GenomeSpy-managed storage.
+Repository CC0 never licenses input or output data. Each recipe's `RIGHTS.md`
+determines whether its outputs may be placed in GenomeSpy-managed storage.
 
-## What counts as sufficient evidence
+## Evidence
 
-Use an authoritative source such as the data provider's license, terms,
-data-use policy, public-domain declaration, or written permission. A standard
-open-data license or an explicit statement allowing unrestricted use is
-normally sufficient unless dataset-specific terms conflict with it. Do not
-require a provider email merely because the policy does not use the word
-“redistribution.”
+Use an authoritative provider license, terms page, data-use policy,
+public-domain statement, or written permission. Explicit unrestricted-use or a
+standard open-data license is normally enough unless dataset-specific terms
+conflict with it; provider email is not required merely because the policy uses
+different wording.
 
-Public accessibility alone is not evidence. Neither is an API, a paper
-citation, an existing third-party mirror, or an older GenomeSpy URL. Check that
-the evidence applies to the exact released source and to the kind of output
-being hosted: original bytes, a near-complete transformation, a reduced extract,
-or a synthetic result.
+Public access, an API, a paper citation, an existing mirror, or an old GenomeSpy
+URL is not evidence by itself. Confirm that the terms cover the exact input and
+the output being hosted: original bytes, a near-complete transformation, a
+reduced extract, or synthetic data. For combined datasets, assess every
+contributing source.
 
-When a recipe combines sources, assess every output against all contributing
-sources. Preserve any attribution, notice, share-alike, naming, or citation
-conditions. Controlled-access or personally identifying data requires an
-appropriate sharing mechanism and is not eligible for ordinary public S3
-hosting.
+Preserve attribution, notices, citations, share-alike terms, and other
+conditions. Controlled-access or personally identifying data is not suitable
+for ordinary public S3 hosting. If evidence is genuinely ambiguous,
+contradictory, or restrictive, keep the output local and ask the user.
 
-If authoritative evidence is genuinely ambiguous, contradictory, or
-dataset-specific, leave the output local-only and ask the user. Do not escalate
-clear unrestricted-use language into a legal or provider review by default.
+## Recipe rights record
 
-## Recipe decision record
+Every concrete recipe has a `RIGHTS.md` with:
 
-Every concrete recipe has a `RIGHTS.md` containing:
-
-1. the exact source and outputs covered;
+1. the exact inputs and outputs covered;
 2. authoritative evidence links;
-3. a short interpretation of how the evidence applies;
-4. attribution or notice conditions;
-5. one of these decisions:
-   - **eligible for GenomeSpy-managed hosting**;
-   - **use the authoritative upstream URL**;
-   - **local-only: prohibited**;
-   - **local-only: unresolved**;
-6. the review date.
+3. a short interpretation;
+4. required conditions; and
+5. one decision: **eligible for GenomeSpy-managed hosting**, **use the
+   authoritative upstream URL**, **local-only: prohibited**, or **local-only:
+   unresolved**.
 
-Keep the corresponding machine-readable summary in `recipe.yaml`:
+Include the review date. Keep the assessment concise and avoid copying policy
+text. The recipe README links to it instead of restating it.
 
-- source `redistribution: allowed`, `prohibited`, or `unresolved`;
-- output `publication: hosted`, `upstream`, or `local-only`.
+## Publication
 
-`hosted` means the evidence supports a GenomeSpy-managed release. It does not
-claim that the file has already been uploaded. The recipe README summarizes the
-decision and links to `RIGHTS.md`; it does not duplicate the full assessment.
+If the user's request includes publication and the rights decision is clear,
+the same workflow may upload and verify the files; no separate upload request
+is needed. Otherwise preparation and prototyping remain local-only.
 
-## Scope of the user's request
+For a release:
 
-Do not create an extra approval ceremony. Interpret the original request:
+- confirm the input identity, output fingerprints, rights record, and companion
+  files;
+- use the [canonical versioned object layout](storage-layout.md);
+- provide compact provenance and required notices that link to the exact recipe
+  commit;
+- verify downloaded checksums and relevant HTTP behavior such as ranges, CORS,
+  content type, and companion-file discovery;
+- update requested public GenomeSpy specs only after the hosted files work.
 
-- **Prepare or prototype** means local recipe work only.
-- **Prepare and publish** includes rights assessment, S3/CloudFront publication,
-  and requested consumer updates.
-- **Publish an existing recipe** uses its current outputs and accepted rights
-  record.
-
-When publication is already in scope and the evidence clearly satisfies this
-protocol, proceed without requesting a second upload authorization. Stop and ask
-only if rights remain unresolved, credentials or target details are missing, or
-the requested external change materially exceeds the original scope.
-
-## Release checklist
-
-For an eligible output within a publication request:
-
-1. Reconfirm the source identity, accepted `RIGHTS.md`, output checksums, and all
-   companion files.
-2. Use an immutable key such as
-   `datasets/<recipe-id>/<release-id>/...` or
-   `reference/<recipe-id>/<release-id>/...`.
-3. Add compact README/provenance sidecars with required notices and a link to
-   the exact GitHub recipe commit.
-4. State explicitly that repository CC0 does not license adjacent data.
-5. Upload the files and verify CloudFront checksums, byte ranges, CORS, content
-   type, content encoding, and companion discovery as applicable.
-6. Update requested canonical GenomeSpy specs only after the release works.
-7. Decide whether each legacy URL remains as a rights-cleared compatibility
-   object or requires an explicitly authorized removal.
-
-Where hosting is prohibited or unresolved, use an immutable authoritative URL
-when practical. Otherwise keep the example local, redesign it, or retire it
-rather than embedding the same records in a CC0-covered specification.
+Do not store deployment state in recipe records. The object store is the source
+of truth. Future synchronization tooling can compare S3 objects with the paths
+and checksums in `provenance.json` and its proposed `distribution.baseUrl`,
+transfer missing or mismatched artifacts, and verify them.

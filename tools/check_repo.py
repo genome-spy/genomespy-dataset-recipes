@@ -7,12 +7,10 @@ import argparse
 import json
 import re
 import subprocess
-from collections.abc import Iterable, Mapping
+from collections.abc import Iterable
 from pathlib import Path
 from typing import Any
 from urllib.parse import unquote
-
-import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
 REQUIRED_ROOT_FILES = {
@@ -24,7 +22,7 @@ REQUIRED_ROOT_FILES = {
     "pyproject.toml",
     "uv.lock",
 }
-WORKING_DIRECTORY_NAMES = {"download", "work", "output", "publish"}
+WORKING_DIRECTORY_NAMES = {"download", "work", "output"}
 DATA_SUFFIXES = {
     ".bai",
     ".bam",
@@ -60,6 +58,10 @@ SECRET_PATTERNS = {
 ABSOLUTE_LOCAL_PATH = re.compile(r"(?:/" + r"Users/|/" + r"home/|[A-Za-z]:\\Users\\)")
 MARKDOWN_LINK = re.compile(r"!?\[[^\]]*\]\(([^)]+)\)")
 RECIPE_ID = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
+RELEASE_URL = re.compile(
+    r"^https://data[.]genomespy[.]app/datasets/"
+    r"(?P<recipe>[a-z0-9]+(?:-[a-z0-9]+)*)/v[1-9][0-9]*/$"
+)
 
 
 def repository_files(root: Path = ROOT) -> list[Path]:
@@ -71,7 +73,8 @@ def repository_files(root: Path = ROOT) -> list[Path]:
         check=True,
         capture_output=True,
     )
-    return [root / item for item in result.stdout.decode().split("\0") if item]
+    files = [root / item for item in result.stdout.decode().split("\0") if item]
+    return [file for file in files if file.is_file()]
 
 
 def is_cc0_covered(relative: Path) -> bool:
@@ -139,91 +142,70 @@ def check_markdown_links(root: Path, file: Path, text: str) -> list[str]:
     return errors
 
 
-def load_yaml_mapping(file: Path) -> Mapping[str, Any]:
-    """Load a YAML file and require an object at its root."""
-
-    value = yaml.safe_load(file.read_text(encoding="utf-8"))
-    if not isinstance(value, dict):
-        raise ValueError("root must be a mapping")
-    return value
-
-
 def check_recipe(recipe_dir: Path) -> list[str]:
     """Return errors for one concrete recipe directory."""
 
     errors: list[str] = []
-    required = {
-        "README.md",
-        "RIGHTS.md",
-        "provenance.json",
-        "recipe.yaml",
-        "sources.lock.json",
-    }
+    required = {"README.md", "RIGHTS.md", "provenance.json"}
     missing = sorted(name for name in required if not (recipe_dir / name).is_file())
     errors.extend(f"{recipe_dir.name}: missing {name}" for name in missing)
     if missing:
         return errors
 
     try:
-        recipe = load_yaml_mapping(recipe_dir / "recipe.yaml")
-    except (OSError, ValueError, yaml.YAMLError) as error:
-        return [f"{recipe_dir.name}: invalid recipe.yaml: {error}"]
+        provenance: Any = json.loads(
+            (recipe_dir / "provenance.json").read_text(encoding="utf-8")
+        )
+    except (OSError, json.JSONDecodeError) as error:
+        return [f"{recipe_dir.name}: invalid provenance.json: {error}"]
+    if not isinstance(provenance, dict):
+        return [f"{recipe_dir.name}: provenance root must be an object"]
 
-    required_keys = {"id", "title", "status", "kind", "sources", "outputs"}
-    absent_keys = sorted(required_keys.difference(recipe))
-    errors.extend(f"{recipe_dir.name}: missing recipe key {key}" for key in absent_keys)
+    required_keys = {"schemaVersion", "recipeId", "sources", "outputs"}
+    absent_keys = sorted(required_keys.difference(provenance))
+    errors.extend(
+        f"{recipe_dir.name}: missing provenance key {key}" for key in absent_keys
+    )
 
-    recipe_id = recipe.get("id")
+    recipe_id = provenance.get("recipeId")
+    if provenance.get("schemaVersion") != 1:
+        errors.append(f"{recipe_dir.name}: unsupported provenance schemaVersion")
     if recipe_id != recipe_dir.name or not isinstance(recipe_id, str):
-        errors.append(f"{recipe_dir.name}: id must match the directory name")
+        errors.append(f"{recipe_dir.name}: recipeId must match the directory name")
     elif not RECIPE_ID.fullmatch(recipe_id):
-        errors.append(f"{recipe_dir.name}: id is not lowercase kebab-case")
-    if recipe.get("status") not in {"draft", "ready"}:
-        errors.append(f"{recipe_dir.name}: status must be draft or ready")
-    if recipe.get("kind") not in {"direct", "mirror", "transform"}:
-        errors.append(f"{recipe_dir.name}: unknown recipe kind")
+        errors.append(f"{recipe_dir.name}: recipeId is not lowercase kebab-case")
 
-    sources = recipe.get("sources")
+    sources = provenance.get("sources")
     if not isinstance(sources, list) or not sources:
         errors.append(f"{recipe_dir.name}: sources must be a non-empty list")
-    else:
-        for source in sources:
-            if not isinstance(source, dict):
-                errors.append(f"{recipe_dir.name}: source entries must be mappings")
-                continue
-            if source.get("redistribution") not in {
-                "allowed",
-                "prohibited",
-                "unresolved",
-            }:
-                errors.append(f"{recipe_dir.name}: invalid redistribution value")
-            evidence = source.get("rightsEvidence")
-            if source.get("redistribution") == "allowed" and not isinstance(
-                evidence, str
-            ):
-                errors.append(f"{recipe_dir.name}: allowed source needs rightsEvidence")
+    elif not all(isinstance(source, dict) for source in sources):
+        errors.append(f"{recipe_dir.name}: source entries must be objects")
 
-    outputs = recipe.get("outputs")
-    if not isinstance(outputs, list) or not outputs:
-        errors.append(f"{recipe_dir.name}: outputs must be a non-empty list")
+    distribution = provenance.get("distribution")
+    if distribution is not None:
+        if not isinstance(distribution, dict):
+            errors.append(f"{recipe_dir.name}: distribution must be an object")
+        else:
+            base_url = distribution.get("baseUrl")
+            match = (
+                RELEASE_URL.fullmatch(base_url) if isinstance(base_url, str) else None
+            )
+            if match is None or match.group("recipe") != recipe_dir.name:
+                errors.append(f"{recipe_dir.name}: invalid distribution baseUrl")
+
+    outputs = provenance.get("outputs")
+    if not isinstance(outputs, dict) or not outputs:
+        errors.append(f"{recipe_dir.name}: outputs must be a non-empty object")
     else:
-        for output in outputs:
+        for output in outputs.values():
             if not isinstance(output, dict):
-                errors.append(f"{recipe_dir.name}: output entries must be mappings")
+                errors.append(f"{recipe_dir.name}: output entries must be objects")
                 continue
-            output_path = output.get("path")
-            if not isinstance(output_path, str) or not output_path.startswith(
-                "output/"
+            path = output.get("path")
+            if path is not None and (
+                not isinstance(path, str) or not path.startswith("output/")
             ):
                 errors.append(f"{recipe_dir.name}: output path must start with output/")
-            if output.get("publication") not in {"hosted", "local-only", "upstream"}:
-                errors.append(f"{recipe_dir.name}: invalid output publication value")
-
-    for metadata_name in ("sources.lock.json", "provenance.json"):
-        try:
-            json.loads((recipe_dir / metadata_name).read_text(encoding="utf-8"))
-        except (OSError, json.JSONDecodeError) as error:
-            errors.append(f"{recipe_dir.name}: invalid {metadata_name}: {error}")
 
     for script in sorted((recipe_dir / "scripts").glob("*.py")):
         script_text = script.read_text(encoding="utf-8")
@@ -232,22 +214,13 @@ def check_recipe(recipe_dir: Path) -> list[str]:
                 f"{recipe_dir.name}: missing PEP 723 metadata in {script.name}"
             )
 
-    recipe_kind = recipe.get("kind")
     for spec in sorted((recipe_dir / "specs").glob("*.json")):
         try:
             value = json.loads(spec.read_text(encoding="utf-8"))
         except json.JSONDecodeError as error:
             errors.append(f"{recipe_dir.name}: invalid spec {spec.name}: {error}")
             continue
-        errors.extend(check_spec_values(recipe_dir.name, spec.name, value, recipe_kind))
-
-    consumers = recipe.get("consumers", [])
-    if not isinstance(consumers, list):
-        errors.append(f"{recipe_dir.name}: consumers must be a list")
-    else:
-        for consumer in consumers:
-            if not isinstance(consumer, str) or not (recipe_dir / consumer).exists():
-                errors.append(f"{recipe_dir.name}: missing consumer {consumer}")
+        errors.extend(check_spec_values(recipe_dir.name, spec.name, value))
     return errors
 
 
@@ -263,16 +236,14 @@ def walk_json(value: Any) -> Iterable[tuple[str, Any]]:
             yield from walk_json(child)
 
 
-def check_spec_values(
-    recipe_id: str, spec_name: str, value: Any, recipe_kind: Any
-) -> list[str]:
+def check_spec_values(recipe_id: str, spec_name: str, value: Any) -> list[str]:
     """Return errors for data URLs and embedded tables in a local spec."""
 
     errors: list[str] = []
     for key, child in walk_json(value):
         if key == "url" and isinstance(child, str):
             is_remote = child.startswith(("http://", "https://"))
-            if is_remote and recipe_kind != "direct":
+            if is_remote:
                 errors.append(f"{recipe_id}: remote data URL in {spec_name}: {child}")
             elif not is_remote and not child.startswith("../output/"):
                 errors.append(
