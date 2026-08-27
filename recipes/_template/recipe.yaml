@@ -1,0 +1,19 @@
+id: replace-with-recipe-id
+title: Replace with recipe title
+status: draft
+kind: transform
+assembly: null
+
+sources:
+  - id: replace-with-source-id
+    landingPage: https://example.org/
+    redistribution: unresolved
+    rightsEvidence: null
+
+outputs:
+  - path: output/example.tsv
+    format: tsv
+    publication: local-only
+
+consumers:
+  - specs/overview.json

@@ -1,0 +1,26 @@
+id: encode-k562-re2g
+title: ENCODE K562 regulatory element to gene links
+status: ready
+kind: transform
+assembly: GRCh38
+
+sources:
+  - id: encode-re2g-k562
+    landingPage: https://www.encodeproject.org/annotations/ENCSR627ANP/
+    fileAccession: ENCFF976OKL
+    redistribution: allowed
+    rightsEvidence: https://www.encodeproject.org/about/data-use-policy/
+
+outputs:
+  - path: output/regulatory-element-gene-links.tsv.gz
+    format: tsv.gz
+    publication: hosted
+  - path: output/candidate-regulatory-elements.tsv.gz
+    format: tsv.gz
+    publication: hosted
+  - path: output/target-gene-tss.tsv.gz
+    format: tsv.gz
+    publication: hosted
+
+consumers:
+  - specs/overview.json

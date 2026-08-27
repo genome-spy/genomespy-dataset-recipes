@@ -1,0 +1,12 @@
+{
+  "$schema": "https://unpkg.com/@genome-spy/core/dist/schema.json",
+  "description": "Replace with a concise local GenomeSpy smoke spec.",
+
+  "data": { "url": "../output/example.tsv" },
+
+  "mark": "point",
+  "encoding": {
+    "x": { "field": "x", "type": "quantitative" },
+    "y": { "field": "y", "type": "quantitative" }
+  }
+}

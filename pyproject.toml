@@ -1,0 +1,32 @@
+[project]
+name = "genomespy-dataset-recipes-tools"
+version = "0.0.0"
+description = "Development tools for the GenomeSpy dataset recipes repository"
+requires-python = ">=3.12"
+dependencies = ["PyYAML>=6.0.2,<7"]
+
+[dependency-groups]
+dev = [
+    "mypy>=1.17,<2",
+    "pytest>=8.4,<9",
+    "ruff>=0.12,<1",
+    "types-pyyaml>=6.0.12,<7",
+]
+
+[tool.ruff]
+line-length = 88
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP"]
+
+[tool.mypy]
+python_version = "3.12"
+exclude = ["^recipes/_template/"]
+disallow_untyped_defs = true
+check_untyped_defs = true
+warn_unused_ignores = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]

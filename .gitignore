@@ -1,0 +1,12 @@
+/.venv/
+/.mypy_cache/
+/.pytest_cache/
+/.ruff_cache/
+**/__pycache__/
+*.py[cod]
+.DS_Store
+
+/recipes/*/download/
+/recipes/*/work/
+/recipes/*/output/
+/recipes/*/publish/

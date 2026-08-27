@@ -1,0 +1,213 @@
+{
+  "schemaVersion": 1,
+  "recipeId": "encode-k562-re2g",
+  "sourceLockSha256": "5ffb2e58484c2c9f36f31732576dd31de0f1cf54cc218115758bd5218972659f",
+  "source": {
+    "id": "encode-re2g-k562",
+    "fileAccession": "ENCFF976OKL",
+    "url": "https://www.encodeproject.org/files/ENCFF976OKL/@@download/ENCFF976OKL.bed.gz",
+    "fileSizeBytes": 3744436,
+    "md5": "1989f02e1ed38c3831fca8abdfcf3d01",
+    "sha256": "a853c2745e1b4cc5b1a1007971a3f8c09cd66ec3e2e9457cc496d19a3b332feb",
+    "recordCount": 87489
+  },
+  "tools": {
+    "python": "3.12.13"
+  },
+  "outputs": {
+    "interactions": {
+      "path": "output/regulatory-element-gene-links.tsv.gz",
+      "fileSizeBytes": 2880846,
+      "uncompressedSizeBytes": 11363001,
+      "sha256": "2c6ed0e8c5377ef51d85dbd4823e75683bc4a8cf29e516777b291e8f373d3f0b",
+      "recordCount": 87489
+    },
+    "elements": {
+      "path": "output/candidate-regulatory-elements.tsv.gz",
+      "fileSizeBytes": 969401,
+      "uncompressedSizeBytes": 3877809,
+      "sha256": "c0aee0f1a99f823ac399a81f4ccbb7ab3add5b750854beaf0e740093a03941d7",
+      "recordCount": 58828
+    },
+    "genes": {
+      "path": "output/target-gene-tss.tsv.gz",
+      "fileSizeBytes": 185619,
+      "uncompressedSizeBytes": 538902,
+      "sha256": "da697552619b80ae035df9b5fa0fcd8c4d96570f2bf5088b6453f0fe4bcc3ba3",
+      "recordCount": 14465
+    }
+  },
+  "transformations": {
+    "selectedAndRenamedColumns": {
+      "chrom": "chr",
+      "start": "start",
+      "end": "end",
+      "element_id": "name",
+      "element_class": "class",
+      "gene_symbol": "TargetGene",
+      "gene_id": "TargetGeneEnsemblID",
+      "gene_tss": "TargetGeneTSS",
+      "distance": "distanceToTSS.Feature",
+      "abc_score": "ABC.Score.Feature",
+      "re2g_score": "Score"
+    },
+    "coordinates": "Element BED intervals remain zero-based and half-open. TargetGeneTSS remains a zero-based point/boundary. elementMid = (elementStart + elementEnd) / 2, including half-base midpoints.",
+    "duplicateHandling": "Remove only rows identical across all 12 output columns.",
+    "scoreThreshold": "No added threshold; the released source is already thresholded.",
+    "sorting": "GRCh38 primary chromosome order, elementStart, elementEnd, geneTss, geneId, re2gScore, abcScore."
+  },
+  "validation": {
+    "processedInteractionRecords": 87489,
+    "exactDuplicateRowsRemoved": 0,
+    "halfBaseElementMidpoints": 17192,
+    "elementClasses": {
+      "genic": 35746,
+      "intergenic": 34451,
+      "promoter": 17292
+    },
+    "scoreRanges": {
+      "re2gScore": [
+        0.2010061874740597,
+        0.9999999984743886
+      ],
+      "abcScore": [
+        0.000125,
+        1.0
+      ]
+    },
+    "geneIdAnnotationConflicts": {
+      "ENSG00000127603": [
+        {
+          "chrom": "chr1",
+          "geneTss": 39084166,
+          "geneSymbol": "MACF1"
+        },
+        {
+          "chrom": "chr1",
+          "geneTss": 39409503,
+          "geneSymbol": "KIAA0754"
+        }
+      ],
+      "ENSG00000132429": [
+        {
+          "chrom": "chr1",
+          "geneTss": 159000312,
+          "geneSymbol": "POP3"
+        },
+        {
+          "chrom": "chr6",
+          "geneTss": 105179983,
+          "geneSymbol": "POPDC3"
+        }
+      ],
+      "ENSG00000133816": [
+        {
+          "chrom": "chr11",
+          "geneTss": 12110575,
+          "geneSymbol": "MICAL2"
+        },
+        {
+          "chrom": "chr11",
+          "geneTss": 12286899,
+          "geneSymbol": "MICALCL"
+        }
+      ],
+      "ENSG00000141524": [
+        {
+          "chrom": "chr17",
+          "geneTss": 78111799,
+          "geneSymbol": "TNRC6C-AS1"
+        },
+        {
+          "chrom": "chr17",
+          "geneTss": 78128794,
+          "geneSymbol": "TMC6"
+        }
+      ],
+      "ENSG00000149557": [
+        {
+          "chrom": "chr11",
+          "geneTss": 125496310,
+          "geneSymbol": "FEZ1"
+        },
+        {
+          "chrom": "chr11",
+          "geneTss": 125592568,
+          "geneSymbol": "STT3A-AS1"
+        }
+      ],
+      "ENSG00000171848": [
+        {
+          "chrom": "chr2",
+          "geneTss": 10122735,
+          "geneSymbol": "RRM2"
+        },
+        {
+          "chrom": "chr2",
+          "geneTss": 10141381,
+          "geneSymbol": "C2orf48"
+        }
+      ],
+      "ENSG00000196535": [
+        {
+          "chrom": "chr17",
+          "geneTss": 29075609,
+          "geneSymbol": "TIAF1"
+        },
+        {
+          "chrom": "chr17",
+          "geneTss": 29180389,
+          "geneSymbol": "MYO18A"
+        }
+      ],
+      "ENSG00000232388": [
+        {
+          "chrom": "chr20",
+          "geneTss": 18567419,
+          "geneSymbol": "SMIM26"
+        },
+        {
+          "chrom": "chr20",
+          "geneTss": 18567428,
+          "geneSymbol": "LINC00493"
+        }
+      ],
+      "ENSG00000273032": [
+        {
+          "chrom": "chr22",
+          "geneTss": 18970497,
+          "geneSymbol": "DGCR5"
+        },
+        {
+          "chrom": "chr22",
+          "geneTss": 19017833,
+          "geneSymbol": "DGCR9"
+        },
+        {
+          "chrom": "chr22",
+          "geneTss": 19022623,
+          "geneSymbol": "DGCR10"
+        }
+      ]
+    },
+    "distanceCheck": "Every source distance equals abs(TargetGeneTSS - elementMid).",
+    "coordinateBounds": "All element intervals and gene TSS positions are within GRCh38 primary chromosome bounds."
+  },
+  "initialLocus": {
+    "chrom": "chr7",
+    "start": 106800000,
+    "end": 107300000,
+    "visibleLinks": 52,
+    "uniqueElements": 36,
+    "uniqueGenes": 7,
+    "distanceToTss": {
+      "minimum": 33.0,
+      "median": 88452.5,
+      "maximum": 1044314.0
+    }
+  },
+  "publication": {
+    "status": "eligible",
+    "rightsReview": "RIGHTS.md"
+  }
+}

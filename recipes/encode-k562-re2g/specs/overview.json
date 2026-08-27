@@ -1,0 +1,136 @@
+{
+  "$schema": "https://unpkg.com/@genome-spy/core/dist/schema.json",
+  "description": [
+    "Predicted Regulatory Interactions in K562 Cells",
+    "Shows thresholded ENCODE-rE2G links between candidate regulatory elements and predicted target genes in a human myeloid leukemia cell line.",
+    "These are K562-context model predictions, not definitive or universal regulatory relationships."
+  ],
+
+  "title": {
+    "text": "Predicted regulatory interactions in K562 cells",
+    "subtitle": "Untreated K562 ENCODE-rE2G predictions (ENCSR627ANP, GRCh38)"
+  },
+
+  "assembly": "hg38",
+
+  "scales": {
+    "x": {
+      "domain": [
+        { "chrom": "chr7", "pos": 106800000 },
+        { "chrom": "chr7", "pos": 107300000 }
+      ]
+    }
+  },
+
+  "resolve": { "scale": { "x": "shared" }, "axis": { "x": "shared" } },
+  "spacing": 0,
+
+  "vconcat": [
+    {
+      "name": "candidate-elements",
+      "title": { "text": "Candidate regulatory elements", "orient": "none" },
+      "height": 20,
+      "data": {
+        "url": "../output/candidate-regulatory-elements.tsv.gz"
+      },
+      "mark": {
+        "type": "rect",
+        "minWidth": 1,
+        "minOpacity": 1,
+        "cornerRadius": 1
+      },
+      "encoding": {
+        "x": { "chrom": "chrom", "pos": "elementStart", "type": "locus" },
+        "x2": { "chrom": "chrom", "pos": "elementEnd" },
+        "color": {
+          "field": "elementClass",
+          "type": "nominal",
+          "scale": {
+            "domain": ["promoter", "genic", "intergenic"],
+            "range": ["#7c3aed", "#0f766e", "#d97706"]
+          },
+          "legend": { "title": "Source element class", "orient": "top" }
+        }
+      }
+    },
+
+    {
+      "name": "predicted-links",
+      "title": {
+        "text": "Thresholded ENCODE-rE2G predictions",
+        "orient": "none"
+      },
+      "data": { "url": "../output/regulatory-element-gene-links.tsv.gz" },
+      "mark": {
+        "type": "link",
+        "linkShape": "diagonal",
+        "orient": "vertical",
+        "segments": 80,
+        "color": "#315a8a",
+        "y": 1,
+        "y2": 0
+      },
+      "encoding": {
+        "x": { "chrom": "chrom", "pos": "elementMid", "type": "locus" },
+        "x2": { "chrom": "chrom", "pos": "geneTss" },
+        "size": {
+          "field": "re2gScore",
+          "type": "quantitative",
+          "scale": { "domain": [0.2, 1], "range": [0.6, 2.4], "clamp": true },
+          "legend": { "title": "ENCODE-rE2G score", "orient": "top-right" }
+        },
+        "opacity": {
+          "field": "re2gScore",
+          "type": "quantitative",
+          "scale": { "domain": [0.2, 1], "range": [0.2, 0.75], "clamp": true },
+          "legend": null
+        }
+      }
+    },
+
+    {
+      "name": "target-genes",
+      "title": { "text": "Predicted target-gene TSSs", "orient": "none" },
+      "height": 54,
+      "data": { "url": "../output/target-gene-tss.tsv.gz" },
+      "encoding": {
+        "x": { "chrom": "chrom", "pos": "geneTss", "type": "locus" }
+      },
+      "layer": [
+        {
+          "mark": {
+            "type": "point",
+            "shape": "tick-up",
+            "y": 0.72,
+            "size": 110,
+            "color": "#1f2937"
+          },
+          "encoding": {
+            "tooltip": [
+              { "field": "geneSymbol", "type": "nominal", "title": "Target gene" },
+              { "field": "geneId", "type": "nominal", "title": "Ensembl ID" },
+              { "field": "geneTss", "type": "quantitative", "title": "TSS (0-based)" }
+            ]
+          }
+        },
+        {
+          "mark": {
+            "type": "text",
+            "y": 0.28,
+            "size": 11,
+            "fontWeight": "bold",
+            "color": "#1f2937"
+          },
+          "encoding": {
+            "text": { "field": "geneSymbol" },
+            "tooltip": [
+              { "field": "geneSymbol", "type": "nominal", "title": "Target gene" },
+              { "field": "geneId", "type": "nominal", "title": "Ensembl ID" },
+              { "field": "geneTss", "type": "quantitative", "title": "TSS (0-based)" }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
