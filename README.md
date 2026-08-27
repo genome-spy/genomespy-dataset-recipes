@@ -15,6 +15,7 @@ Reproducible wrangling scripts and provenance for datasets used in
 | [`encode-k562-re2g`](recipes/encode-k562-re2g/) | Regulatory element–gene links | GRCh38 | Link and endpoint tracks |
 | [`nist-hg002-grch38-bam-slice`](recipes/nist-hg002-grch38-bam-slice/) | Indexed read-alignment slice | GRCh38 | BAM pileup |
 | [`ascat-simulated-tumors-hg19`](recipes/ascat-simulated-tumors-hg19/) | Simulated allele-specific copy number | hg19 | Copy-number and purity/ploidy views |
+| [`hcc1954-castle-severus-wakhan`](recipes/hcc1954-castle-severus-wakhan/) | Matched structural variants and copy number | GRCh38 | SV links and copy-number segments |
 
 ## How recipes work
 

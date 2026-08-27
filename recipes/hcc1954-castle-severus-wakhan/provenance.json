@@ -1,0 +1,148 @@
+{
+  "schemaVersion": 1,
+  "recipeId": "hcc1954-castle-severus-wakhan",
+  "distribution": {
+    "baseUrl": "https://data.genomespy.app/datasets/hcc1954-castle-severus-wakhan/v1/"
+  },
+  "sources": [
+    {
+      "id": "zenodo-17780982-castle-benchmarks",
+      "recordId": 17780982,
+      "conceptRecordId": 17780981,
+      "version": "v1",
+      "title": "Wakhan: reconstruction of chromosome-scale copy number profiles of tumor genomes with long-read sequencing",
+      "creators": [
+        "Tanveer, Ahmad",
+        "Mikhail, Kolmogorov"
+      ],
+      "publicationDate": "2025-12-01",
+      "license": "CC-BY-4.0",
+      "assembly": "GRCh38",
+      "landingPage": "https://zenodo.org/records/17780982",
+      "url": "https://zenodo.org/api/records/17780982/files/castle_benchmarks.tar.gz/content",
+      "filename": "castle_benchmarks.tar.gz",
+      "fileSizeBytes": 5419437368,
+      "md5": "6c44bbd50582754f82b1b6a83b753549",
+      "sha256": "3f50bfdbb16263a0e55f2fa275507e43fdfa2851a933258b2030ddc4dbce1129",
+      "selection": "The archive contains the exact Severus VCF consumed by the paired Wakhan HCC1954 HiFi run and the ranked Wakhan copy-number solutions.",
+      "members": [
+        {
+          "id": "structuralVariants",
+          "path": "castle_benchmarks/wakhan/wakhan_HCC1954_hifi/severus/somatic_SVs/severus_somatic.vcf",
+          "localName": "severus-somatic.vcf",
+          "fileSizeBytes": 627579,
+          "sha256": "54d28a1b6d78fbb39a75b7886336c244c00594901793046f2a1b77e30ec219b5"
+        },
+        {
+          "id": "haplotype1CopyNumbers",
+          "path": "castle_benchmarks/wakhan/wakhan_HCC1954_hifi/wakhan/4.57_0.99_0.9/bed_output/HCC1954_4.57_0.99_0.9_copynumbers_segments_HP_1.bed",
+          "localName": "haplotype-1-copy-numbers.bed",
+          "fileSizeBytes": 108852,
+          "sha256": "78522884dd4fe647ee112ea8e733399790842e516d99536ffc878ee36a44cd81"
+        },
+        {
+          "id": "haplotype2CopyNumbers",
+          "path": "castle_benchmarks/wakhan/wakhan_HCC1954_hifi/wakhan/4.57_0.99_0.9/bed_output/HCC1954_4.57_0.99_0.9_copynumbers_segments_HP_2.bed",
+          "localName": "haplotype-2-copy-numbers.bed",
+          "fileSizeBytes": 109442,
+          "sha256": "f40ea2f6f755923ea614791c9f920d1f32cbaa8ad80845e3376777dfaea0bff1"
+        },
+        {
+          "id": "solutionRanks",
+          "path": "castle_benchmarks/wakhan/wakhan_HCC1954_hifi/wakhan/solutions_ranks.tsv",
+          "localName": "solutions-ranks.tsv",
+          "fileSizeBytes": 142,
+          "sha256": "964de51acc32444a5675fba579f62dd7758e75b9308c4da64a88eea830e83c35"
+        },
+        {
+          "id": "wakhanLog",
+          "path": "castle_benchmarks/wakhan/wakhan_HCC1954_hifi/wakhan/wakhan.log",
+          "localName": "wakhan.log",
+          "fileSizeBytes": 98582,
+          "sha256": "36f4263ad331543ab7d7a0b2c4f57c130bc23f1b39c7f28fd1aff7f94765df76"
+        }
+      ]
+    }
+  ],
+  "parameters": {
+    "solution": "4.57_0.99_0.9",
+    "dnaPurity": 1.0,
+    "cellPurity": 0.99,
+    "ploidy": 4.57,
+    "confidence": 0.9,
+    "solutionRank": 1
+  },
+  "tools": {
+    "python": "3.12.13"
+  },
+  "transformations": {
+    "structuralVariants": "Copy the selected Severus VCF byte-for-byte; do not generate the obsolete sv-links.tsv staging artifact.",
+    "copyNumberCoordinates": "Treat Wakhan starts and ends as one-based closed coordinates except for a source start of zero; write start=max(0, sourceStart-1) and retain end to form zero-based half-open intervals.",
+    "copyNumberSynchronization": "Intersect the two haplotype segmentations on each autosome, preserving source order and annotations.",
+    "copyNumberValues": "Sum haplotype copy-number states and divide by ploidy 4.57; format relative_copy_ratio with three significant digits."
+  },
+  "outputs": {
+    "structuralVariants": {
+      "path": "output/severus-somatic.vcf",
+      "fileSizeBytes": 627579,
+      "sha256": "54d28a1b6d78fbb39a75b7886336c244c00594901793046f2a1b77e30ec219b5",
+      "recordCount": 1766
+    },
+    "copyNumbers": {
+      "path": "output/copy-numbers.tsv",
+      "fileSizeBytes": 188368,
+      "sha256": "3791c672d1dd18320560a04933068d23fd521e294caa805b590d12d6a11ce7c4",
+      "recordCount": 1189
+    }
+  },
+  "validation": {
+    "sourceLinkage": {
+      "wakhanLogMember": "castle_benchmarks/wakhan/wakhan_HCC1954_hifi/wakhan/wakhan.log",
+      "breakpointInput": "severus/somatic_SVs/severus_somatic.vcf",
+      "selectedSolution": "rank 1: DNA purity 1.00, cell purity 0.99, ploidy 4.57, confidence 0.90"
+    },
+    "structuralVariants": {
+      "sourceByteIdentity": "passed",
+      "fileFormat": "VCFv4.2",
+      "caller": "Severus_v1.7",
+      "fileDate": "2025-10-21",
+      "sample": "wakhan_haplotagged",
+      "filters": {
+        "PASS": 1766
+      },
+      "svTypeCounts": {
+        "BND": 1384,
+        "DEL": 238,
+        "DUP": 62,
+        "INS": 31,
+        "sBND": 51
+      },
+      "bndMatePairs": 692,
+      "allBndMatesPresent": true
+    },
+    "copyNumbers": {
+      "chromosomes": 22,
+      "sorted": true,
+      "positiveIntervals": true,
+      "terminalTails": "Source segment grids are contiguous from position zero but stop at rounded analysis boundaries before GRCh38 autosome ends; no values are imputed.",
+      "totalCopyNumberRange": [
+        0.0,
+        49.0
+      ],
+      "relativeCopyRatioRange": [
+        0.0,
+        10.7
+      ],
+      "confidenceRange": [
+        0.4839854,
+        0.9920213
+      ],
+      "chr21Segments": 178,
+      "chr22Segments": 22
+    },
+    "sourceSelection": {
+      "rejectedAlternative": "Zenodo record 18989691 v3 Severus v1.6 HCC1954_hifi1 callset",
+      "reason": "Its 2,172 records share only 199 IDs with the selected 1,766-record VCF, so it does not preserve exact copy-number breakpoint provenance."
+    }
+  }
+}
