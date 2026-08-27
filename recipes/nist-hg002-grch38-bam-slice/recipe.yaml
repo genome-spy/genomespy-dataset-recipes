@@ -1,0 +1,22 @@
+id: nist-hg002-grch38-bam-slice
+title: NIST HG002 GRCh38 BAM slice
+status: ready
+kind: transform
+assembly: GRCh38
+
+sources:
+  - id: nist-giab-hg002-300x-grch38-bam
+    landingPage: https://www.nist.gov/programs-projects/genome-bottle
+    redistribution: allowed
+    rightsEvidence: https://www.nist.gov/programs-projects/genome-bottle
+
+outputs:
+  - path: output/alignments.bam
+    format: bam
+    publication: hosted
+  - path: output/alignments.bam.bai
+    format: bai
+    publication: hosted
+
+consumers:
+  - specs/overview.json

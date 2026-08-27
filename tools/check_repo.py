@@ -278,7 +278,11 @@ def check_spec_values(
                 errors.append(
                     f"{recipe_id}: non-output data URL in {spec_name}: {child}"
                 )
-        if key == "values" and isinstance(child, list) and child:
+        if (
+            key == "values"
+            and isinstance(child, list)
+            and any(isinstance(item, dict) and item for item in child)
+        ):
             errors.append(f"{recipe_id}: embedded values in {spec_name}")
     return errors
 

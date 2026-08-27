@@ -47,6 +47,28 @@ def test_accepts_relative_output_url() -> None:
     assert errors == []
 
 
+def test_accepts_empty_signal_value() -> None:
+    errors = check_spec_values(
+        "example",
+        "overview.json",
+        {"data": {"values": [{}]}},
+        "transform",
+    )
+
+    assert errors == []
+
+
+def test_rejects_embedded_data_rows() -> None:
+    errors = check_spec_values(
+        "example",
+        "overview.json",
+        {"data": {"values": [{"chrom": "chr1", "pos": 1}]}},
+        "transform",
+    )
+
+    assert errors == ["example: embedded values in overview.json"]
+
+
 def test_recipe_requires_rights_record(tmp_path: Path) -> None:
     recipe = tmp_path / "example-recipe"
     recipe.mkdir()

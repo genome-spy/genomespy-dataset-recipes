@@ -119,7 +119,7 @@ Before handoff:
 2. Inspect applicable local specs.
 3. Run `uv run python tools/check_repo.py`.
 4. Run `uv run ruff check .`, `uv run ruff format --check .`,
-   `uv run mypy tools recipes`, and `uv run pytest`.
+   `uv run python tools/typecheck.py`, and `uv run pytest`.
 5. Report reproduction commands, outputs, validation, rationale, uncertainties,
    and any remaining rights/publication work.
 

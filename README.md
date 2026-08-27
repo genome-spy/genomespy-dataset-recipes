@@ -14,6 +14,7 @@ Reproducible preparation scripts and provenance for datasets used in
 | Recipe | Purpose | Coordinates | Status | Consumer |
 | --- | --- | --- | --- | --- |
 | [`encode-k562-re2g`](recipes/encode-k562-re2g/) | ENCODE-rE2G regulatory element–gene links for K562 | GRCh38 | Ready; hosting eligible | Local GenomeSpy prototype |
+| [`nist-hg002-grch38-bam-slice`](recipes/nist-hg002-grch38-bam-slice/) | Indexed GIAB HG002 read-alignment slice | GRCh38 | Ready; hosting eligible | BAM read-alignment example |
 
 `Draft` recipes are usable for local exploration. Their source identity,
 validation, publication rights, or public consumer may still need review.

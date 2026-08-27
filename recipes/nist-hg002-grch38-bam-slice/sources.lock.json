@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "sources": [
+    {
+      "id": "nist-giab-hg002-300x-grch38-bam",
+      "sample": "HG002 / NA24385",
+      "assembly": "GRCh38",
+      "bamUrl": "https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/data/AshkenazimTrio/HG002_NA24385_son/NIST_HiSeq_HG002_Homogeneity-10953946/NHGRI_Illumina300X_AJtrio_novoalign_bams/HG002.GRCh38.300x.bam",
+      "baiUrl": "https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/data/AshkenazimTrio/HG002_NA24385_son/NIST_HiSeq_HG002_Homogeneity-10953946/NHGRI_Illumina300X_AJtrio_novoalign_bams/HG002.GRCh38.300x.bam.bai",
+      "checksums": {
+        "bamMd5": {
+          "value": "a2a85243fba525d485a6ba89d73b46a9",
+          "status": "reported-by-pinned-index"
+        },
+        "baiMd5": {
+          "value": "491d644a55382424c1824e3b664827da",
+          "status": "reported-and-verified"
+        }
+      },
+      "sourceIndex": {
+        "gitCommit": "fe5327b1deffe6ccdde8912fdf98ec26863594e3",
+        "url": "https://raw.githubusercontent.com/genome-in-a-bottle/giab_data_indexes/fe5327b1deffe6ccdde8912fdf98ec26863594e3/AshkenazimTrio/alignment.index.AJtrio_Illumina300X_wgs_novoalign_GRCh37_GRCh38_NHGRI_07282015",
+        "sha256": "7a66fd6de82840c7b7a02e3370d667733e1370e6c5b671c38d5e5dc39be063a1"
+      }
+    }
+  ]
+}

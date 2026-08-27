@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 1,
+  "recipeId": "nist-hg002-grch38-bam-slice",
+  "source": {
+    "id": "nist-giab-hg002-300x-grch38-bam",
+    "sample": "HG002 / NA24385",
+    "assembly": "GRCh38",
+    "parentBamMd5": "a2a85243fba525d485a6ba89d73b46a9",
+    "parentBamChecksumStatus": "reported-by-pinned-index",
+    "parentBaiMd5": "491d644a55382424c1824e3b664827da",
+    "parentBaiChecksumStatus": "reported-and-verified"
+  },
+  "parameters": {
+    "region": "chr20:9950000-10100000",
+    "subsampleSeed": 42,
+    "subsampleFraction": 0.33
+  },
+  "tools": {
+    "samtools": "1.23.1"
+  },
+  "reproducibility": "Byte-identical with the accepted samtools 1.23.1 workflow; semantic review is required when changing samtools versions.",
+  "outputs": {
+    "bam": {
+      "path": "output/alignments.bam",
+      "fileSizeBytes": 9751151,
+      "md5": "a98ed4b1933677b903a787a42ad1f9fe",
+      "sha256": "46692451e815a1464347f65c69dc71c714c2e4388575623109e044edf4838977"
+    },
+    "bai": {
+      "path": "output/alignments.bam.bai",
+      "fileSizeBytes": 26032,
+      "md5": "28dc2bfdf2993c59cfb48528a1a24892",
+      "sha256": "68b598885504a275718537652098beb0d868f001868b72ace824b4b799fc7cb8"
+    }
+  },
+  "validation": {
+    "quickcheck": "passed",
+    "recordCount": 101867,
+    "meanDepth": 99.48,
+    "mappedRecords": 101159,
+    "properlyPairedRecords": 100116,
+    "singletons": 709,
+    "secondaryRecords": 0,
+    "supplementaryRecords": 0,
+    "duplicateRecords": 0,
+    "recordsWithInsertion": 2343,
+    "recordsWithDeletion": 2066,
+    "recordsWithSoftClip": 3892,
+    "recordsWithMdTag": 101159,
+    "recordsWithNmTag": 101159,
+    "recordsWithNonzeroNm": 28849
+  },
+  "publication": {
+    "status": "eligible",
+    "rightsReview": "RIGHTS.md"
+  }
+}
