@@ -1,0 +1,104 @@
+{
+  "$schema": "https://unpkg.com/@genome-spy/app/dist/schema.json",
+  "assembly": "hg38",
+  "specId": "ENCODE ATAC multi-file integration fixture",
+  "name": "encode-atac-grch38",
+  "title": "ENCODE ATAC signal tracks",
+  "description": [
+    "Technical fixture for SampleView-driven multi-URL BigWig loading.",
+    "ENCODE file accessions identify tracks, not biological samples; the mixed biosamples are not a controlled comparison."
+  ],
+  "scales": {
+    "x": {
+      "domain": [
+        { "chrom": "chr7", "pos": 5520000 },
+        { "chrom": "chr7", "pos": 5570000 }
+      ]
+    }
+  },
+  "samples": {
+    "identity": {
+      "data": { "url": "../output/samples.tsv" },
+      "idField": "accession",
+      "displayNameField": "biosample"
+    },
+    "labelTitle": "Biosample label",
+    "labelLength": 220
+  },
+  "sampleLayout": {
+    "sampleHeight": 36,
+    "groupSpacing": 6,
+    "sampleSpacingFactor": 0.15
+  },
+  "metadata": {
+    "attributeWidth": 14,
+    "sources": [
+      {
+        "name": "ENCODE file metadata",
+        "description": "Pinned file-level metadata; accessions are track identifiers.",
+        "initialLoad": "*",
+        "excludeColumns": ["sampleId", "biosample"],
+        "backend": {
+          "backend": "data",
+          "data": { "url": "../output/samples.tsv" },
+          "sampleIdField": "accession"
+        },
+        "attributes": {
+          "organ": { "title": "Organ terms", "type": "nominal" },
+          "dataset": { "title": "ENCODE dataset", "type": "nominal" },
+          "assembly": { "title": "Assembly", "type": "nominal" },
+          "outputType": { "title": "Output", "type": "nominal" },
+          "fileSize": {
+            "title": "File size",
+            "type": "quantitative",
+            "scale": { "scheme": "yellowgreenblue" },
+            "barScale": {},
+            "width": 24
+          },
+          "lab": { "title": "Producing lab", "type": "nominal" }
+        }
+      }
+    ]
+  },
+  "spec": {
+    "title": "Normalized observed ATAC signal near ACTB",
+    "description": "Visible sample rows expand into pinned BigWig URLs and are faceted by ENCODE file accession.",
+    "height": 36,
+    "data": {
+      "lazy": {
+        "type": "bigwig",
+        "url": {
+          "template": "../output/bigwigs/{accession}.bigWig",
+          "values": { "expr": "visibleSamples" },
+          "field": "accession",
+          "maxValues": 24
+        },
+        "pixelsPerBin": 2
+      }
+    },
+    "transform": [
+      { "type": "filter", "expr": "isValid(datum.score) && datum.score > 0" }
+    ],
+    "mark": { "type": "rect", "color": "#4c78a8", "minWidth": 0.5 },
+    "encoding": {
+      "sample": { "field": "accession" },
+      "x": {
+        "chrom": "chrom",
+        "pos": "start",
+        "type": "locus",
+        "axis": { "grid": true }
+      },
+      "x2": { "chrom": "chrom", "pos": "end" },
+      "y": {
+        "field": "score",
+        "type": "quantitative",
+        "scale": { "nice": true, "zero": true },
+        "axis": { "title": "Signal" }
+      },
+      "tooltip": [
+        { "field": "accession", "title": "ENCODE file" },
+        { "field": "score", "title": "Signal", "format": ".4g" }
+      ]
+    }
+  }
+}

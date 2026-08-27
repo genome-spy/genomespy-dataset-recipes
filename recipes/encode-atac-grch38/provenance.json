@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "recipeId": "encode-atac-grch38",
+  "distribution": {
+    "baseUrl": "https://data.genomespy.app/datasets/encode-atac-grch38/v1/"
+  },
+  "sources": [
+    {
+      "id": "encode-released-atac-signal-bigwigs",
+      "portal": "https://www.encodeproject.org/",
+      "downloadUrlTemplate": "https://www.encodeproject.org/files/{accession}/@@download/{accession}.bigWig",
+      "reportUrl": "https://www.encodeproject.org/report.tsv?type=File&file_format=bigWig&assay_term_name=ATAC-seq&output_category=signal&output_type=normalized%20observed%20signal%20profile&status=released&assembly=GRCh38&format=tsv&limit=all",
+      "acceptedReportSha256": "115dda8f12953e246fa974e5e879bc340527ceb881ea2445f77eebfdb2510c2d",
+      "acceptedReportRecordCount": 369,
+      "status": "released",
+      "project": "ENCODE",
+      "assembly": "GRCh38",
+      "assayTermName": "ATAC-seq",
+      "fileFormat": "bigWig",
+      "outputCategory": "signal",
+      "outputType": "normalized observed signal profile",
+      "annotationType": "ChromBPNet-model",
+      "lab": "Anshul Kundaje, Stanford",
+      "files": [
+        { "accession": "ENCFF357WGX", "biosample": "K562", "organ": "bodily fluid,blood", "dataset": "ENCSR049OFB", "fileSizeBytes": 225432007, "md5": "0a10976c5c5cde85d7cba824d1134836", "sha256": "80909b36898e8676cf79d5170453c254ac63a3bfacb55eec4cb783c4746a525c" },
+        { "accession": "ENCFF169FZJ", "biosample": "HG02763", "organ": "bodily fluid,blood", "dataset": "ENCSR092LQB", "fileSizeBytes": 299751432, "md5": "fab72feafde6f102694a5e6a47081766", "sha256": "b2909e6a03398ded5d3be319dc7a7887c7675050fbcff04f6c079637f9cf40c0" },
+        { "accession": "ENCFF973FOG", "biosample": "naive thymus-derived CD4-positive, alpha-beta T cell", "organ": "blood,bodily fluid", "dataset": "ENCSR021MKA", "fileSizeBytes": 341051357, "md5": "4f546c44ccf93bd2dfd651f09232b07f", "sha256": "6d364aaf4122527f835bf0b5f853ff202fb8013cd708a11b8de1d255ccfd2afa" },
+        { "accession": "ENCFF118ELX", "biosample": "naive thymus-derived CD4-positive, alpha-beta T cell", "organ": "blood,bodily fluid", "dataset": "ENCSR973ELB", "fileSizeBytes": 263564703, "md5": "bb10295391157ed09ce9ee6af501567f", "sha256": "5b166df60a96b05949714f4a5eb2491f81ff08b5ef0096cab20f7aa366719f8f" },
+        { "accession": "ENCFF141PII", "biosample": "HG02884", "organ": "blood,bodily fluid", "dataset": "ENCSR323AXJ", "fileSizeBytes": 345896591, "md5": "356ec6128b021e18ba5eba8d2b6ebf82", "sha256": "d21bccb1270e16fee35f71e5d37afafc969f847eeca3ec40184b0759fd461e0c" },
+        { "accession": "ENCFF272XVS", "biosample": "CD4-positive, alpha-beta T cell", "organ": "blood,bodily fluid", "dataset": "ENCSR830MQP", "fileSizeBytes": 223484991, "md5": "ec375e59095e6824f109c77ec0254f24", "sha256": "08f3b27fe1e846a06c620b53001eab0bc5a43f20a78311789553360a104f7c5e" },
+        { "accession": "ENCFF051KGN", "biosample": "HG02870", "organ": "blood,bodily fluid", "dataset": "ENCSR385TLV", "fileSizeBytes": 374574929, "md5": "b484600b23897fa3f6bd29bcdea9a7c9", "sha256": "7e94b5cc8eb71df9aebf955bb510d601c78bcd6d966a9d4bf045d980b5830de0" },
+        { "accession": "ENCFF330XAW", "biosample": "GM21737", "organ": "blood,bodily fluid", "dataset": "ENCSR578BCV", "fileSizeBytes": 291161084, "md5": "42e8930ead72289293845ffc0da7c0a8", "sha256": "ee5535fb07d800e6d11b7d6e68f477453aac1aa7c7c3a50237e0214eec228df6" },
+        { "accession": "ENCFF267POF", "biosample": "HG03103", "organ": "blood,bodily fluid", "dataset": "ENCSR180LMS", "fileSizeBytes": 303821833, "md5": "0c0315dd7fa548f6139b5ca3f6aaaae2", "sha256": "d3f812cb9137967ed2dbe6e2f2a516bfbbd13a50ae6b2a4452f062713b90011d" },
+        { "accession": "ENCFF446YYW", "biosample": "coronary artery", "organ": "vasculature,arterial blood vessel,blood vessel,heart", "dataset": "ENCSR267ORB", "fileSizeBytes": 181367155, "md5": "95d1e0f73a9f35690e651ad26a0d6f4c", "sha256": "59cdb2b3cf660ce63d257fc0e9f0e888b3404b0e3709457dc6c71ee751bb0ffa" },
+        { "accession": "ENCFF153AJL", "biosample": "HG02840", "organ": "blood,bodily fluid", "dataset": "ENCSR916ARE", "fileSizeBytes": 241420360, "md5": "e1c09725e4c137c66b96a2c4eb18337c", "sha256": "4767277908ec85a64dab67aecb2ddb407ac6c52cd34d13e86eb8908c65bee59a" },
+        { "accession": "ENCFF238EKW", "biosample": "HG03442", "organ": "blood,bodily fluid", "dataset": "ENCSR509OSN", "fileSizeBytes": 393727781, "md5": "b0165cd4514f0ba4e3886458d3e4d591", "sha256": "52d37cf9a3a4701a47a4bbd3bef5aa78174b46bc3436a25be9da012cae572afb" },
+        { "accession": "ENCFF136TMW", "biosample": "HG03066", "organ": "blood,bodily fluid", "dataset": "ENCSR166OAU", "fileSizeBytes": 308197900, "md5": "590c53a3cf198c39dc4601b9ccfd8299", "sha256": "3924d5231dee15bc7371a011d9d74185f9b3ce2f9f1121adec7b59e40c2debf1" },
+        { "accession": "ENCFF662LEB", "biosample": "activated T-cell", "organ": "blood,bodily fluid", "dataset": "ENCSR281IMH", "fileSizeBytes": 201750779, "md5": "b62cb34a6a0986714ec89e9c4c3e31b5", "sha256": "f7d1ce7fdc65f476b983f1c40e7c57bd32924ab19537bf3c2783feed0f1bd496" },
+        { "accession": "ENCFF378ZWT", "biosample": "activated naive CD8-positive, alpha-beta T cell", "organ": "blood,bodily fluid", "dataset": "ENCSR772JLL", "fileSizeBytes": 249272977, "md5": "507619df0c567e23a5839189b7d36e08", "sha256": "dc74fb36cdea51fdf6fe9159769afd092aafcc4ad93b58dea0d8a2f98a516196" },
+        { "accession": "ENCFF489JZD", "biosample": "activated T-cell", "organ": "blood,bodily fluid", "dataset": "ENCSR559GAM", "fileSizeBytes": 361769830, "md5": "7586007a7c67e3e945a897b4306fae01", "sha256": "2b1c6dad9a7b27ed9ace10bb84ce303ff6468ef9621bd241463ac9b9eb299e3e" },
+        { "accession": "ENCFF974PCQ", "biosample": "HG02981", "organ": "blood,bodily fluid", "dataset": "ENCSR301ZZA", "fileSizeBytes": 358670925, "md5": "48f6340a8a720a6d5a78d5c349fafcbf", "sha256": "9eac686f12e9902db4a85f529efba9bf6a8701f480faa0b7f314e52dc6c9ecc2" },
+        { "accession": "ENCFF597KCZ", "biosample": "activated CD4-positive, alpha-beta T cell", "organ": "bodily fluid,blood", "dataset": "ENCSR559OBX", "fileSizeBytes": 386630003, "md5": "91c90d8a242bb796b211822ba566790b", "sha256": "d1b6ec94febd98a758d38faf4e06fd34fe7a819dfa4891a7b66068e89804db56" },
+        { "accession": "ENCFF285WBJ", "biosample": "CD4-positive, CD25-positive, alpha-beta regulatory T cell", "organ": "bodily fluid,blood", "dataset": "ENCSR490DKY", "fileSizeBytes": 199127121, "md5": "1eb900316ade6c38a018f4c5fa9893a0", "sha256": "29c8c94486c0903719e541aecbb0af0c2380b4f582f8d7ed121e9f9163e4a1c5" },
+        { "accession": "ENCFF263RLI", "biosample": "T-cell", "organ": "bodily fluid,blood", "dataset": "ENCSR628AUQ", "fileSizeBytes": 193789335, "md5": "2aa8d6ba70537098dcb52426f6abe8a1", "sha256": "cc7616b9e45dc94a499dff64e5f9c7d300985091dbbb47bf20e95f797946a5d2" },
+        { "accession": "ENCFF810REO", "biosample": "CD8-positive, alpha-beta T cell", "organ": "bodily fluid,blood", "dataset": "ENCSR339PPY", "fileSizeBytes": 220509930, "md5": "83db466cadc079be710d3ffb999e43f6", "sha256": "dfbb2078f0caee1f716a698f72bf780130ec3a675a1dd509cf3a099cbb41fdd4" },
+        { "accession": "ENCFF035PEB", "biosample": "tibial artery", "organ": "vasculature,limb,arterial blood vessel,blood vessel", "dataset": "ENCSR316RFC", "fileSizeBytes": 346988948, "md5": "713c3aa8da6ed2c003067dd8f5353316", "sha256": "7147d63636c561b81a9d413db1fad2dc0efbd9911bc5f20ce1cba8a2f94db276" },
+        { "accession": "ENCFF410OCC", "biosample": "HG02571", "organ": "bodily fluid,blood", "dataset": "ENCSR998AJO", "fileSizeBytes": 270152406, "md5": "021fa63a40cd0f253c3503a92158bfa2", "sha256": "e0ac68bc692eecb744700db27c28f2cadc3788296fc49f5683925d16ec9d9901" },
+        { "accession": "ENCFF543GHR", "biosample": "HG02852", "organ": "bodily fluid,blood", "dataset": "ENCSR551XEC", "fileSizeBytes": 382242674, "md5": "42328d9b6dc3cb522a3e9297c0ffabc8", "sha256": "9af999fe4c3f3d964f9d484ce372b5c3f5814a390c63c9c27a88325200c38af0" }
+      ]
+    }
+  ],
+  "parameters": {
+    "acceptedSelection": "The 24-file staging fixture is pinned in source order; file accessions are track identifiers, not biological sample IDs.",
+    "updateSourcesSelection": {
+      "limit": 24,
+      "requiredFields": ["Accession", "Download URL"],
+      "filters": {
+        "Genome assembly": "GRCh38",
+        "File Format": "bigWig",
+        "Output category": "signal",
+        "Output type": "normalized observed signal profile"
+      },
+      "scoring": "Add 4 for an organ label, 4 for a biosample label, 2 for blood/T-cell/NK/dendritic/CD8/CD4 labels, and 2 for a positive file size below 400 MB; order ties by accession.",
+      "reviewRequired": true
+    },
+    "bigWigCoordinates": "0-based, half-open",
+    "initialLocus": { "chrom": "chr7", "start": 5520000, "end": 5570000, "context": "ACTB" }
+  },
+  "tools": {
+    "python": "3.12.13",
+    "numpy": "2.5.1",
+    "pyBigWig": "0.3.25"
+  },
+  "outputs": {
+    "bigWigs": {
+      "path": "output/bigwigs/{accession}.bigWig",
+      "fileCount": 24,
+      "totalFileSizeBytes": 6964357051,
+      "manifestSha256": "19bc5d7f3997e6120c0c405a774a29b7f17933639b2b5a8c3789acaf249fcc06"
+    },
+    "samples": {
+      "path": "output/samples.tsv",
+      "recordCount": 24,
+      "sha256": "3540a759c0150c243850de949faa75dc713f14db5d5c81ab3c7ab612a92bf3a5"
+    }
+  },
+  "validation": {
+    "allFilesMatchEncodeMd5": true,
+    "bigWigChromosomeCount": 25,
+    "grch38PrimaryLengths": { "chr1": 248956422, "chr7": 159345973, "chr22": 50818468 },
+    "allTracksHaveFinitePositiveSignalAtInitialLocus": true,
+    "sourceNaNValuesPresentAtInitialLocus": true,
+    "initialLocusFiniteValueCountRange": [1130, 5503],
+    "initialLocusNonfiniteValueCountRange": [5794, 13230],
+    "initialLocusPerFileMinimumRange": [30.43415069580078, 227.99105834960938],
+    "initialLocusPerFileMaximumRange": [412.1773681640625, 20747.185546875]
+  }
+}
