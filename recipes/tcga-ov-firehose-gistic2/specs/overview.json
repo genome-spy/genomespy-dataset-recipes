@@ -1,0 +1,141 @@
+{
+  "$schema": "https://unpkg.com/@genome-spy/core/dist/schema.json",
+  "description": [
+    "TCGA ovarian cancer GISTIC2 copy-number landscape",
+    "Recurrent amplification and deletion scores with nested lesion intervals from the 2016-01-28 Broad GDAC Firehose analysis."
+  ],
+  "assembly": "hg19",
+  "scales": {
+    "x": {
+      "domain": [
+        { "chrom": "chr18", "pos": 14593640 },
+        { "chrom": "chr20", "pos": 22538731 }
+      ]
+    }
+  },
+  "resolve": { "scale": { "x": "shared" }, "axis": { "x": "shared" } },
+  "spacing": 4,
+  "vconcat": [
+    {
+      "name": "recurrence-scores",
+      "title": "Signed -log10(q-value)",
+      "height": 180,
+      "data": {
+        "url": "../output/scores.gistic",
+        "format": { "type": "tsv" }
+      },
+      "transform": [
+        {
+          "type": "formula",
+          "expr": "datum['-log10(q-value)'] * (datum.Type == 'Del' ? -1 : 1)",
+          "as": "signedScore"
+        }
+      ],
+      "mark": { "type": "rect", "minOpacity": 1 },
+      "encoding": {
+        "x": { "chrom": "Chromosome", "pos": "Start", "type": "locus" },
+        "x2": { "chrom": "Chromosome", "pos": "End" },
+        "y": { "field": "signedScore", "type": "quantitative", "title": "-log10(q)" },
+        "color": {
+          "field": "Type",
+          "type": "nominal",
+          "scale": {
+            "domain": ["Amp", "Del"],
+            "range": ["#e45756", "#4c78a8"]
+          },
+          "legend": { "title": "Event" }
+        },
+        "tooltip": [
+          { "field": "Type", "title": "Event" },
+          { "field": "Chromosome", "title": "Chromosome" },
+          { "field": "Start", "title": "Start" },
+          { "field": "End", "title": "End" },
+          { "field": "-log10(q-value)", "title": "-log10(q)", "format": ".3f" },
+          { "field": "G-score", "title": "G-score", "format": ".3f" }
+        ]
+      }
+    },
+    {
+      "name": "lesion-intervals",
+      "title": "GISTIC regions, peaks, and wide peaks",
+      "height": { "step": 22 },
+      "data": {
+        "url": "../output/all_lesions.conf_99.txt",
+        "format": { "type": "tsv" }
+      },
+      "transform": [
+        {
+          "type": "regexExtract",
+          "field": "Unique Name",
+          "regex": "^(Amplification|Deletion) Peak[ ]+\\d+$",
+          "as": ["eventType"],
+          "skipInvalidInput": true
+        },
+        { "type": "filter", "expr": "!!datum.eventType" },
+        {
+          "type": "regexFold",
+          "columnRegex": ["^(.*) Limits$"],
+          "asValue": ["limits"],
+          "asKey": "intervalType"
+        },
+        {
+          "type": "regexExtract",
+          "field": "limits",
+          "regex": "^(chr[^:]+):(\\d+)-(\\d+)",
+          "as": ["chrom", "start", "end"]
+        }
+      ],
+      "mark": { "type": "rule", "minLength": 2 },
+      "encoding": {
+        "x": { "chrom": "chrom", "pos": "start", "type": "locus" },
+        "x2": { "chrom": "chrom", "pos": "end" },
+        "y": {
+          "field": "eventType",
+          "type": "nominal",
+          "scale": { "domain": ["Amplification", "Deletion"], "padding": 0.2 },
+          "title": null
+        },
+        "color": {
+          "field": "eventType",
+          "type": "nominal",
+          "scale": {
+            "domain": ["Amplification", "Deletion"],
+            "range": ["#e45756", "#4c78a8"]
+          },
+          "legend": null
+        },
+        "opacity": {
+          "field": "intervalType",
+          "type": "nominal",
+          "scale": {
+            "type": "ordinal",
+            "domain": ["Region", "Wide Peak", "Peak"],
+            "range": [0.3, 0.55, 1]
+          },
+          "legend": { "title": "Interval" }
+        },
+        "size": {
+          "field": "intervalType",
+          "type": "nominal",
+          "scale": {
+            "type": "ordinal",
+            "domain": ["Region", "Wide Peak", "Peak"],
+            "range": [3, 9, 15]
+          },
+          "legend": null
+        },
+        "tooltip": [
+          { "field": "Unique Name", "title": "Lesion" },
+          { "field": "Descriptor", "title": "Cytoband" },
+          { "field": "intervalType", "title": "Interval" },
+          { "field": "limits", "title": "Source limits" },
+          { "field": "q values", "title": "q-value", "format": ".3g" }
+        ]
+      }
+    }
+  ],
+  "config": {
+    "legend": { "orient": "top" },
+    "view": { "stroke": "#d1d5db" }
+  }
+}

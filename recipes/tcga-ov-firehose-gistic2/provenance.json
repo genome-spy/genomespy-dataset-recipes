@@ -1,0 +1,80 @@
+{
+  "schemaVersion": 1,
+  "recipeId": "tcga-ov-firehose-gistic2",
+  "sources": [
+    {
+      "id": "broad-gdac-firehose-tcga-ov-gistic2",
+      "producer": "Broad Institute TCGA Genome Data Analysis Center",
+      "cohort": "TCGA ovarian serous cystadenocarcinoma (OV-TP)",
+      "analysisLevel": "CopyNumber Gistic2 Level 4",
+      "firehoseAnalysisDate": "2016-01-28",
+      "firehoseAnalysisVersion": "2016012800.0.0",
+      "gisticVersion": "2.0.22",
+      "assembly": "hg19",
+      "url": "https://gdac.broadinstitute.org/runs/analyses__2016_01_28/data/OV-TP/20160128/gdac.broadinstitute.org_OV-TP.CopyNumber_Gistic2.Level_4.2016012800.0.0.tar.gz",
+      "filename": "gdac.broadinstitute.org_OV-TP.CopyNumber_Gistic2.Level_4.2016012800.0.0.tar.gz",
+      "fileSizeBytes": 41227335,
+      "md5": "d65c0adfc04405cfbef66c4c02a2083e",
+      "sha256": "d2c108344a0c1b4bf3d4140b89be700fb22fac03a6b6ae16d5aaff5be6200665",
+      "archivePrefix": "gdac.broadinstitute.org_OV-TP.CopyNumber_Gistic2.Level_4.2016012800.0.0/",
+      "acceptedMembers": [
+        {
+          "name": "scores.gistic",
+          "fileSizeBytes": 5570830,
+          "md5": "2339a013e676199a4e6ad260493703f8",
+          "sha256": "0d51c1872d0c905382336a2e5ca443ab533cd3a046bec06ee23c295b88da2bbe"
+        },
+        {
+          "name": "all_lesions.conf_99.txt",
+          "fileSizeBytes": 501549,
+          "md5": "1915f7db6d3c0d990870b255b783038c",
+          "sha256": "7034bb673aae21c89bc06241d70d77a450eda415afe3e60fd101e7116ad7d121"
+        }
+      ],
+      "requiredAbsentMembers": ["regions_track.conf_99.bed"]
+    }
+  ],
+  "parameters": {
+    "transformation": "Extract the two accepted archive members byte-for-byte; perform no data or coordinate transformation.",
+    "coordinateSystem": "hg19 base-pair coordinates as reported by GISTIC; interval closure is not asserted",
+    "scoreChromosomeEncoding": "1-22 autosomes and 23 for X",
+    "visualizationInitialDomain": [
+      { "chrom": "chr18", "pos": 14593640 },
+      { "chrom": "chr20", "pos": 22538731 }
+    ]
+  },
+  "tools": {
+    "python": "3.12.13",
+    "pythonStandardLibrary": ["csv", "hashlib", "tarfile", "urllib.request"]
+  },
+  "outputs": {
+    "scores": {
+      "path": "output/scores.gistic",
+      "fileSizeBytes": 5570830,
+      "recordCount": 90240,
+      "md5": "2339a013e676199a4e6ad260493703f8",
+      "sha256": "0d51c1872d0c905382336a2e5ca443ab533cd3a046bec06ee23c295b88da2bbe"
+    },
+    "allLesions": {
+      "path": "output/all_lesions.conf_99.txt",
+      "fileSizeBytes": 501549,
+      "recordCount": 146,
+      "md5": "1915f7db6d3c0d990870b255b783038c",
+      "sha256": "7034bb673aae21c89bc06241d70d77a450eda415afe3e60fd101e7116ad7d121"
+    }
+  },
+  "validation": {
+    "archiveMemberCount": 28,
+    "acceptedMembersByteIdentical": true,
+    "requiredAbsentMemberConfirmed": true,
+    "scoreTypeCounts": { "Amp": 71651, "Del": 18589 },
+    "scoreChromosomes": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23],
+    "scoreCoordinateRange": { "minimumStart": 284018, "maximumEnd": 247812431 },
+    "primaryLesionCounts": { "Amplification": 33, "Deletion": 40 },
+    "cnValueRowCounts": { "Amplification": 33, "Deletion": 40 },
+    "parsedLesionIntervalCount": 438,
+    "lesionCoordinateRange": { "minimumStart": 1, "maximumEnd": 249250621 },
+    "namedTumorSampleColumnCount": 579,
+    "trailingBlankSampleColumnCount": 1
+  }
+}

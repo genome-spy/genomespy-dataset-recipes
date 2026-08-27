@@ -17,6 +17,7 @@ Reproducible wrangling scripts and provenance for datasets used in
 | [`ascat-simulated-tumors-hg19`](recipes/ascat-simulated-tumors-hg19/) | Simulated allele-specific copy number | hg19 | Copy-number and purity/ploidy views |
 | [`hcc1954-castle-severus-wakhan`](recipes/hcc1954-castle-severus-wakhan/) | Matched structural variants and copy number | GRCh38 | SV links and copy-number segments |
 | [`tcga-brca-gdc-pik3ca-mutations`](recipes/tcga-brca-gdc-pik3ca-mutations/) | Recurrent PIK3CA protein changes in breast cancer | GRCh38 input; protein coordinates | Lollipop and protein-domain tracks |
+| [`tcga-ov-firehose-gistic2`](recipes/tcga-ov-firehose-gistic2/) | Recurrent ovarian-cancer copy-number changes | hg19 | GISTIC scores and lesion intervals |
 
 ## How recipes work
 
