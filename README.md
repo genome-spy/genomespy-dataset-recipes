@@ -20,6 +20,7 @@ Reproducible wrangling scripts and provenance for datasets used in
 | [`tcga-ov-firehose-gistic2`](recipes/tcga-ov-firehose-gistic2/) | Recurrent ovarian-cancer copy-number changes | hg19 | GISTIC scores and lesion intervals |
 | [`dynseq-spi1-bqtl`](recipes/dynseq-spi1-bqtl/) | Allele-specific SPI1 model importance scores | GRCh38 | Nucleotide-resolution BigWig comparison |
 | [`encode-atac-grch38`](recipes/encode-atac-grch38/) | Multi-file ATAC signal integration fixture | GRCh38 | SampleView-driven BigWig tracks |
+| [`encode-h3k27ac-chip-seq-grch38`](recipes/encode-h3k27ac-chip-seq-grch38/) | Multi-file H3K27ac ChIP-seq integration fixture | GRCh38 | SampleView-driven BigWig tracks |
 
 ## How recipes work
 

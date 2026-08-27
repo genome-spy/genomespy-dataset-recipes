@@ -1,0 +1,105 @@
+{
+  "$schema": "https://unpkg.com/@genome-spy/app/dist/schema.json",
+  "assembly": "hg38",
+  "specId": "ENCODE H3K27ac ChIP-seq multi-file integration fixture",
+  "name": "encode-h3k27ac-chip-seq-grch38",
+  "title": "ENCODE H3K27ac ChIP-seq signal tracks",
+  "description": [
+    "Technical fixture for SampleView-driven multi-URL BigWig loading.",
+    "ENCODE file accessions identify tracks, not biological samples; the mixed biosamples are not a controlled comparison."
+  ],
+  "scales": {
+    "x": {
+      "domain": [
+        { "chrom": "chr11", "pos": 5200000 },
+        { "chrom": "chr11", "pos": 5400000 }
+      ]
+    }
+  },
+  "samples": {
+    "identity": {
+      "data": { "url": "../output/samples.tsv" },
+      "idField": "accession",
+      "displayNameField": "biosample"
+    },
+    "labelTitle": "Biosample label",
+    "labelLength": 220
+  },
+  "sampleLayout": {
+    "sampleHeight": 36,
+    "groupSpacing": 6,
+    "sampleSpacingFactor": 0.15
+  },
+  "metadata": {
+    "attributeWidth": 14,
+    "sources": [
+      {
+        "name": "ENCODE file metadata",
+        "description": "Pinned file-level metadata; accessions are track identifiers.",
+        "initialLoad": "*",
+        "excludeColumns": ["sampleId", "biosample"],
+        "backend": {
+          "backend": "data",
+          "data": { "url": "../output/samples.tsv" },
+          "sampleIdField": "accession"
+        },
+        "attributes": {
+          "organ": { "title": "Organ terms", "type": "nominal" },
+          "dataset": { "title": "ENCODE experiment", "type": "nominal" },
+          "assembly": { "title": "Assembly", "type": "nominal" },
+          "target": { "title": "Target", "type": "nominal" },
+          "outputType": { "title": "Output", "type": "nominal" },
+          "fileSize": {
+            "title": "File size",
+            "type": "quantitative",
+            "scale": { "scheme": "yellowgreenblue" },
+            "barScale": {},
+            "width": 24
+          },
+          "lab": { "title": "Pipeline label", "type": "nominal" }
+        }
+      }
+    ]
+  },
+  "spec": {
+    "title": "H3K27ac fold-change signal on chromosome 11",
+    "description": "Visible sample rows expand into pinned BigWig URLs and are faceted by ENCODE file accession.",
+    "height": 36,
+    "data": {
+      "lazy": {
+        "type": "bigwig",
+        "url": {
+          "template": "../output/bigwigs/{accession}.bigWig",
+          "values": { "expr": "visibleSamples" },
+          "field": "accession",
+          "maxValues": 20
+        },
+        "pixelsPerBin": 2
+      }
+    },
+    "transform": [
+      { "type": "filter", "expr": "isValid(datum.score) && datum.score > 0" }
+    ],
+    "mark": { "type": "rect", "color": "#e45756", "minWidth": 0.5 },
+    "encoding": {
+      "sample": { "field": "accession" },
+      "x": {
+        "chrom": "chrom",
+        "pos": "start",
+        "type": "locus",
+        "axis": { "grid": true }
+      },
+      "x2": { "chrom": "chrom", "pos": "end" },
+      "y": {
+        "field": "score",
+        "type": "quantitative",
+        "scale": { "nice": true, "zero": true },
+        "axis": { "title": "Fold change" }
+      },
+      "tooltip": [
+        { "field": "accession", "title": "ENCODE file" },
+        { "field": "score", "title": "Fold change", "format": ".4g" }
+      ]
+    }
+  }
+}

@@ -1,0 +1,111 @@
+{
+  "schemaVersion": 1,
+  "recipeId": "encode-h3k27ac-chip-seq-grch38",
+  "distribution": {
+    "baseUrl": "https://data.genomespy.app/datasets/encode-h3k27ac-chip-seq-grch38/v1/"
+  },
+  "sources": [
+    {
+      "id": "encode-released-h3k27ac-chip-seq-signal-bigwigs",
+      "portal": "https://www.encodeproject.org/",
+      "downloadUrlTemplate": "https://www.encodeproject.org/files/{accession}/@@download/{accession}.bigWig",
+      "fileRecordUrlTemplate": "https://www.encodeproject.org/files/{accession}/",
+      "experimentRecordUrlTemplate": "https://www.encodeproject.org/experiments/{dataset}/",
+      "reportUrl": "https://www.encodeproject.org/report.tsv?type=File&assay_title=Histone%20ChIP-seq&target.label=H3K27ac&file_format=bigWig&output_category=signal&status=released&assembly=GRCh38&format=tsv&limit=all",
+      "acceptedReportSha256": "1909771f74e62ff124820ac3f2e0b2eb17e3ea4b355d2290c039dd6eb272d20a",
+      "acceptedReportRecordCount": 2593,
+      "status": "released",
+      "project": "ENCODE",
+      "assembly": "GRCh38",
+      "assayTermName": "ChIP-seq",
+      "target": "H3K27ac",
+      "fileFormat": "bigWig",
+      "outputCategory": "signal",
+      "outputType": "fold change over control",
+      "lab": "ENCODE Processing Pipeline",
+      "files": [
+        { "accession": "ENCFF177JXC", "biosample": "K562", "organ": "bodily fluid,blood", "dataset": "ENCSR000AKP", "fileSizeBytes": 298681736, "md5": "e941859ce71cdcbc1fc0343ef520edb2", "sha256": "21fd768135589435f333d8456640745752538c27514c016eec72d755f7fe242e" },
+        { "accession": "ENCFF759SNY", "biosample": "HepG2", "organ": "epithelium,exocrine gland,endocrine gland,liver", "dataset": "ENCSR000AMO", "fileSizeBytes": 237516139, "md5": "44f8055a32a883995c140213bbc1850b", "sha256": "ff01eb1be2557200b4d8e7c635c506071b44814c9e61e75e448a48fbff9cdac1" },
+        { "accession": "ENCFF289IVJ", "biosample": "K562", "organ": "bodily fluid,blood", "dataset": "ENCSR000AKP", "fileSizeBytes": 181518606, "md5": "9e1993cd41d918c4d866972dce7b822e", "sha256": "41a63cced8f10661134c17f7a8e5d7f2d5ef670bbda3791af180afaf3209d801" },
+        { "accession": "ENCFF779QTH", "biosample": "K562", "organ": "bodily fluid,blood", "dataset": "ENCSR000AKP", "fileSizeBytes": 236381149, "md5": "81aaf56e59eaa1c9742b5e0c8216860f", "sha256": "1105fbe6b7e9546b16cfb8853474d7a2fcce1adda5cc9df76cfd675ac9709ff3" },
+        { "accession": "ENCFF945XHA", "biosample": "K562", "organ": "bodily fluid,blood", "dataset": "ENCSR000AKP", "fileSizeBytes": 90624866, "md5": "70bf68e36aca58585ae34a65acada02d", "sha256": "4f223ff1f9db0fd582326a14ca9e42450e56d01f9015b70b82bce21dbdaa1f27" },
+        { "accession": "ENCFF008LRL", "biosample": "MCF-7", "organ": "epithelium,mammary gland,exocrine gland", "dataset": "ENCSR000EWR", "fileSizeBytes": 461828670, "md5": "6466729f2fe436661c332feebfd359d8", "sha256": "13fecf8b739b36af9eede9ed4b02cb5a98713b0d46dd8b916cb9e440b99ff395" },
+        { "accession": "ENCFF340JIF", "biosample": "GM12878", "organ": "bodily fluid,blood", "dataset": "ENCSR000AKC", "fileSizeBytes": 180182454, "md5": "341a04c9e39cf055f11e65793468624d", "sha256": "cccf0fabf0f97cae7c363cd83ae424651bdca53463a9782175583db5918a66fc" },
+        { "accession": "ENCFF218QBO", "biosample": "GM12878", "organ": "bodily fluid,blood", "dataset": "ENCSR000AKC", "fileSizeBytes": 108756948, "md5": "4f269bdad16149389fb4aed672589793", "sha256": "a967c1f45dba090a3a116fc2f7731248c3cdbeda20547dc0c0692053ae1461b2" },
+        { "accession": "ENCFF814HWX", "biosample": "K562", "organ": "bodily fluid,blood", "dataset": "ENCSR000AKP", "fileSizeBytes": 176000067, "md5": "37c443205c01bb9c5e92fff8c450e863", "sha256": "db6108919efcd448332712579d0e971c8d2c3a17471992f8f36b79dc6b400c78" },
+        { "accession": "ENCFF336PQW", "biosample": "endothelial cell of umbilical vein", "organ": "extraembryonic component,placenta,vasculature,vein,blood vessel,epithelium", "dataset": "ENCSR000ALB", "fileSizeBytes": 185337430, "md5": "2ac3d19a91b6cebf0b5c096327133220", "sha256": "cd3c6d470b473b1758ef14296b755118bd718d6e1c9ca15674c640fdc499f7da" },
+        { "accession": "ENCFF977KGH", "biosample": "K562", "organ": "bodily fluid,blood", "dataset": "ENCSR000AKP", "fileSizeBytes": 298681736, "md5": "e941859ce71cdcbc1fc0343ef520edb2", "sha256": "21fd768135589435f333d8456640745752538c27514c016eec72d755f7fe242e" },
+        { "accession": "ENCFF458CRP", "biosample": "GM12878", "organ": "bodily fluid,blood", "dataset": "ENCSR000AKC", "fileSizeBytes": 115958836, "md5": "ed2eafc54d15274ba72247f9e3bac25b", "sha256": "f60b35a7cea6367736ea32deda236bee035bfa62ce85d159b682c8750fff3b19" },
+        { "accession": "ENCFF745TSK", "biosample": "K562", "organ": "bodily fluid,blood", "dataset": "ENCSR000AKP", "fileSizeBytes": 181518606, "md5": "9e1993cd41d918c4d866972dce7b822e", "sha256": "41a63cced8f10661134c17f7a8e5d7f2d5ef670bbda3791af180afaf3209d801" },
+        { "accession": "ENCFF955PAU", "biosample": "endothelial cell of umbilical vein", "organ": "extraembryonic component,placenta,vasculature,vein,blood vessel,epithelium", "dataset": "ENCSR000ALB", "fileSizeBytes": 276274146, "md5": "b5b0cf1c36514bed1a228b11deedbce4", "sha256": "7ac94c951dff35a9bdd52d40a018b52e98f2538d3a54e5f36c7d721125c17644" },
+        { "accession": "ENCFF059GZB", "biosample": "endothelial cell of umbilical vein", "organ": "extraembryonic component,placenta,vasculature,vein,blood vessel,epithelium", "dataset": "ENCSR000ALB", "fileSizeBytes": 165607561, "md5": "82d8884c5538448a5e46d99029be762e", "sha256": "9b4774b3c8d4eed0cf5e9739ff1a6c0a89a316edc9da666c2e5fd28b6fdb6c02" },
+        { "accession": "ENCFF764VYK", "biosample": "HepG2", "organ": "epithelium,exocrine gland,endocrine gland,liver", "dataset": "ENCSR000AMO", "fileSizeBytes": 407472033, "md5": "a6650c37951cb6cd622f1d106bf6e221", "sha256": "86739c4646af05606b516ddb96e89ea439625243c8387139aa82434c650f2274" },
+        { "accession": "ENCFF883MRR", "biosample": "A549", "organ": "lung", "dataset": "ENCSR000AVF", "fileSizeBytes": 539398541, "md5": "0eaa883fae103d798091e2f2c8d184c2", "sha256": "3c2127f05544001dfe6dac8ec3f351c15fc12acca51a494c81807c371afaf327" },
+        { "accession": "ENCFF748SAC", "biosample": "A549", "organ": "lung", "dataset": "ENCSR000AVF", "fileSizeBytes": 513017789, "md5": "7d420a9afe5889931af00e40364f6b08", "sha256": "3f79d92b5d6097f2db38f12dbe148d9b5421ec4faec81e750123e98d3e3db9ba" },
+        { "accession": "ENCFF656TFQ", "biosample": "endothelial cell of umbilical vein", "organ": "extraembryonic component,placenta,vasculature,vein,blood vessel,epithelium", "dataset": "ENCSR000ALB", "fileSizeBytes": 251502295, "md5": "5d19b204b00a4ab92611df607b15375d", "sha256": "77e457fcd83ffd1623cde710a7216ad185a21120e9c614897807fc851d14aac0" },
+        { "accession": "ENCFF671QJO", "biosample": "H1", "organ": "embryo", "dataset": "ENCSR880SUY", "fileSizeBytes": 263777436, "md5": "285e26e3566e154b4788691124a0ecfa", "sha256": "d6fed6516178053e9ca06b6201907ce85a7ff962fa2ed2f69555cd093be55bb1" }
+      ]
+    }
+  ],
+  "parameters": {
+    "acceptedSelection": "The 20-file staging fixture is pinned in historical source order; file accessions are track identifiers, not biological sample IDs.",
+    "updateSourcesSelection": {
+      "limit": 20,
+      "requiredFields": ["Accession", "Download URL"],
+      "filters": {
+        "Genome assembly": "GRCh38",
+        "File Format": "bigWig",
+        "Output category": "signal"
+      },
+      "allowedOutputTypes": ["fold change over control", "p-value", "signal"],
+      "scoring": "Add 8 for fold change over control or 6 for p-value, 4 for an organ label, 4 for a biosample label, 2 for a K562/GM12878/H1/HepG2/A549/MCF-7/endothelial/T-cell/stem label, and 2 for a positive file size below 600 MB; order ties by accession.",
+      "reviewRequired": true
+    },
+    "bigWigCoordinates": "0-based, half-open",
+    "initialLocus": {
+      "chrom": "chr11",
+      "start": 5200000,
+      "end": 5400000,
+      "context": "historical technical validation locus"
+    }
+  },
+  "tools": {
+    "python": "3.12.13",
+    "numpy": "2.5.1",
+    "pyBigWig": "0.3.25"
+  },
+  "outputs": {
+    "bigWigs": {
+      "path": "output/bigwigs/{accession}.bigWig",
+      "fileCount": 20,
+      "uniquePayloadCount": 18,
+      "totalFileSizeBytes": 5170037044,
+      "manifestSha256": "3555f94ee032253ce1850ad0c1c746400b3301049724feef2dbec4e9e8360a92",
+      "byteIdenticalAccessionGroups": [
+        ["ENCFF177JXC", "ENCFF977KGH"],
+        ["ENCFF289IVJ", "ENCFF745TSK"]
+      ]
+    },
+    "samples": {
+      "path": "output/samples.tsv",
+      "recordCount": 20,
+      "sha256": "bed6ad10ca4e8e1eacae50b7c619603576ea8e4c8f2b5fa025102446b1e83c2b"
+    }
+  },
+  "validation": {
+    "allFilesMatchEncodeMd5": true,
+    "bigWigChromosomeCountRange": [99, 138],
+    "bigWigZoomLevelCount": 10,
+    "grch38PrimaryLengths": {
+      "chr1": 248956422,
+      "chr11": 135086622,
+      "chr22": 50818468
+    },
+    "allHeaderSummaryValuesFinite": true,
+    "allTracksHaveFinitePositiveSignalAtInitialLocus": true,
+    "initialLocusRecordCountRange": [572, 12829],
+    "initialLocusPerFileMinimumRange": [0.0, 0.0],
+    "initialLocusPerFileMaximumRange": [2.7832698822021484, 66.27310180664062],
+    "readerIsolation": "one pyBigWig subprocess per file due to a native cleanup crash when scanning the retained set in one process"
+  }
+}
