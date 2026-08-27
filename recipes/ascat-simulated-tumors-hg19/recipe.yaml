@@ -1,0 +1,29 @@
+id: ascat-simulated-tumors-hg19
+title: ASCAT simulated tumors on hg19
+status: ready
+kind: transform
+assembly: GRCh37/hg19
+
+sources:
+  - id: ascat-example-data
+    landingPage: https://github.com/VanLoo-lab/ascat/tree/61ddf3b24453eea91134798cc41d4e828a82fa90/ExampleData
+    redistribution: allowed
+    rightsEvidence: https://github.com/VanLoo-lab/ascat/blob/61ddf3b24453eea91134798cc41d4e828a82fa90/DESCRIPTION
+
+outputs:
+  - path: output/fits.tsv.gz
+    format: tsv.gz
+    publication: hosted
+  - path: output/samples/{sample}/segments.tsv.gz
+    format: tsv.gz
+    publication: hosted
+  - path: output/samples/{sample}/fit-segments.tsv.gz
+    format: tsv.gz
+    publication: hosted
+  - path: output/samples/{sample}/raw.tsv.gz
+    format: tsv.gz
+    publication: hosted
+
+consumers:
+  - specs/copy-number-overview.json
+  - specs/purity-ploidy-fitting.json
