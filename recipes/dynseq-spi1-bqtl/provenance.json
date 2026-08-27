@@ -1,0 +1,94 @@
+{
+  "schemaVersion": 1,
+  "recipeId": "dynseq-spi1-bqtl",
+  "sources": [
+    {
+      "id": "dynseq-paper-spi1-bqtl-bigwigs",
+      "repository": "https://github.com/kundajelab/dynseq-paper",
+      "gitCommit": "febc9180d72e92302d35c549002e0d56c79c536e",
+      "zenodoRecord": "https://doi.org/10.5281/zenodo.6582100",
+      "zenodoTitle": "dynseq tracks data",
+      "zenodoArchive": {
+        "filename": "dynseq.data.tar.gz",
+        "fileSizeBytes": 5249690455,
+        "md5": "d28d2691bfd136696e2c4493eb1d2323"
+      },
+      "license": "CC-BY-4.0",
+      "assembly": "GRCh38/hg38",
+      "files": [
+        {
+          "role": "reference",
+          "path": "SPI1_bQTL/bigwigs/chip_imp_ref.bw",
+          "url": "https://raw.githubusercontent.com/kundajelab/dynseq-paper/febc9180d72e92302d35c549002e0d56c79c536e/SPI1_bQTL/bigwigs/chip_imp_ref.bw",
+          "gitBlobSha1": "9670677768beda8b68265e39297839240b94e286",
+          "fileSizeBytes": 22878,
+          "md5": "7b8348b77e3c72fae9a339da1eb59af3",
+          "sha256": "e62869515e9af959431dac89be217d395a3d1db213afdce2ae48e693a339b233"
+        },
+        {
+          "role": "alternate",
+          "path": "SPI1_bQTL/bigwigs/chip_imp_alt.bw",
+          "url": "https://raw.githubusercontent.com/kundajelab/dynseq-paper/febc9180d72e92302d35c549002e0d56c79c536e/SPI1_bQTL/bigwigs/chip_imp_alt.bw",
+          "gitBlobSha1": "1331ae6151c05e6abe7862b5e133de9b63009859",
+          "fileSizeBytes": 22908,
+          "md5": "05690c2783fe27faabc76aafb1d6173d",
+          "sha256": "308d73c61b627e8d501af5b1c2fe6e4b74ad6724a97b671da9e4aa767d7ac6e0"
+        }
+      ]
+    }
+  ],
+  "parameters": {
+    "transformation": "None; download or copy the two accepted BigWigs byte-for-byte.",
+    "interval": {
+      "chrom": "chr22",
+      "start": 43719872,
+      "end": 43721986,
+      "coordinateConvention": "0-based, half-open"
+    },
+    "variant": {
+      "id": "rs5764238",
+      "position": 43720929,
+      "referenceAllele": "C",
+      "alternateAllele": "G",
+      "positionConvention": "zero-based vignette POS"
+    }
+  },
+  "tools": {
+    "python": "3.12.13",
+    "numpy": "2.5.1",
+    "pyBigWig": "0.3.25"
+  },
+  "outputs": {
+    "reference": {
+      "path": "output/chip_imp_ref.bw",
+      "fileSizeBytes": 22878,
+      "recordCount": 2114,
+      "sha256": "e62869515e9af959431dac89be217d395a3d1db213afdce2ae48e693a339b233"
+    },
+    "alternate": {
+      "path": "output/chip_imp_alt.bw",
+      "fileSizeBytes": 22908,
+      "recordCount": 2114,
+      "sha256": "308d73c61b627e8d501af5b1c2fe6e4b74ad6724a97b671da9e4aa767d7ac6e0"
+    }
+  },
+  "validation": {
+    "chromosomeHeaderCount": 195,
+    "chr22Length": 50818468,
+    "nonemptyChromosomes": ["chr22"],
+    "recordCountPerAllele": 2114,
+    "coveredBasesPerAllele": 2114,
+    "unitIntervals": true,
+    "contiguousCoverage": true,
+    "finiteScores": true,
+    "alleleIntervalCoordinatesMatch": true,
+    "scoreRanges": {
+      "reference": { "minimum": -0.03603344410657883, "maximum": 0.20064891874790192 },
+      "alternate": { "minimum": -0.12396247684955597, "maximum": 0.6037222146987915 }
+    },
+    "variantPositionScores": {
+      "reference": 0.046701133251190186,
+      "alternate": 0.6037222146987915
+    }
+  }
+}

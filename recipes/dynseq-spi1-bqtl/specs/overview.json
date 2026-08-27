@@ -1,0 +1,83 @@
+{
+  "$schema": "https://unpkg.com/@genome-spy/core/dist/schema.json",
+  "description": [
+    "SPI1 binding-QTL DynSeq importance scores",
+    "Projected DeepSHAP scores for reference C and alternate G alleles of rs5764238 in GM12878 SPI1 ChIP-seq BPNet predictions."
+  ],
+  "assembly": "hg38",
+  "scales": {
+    "x": {
+      "domain": [
+        { "chrom": "chr22", "pos": 43720850 },
+        { "chrom": "chr22", "pos": 43720960 }
+      ],
+      "zoom": {
+        "extent": [
+          { "chrom": "chr22", "pos": 43719872 },
+          { "chrom": "chr22", "pos": 43721986 }
+        ]
+      }
+    }
+  },
+  "resolve": { "scale": { "x": "shared", "y": "shared" }, "axis": { "x": "shared" } },
+  "spacing": 4,
+  "vconcat": [
+    {
+      "name": "reference-allele",
+      "title": "Reference allele (C)",
+      "height": 120,
+      "data": {
+        "lazy": {
+          "type": "bigwig",
+          "url": "../output/chip_imp_ref.bw",
+          "pixelsPerBin": 1
+        }
+      },
+      "mark": { "type": "rect" },
+      "encoding": {
+        "x": { "chrom": "chrom", "pos": "start", "type": "locus" },
+        "x2": { "chrom": "chrom", "pos": "end" },
+        "y": { "field": "score", "type": "quantitative", "title": "Contribution score" },
+        "y2": { "datum": 0 },
+        "color": {
+          "condition": { "test": "datum.score >= 0", "value": "#d95f02" },
+          "value": "#1b9e77"
+        },
+        "tooltip": [
+          { "field": "start", "title": "Position" },
+          { "field": "score", "title": "Score", "format": ".4g" }
+        ]
+      }
+    },
+    {
+      "name": "alternate-allele",
+      "title": "Alternate allele (G)",
+      "height": 120,
+      "data": {
+        "lazy": {
+          "type": "bigwig",
+          "url": "../output/chip_imp_alt.bw",
+          "pixelsPerBin": 1
+        }
+      },
+      "mark": { "type": "rect" },
+      "encoding": {
+        "x": { "chrom": "chrom", "pos": "start", "type": "locus" },
+        "x2": { "chrom": "chrom", "pos": "end" },
+        "y": { "field": "score", "type": "quantitative", "title": "Contribution score" },
+        "y2": { "datum": 0 },
+        "color": {
+          "condition": { "test": "datum.score >= 0", "value": "#d95f02" },
+          "value": "#1b9e77"
+        },
+        "tooltip": [
+          { "field": "start", "title": "Position" },
+          { "field": "score", "title": "Score", "format": ".4g" }
+        ]
+      }
+    }
+  ],
+  "config": {
+    "view": { "stroke": "#d1d5db" }
+  }
+}
