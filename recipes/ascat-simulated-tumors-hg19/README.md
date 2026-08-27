@@ -27,8 +27,9 @@ listed in `provenance.json` under `download/`, then run:
 Rscript recipes/ascat-simulated-tumors-hg19/scripts/prepare.R
 ```
 
-This builds the ASCAT object, wrangles the tables, and validates them. For the
-optional comparison with ASCAT's fitting-distance implementation, set
+This verifies all six input SHA-256 fingerprints, builds the ASCAT object,
+wrangles the tables, and validates them. For the optional comparison with
+ASCAT's fitting-distance implementation, set
 `ASCAT_SOURCE_DIR` to a checkout of the pinned commit before running the same
 command. The checkout is used as a dependency; no ASCAT source is copied here.
 

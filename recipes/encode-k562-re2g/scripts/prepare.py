@@ -154,7 +154,7 @@ def file_hash(file: Path, algorithm: str = "sha256") -> str:
 
 def load_source(
     recipe_dir: Path,
-) -> tuple[LockedSource, dict[str, Any], dict[str, Any]]:
+) -> tuple[LockedSource, dict[str, Any], dict[str, Any], str]:
     """Load and validate the single pinned ENCODE source."""
 
     provenance = json.loads((recipe_dir / "provenance.json").read_bytes())
@@ -167,6 +167,9 @@ def load_source(
     distribution = provenance.get("distribution")
     if not isinstance(distribution, dict):
         raise ValueError("Provenance must contain a distribution object.")
+    release_id = provenance.get("releaseId")
+    if not isinstance(release_id, str):
+        raise ValueError("Provenance must contain a release ID.")
 
     locked = LockedSource(
         filename=str(source["filename"]),
@@ -175,7 +178,7 @@ def load_source(
         md5=str(source["md5"]),
         sha256=str(source["sha256"]),
     )
-    return locked, source, distribution
+    return locked, source, distribution, release_id
 
 
 def validate_source(file: Path, source: LockedSource) -> None:
@@ -495,6 +498,7 @@ def gzip_record_count(file: Path) -> int:
 
 def write_provenance(
     recipe_dir: Path,
+    release_id: str,
     source_record: Mapping[str, Any],
     distribution_record: Mapping[str, Any],
     outputs: Mapping[str, Path],
@@ -506,6 +510,7 @@ def write_provenance(
 
     provenance = {
         "schemaVersion": 1,
+        "releaseId": release_id,
         "recipeId": RECIPE_ID,
         "distribution": dict(distribution_record),
         "sources": [dict(source_record)],
@@ -595,7 +600,7 @@ def main() -> None:
 
     args = parse_args()
     recipe_dir = Path(__file__).resolve().parents[1]
-    source, source_record, distribution_record = load_source(recipe_dir)
+    source, source_record, distribution_record, release_id = load_source(recipe_dir)
     if args.verify_only:
         verify_outputs(recipe_dir)
         print("Verified accepted outputs.")
@@ -635,6 +640,7 @@ def main() -> None:
     }
     write_provenance(
         recipe_dir,
+        release_id,
         source_record,
         distribution_record,
         outputs,
