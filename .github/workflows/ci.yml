@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Install uv and Python
+        uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d # v10.0.1
+        with:
+          version: "0.10.8"
+          python-version: "3.12"
+
+      - name: Install development dependencies
+        run: uv sync --locked
+
+      - name: Check repository contract
+        run: uv run python tools/check_repo.py
+
+      - name: Lint Python
+        run: uv run ruff check .
+
+      - name: Check Python formatting
+        run: uv run ruff format --check .
+
+      - name: Type-check Python
+        run: uv run python tools/typecheck.py
+
+      - name: Run tests
+        run: uv run pytest
