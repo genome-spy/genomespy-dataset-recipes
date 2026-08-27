@@ -1,5 +1,6 @@
 {
   "schemaVersion": 1,
+  "releaseId": "v1",
   "recipeId": "nist-hg002-grch38-bam-slice",
   "distribution": {
     "baseUrl": "https://data.genomespy.app/datasets/nist-hg002-grch38-bam-slice/v1/"

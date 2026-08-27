@@ -1,5 +1,6 @@
 {
   "schemaVersion": 1,
+  "releaseId": "v1",
   "recipeId": "hcc1954-castle-severus-wakhan",
   "distribution": {
     "baseUrl": "https://data.genomespy.app/datasets/hcc1954-castle-severus-wakhan/v1/"

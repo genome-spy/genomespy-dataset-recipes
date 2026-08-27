@@ -1,5 +1,6 @@
 {
   "schemaVersion": 1,
+  "releaseId": "v1",
   "recipeId": "replace-with-recipe-id",
   "sources": [],
   "parameters": {},

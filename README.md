@@ -27,7 +27,7 @@ Reproducible wrangling scripts and provenance for datasets used in
 Each recipe keeps three durable records:
 
 - `README.md`: purpose, rationale, commands, outputs, and limitations;
-- `provenance.json`: exact inputs and the last accepted run;
+- `provenance.json`: release ID, exact inputs, and the last accepted run;
 - `RIGHTS.md`: evidence and conditions for redistributing the data.
 
 Scripts live under `scripts/`. Local GenomeSpy prototypes live under `specs/`

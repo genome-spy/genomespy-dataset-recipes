@@ -35,7 +35,7 @@ text; link to the other two records.
 `provenance.json` is the compact machine-readable record for the last accepted
 run. It contains:
 
-- `schemaVersion` and `recipeId`;
+- `schemaVersion`, `recipeId`, and `releaseId`;
 - exact `sources`, including stable URLs or accessions and checksums;
 - parameters and transformations that affect scientific meaning;
 - meaningful tool versions;
@@ -45,11 +45,20 @@ run. It contains:
 Do not include data rows, bulk headers, local absolute paths, signed URLs,
 secrets, timestamps with no reproducibility value, or deployment status.
 
+`schemaVersion` identifies the shape of the provenance record. `releaseId`
+identifies the accepted dataset and output contract and starts at `v1`.
+Increment it for a change to accepted output bytes, scientific meaning,
+included samples, rows or columns, field definitions, filenames, companion
+files, or output layout. Do not increment it for documentation, rights
+evidence, validation commentary, or an implementation refactor that reproduces
+the accepted outputs exactly.
+
 `RIGHTS.md` records the evidence and decision for redistribution. Keep it about
 eligibility and conditions, not whether an object currently exists on S3.
 When hosting is eligible, add the proposed versioned release root as
 `distribution.baseUrl` in provenance, following the
-[hosted data layout](storage-layout.md).
+[hosted data layout](storage-layout.md). Its version segment must equal
+`releaseId`.
 
 ## Scripts and uv
 

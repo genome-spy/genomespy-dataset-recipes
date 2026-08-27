@@ -1,5 +1,6 @@
 {
   "schemaVersion": 1,
+  "releaseId": "v1",
   "recipeId": "encode-k562-re2g",
   "distribution": {
     "baseUrl": "https://data.genomespy.app/datasets/encode-k562-re2g/v1/"

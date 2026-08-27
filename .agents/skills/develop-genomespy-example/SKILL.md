@@ -24,7 +24,11 @@ For a new recipe:
 5. Prototype under `specs/` with `../output/...` URLs.
 6. Record concise rationale in the README, exact accepted-run details in
    `provenance.json`, and the redistribution decision in `RIGHTS.md`.
-7. If hosting is eligible, record the proposed versioned URL root using
+7. Set `releaseId` to `v1` for a new recipe. Increment it when accepted output
+   bytes, scientific meaning, included samples or fields, or the output file
+   contract changes; leave it unchanged for documentation-only changes and
+   refactors that reproduce the accepted outputs exactly.
+8. If hosting is eligible, record the proposed versioned URL root using
    `docs/storage-layout.md`.
 
 Validate the recipe and spec at the requested scope. For publication, follow

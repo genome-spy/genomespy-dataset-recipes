@@ -82,7 +82,7 @@ def test_recipe_id_must_match_directory(tmp_path: Path) -> None:
     (recipe / "README.md").write_text("# Example\n", encoding="utf-8")
     (recipe / "RIGHTS.md").write_text("# Rights\n", encoding="utf-8")
     (recipe / "provenance.json").write_text(
-        '{"schemaVersion": 1, "recipeId": "wrong", '
+        '{"schemaVersion": 1, "releaseId": "v1", "recipeId": "wrong", '
         '"sources": [{}], "outputs": {"x": {}}}\n',
         encoding="utf-8",
     )
@@ -98,10 +98,66 @@ def test_distribution_url_must_match_recipe(tmp_path: Path) -> None:
     (recipe / "README.md").write_text("# Example\n", encoding="utf-8")
     (recipe / "RIGHTS.md").write_text("# Rights\n", encoding="utf-8")
     (recipe / "provenance.json").write_text(
-        '{"schemaVersion": 1, "recipeId": "example-recipe", '
+        '{"schemaVersion": 1, "releaseId": "v1", '
+        '"recipeId": "example-recipe", '
         '"sources": [{}], "outputs": {"x": {}}, '
         '"distribution": {"baseUrl": '
         '"https://data.genomespy.app/datasets/another-recipe/v1/"}}\n',
+        encoding="utf-8",
+    )
+
+    errors = check_recipe(recipe)
+
+    assert errors == ["example-recipe: invalid distribution baseUrl"]
+
+
+def test_recipe_requires_release_id(tmp_path: Path) -> None:
+    recipe = tmp_path / "example-recipe"
+    recipe.mkdir()
+    (recipe / "README.md").write_text("# Example\n", encoding="utf-8")
+    (recipe / "RIGHTS.md").write_text("# Rights\n", encoding="utf-8")
+    (recipe / "provenance.json").write_text(
+        '{"schemaVersion": 1, "recipeId": "example-recipe", '
+        '"sources": [{}], "outputs": {"x": {}}}\n',
+        encoding="utf-8",
+    )
+
+    errors = check_recipe(recipe)
+
+    assert errors == [
+        "example-recipe: missing provenance key releaseId",
+        "example-recipe: releaseId must match v1, v2, and so on",
+    ]
+
+
+def test_release_id_must_be_version_label(tmp_path: Path) -> None:
+    recipe = tmp_path / "example-recipe"
+    recipe.mkdir()
+    (recipe / "README.md").write_text("# Example\n", encoding="utf-8")
+    (recipe / "RIGHTS.md").write_text("# Rights\n", encoding="utf-8")
+    (recipe / "provenance.json").write_text(
+        '{"schemaVersion": 1, "releaseId": "1", '
+        '"recipeId": "example-recipe", '
+        '"sources": [{}], "outputs": {"x": {}}}\n',
+        encoding="utf-8",
+    )
+
+    errors = check_recipe(recipe)
+
+    assert errors == ["example-recipe: releaseId must match v1, v2, and so on"]
+
+
+def test_distribution_url_must_match_release_id(tmp_path: Path) -> None:
+    recipe = tmp_path / "example-recipe"
+    recipe.mkdir()
+    (recipe / "README.md").write_text("# Example\n", encoding="utf-8")
+    (recipe / "RIGHTS.md").write_text("# Rights\n", encoding="utf-8")
+    (recipe / "provenance.json").write_text(
+        '{"schemaVersion": 1, "releaseId": "v2", '
+        '"recipeId": "example-recipe", '
+        '"sources": [{}], "outputs": {"x": {}}, '
+        '"distribution": {"baseUrl": '
+        '"https://data.genomespy.app/datasets/example-recipe/v1/"}}\n',
         encoding="utf-8",
     )
 

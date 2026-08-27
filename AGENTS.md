@@ -16,6 +16,10 @@ must not contain dataset artifacts.
 - Keep accepted inputs pinned. Record exact source identity, checksums,
   parameters, meaningful tool versions, output fingerprints, validation, and
   limitations in `provenance.json`.
+- Every `provenance.json` has a `releaseId` such as `v1`. Increment it when
+  accepted output bytes, scientific meaning, included samples or fields, or
+  the output file contract changes. Do not increment it for documentation,
+  rights evidence, or refactors that reproduce the accepted outputs exactly.
 - Prefer one obvious preparation entrypoint and readable recipe-local code.
   Add shared abstractions only after repeated need.
 - Python entrypoints use PEP 723 metadata and uv script locks when they have
@@ -29,7 +33,8 @@ must not contain dataset artifacts.
   `RIGHTS.md`. Unresolved or prohibited outputs stay local.
 - Only data that the rights record permits may be placed in GenomeSpy-managed
   storage. Eligible recipes record a proposed `distribution.baseUrl` using
-  `docs/storage-layout.md`. Deployment state is not repository metadata.
+  `docs/storage-layout.md`; its version must match `releaseId`. Deployment
+  state is not repository metadata.
 - Write original scripts, prose, and specs. Do not copy, closely adapt,
   translate, or vendor copyrighted source code into CC0-covered paths. Treat
   LLM output as provenance-uncertain and inspect it for copied material.

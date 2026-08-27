@@ -1,5 +1,6 @@
 {
   "schemaVersion": 1,
+  "releaseId": "v1",
   "recipeId": "encode-atac-grch38",
   "distribution": {
     "baseUrl": "https://data.genomespy.app/datasets/encode-atac-grch38/v1/"

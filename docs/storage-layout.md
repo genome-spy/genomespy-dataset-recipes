@@ -15,6 +15,8 @@ datasets/<recipe-id>/<release-id>/<artifact>
 `<recipe-id>` is the recipe directory name. `<release-id>` starts at `v1` and
 changes when output bytes, scientific meaning, or the file contract changes.
 Published releases are immutable; do not replace files in an existing release.
+The recipe records this value explicitly as top-level `releaseId` in
+`provenance.json`, including for recipes that remain local-only.
 
 Artifact paths preserve their layout relative to the recipe's `output/`
 directory. For example:
@@ -30,14 +32,16 @@ An eligible recipe records its proposed release root in `provenance.json`:
 
 ```json
 {
+  "releaseId": "v1",
   "distribution": {
     "baseUrl": "https://data.genomespy.app/datasets/example-recipe/v1/"
   }
 }
 ```
 
-This is a placement contract, not deployment state. The object store remains
-the source of truth for what is present.
+The final URL segment must match `releaseId`. This is a placement contract, not
+deployment state. The object store remains the source of truth for what is
+present.
 
 ## Release sidecars
 

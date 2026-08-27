@@ -58,9 +58,11 @@ SECRET_PATTERNS = {
 ABSOLUTE_LOCAL_PATH = re.compile(r"(?:/" + r"Users/|/" + r"home/|[A-Za-z]:\\Users\\)")
 MARKDOWN_LINK = re.compile(r"!?\[[^\]]*\]\(([^)]+)\)")
 RECIPE_ID = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
+RELEASE_ID = re.compile(r"^v[1-9][0-9]*$")
 RELEASE_URL = re.compile(
     r"^https://data[.]genomespy[.]app/datasets/"
-    r"(?P<recipe>[a-z0-9]+(?:-[a-z0-9]+)*)/v[1-9][0-9]*/$"
+    r"(?P<recipe>[a-z0-9]+(?:-[a-z0-9]+)*)/"
+    r"(?P<release>v[1-9][0-9]*)/$"
 )
 
 
@@ -161,7 +163,13 @@ def check_recipe(recipe_dir: Path) -> list[str]:
     if not isinstance(provenance, dict):
         return [f"{recipe_dir.name}: provenance root must be an object"]
 
-    required_keys = {"schemaVersion", "recipeId", "sources", "outputs"}
+    required_keys = {
+        "schemaVersion",
+        "releaseId",
+        "recipeId",
+        "sources",
+        "outputs",
+    }
     absent_keys = sorted(required_keys.difference(provenance))
     errors.extend(
         f"{recipe_dir.name}: missing provenance key {key}" for key in absent_keys
@@ -174,6 +182,10 @@ def check_recipe(recipe_dir: Path) -> list[str]:
         errors.append(f"{recipe_dir.name}: recipeId must match the directory name")
     elif not RECIPE_ID.fullmatch(recipe_id):
         errors.append(f"{recipe_dir.name}: recipeId is not lowercase kebab-case")
+
+    release_id = provenance.get("releaseId")
+    if not isinstance(release_id, str) or not RELEASE_ID.fullmatch(release_id):
+        errors.append(f"{recipe_dir.name}: releaseId must match v1, v2, and so on")
 
     sources = provenance.get("sources")
     if not isinstance(sources, list) or not sources:
@@ -190,7 +202,11 @@ def check_recipe(recipe_dir: Path) -> list[str]:
             match = (
                 RELEASE_URL.fullmatch(base_url) if isinstance(base_url, str) else None
             )
-            if match is None or match.group("recipe") != recipe_dir.name:
+            if (
+                match is None
+                or match.group("recipe") != recipe_dir.name
+                or match.group("release") != release_id
+            ):
                 errors.append(f"{recipe_dir.name}: invalid distribution baseUrl")
 
     outputs = provenance.get("outputs")
