@@ -1,0 +1,139 @@
+{
+  "$schema": "https://unpkg.com/@genome-spy/core/dist/schema.json",
+  "title": "Recurrent PIK3CA mutations in TCGA-BRCA",
+  "description": [
+    "Protein-altering mutations observed in at least two distinct tumour samples.",
+    "Mutation calls are open GDC masked somatic MAFs; domains are selected from UniProt P42336."
+  ],
+  "params": [{ "name": "proteinLength", "value": 1068 }],
+  "resolve": { "scale": { "x": "shared" } },
+  "spacing": 4,
+  "vconcat": [
+    {
+      "name": "mutation-lollipops",
+      "height": 220,
+      "data": { "url": "../output/mutations.tsv" },
+      "transform": [
+        {
+          "type": "collect",
+          "sort": { "field": "position", "order": "ascending" }
+        }
+      ],
+      "encoding": {
+        "x": {
+          "field": "position",
+          "type": "index",
+          "scale": { "domain": [1, 1068], "nice": false },
+          "axis": null
+        },
+        "y": {
+          "field": "sampleCount",
+          "type": "quantitative",
+          "scale": { "type": "log", "domainMin": 1, "nice": false },
+          "axis": { "title": "Distinct tumour samples", "grid": false }
+        }
+      },
+      "layer": [
+        {
+          "mark": { "type": "rule", "color": "#777", "tooltip": null },
+          "encoding": { "y2": { "value": 0 } }
+        },
+        {
+          "mark": {
+            "type": "point",
+            "filled": true,
+            "size": 270,
+            "stroke": "white",
+            "strokeWidth": 1.5
+          },
+          "encoding": {
+            "color": {
+              "field": "variantClass",
+              "type": "nominal",
+              "legend": { "title": "Variant class", "orient": "top" }
+            },
+            "tooltip": [
+              { "field": "mutation", "title": "Protein change" },
+              { "field": "position", "title": "Residue" },
+              { "field": "sampleCount", "title": "Distinct tumour samples" },
+              { "field": "variantClass", "title": "Variant class" },
+              {
+                "field": "sourceProteinPosition",
+                "title": "GDC protein position"
+              }
+            ]
+          }
+        },
+        {
+          "mark": {
+            "type": "text",
+            "angle": -55,
+            "dx": 7,
+            "dy": -8,
+            "align": "left",
+            "baseline": "middle",
+            "size": 9,
+            "color": "#333",
+            "tooltip": null
+          },
+          "encoding": { "text": { "field": "mutation" } }
+        },
+        {
+          "mark": {
+            "type": "text",
+            "size": 8,
+            "color": "white",
+            "baseline": "middle",
+            "tooltip": null
+          },
+          "encoding": { "text": { "field": "sampleCount" } }
+        }
+      ]
+    },
+    {
+      "name": "protein-domains",
+      "height": 54,
+      "data": { "url": "../output/domains.tsv" },
+      "encoding": {
+        "x": {
+          "field": "start",
+          "type": "index",
+          "scale": { "domain": [1, 1068], "nice": false },
+          "axis": { "title": "PIK3CA protein position (aa)" }
+        },
+        "x2": { "field": "end" }
+      },
+      "layer": [
+        {
+          "mark": {
+            "type": "rect",
+            "y": 0.2,
+            "y2": 0.8,
+            "cornerRadius": 3
+          },
+          "encoding": {
+            "color": {
+              "field": "label",
+              "type": "nominal",
+              "scale": {
+                "domain": ["ABD", "RBD", "C2", "Helical", "Kinase"],
+                "range": ["#6f5bd3", "#4e79a7", "#59a14f", "#f28e2b", "#e15759"]
+              },
+              "legend": null
+            },
+            "tooltip": [
+              { "field": "description", "title": "Domain" },
+              { "field": "start", "title": "Start" },
+              { "field": "end", "title": "End" },
+              { "value": "UniProt P42336", "title": "Source" }
+            ]
+          }
+        },
+        {
+          "mark": { "type": "text", "color": "white", "tooltip": null },
+          "encoding": { "text": { "field": "label" } }
+        }
+      ]
+    }
+  ]
+}
