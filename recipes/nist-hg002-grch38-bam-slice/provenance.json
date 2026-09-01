@@ -1,9 +1,13 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "releaseId": "v1",
   "recipeId": "nist-hg002-grch38-bam-slice",
   "distribution": {
-    "baseUrl": "https://data.genomespy.app/datasets/nist-hg002-grch38-bam-slice/v1/"
+    "baseUrl": "https://data.genomespy.app/datasets/nist-hg002-grch38-bam-slice/v1/",
+    "artifacts": {
+      "output/alignments.bam": { "fileSizeBytes": 9751151, "sha256": "46692451e815a1464347f65c69dc71c714c2e4388575623109e044edf4838977" },
+      "output/alignments.bam.bai": { "fileSizeBytes": 26032, "sha256": "68b598885504a275718537652098beb0d868f001868b72ace824b4b799fc7cb8" }
+    }
   },
   "sources": [
     {

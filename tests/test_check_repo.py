@@ -1,6 +1,24 @@
+import json
 from pathlib import Path
 
-from tools.check_repo import check_file, check_recipe, check_spec_values
+from tools.check_repo import check_file, check_recipe, check_spec_values, is_cc0_covered
+
+
+def test_cc0_scope_covers_repository_authored_material() -> None:
+    for path in (
+        Path("tools/publish_dataset.py"),
+        Path("tests/test_publish_dataset.py"),
+        Path("docs/publishing.md"),
+        Path("recipes/example/provenance.json"),
+    ):
+        assert is_cc0_covered(path)
+
+    for path in (
+        Path("LICENSES/CC0-1.0.txt"),
+        Path("uv.lock"),
+        Path("recipes/example/scripts/prepare.py.lock"),
+    ):
+        assert not is_cc0_covered(path)
 
 
 def test_rejects_data_in_working_directory(tmp_path: Path) -> None:
@@ -98,7 +116,7 @@ def test_distribution_url_must_match_recipe(tmp_path: Path) -> None:
     (recipe / "README.md").write_text("# Example\n", encoding="utf-8")
     (recipe / "RIGHTS.md").write_text("# Rights\n", encoding="utf-8")
     (recipe / "provenance.json").write_text(
-        '{"schemaVersion": 1, "releaseId": "v1", '
+        '{"schemaVersion": 2, "releaseId": "v1", '
         '"recipeId": "example-recipe", '
         '"sources": [{}], "outputs": {"x": {}}, '
         '"distribution": {"baseUrl": '
@@ -164,3 +182,55 @@ def test_distribution_url_must_match_release_id(tmp_path: Path) -> None:
     errors = check_recipe(recipe)
 
     assert errors == ["example-recipe: invalid distribution baseUrl"]
+
+
+def test_valid_distribution_requires_artifact_manifest(tmp_path: Path) -> None:
+    recipe = tmp_path / "example-recipe"
+    recipe.mkdir()
+    (recipe / "README.md").write_text("# Example\n", encoding="utf-8")
+    (recipe / "RIGHTS.md").write_text("# Rights\n", encoding="utf-8")
+    (recipe / "provenance.json").write_text(
+        '{"schemaVersion": 2, "releaseId": "v1", '
+        '"recipeId": "example-recipe", '
+        '"sources": [{}], "outputs": {"x": {}}, '
+        '"distribution": {"baseUrl": '
+        '"https://data.genomespy.app/datasets/example-recipe/v1/"}}\n',
+        encoding="utf-8",
+    )
+
+    errors = check_recipe(recipe)
+
+    assert errors == [
+        "example-recipe: distribution artifacts must be a non-empty object"
+    ]
+
+
+def test_artifact_manifest_rejects_boolean_size_and_noncanonical_path(
+    tmp_path: Path,
+) -> None:
+    recipe = tmp_path / "example-recipe"
+    recipe.mkdir()
+    (recipe / "README.md").write_text("# Example\n", encoding="utf-8")
+    (recipe / "RIGHTS.md").write_text("# Rights\n", encoding="utf-8")
+    provenance = {
+        "schemaVersion": 2,
+        "releaseId": "v1",
+        "recipeId": "example-recipe",
+        "sources": [{}],
+        "outputs": {"x": {}},
+        "distribution": {
+            "baseUrl": "https://data.genomespy.app/datasets/example-recipe/v1/",
+            "artifacts": {
+                "output/./data.tsv": {
+                    "fileSizeBytes": True,
+                    "sha256": "a" * 64,
+                }
+            },
+        },
+    }
+    (recipe / "provenance.json").write_text(json.dumps(provenance), encoding="utf-8")
+
+    errors = check_recipe(recipe)
+
+    assert "example-recipe: invalid artifact path output/./data.tsv" in errors
+    assert "example-recipe: invalid artifact size for output/./data.tsv" in errors

@@ -53,12 +53,18 @@ files, or output layout. Do not increment it for documentation, rights
 evidence, validation commentary, or an implementation refactor that reproduces
 the accepted outputs exactly.
 
+Schema version 2 adds the explicit `distribution.artifacts` publication
+inventory. Migrating an unchanged accepted output from schema version 1 to 2
+does not increment `releaseId`.
+
 `RIGHTS.md` records the evidence and decision for redistribution. Keep it about
 eligibility and conditions, not whether an object currently exists on S3.
 When hosting is eligible, add the proposed versioned release root as
 `distribution.baseUrl` in provenance, following the
 [hosted data layout](storage-layout.md). Its version segment must equal
-`releaseId`.
+`releaseId`. Add every public artifact to `distribution.artifacts` with its
+path relative to the recipe, byte size, and SHA-256. This is an explicit
+publication allowlist, not deployment state.
 
 ## Scripts and uv
 

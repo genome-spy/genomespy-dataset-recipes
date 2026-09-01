@@ -1,9 +1,36 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "releaseId": "v1",
   "recipeId": "encode-atac-grch38",
   "distribution": {
-    "baseUrl": "https://data.genomespy.app/datasets/encode-atac-grch38/v1/"
+    "baseUrl": "https://data.genomespy.app/datasets/encode-atac-grch38/v1/",
+    "artifacts": {
+      "output/bigwigs/ENCFF357WGX.bigWig": { "fileSizeBytes": 225432007, "sha256": "80909b36898e8676cf79d5170453c254ac63a3bfacb55eec4cb783c4746a525c" },
+      "output/bigwigs/ENCFF169FZJ.bigWig": { "fileSizeBytes": 299751432, "sha256": "b2909e6a03398ded5d3be319dc7a7887c7675050fbcff04f6c079637f9cf40c0" },
+      "output/bigwigs/ENCFF973FOG.bigWig": { "fileSizeBytes": 341051357, "sha256": "6d364aaf4122527f835bf0b5f853ff202fb8013cd708a11b8de1d255ccfd2afa" },
+      "output/bigwigs/ENCFF118ELX.bigWig": { "fileSizeBytes": 263564703, "sha256": "5b166df60a96b05949714f4a5eb2491f81ff08b5ef0096cab20f7aa366719f8f" },
+      "output/bigwigs/ENCFF141PII.bigWig": { "fileSizeBytes": 345896591, "sha256": "d21bccb1270e16fee35f71e5d37afafc969f847eeca3ec40184b0759fd461e0c" },
+      "output/bigwigs/ENCFF272XVS.bigWig": { "fileSizeBytes": 223484991, "sha256": "08f3b27fe1e846a06c620b53001eab0bc5a43f20a78311789553360a104f7c5e" },
+      "output/bigwigs/ENCFF051KGN.bigWig": { "fileSizeBytes": 374574929, "sha256": "7e94b5cc8eb71df9aebf955bb510d601c78bcd6d966a9d4bf045d980b5830de0" },
+      "output/bigwigs/ENCFF330XAW.bigWig": { "fileSizeBytes": 291161084, "sha256": "ee5535fb07d800e6d11b7d6e68f477453aac1aa7c7c3a50237e0214eec228df6" },
+      "output/bigwigs/ENCFF267POF.bigWig": { "fileSizeBytes": 303821833, "sha256": "d3f812cb9137967ed2dbe6e2f2a516bfbbd13a50ae6b2a4452f062713b90011d" },
+      "output/bigwigs/ENCFF446YYW.bigWig": { "fileSizeBytes": 181367155, "sha256": "59cdb2b3cf660ce63d257fc0e9f0e888b3404b0e3709457dc6c71ee751bb0ffa" },
+      "output/bigwigs/ENCFF153AJL.bigWig": { "fileSizeBytes": 241420360, "sha256": "4767277908ec85a64dab67aecb2ddb407ac6c52cd34d13e86eb8908c65bee59a" },
+      "output/bigwigs/ENCFF238EKW.bigWig": { "fileSizeBytes": 393727781, "sha256": "52d37cf9a3a4701a47a4bbd3bef5aa78174b46bc3436a25be9da012cae572afb" },
+      "output/bigwigs/ENCFF136TMW.bigWig": { "fileSizeBytes": 308197900, "sha256": "3924d5231dee15bc7371a011d9d74185f9b3ce2f9f1121adec7b59e40c2debf1" },
+      "output/bigwigs/ENCFF662LEB.bigWig": { "fileSizeBytes": 201750779, "sha256": "f7d1ce7fdc65f476b983f1c40e7c57bd32924ab19537bf3c2783feed0f1bd496" },
+      "output/bigwigs/ENCFF378ZWT.bigWig": { "fileSizeBytes": 249272977, "sha256": "dc74fb36cdea51fdf6fe9159769afd092aafcc4ad93b58dea0d8a2f98a516196" },
+      "output/bigwigs/ENCFF489JZD.bigWig": { "fileSizeBytes": 361769830, "sha256": "2b1c6dad9a7b27ed9ace10bb84ce303ff6468ef9621bd241463ac9b9eb299e3e" },
+      "output/bigwigs/ENCFF974PCQ.bigWig": { "fileSizeBytes": 358670925, "sha256": "9eac686f12e9902db4a85f529efba9bf6a8701f480faa0b7f314e52dc6c9ecc2" },
+      "output/bigwigs/ENCFF597KCZ.bigWig": { "fileSizeBytes": 386630003, "sha256": "d1b6ec94febd98a758d38faf4e06fd34fe7a819dfa4891a7b66068e89804db56" },
+      "output/bigwigs/ENCFF285WBJ.bigWig": { "fileSizeBytes": 199127121, "sha256": "29c8c94486c0903719e541aecbb0af0c2380b4f582f8d7ed121e9f9163e4a1c5" },
+      "output/bigwigs/ENCFF263RLI.bigWig": { "fileSizeBytes": 193789335, "sha256": "cc7616b9e45dc94a499dff64e5f9c7d300985091dbbb47bf20e95f797946a5d2" },
+      "output/bigwigs/ENCFF810REO.bigWig": { "fileSizeBytes": 220509930, "sha256": "dfbb2078f0caee1f716a698f72bf780130ec3a675a1dd509cf3a099cbb41fdd4" },
+      "output/bigwigs/ENCFF035PEB.bigWig": { "fileSizeBytes": 346988948, "sha256": "7147d63636c561b81a9d413db1fad2dc0efbd9911bc5f20ce1cba8a2f94db276" },
+      "output/bigwigs/ENCFF410OCC.bigWig": { "fileSizeBytes": 270152406, "sha256": "e0ac68bc692eecb744700db27c28f2cadc3788296fc49f5683925d16ec9d9901" },
+      "output/bigwigs/ENCFF543GHR.bigWig": { "fileSizeBytes": 382242674, "sha256": "9af999fe4c3f3d964f9d484ce372b5c3f5814a390c63c9c27a88325200c38af0" },
+      "output/samples.tsv": { "fileSizeBytes": 4129, "sha256": "3540a759c0150c243850de949faa75dc713f14db5d5c81ab3c7ab612a92bf3a5" }
+    }
   },
   "sources": [
     {

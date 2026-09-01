@@ -1,9 +1,39 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "releaseId": "v1",
   "recipeId": "ascat-simulated-tumors-hg19",
   "distribution": {
-    "baseUrl": "https://data.genomespy.app/datasets/ascat-simulated-tumors-hg19/v1/"
+    "baseUrl": "https://data.genomespy.app/datasets/ascat-simulated-tumors-hg19/v1/",
+    "artifacts": {
+      "output/fits.tsv.gz": { "fileSizeBytes": 284, "sha256": "c0b5e104ae6d2536b8645c1fba5ff72054cf58bf4f7f3287c06f76476eecc3e0" },
+      "output/samples/S17/segments.tsv.gz": { "fileSizeBytes": 1108, "sha256": "25f5f77b45af47df4e989c1f85562ba2e2fc77008373c2ec6ca4bf977bc5f361" },
+      "output/samples/S17/fit-segments.tsv.gz": { "fileSizeBytes": 1783, "sha256": "e7b890ef54805e9b011cfbf2c14ceba9eaf80d478c36c9843a6c1b4a39128c94" },
+      "output/samples/S17/raw.tsv.gz": { "fileSizeBytes": 116044, "sha256": "c8bbeea42fb651a107d1686f973810be34900adbecd65719235363d84dca31f8" },
+      "output/samples/S36/segments.tsv.gz": { "fileSizeBytes": 740, "sha256": "11f1204e708ab8baab56ad7d2d6c1be90e67dabc472ca36d2e9ab2014bb8c73f" },
+      "output/samples/S36/fit-segments.tsv.gz": { "fileSizeBytes": 1101, "sha256": "6ddd960bfc789a452136134918b556045327c289b1ce7de7ffb688eeac4673ef" },
+      "output/samples/S36/raw.tsv.gz": { "fileSizeBytes": 115386, "sha256": "5590049399a44a72ba06b32557452416e9b7f7d7691544d48a7835454c804a00" },
+      "output/samples/S54/segments.tsv.gz": { "fileSizeBytes": 496, "sha256": "224726551d1b0a0b6704c88d4fdadf4c868111e380cbcc4090ad23d61a6c4b1c" },
+      "output/samples/S54/fit-segments.tsv.gz": { "fileSizeBytes": 1033, "sha256": "747d4662d7d690d82fbb0d940950a2dc9f2d24467c083beb37f9552c12505b3c" },
+      "output/samples/S54/raw.tsv.gz": { "fileSizeBytes": 115272, "sha256": "5d4e51ee5b671f573dff2ba7788fceaa0e3840796ef3871f02678d09be86afe6" },
+      "output/samples/S64/segments.tsv.gz": { "fileSizeBytes": 615, "sha256": "5728a87201df2b7c398f8259e3417b0291d50e6610702bf2cbc95d16c9e991e3" },
+      "output/samples/S64/fit-segments.tsv.gz": { "fileSizeBytes": 1074, "sha256": "9f262e2d714d08d96bcf15bed0bc8b856c3593e766e7fd016f157e0e70acf850" },
+      "output/samples/S64/raw.tsv.gz": { "fileSizeBytes": 115417, "sha256": "c34feca3dc7cdaf6927ee6258d97f749d3e05c084012b92c56337ac745d44803" },
+      "output/samples/S77/segments.tsv.gz": { "fileSizeBytes": 892, "sha256": "00503fced7b6b57d5f57712783bf04eb67efd44321455ef97559b912ab120e36" },
+      "output/samples/S77/fit-segments.tsv.gz": { "fileSizeBytes": 1465, "sha256": "d5e7b41e32cc1b413b32f35678412442a4428bc68de13b5ce8c4b4764c4339dd" },
+      "output/samples/S77/raw.tsv.gz": { "fileSizeBytes": 115677, "sha256": "563b764670a376a3797239d63afa17891ef6d5801ecdfbc741372356eb90d1e3" },
+      "output/samples/S84/segments.tsv.gz": { "fileSizeBytes": 556, "sha256": "684c6028949fe503e9c5f41e9375ea0aeb1cf55896cd55128dba171effc6eac9" },
+      "output/samples/S84/fit-segments.tsv.gz": { "fileSizeBytes": 872, "sha256": "707f23368058a84bec52e58e748e9a833444e3bcedb945bf69c877c819aaccaf" },
+      "output/samples/S84/raw.tsv.gz": { "fileSizeBytes": 115095, "sha256": "a40295695d34d660032d4c836523c1b4dfd7bc97cab1675a5493d2451f821fd8" },
+      "output/samples/S96/segments.tsv.gz": { "fileSizeBytes": 1658, "sha256": "459faba243bfce6137df688f338714ecd447e3f72b1952f794df3eed834b0aa1" },
+      "output/samples/S96/fit-segments.tsv.gz": { "fileSizeBytes": 2487, "sha256": "f9e8360b5351ba113d8dcc4b9f844638a110bfe21a76e507fe9fb81a4db7e9f8" },
+      "output/samples/S96/raw.tsv.gz": { "fileSizeBytes": 115790, "sha256": "920dd836d2c207241e6a45c7cc2b6e31bd0811803ad65bbdf8aafeb67b180293" },
+      "output/samples/S97/segments.tsv.gz": { "fileSizeBytes": 1112, "sha256": "b5d905e1e98d8ec879aff7581a58e208a85dd471e4518a2ab424ae661d52206c" },
+      "output/samples/S97/fit-segments.tsv.gz": { "fileSizeBytes": 1807, "sha256": "354cff068973d544b30f9bfd385336c87b831703953a3eaaeb36e37e432cbe03" },
+      "output/samples/S97/raw.tsv.gz": { "fileSizeBytes": 115629, "sha256": "1e4b567ac7a81b3b9aa9071cae1d5cedce6c0589e17db11764f8ce3c7bd206c3" },
+      "output/samples/S100/segments.tsv.gz": { "fileSizeBytes": 1717, "sha256": "26f5e4206884c34aa9cc77b6d61f8de8f20b4c31667cbeafe2a40b68aec22a20" },
+      "output/samples/S100/fit-segments.tsv.gz": { "fileSizeBytes": 2706, "sha256": "dc6f7a84fb7bdbbaeeb5d6988d6393188ef04bdad11449c3797a70f5bd001582" },
+      "output/samples/S100/raw.tsv.gz": { "fileSizeBytes": 114928, "sha256": "0bc32d083d70afb8c851f6edfbe9c1717769dc43d154934b0ca64b243cec1e26" }
+    }
   },
   "sources": [
     {

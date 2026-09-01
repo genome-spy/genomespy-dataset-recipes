@@ -508,11 +508,28 @@ def write_provenance(
 ) -> None:
     """Write compact accepted-run provenance without local paths or data rows."""
 
+    output_records = {
+        name: {
+            "path": "output/" + file.name,
+            "fileSizeBytes": file.stat().st_size,
+            "sha256": file_hash(file),
+            "recordCount": output_rows[name],
+        }
+        for name, file in outputs.items()
+    }
+    distribution = dict(distribution_record)
+    distribution["artifacts"] = {
+        record["path"]: {
+            "fileSizeBytes": record["fileSizeBytes"],
+            "sha256": record["sha256"],
+        }
+        for record in output_records.values()
+    }
     provenance = {
-        "schemaVersion": 1,
+        "schemaVersion": 2,
         "releaseId": release_id,
         "recipeId": RECIPE_ID,
-        "distribution": dict(distribution_record),
+        "distribution": distribution,
         "sources": [dict(source_record)],
         "tools": {"python": platform.python_version()},
         "transformations": {
@@ -532,15 +549,7 @@ def write_provenance(
                 "coordinates, IDs, and scores."
             ),
         },
-        "outputs": {
-            name: {
-                "path": "output/" + file.name,
-                "fileSizeBytes": file.stat().st_size,
-                "sha256": file_hash(file),
-                "recordCount": output_rows[name],
-            }
-            for name, file in outputs.items()
-        },
+        "outputs": output_records,
         "validation": {
             "exactDuplicateRowsRemoved": stats["exactDuplicateRowsRemoved"],
             "halfBaseElementMidpoints": stats["halfBaseElementMidpoints"],

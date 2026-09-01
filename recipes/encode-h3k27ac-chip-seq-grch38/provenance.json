@@ -1,9 +1,32 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "releaseId": "v1",
   "recipeId": "encode-h3k27ac-chip-seq-grch38",
   "distribution": {
-    "baseUrl": "https://data.genomespy.app/datasets/encode-h3k27ac-chip-seq-grch38/v1/"
+    "baseUrl": "https://data.genomespy.app/datasets/encode-h3k27ac-chip-seq-grch38/v1/",
+    "artifacts": {
+      "output/bigwigs/ENCFF177JXC.bigWig": { "fileSizeBytes": 298681736, "sha256": "21fd768135589435f333d8456640745752538c27514c016eec72d755f7fe242e" },
+      "output/bigwigs/ENCFF759SNY.bigWig": { "fileSizeBytes": 237516139, "sha256": "ff01eb1be2557200b4d8e7c635c506071b44814c9e61e75e448a48fbff9cdac1" },
+      "output/bigwigs/ENCFF289IVJ.bigWig": { "fileSizeBytes": 181518606, "sha256": "41a63cced8f10661134c17f7a8e5d7f2d5ef670bbda3791af180afaf3209d801" },
+      "output/bigwigs/ENCFF779QTH.bigWig": { "fileSizeBytes": 236381149, "sha256": "1105fbe6b7e9546b16cfb8853474d7a2fcce1adda5cc9df76cfd675ac9709ff3" },
+      "output/bigwigs/ENCFF945XHA.bigWig": { "fileSizeBytes": 90624866, "sha256": "4f223ff1f9db0fd582326a14ca9e42450e56d01f9015b70b82bce21dbdaa1f27" },
+      "output/bigwigs/ENCFF008LRL.bigWig": { "fileSizeBytes": 461828670, "sha256": "13fecf8b739b36af9eede9ed4b02cb5a98713b0d46dd8b916cb9e440b99ff395" },
+      "output/bigwigs/ENCFF340JIF.bigWig": { "fileSizeBytes": 180182454, "sha256": "cccf0fabf0f97cae7c363cd83ae424651bdca53463a9782175583db5918a66fc" },
+      "output/bigwigs/ENCFF218QBO.bigWig": { "fileSizeBytes": 108756948, "sha256": "a967c1f45dba090a3a116fc2f7731248c3cdbeda20547dc0c0692053ae1461b2" },
+      "output/bigwigs/ENCFF814HWX.bigWig": { "fileSizeBytes": 176000067, "sha256": "db6108919efcd448332712579d0e971c8d2c3a17471992f8f36b79dc6b400c78" },
+      "output/bigwigs/ENCFF336PQW.bigWig": { "fileSizeBytes": 185337430, "sha256": "cd3c6d470b473b1758ef14296b755118bd718d6e1c9ca15674c640fdc499f7da" },
+      "output/bigwigs/ENCFF977KGH.bigWig": { "fileSizeBytes": 298681736, "sha256": "21fd768135589435f333d8456640745752538c27514c016eec72d755f7fe242e" },
+      "output/bigwigs/ENCFF458CRP.bigWig": { "fileSizeBytes": 115958836, "sha256": "f60b35a7cea6367736ea32deda236bee035bfa62ce85d159b682c8750fff3b19" },
+      "output/bigwigs/ENCFF745TSK.bigWig": { "fileSizeBytes": 181518606, "sha256": "41a63cced8f10661134c17f7a8e5d7f2d5ef670bbda3791af180afaf3209d801" },
+      "output/bigwigs/ENCFF955PAU.bigWig": { "fileSizeBytes": 276274146, "sha256": "7ac94c951dff35a9bdd52d40a018b52e98f2538d3a54e5f36c7d721125c17644" },
+      "output/bigwigs/ENCFF059GZB.bigWig": { "fileSizeBytes": 165607561, "sha256": "9b4774b3c8d4eed0cf5e9739ff1a6c0a89a316edc9da666c2e5fd28b6fdb6c02" },
+      "output/bigwigs/ENCFF764VYK.bigWig": { "fileSizeBytes": 407472033, "sha256": "86739c4646af05606b516ddb96e89ea439625243c8387139aa82434c650f2274" },
+      "output/bigwigs/ENCFF883MRR.bigWig": { "fileSizeBytes": 539398541, "sha256": "3c2127f05544001dfe6dac8ec3f351c15fc12acca51a494c81807c371afaf327" },
+      "output/bigwigs/ENCFF748SAC.bigWig": { "fileSizeBytes": 513017789, "sha256": "3f79d92b5d6097f2db38f12dbe148d9b5421ec4faec81e750123e98d3e3db9ba" },
+      "output/bigwigs/ENCFF656TFQ.bigWig": { "fileSizeBytes": 251502295, "sha256": "77e457fcd83ffd1623cde710a7216ad185a21120e9c614897807fc851d14aac0" },
+      "output/bigwigs/ENCFF671QJO.bigWig": { "fileSizeBytes": 263777436, "sha256": "d6fed6516178053e9ca06b6201907ce85a7ff962fa2ed2f69555cd093be55bb1" },
+      "output/samples.tsv": { "fileSizeBytes": 3495, "sha256": "bed6ad10ca4e8e1eacae50b7c619603576ea8e4c8f2b5fa025102446b1e83c2b" }
+    }
   },
   "sources": [
     {

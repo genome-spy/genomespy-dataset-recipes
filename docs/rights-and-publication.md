@@ -55,6 +55,12 @@ For a release:
 - update requested public GenomeSpy specs only after the hosted files work.
 
 Do not store deployment state in recipe records. The object store is the source
-of truth. Future synchronization tooling can compare S3 objects with the paths
-and checksums in `provenance.json` and its proposed `distribution.baseUrl`,
-transfer missing or mismatched artifacts, and verify them.
+of truth. Synchronization tooling compares S3 objects with the paths and
+checksums in `provenance.json` and its proposed `distribution.baseUrl`, uploads
+missing artifacts, and verifies them. A mismatched immutable object is an error:
+do not replace it; publish corrected bytes under a new `releaseId`.
+
+Use the [repository publishing tool](publishing.md) for explicit, manual
+publication. Its read-only `status` action can inventory all eligible recipes,
+but publication still requires recipe IDs named by the caller and uploads only
+objects listed in `distribution.artifacts`.

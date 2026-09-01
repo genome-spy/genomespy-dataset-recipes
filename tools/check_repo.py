@@ -8,7 +8,7 @@ import json
 import re
 import subprocess
 from collections.abc import Iterable
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 from typing import Any
 from urllib.parse import unquote
 
@@ -57,8 +57,10 @@ SECRET_PATTERNS = {
 }
 ABSOLUTE_LOCAL_PATH = re.compile(r"(?:/" + r"Users/|/" + r"home/|[A-Za-z]:\\Users\\)")
 MARKDOWN_LINK = re.compile(r"!?\[[^\]]*\]\(([^)]+)\)")
+SPDX_IDENTIFIER = re.compile(r"SPDX-License-" r"Identifier:\s*([^\s]+)")
 RECIPE_ID = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 RELEASE_ID = re.compile(r"^v[1-9][0-9]*$")
+SHA256 = re.compile(r"^[0-9a-f]{64}$")
 RELEASE_URL = re.compile(
     r"^https://data[.]genomespy[.]app/datasets/"
     r"(?P<recipe>[a-z0-9]+(?:-[a-z0-9]+)*)/"
@@ -82,12 +84,9 @@ def repository_files(root: Path = ROOT) -> list[Path]:
 def is_cc0_covered(relative: Path) -> bool:
     """Return whether the path is within the repository's CC0 scope."""
 
-    if relative.name == "README.md":
-        return True
-    parts = relative.parts
-    return (
-        len(parts) >= 4 and parts[0] == "recipes" and parts[2] in {"scripts", "specs"}
-    )
+    if relative.parts and relative.parts[0] == "LICENSES":
+        return False
+    return relative.name != "uv.lock" and relative.suffix != ".lock"
 
 
 def check_file(root: Path, file: Path) -> list[str]:
@@ -117,7 +116,7 @@ def check_file(root: Path, file: Path) -> list[str]:
         errors.append(f"absolute local path in {relative}")
 
     if is_cc0_covered(relative):
-        identifiers = re.findall(r"SPDX-License-Identifier:\s*([^\s]+)", text)
+        identifiers = SPDX_IDENTIFIER.findall(text)
         if any(identifier != "CC0-1.0" for identifier in identifiers):
             errors.append(f"non-CC0 SPDX marker in CC0-covered file: {relative}")
 
@@ -176,7 +175,8 @@ def check_recipe(recipe_dir: Path) -> list[str]:
     )
 
     recipe_id = provenance.get("recipeId")
-    if provenance.get("schemaVersion") != 1:
+    schema_version = provenance.get("schemaVersion")
+    if schema_version not in {1, 2}:
         errors.append(f"{recipe_dir.name}: unsupported provenance schemaVersion")
     if recipe_id != recipe_dir.name or not isinstance(recipe_id, str):
         errors.append(f"{recipe_dir.name}: recipeId must match the directory name")
@@ -208,6 +208,52 @@ def check_recipe(recipe_dir: Path) -> list[str]:
                 or match.group("release") != release_id
             ):
                 errors.append(f"{recipe_dir.name}: invalid distribution baseUrl")
+            elif schema_version == 2:
+                artifacts = distribution.get("artifacts")
+                if not isinstance(artifacts, dict) or not artifacts:
+                    errors.append(
+                        f"{recipe_dir.name}: distribution artifacts must be "
+                        "a non-empty object"
+                    )
+                else:
+                    for artifact_path, identity in artifacts.items():
+                        if not isinstance(artifact_path, str):
+                            errors.append(
+                                f"{recipe_dir.name}: artifact paths must be strings"
+                            )
+                            continue
+                        manifest_path = PurePosixPath(artifact_path)
+                        if (
+                            manifest_path.as_posix() != artifact_path
+                            or manifest_path.is_absolute()
+                            or len(manifest_path.parts) < 2
+                            or manifest_path.parts[0] != "output"
+                            or any(
+                                part in {"", ".", ".."} for part in manifest_path.parts
+                            )
+                        ):
+                            errors.append(
+                                f"{recipe_dir.name}: invalid artifact path "
+                                f"{artifact_path}"
+                            )
+                        if not isinstance(identity, dict):
+                            errors.append(
+                                f"{recipe_dir.name}: artifact identities must be "
+                                "objects"
+                            )
+                            continue
+                        size = identity.get("fileSizeBytes")
+                        sha256 = identity.get("sha256")
+                        if type(size) is not int or size < 0:
+                            errors.append(
+                                f"{recipe_dir.name}: invalid artifact size for "
+                                f"{artifact_path}"
+                            )
+                        if not isinstance(sha256, str) or not SHA256.fullmatch(sha256):
+                            errors.append(
+                                f"{recipe_dir.name}: invalid artifact SHA-256 for "
+                                f"{artifact_path}"
+                            )
 
     outputs = provenance.get("outputs")
     if not isinstance(outputs, dict) or not outputs:

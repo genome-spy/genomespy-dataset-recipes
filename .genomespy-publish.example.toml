@@ -1,0 +1,9 @@
+# Copy this file to .genomespy-publish.toml and adjust the local values.
+# This file identifies infrastructure only. Never put AWS credentials here.
+default_target = "production"
+
+[targets.production]
+bucket = "genome-spy"
+profile = "genomespy-publisher"
+region = "eu-north-1"
+expected_bucket_owner = "123456789012" # Replace with the bucket owner's account ID.

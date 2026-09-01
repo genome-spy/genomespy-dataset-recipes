@@ -32,16 +32,24 @@ An eligible recipe records its proposed release root in `provenance.json`:
 
 ```json
 {
+  "schemaVersion": 2,
   "releaseId": "v1",
   "distribution": {
-    "baseUrl": "https://data.genomespy.app/datasets/example-recipe/v1/"
+    "baseUrl": "https://data.genomespy.app/datasets/example-recipe/v1/",
+    "artifacts": {
+      "output/example.tsv": {
+        "fileSizeBytes": 1234,
+        "sha256": "replace-with-64-lowercase-hex-digits"
+      }
+    }
   }
 }
 ```
 
 The final URL segment must match `releaseId`. This is a placement contract, not
 deployment state. The object store remains the source of truth for what is
-present.
+present. `distribution.artifacts` is the exact publication allowlist; ignored
+files under `output/` that are absent from it are never published.
 
 ## Release sidecars
 

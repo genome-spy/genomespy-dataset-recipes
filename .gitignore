@@ -2,6 +2,7 @@
 /.mypy_cache/
 /.pytest_cache/
 /.ruff_cache/
+/.genomespy-publish.toml
 **/__pycache__/
 *.py[cod]
 .DS_Store

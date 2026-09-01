@@ -1,9 +1,13 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "releaseId": "v1",
   "recipeId": "hcc1954-castle-severus-wakhan",
   "distribution": {
-    "baseUrl": "https://data.genomespy.app/datasets/hcc1954-castle-severus-wakhan/v1/"
+    "baseUrl": "https://data.genomespy.app/datasets/hcc1954-castle-severus-wakhan/v1/",
+    "artifacts": {
+      "output/severus-somatic.vcf": { "fileSizeBytes": 627579, "sha256": "54d28a1b6d78fbb39a75b7886336c244c00594901793046f2a1b77e30ec219b5" },
+      "output/copy-numbers.tsv": { "fileSizeBytes": 188368, "sha256": "3791c672d1dd18320560a04933068d23fd521e294caa805b590d12d6a11ce7c4" }
+    }
   },
   "sources": [
     {

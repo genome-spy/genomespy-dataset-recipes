@@ -1,9 +1,13 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "releaseId": "v1",
   "recipeId": "tcga-ov-firehose-gistic2",
   "distribution": {
-    "baseUrl": "https://data.genomespy.app/datasets/tcga-ov-firehose-gistic2/v1/"
+    "baseUrl": "https://data.genomespy.app/datasets/tcga-ov-firehose-gistic2/v1/",
+    "artifacts": {
+      "output/scores.gistic": { "fileSizeBytes": 5570830, "sha256": "0d51c1872d0c905382336a2e5ca443ab533cd3a046bec06ee23c295b88da2bbe" },
+      "output/all_lesions.conf_99.txt": { "fileSizeBytes": 501549, "sha256": "7034bb673aae21c89bc06241d70d77a450eda415afe3e60fd101e7116ad7d121" }
+    }
   },
   "sources": [
     {

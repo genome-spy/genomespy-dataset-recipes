@@ -1,9 +1,14 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "releaseId": "v1",
   "recipeId": "encode-k562-re2g",
   "distribution": {
-    "baseUrl": "https://data.genomespy.app/datasets/encode-k562-re2g/v1/"
+    "baseUrl": "https://data.genomespy.app/datasets/encode-k562-re2g/v1/",
+    "artifacts": {
+      "output/regulatory-element-gene-links.tsv.gz": { "fileSizeBytes": 2880846, "sha256": "2c6ed0e8c5377ef51d85dbd4823e75683bc4a8cf29e516777b291e8f373d3f0b" },
+      "output/candidate-regulatory-elements.tsv.gz": { "fileSizeBytes": 969401, "sha256": "c0aee0f1a99f823ac399a81f4ccbb7ab3add5b750854beaf0e740093a03941d7" },
+      "output/target-gene-tss.tsv.gz": { "fileSizeBytes": 185619, "sha256": "da697552619b80ae035df9b5fa0fcd8c4d96570f2bf5088b6453f0fe4bcc3ba3" }
+    }
   },
   "sources": [
     {
