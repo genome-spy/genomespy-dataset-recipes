@@ -40,7 +40,62 @@ make iteration ergonomic:
 
 Start with [the recipe guide](docs/recipe-guide.md). Data intended for public
 hosting must also pass [the rights protocol](docs/rights-and-publication.md)
-and follow the [hosted data layout](docs/storage-layout.md).
+and follow the [hosted data layout](docs/storage-layout.md). Rights-cleared
+outputs can be uploaded manually with the explicit, manifest-driven
+[publishing tool](docs/publishing.md).
+
+## AWS publishing quick start
+
+Use a named, non-root AWS profile with temporary credentials and permissions
+limited to listing the target bucket and reading and writing `datasets/*`.
+Credentials and profile configuration belong under `~/.aws/`, never in this
+repository. Authenticate using the configured IAM Identity Center profile:
+
+```bash
+aws sso login --profile genomespy-publisher
+aws sts get-caller-identity --profile genomespy-publisher
+```
+
+Do not publish if the reported ARN ends in `:root`; see the
+[AWS root-user best practices](https://docs.aws.amazon.com/IAM/latest/UserGuide/root-user-best-practices.html).
+The publishing identity does not need `s3:DeleteObject`.
+
+The managed dataset bucket is `genome-spy` in `eu-north-1`.
+
+Copy the target template to the ignored local configuration file:
+
+```bash
+cp .genomespy-publish.example.toml .genomespy-publish.toml
+```
+
+The template records the production bucket, region, AWS profile, and expected
+owner. It contains no credentials. Explicit command-line options still
+override the selected target.
+
+The smallest hosting-eligible release is
+`tcga-brca-gdc-pik3ca-mutations`: two data artifacts totaling 1,260 bytes.
+First verify its ignored local outputs and inspect the hosted state:
+
+```bash
+uv run --script \
+  recipes/tcga-brca-gdc-pik3ca-mutations/scripts/prepare.py --verify-only
+
+./tools/publish_dataset.py status tcga-brca-gdc-pik3ca-mutations
+```
+
+`status` is read-only and works without committed recipe changes. Before
+`plan`, `publish`, or `verify`, commit the complete intended recipe change
+yourself; the tool never creates commits. Preview the exact operation without
+writing, then upload and verify:
+
+```bash
+./tools/publish_dataset.py plan tcga-brca-gdc-pik3ca-mutations
+./tools/publish_dataset.py publish tcga-brca-gdc-pik3ca-mutations
+./tools/publish_dataset.py verify tcga-brca-gdc-pik3ca-mutations
+```
+
+See the [full publishing guide](docs/publishing.md) for target configuration,
+manifest, immutability, symlink, and public-verification details.
 
 ## Repository checks
 
