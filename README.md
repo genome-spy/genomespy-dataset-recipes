@@ -128,6 +128,7 @@ The repository includes [agent instructions](AGENTS.md) and a focused
 
 ## License
 
-Repository-authored wrangling scripts, files named `README.md`, and recipe specs
-are dedicated under [CC0 1.0 Universal](LICENSES/CC0-1.0.txt). Data and other
-files are not. See [LICENSE-SCOPE.md](LICENSE-SCOPE.md).
+All original repository-authored material—including wrangling scripts,
+publishing tools, tests, documentation, and specs—is dedicated under
+[CC0 1.0 Universal](LICENSES/CC0-1.0.txt). This dedication never licenses
+datasets or third-party material. See [LICENSE-SCOPE.md](LICENSE-SCOPE.md).

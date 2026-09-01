@@ -12,7 +12,8 @@ Before handoff:
 5. Run the checks listed in the root README.
 6. State unresolved source, coordinate, validation, or rights questions.
 
-CC0-covered contributions must be original or otherwise under the contributor's
-control; do not copy or closely adapt third-party source text. See
-[LICENSE-SCOPE.md](LICENSE-SCOPE.md) and the
+Contributions are accepted under the repository's CC0 dedication to the extent
+that contributors control the relevant rights. Contributions must be original
+or otherwise under the contributor's control; do not copy or closely adapt
+third-party source text. See [LICENSE-SCOPE.md](LICENSE-SCOPE.md) and the
 [rights protocol](docs/rights-and-publication.md).

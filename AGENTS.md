@@ -38,8 +38,9 @@ must not contain dataset artifacts.
 - Write original scripts, prose, and specs. Do not copy, closely adapt,
   translate, or vendor copyrighted source code into CC0-covered paths. Treat
   LLM output as provenance-uncertain and inspect it for copied material.
-- CC0 covers only repository-authored wrangling scripts, files named
-  `README.md`, and recipe specs. It never covers data.
+- CC0 covers all original repository-authored material, including wrangling
+  scripts, tooling, tests, documentation, specs, and authored metadata. It
+  never covers datasets or third-party material.
 
 ## Scope and handoff
 
