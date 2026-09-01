@@ -1,9 +1,13 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "releaseId": "v1",
   "recipeId": "tcga-brca-gdc-pik3ca-mutations",
   "distribution": {
-    "baseUrl": "https://data.genomespy.app/datasets/tcga-brca-gdc-pik3ca-mutations/v1/"
+    "baseUrl": "https://data.genomespy.app/datasets/tcga-brca-gdc-pik3ca-mutations/v1/",
+    "artifacts": {
+      "output/mutations.tsv": { "fileSizeBytes": 1103, "sha256": "0e7e6ff704032d619639b02e4164ac8a04d9854383049f0b0875791d5837d899" },
+      "output/domains.tsv": { "fileSizeBytes": 157, "sha256": "05b74664b64a7a04034bfb00bbd958db423dbba14c6b834ec448ea7a9b217f33" }
+    }
   },
   "sources": [
     {
