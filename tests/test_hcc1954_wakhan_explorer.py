@@ -1,0 +1,74 @@
+"""Sample applicability is required even when another VCF sample has the SV."""
+
+import importlib.util
+from pathlib import Path
+
+import pytest
+
+SCRIPT = (
+    Path(__file__).resolve().parents[1]
+    / "recipes/hcc1954-wakhan-explorer/scripts/prepare.py"
+)
+spec = importlib.util.spec_from_file_location("wakhan_explorer", SCRIPT)
+assert spec and spec.loader
+recipe = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(recipe)
+
+
+@pytest.mark.parametrize("gt", ["./.", ".|.", ".", "0/0", "0|0", "0", "./1", "1/."])
+def test_uncalled_and_reference_genotypes_are_not_variants(gt: str) -> None:
+    assert not recipe.has_alt(gt)
+
+
+@pytest.mark.parametrize("gt", ["0/1", "1|0", "1/1", "2", "0/2", "0/0/1"])
+def test_called_alternate_genotypes_are_variants(gt: str) -> None:
+    assert recipe.has_alt(gt)
+
+
+def test_multisample_vcf_uses_target_column(tmp_path: Path) -> None:
+    path = tmp_path / "samples.vcf"
+    path.write_text(
+        "##fileformat=VCFv4.2\n##contig=<ID=chr8,length=145138636>\n"
+        "#CHROM\tPOS\tID\tREF\tALT\tQUAL\tFILTER\tINFO\tFORMAT\tother\twakhan_haplotagged\n"
+        "chr8\t100\tother_only\tN\t<DEL>\t.\tPASS\tSVTYPE=DEL;END=200\tGT:DV\t0/1:20\t./.:0\n"
+        "chr8\t300\treference\tN\t<DEL>\t.\tPASS\tSVTYPE=DEL;END=400\tGT:DV\t0/1:20\t0/0:0\n"
+        "chr8\t500\tapplicable\tN\t<DEL>\t.\tPASS\tSVTYPE=DEL;END=600\tGT:DV\t0/0:0\t0/1:17\n"
+        "chr8\t700\tfailed\tN\t<DEL>\t.\tFAIL\tSVTYPE=DEL;END=800\tGT:DV\t0/1:20\t0/1:2\n"
+    )
+    links, sites, _, counts = recipe.variants(path)
+    assert not sites
+    assert [r["variantId"] for r in links] == ["applicable"]
+    assert links[0]["variantReads"] == "17"
+    assert (links[0]["start1"], links[0]["position1"]) == (499, 500)
+    assert counts == {
+        "sourceRecords": 4,
+        "excludedGenotype": 2,
+        "excludedFilter": 1,
+        "retainedRecords": 1,
+    }
+
+
+def test_target_sample_cannot_be_inferred_from_another_column(tmp_path: Path) -> None:
+    path = tmp_path / "wrong-sample.vcf"
+    path.write_text("#CHROM\tPOS\tID\tREF\tALT\tQUAL\tFILTER\tINFO\tFORMAT\tother\n")
+    with pytest.raises(AssertionError, match="Target sample is missing"):
+        recipe.variants(path)
+
+
+@pytest.mark.parametrize("mate_gt", ["0/1", "./."])
+def test_bnd_pair_requires_two_applicable_mates(tmp_path: Path, mate_gt: str) -> None:
+    path = tmp_path / "paired.vcf"
+    path.write_text(
+        "##contig=<ID=chr8,length=145138636>\n"
+        "#CHROM\tPOS\tID\tREF\tALT\tQUAL\tFILTER\tINFO\tFORMAT\twakhan_haplotagged\n"
+        "chr8\t100\ta\tN\tN[chr8:200[\t.\tPASS\tSVTYPE=BND;MATE_ID=b\tGT\t0/1\n"
+        f"chr8\t200\tb\tN\t]chr8:100]N\t.\tPASS\tSVTYPE=BND;MATE_ID=a\tGT\t{mate_gt}\n"
+    )
+    if mate_gt == "./.":
+        with pytest.raises(AssertionError, match="Missing or filtered BND mate"):
+            recipe.variants(path)
+    else:
+        links, sites, _, _ = recipe.variants(path)
+        assert not sites and len(links) == 1
+        assert (links[0]["variantId"], links[0]["mateId"]) == ("a", "b")
+        assert (links[0]["position1"], links[0]["position2"]) == (100, 200)
