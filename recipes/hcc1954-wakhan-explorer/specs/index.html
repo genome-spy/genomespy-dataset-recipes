@@ -87,8 +87,31 @@
             border-color: #3b788f;
             background: #edf5f8;
         }
-        .hint {
+        #display-controls {
             margin-left: auto;
+        }
+        #display-controls .gs-input-binding {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            padding: 5px 11px;
+            border: 1px solid #ccd7dd;
+            border-radius: 4px;
+            background: white;
+            color: #3b5767;
+            font-size: 12px;
+        }
+        #display-controls label {
+            cursor: pointer;
+        }
+        #display-controls input {
+            order: -1;
+            margin: 0;
+            accent-color: #487d91;
+            cursor: pointer;
+        }
+        .hint {
+            flex-basis: 100%;
             font-size: 11px;
             color: #74858f;
         }
@@ -127,9 +150,6 @@
             footer {
                 grid-template-columns: 1fr;
             }
-            .hint {
-                margin-left: 0;
-            }
         }
     </style>
     <main>
@@ -163,6 +183,7 @@
             ><button data-locus="myc">MYC neighbourhood</button
             ><button data-locus="erbb2">ERBB2 locus</button
             ><button data-locus="chr21">Chromosome 21</button>
+            <div id="display-controls"></div>
             <span class="hint"
                 >Double-click &amp; brush above · scroll to zoom · drag tracks
                 to pan · hover for original coordinates</span
@@ -210,7 +231,11 @@
         import { embed } from "/runtime/index.es.js";
         const api = await embed(
             "#vis",
-            new URL("explorer.json", location.href).href
+            new URL("explorer.json", location.href).href,
+            {
+                inputBindingContainer:
+                    document.querySelector("#display-controls"),
+            }
         );
         const scale = api.getScaleResolutionByName("genome");
         /** @type {Record<string, {chrom: string, pos: number}[]>} */

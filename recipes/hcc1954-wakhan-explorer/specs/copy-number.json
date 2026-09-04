@@ -12,6 +12,11 @@
       "name": "depthOffset",
       "value": 0.1,
       "description": "Read-depth intercept at zero inferred copies, from the archived Plotly CN-axis calibration: depth = singleCopyDepth * copies + depthOffset."
+    },
+    {
+      "name": "cnDomain",
+      "expr": "domain('y')",
+      "description": "Effective domain of the shared copy-number scale, including autoscale transition frames."
     }
   ],
   "spacing": 13,
@@ -45,21 +50,6 @@
         "ink": "steelblue",
         "binInk": "#87aece"
       }
-    }
-  ],
-  "data": {
-    "values": [{}]
-  },
-  "transform": [
-    {
-      "type": "formula",
-      "expr": "domain('y')[0] * singleCopyDepth + depthOffset",
-      "as": "depthMin"
-    },
-    {
-      "type": "formula",
-      "expr": "domain('y')[1] * singleCopyDepth + depthOffset",
-      "as": "depthMax"
     }
   ]
 }

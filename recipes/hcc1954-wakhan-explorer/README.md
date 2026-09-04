@@ -49,7 +49,8 @@ GenomeSpy App dev server:
 http://127.0.0.1:8080/?spec=private/genomespy-dataset-recipes/recipes/hcc1954-wakhan-explorer/specs/explorer.json
 ```
 
-The small HTML wrapper supplies explanatory text and six locus buttons. The
+The small HTML wrapper supplies explanatory text, six locus buttons, and a
+toolbar container for GenomeSpy's bound **Show ruler** checkbox. The
 spec itself implements the tracks, brushing, tooltips, autoscaling, semantic
 labels, and SV highlighting.
 
@@ -87,6 +88,10 @@ Imports are relative to their containing spec. Keep these files together in
   selection does not change track opacity elsewhere or move the viewport.
 - Move the pointer over a detail track to show a vertical genomic ruler across
   the linked tracks. It follows the pointer and clears when you leave the tracks.
+  Uncheck **Show ruler** beside the locus buttons to clear it and stop tracking
+  (in GenomeSpy App: **View settings → Parameters**). Rechecking resumes
+  tracking on the next pointer movement. This uses Core's reactive
+  `ruler.disabled` support.
 - Start with **Chromosome 8**, then **HP2 CN 33** and **MYC neighbourhood**.
   MYC overlaps source CN 4 + 5; the separate CN-33 event is near 106.59 Mb.
   **ERBB2 locus** shows source CN 1 + 4, without overstating its amplification.
@@ -126,16 +131,18 @@ The pinned run log and the archived Plotly CN axis agree on
 viewport-derived y scale. Each HP's depth scale has `excluded` resolution and
 an independent right axis, with nicing and separate transitions disabled.
 
-A one-row formula at the shared CN scope reads `domain('y')` and converts its
-two bounds. An invisible `coverage-domain` rule supplies those bounds to each
-depth scale; `domainInert` on the raw bins prevents them from expanding it.
-Depth domains follow CN transitions without JavaScript scale listeners. The
-zero-depth guide extends the lower depth bound from 0.1 to 0; the upper bound
-remains calibrated. `domainInert` is an existing Core property currently marked internal.
-The more direct derived-parameter approach hits a Core initialization-order
-limitation: the tracking scale is initialized before a parameter based on
-`domain('y')` is registered. The formula approach avoids that dependency;
-[Core issue #505](https://github.com/genome-spy/genome-spy/issues/505) tracks it.
+The `cnDomain` expression parameter reads `domain('y')` at the shared CN scope.
+Each depth scale converts its two bounds directly in its `domain` expression,
+using the documented `singleCopyDepth` and `depthOffset` parameters. Both bounds
+follow CN transitions exactly; zero copies align with depth 0.1. The baseline
+guide marks the bottom of the CN range. Raw bins cannot expand the explicit
+depth domain and remain clipped when outside it.
+
+The SV feet similarly use a single `svFootLength` expression parameter to drive
+their signed offset range. These scale-dependent parameters require the Core
+initialization fix for [#505](https://github.com/genome-spy/genome-spy/issues/505).
+No synthetic domain-driving data, invisible marks, internal flags, or JavaScript
+scale listeners are needed.
 
 ## Regenerate and verify
 
@@ -202,9 +209,6 @@ Tooltips explicitly identify the original coordinate convention.
 - Dense rearrangements still overlap at whole-genome scale; hover, selection,
   and zoom provide inspection. This is a single-run
   proof of concept, not a generic Wakhan importer or caller benchmark.
-- The SV class legend inherits the arcs' dimmed opacity fallback, so its symbols
-  are faint and can dim further during selection. Core currently lacks a
-  symbol-opacity override; this needs a legend-level solution.
 
 Local browser validation covers whole genome, chr8, CN33, MYC, ERBB2 and
 chr21, synchronized scales, range coverage, brushing/panning, original-coordinate

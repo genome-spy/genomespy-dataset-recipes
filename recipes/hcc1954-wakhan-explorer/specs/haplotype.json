@@ -77,140 +77,111 @@
       }
     },
     {
-      "name": "coverage",
-      "description": "The invisible interval supplies calibrated bounds from the shared CN scale. Raw bins do not contribute to these bounds.",
+      "name": "cn-baseline",
+      "data": {
+        "values": [{}]
+      },
+      "mark": {
+        "type": "rule",
+        "color": "#d8e0e1",
+        "clip": false,
+        "y": 0
+      }
+    },
+    {
+      "name": "coverage-bins",
+      "data": {
+        "url": "../output/coverage-baf.tsv"
+      },
+      "transform": [
+        {
+          "type": "filter",
+          "expr": "datum.coverageStatus == 'reported'"
+        },
+        {
+          "type": "formula",
+          "expr": "hp == 'HP1' ? datum.hp1 : datum.hp2",
+          "as": "depth"
+        }
+      ],
+      "mark": {
+        "type": "point",
+        "size": {
+          "expr": "min(1 * pow(zoomLevel, 1.5) + 2, 100)"
+        },
+        "color": {
+          "expr": "binInk"
+        },
+        "opacity": 0.25,
+        "strokeWidth": 0,
+        "clip": true
+      },
+      "encoding": {
+        "x": {
+          "chrom": "chrom",
+          "pos": "start",
+          "type": "locus",
+          "band": 0
+        },
+        "x2": {
+          "chrom": "chrom",
+          "pos": "end",
+          "band": 0
+        },
+        "y": {
+          "field": "depth",
+          "type": "quantitative",
+          "scale": {
+            "type": "linear",
+            "nice": false,
+            "zero": false,
+            "domainTransition": false,
+            "clamp": false,
+            "domain": {
+              "expr": "[cnDomain[0] * singleCopyDepth + depthOffset, cnDomain[1] * singleCopyDepth + depthOffset]"
+            }
+          },
+          "axis": {
+            "orient": "right",
+            "title": "Read depth",
+            "tickCount": 4
+          }
+        },
+        "tooltip": [
+          {
+            "field": "chrom",
+            "title": "Chromosome"
+          },
+          {
+            "field": "sourceStart",
+            "title": "Original Wakhan start",
+            "format": ",d"
+          },
+          {
+            "field": "end",
+            "title": "End",
+            "format": ",d"
+          },
+          {
+            "expr": "hp",
+            "title": "Chromosome-local haplotype"
+          },
+          {
+            "field": "depth",
+            "title": "Reported depth",
+            "format": ".2f"
+          },
+          {
+            "title": "Resolution",
+            "expr": "\"50 kb bins; terminal bins truncated to GRCh38\""
+          }
+        ]
+      },
       "resolve": {
         "scale": {
           "y": "excluded"
         }
-      },
-      "layer": [
-        {
-          "name": "coverage-domain",
-          "mark": {
-            "type": "rule",
-            "opacity": 0,
-            "tooltip": null
-          },
-          "encoding": {
-            "x": {
-              "value": 0
-            },
-            "y": {
-              "field": "depthMin",
-              "type": "quantitative"
-            },
-            "y2": {
-              "field": "depthMax"
-            }
-          }
-        },
-        {
-          "name": "cn-baseline",
-          "data": {
-            "values": [{}]
-          },
-          "mark": {
-            "type": "rule",
-            "color": "#d8e0e1",
-            "clip": false
-          },
-          "encoding": {
-            "y": {
-              "datum": 0,
-              "type": "quantitative"
-            }
-          }
-        },
-        {
-          "name": "coverage-bins",
-          "data": {
-            "url": "../output/coverage-baf.tsv"
-          },
-          "transform": [
-            {
-              "type": "filter",
-              "expr": "datum.coverageStatus == 'reported'"
-            },
-            {
-              "type": "formula",
-              "expr": "hp == 'HP1' ? datum.hp1 : datum.hp2",
-              "as": "depth"
-            }
-          ],
-          "mark": {
-            "type": "point",
-            "size": {
-              "expr": "min(1 * pow(zoomLevel, 1.5) + 2, 100)"
-            },
-            "color": {
-              "expr": "binInk"
-            },
-            "opacity": 0.25,
-            "strokeWidth": 0,
-            "clip": true
-          },
-          "encoding": {
-            "x": {
-              "chrom": "chrom",
-              "pos": "start",
-              "type": "locus",
-              "band": 0
-            },
-            "x2": {
-              "chrom": "chrom",
-              "pos": "end",
-              "band": 0
-            },
-            "y": {
-              "field": "depth",
-              "type": "quantitative",
-              "scale": {
-                "type": "linear",
-                "nice": false,
-                "zero": false,
-                "domainTransition": false,
-                "clamp": false
-              },
-              "axis": {
-                "orient": "right",
-                "title": "Read depth",
-                "tickCount": 4
-              }
-            },
-            "tooltip": [
-              {
-                "field": "chrom",
-                "title": "Chromosome"
-              },
-              {
-                "field": "sourceStart",
-                "title": "Original Wakhan start",
-                "format": ",d"
-              },
-              {
-                "field": "end",
-                "title": "End",
-                "format": ",d"
-              },
-              {
-                "expr": "hp",
-                "title": "Chromosome-local haplotype"
-              },
-              {
-                "field": "depth",
-                "title": "Reported depth",
-                "format": ".2f"
-              },
-              {
-                "title": "Resolution",
-                "expr": "\"50 kb bins; terminal bins truncated to GRCh38\""
-              }
-            ]
-          },
-          "domainInert": true
-        }
-      ]
+      }
     },
     {
       "name": "cn-segments",

@@ -15,6 +15,12 @@
   "spacing": 10,
   "params": [
     {
+      "name": "showRuler",
+      "value": true,
+      "description": "Show a vertical genomic ruler across the linked detail tracks.",
+      "bind": { "input": "checkbox", "name": "Show ruler" }
+    },
+    {
       "name": "brush"
     }
   ],
@@ -58,6 +64,7 @@
           "name": "genomicCursor",
           "persist": false,
           "ruler": {
+            "disabled": { "expr": "!showRuler" },
             "encodings": ["x"],
             "extent": "container",
             "display": "line",

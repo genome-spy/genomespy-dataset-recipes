@@ -245,68 +245,68 @@
         {
           "view": "Whole genome",
           "cnDomain": [0, 35],
-          "depthDomain": [0, 490.52],
+          "depthDomain": [0.1, 490.52],
           "allVisibleCopyStatesFit": true,
           "rawBinsAboveRange": {
             "HP1": 0,
             "HP2": 1
           },
-          "maxTrackingDomainError": 0.1
+          "maxTrackingDomainError": 0
         },
         {
           "view": "Chromosome 8",
           "cnDomain": [0, 35],
-          "depthDomain": [0, 490.52],
+          "depthDomain": [0.1, 490.52],
           "allVisibleCopyStatesFit": true,
           "rawBinsAboveRange": {
             "HP1": 0,
             "HP2": 1
           },
-          "maxTrackingDomainError": 0.1
+          "maxTrackingDomainError": 0
         },
         {
           "view": "HP2 CN 33",
           "cnDomain": [0, 35],
-          "depthDomain": [0, 490.52],
+          "depthDomain": [0.1, 490.52],
           "allVisibleCopyStatesFit": true,
           "rawBinsAboveRange": {
             "HP1": 0,
             "HP2": 0
           },
-          "maxTrackingDomainError": 0.1
+          "maxTrackingDomainError": 0
         },
         {
           "view": "MYC neighbourhood",
           "cnDomain": [0, 24],
-          "depthDomain": [0, 336.388],
+          "depthDomain": [0.1, 336.388],
           "allVisibleCopyStatesFit": true,
           "rawBinsAboveRange": {
             "HP1": 0,
             "HP2": 2
           },
-          "maxTrackingDomainError": 0.1
+          "maxTrackingDomainError": 0
         },
         {
           "view": "ERBB2 locus",
           "cnDomain": [0, 4],
-          "depthDomain": [0, 56.148],
+          "depthDomain": [0.1, 56.148],
           "allVisibleCopyStatesFit": true,
           "rawBinsAboveRange": {
             "HP1": 2,
             "HP2": 33
           },
-          "maxTrackingDomainError": 0.1
+          "maxTrackingDomainError": 0
         },
         {
           "view": "Chromosome 21",
           "cnDomain": [0, 9],
-          "depthDomain": [0, 126.208],
+          "depthDomain": [0.1, 126.208],
           "allVisibleCopyStatesFit": true,
           "rawBinsAboveRange": {
             "HP1": 1,
             "HP2": 0
           },
-          "maxTrackingDomainError": 0.1
+          "maxTrackingDomainError": 0
         }
       ],
       "brushReplacement": "double-click then drag passed",
@@ -338,7 +338,7 @@
       "genotypeParsing": "GT 0/1 displayed correctly",
       "standaloneSpecInGenomeSpyApp": "rendered without console warnings/errors",
       "svFeet": {
-        "encoding": "Two strand-directed breakpoint rules per SV, using an ordinal xOffset scale with domain ['-', '+'] and viewport-expression range [+length, -length]. Length is clamp(7 * 100000000 / viewportSpan, 1, 7) CSS pixels.",
+        "encoding": "Two strand-directed breakpoint rules per SV, using an ordinal xOffset scale with domain ['-', '+'] and range expressions [+svFootLength, -svFootLength]. The parameter is declared on the resolution-owning structural-variants view and evaluates clamp(7 * 100000000 / viewportSpan, 1, 7) CSS pixels.",
         "browserAndSvgChecks": {
           "wholeGenomePx": 1,
           "span200MbPx": 3.5,
@@ -357,12 +357,20 @@
           "source": "Pinned run log rank-1 centers and archived Plotly layout.yaxis3 tickvals/ticktext"
         },
         "scaleResolution": "Shared viewport-derived primary CN y scale across HP1/HP2; excluded depth y resolutions with independent right axes.",
-        "domainTracking": "A one-row formula reads the primary CN domain and converts both bounds; invisible rules supply the two depth domains. Raw bins use the existing internal domainInert property. The zero-depth guide extends the lower bound from calibrated depth 0.1 to 0. Depth nicing, clamping and separate transitions are disabled.",
+        "domainTracking": "The cnDomain expression parameter reads domain('y') at the shared CN scope. Each excluded depth scale directly converts both bounds in its domain expression using singleCopyDepth and depthOffset. Depth nicing, clamping and separate transitions are disabled. No synthetic domain-driving data, invisible rules or domainInert flags are used.",
         "rawBinClipping": "Raw bins outside calibrated CN bounds are clipped at the track edges without filtering the data, as requested.",
         "wrapperJavaScriptUnchanged": true,
-        "knownLociAndTransitionAlignment": "Six views: upper bounds track CN calibration throughout transitions; the zero-depth guide extends lower bounds to 0, a 0.1-depth deviation from exact affine alignment. All detail tracks share the locus scale.",
+        "knownLociAndTransitionAlignment": "Six views: both depth-domain bounds exactly match CN calibration at every sampled transition frame (maximum error 0). The baseline guide is at zero copies; the corresponding lower depth bound is 0.1. All detail tracks share the locus scale.",
         "cn33OriginalCoordinateTooltip": "passed",
         "svBrushingAndPointHighlightAfterOverlay": "passed",
+        "consoleErrors": [],
+        "scaleDependentParameters": "Uses the local Core initialization fix for #505; cnDomain drives the depth domains and svFootLength drives the signed ordinal offset range. Whole genome, chr8, CN33, MYC, ERBB2 and chr21 passed, with one eager SV data request and no console errors."
+      },
+      "rulerToggle": {
+        "control": "Show ruler checkbox, enabled initially; placed beside the standalone locus buttons with inputBindingContainer and available under View settings > Parameters in GenomeSpy App.",
+        "binding": "Root showRuler boolean parameter; genomicCursor.ruler.disabled uses !showRuler. Uses Core commit 1d2ebd5ad.",
+        "disabledTracking": "Checkbox clears the coordinate; movement over HP1, HP2 and BAF leaves it inactive.",
+        "reenabledTracking": "Rechecking restores tracking during pointer movement across the linked tracks.",
         "consoleErrors": []
       }
     },
@@ -393,7 +401,7 @@
     "Autosomal integer CN solution only; no inferred subclonal fractions or parental identities.",
     "UCSC snapshot URLs are mutable. Checksums pin accepted bytes and fail on drift; retain the cached downloads for long-term reproducibility.",
     "Dense SVs overlap at whole-genome scale. Existing hover, retained selection and synchronized zoom provide inspection. All SVs load eagerly without viewport-dependent data filtering.",
-    "The CN-driven overlay intentionally clips raw read-depth bins outside the calibrated range; all inferred CN states fit the viewport-derived bounds. The declarative domain driver uses the existing domainInert flag, currently marked internal in Core."
+    "The CN-driven overlay intentionally clips raw read-depth bins outside the calibrated range; all inferred CN states fit the viewport-derived bounds. Scale-dependent parameters require the Core initialization fix for #505."
   ],
   "references": {
     "wakhanCodeInspected": "https://github.com/KolmogorovLab/Wakhan/tree/d407ee6e2e609aa6c4c9d3690cd1cfc2be39ef37",

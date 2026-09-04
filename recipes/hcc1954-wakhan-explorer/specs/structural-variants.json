@@ -115,10 +115,10 @@
                 "domain": ["-", "+"],
                 "range": [
                   {
-                    "expr": "clamp(7 * 100000000 / span(domain('x')), 1, 7)"
+                    "expr": "svFootLength"
                   },
                   {
-                    "expr": "-clamp(7 * 100000000 / span(domain('x')), 1, 7)"
+                    "expr": "-svFootLength"
                   }
                 ],
                 "type": "ordinal"
@@ -150,7 +150,9 @@
           "mark": {
             "type": "link",
             "linkShape": "dome",
-            "arcFadingDistance": { "expr": "[height - 20, height + 20]" },
+            "arcFadingDistance": {
+              "expr": "[height - 20, height + 20]"
+            },
             "maxChordLength": 100000000,
             "yOffset": -4,
             "y2Offset": 0,
@@ -310,6 +312,13 @@
             }
           ]
         }
+      ],
+      "params": [
+        {
+          "name": "svFootLength",
+          "expr": "clamp(7 * 100000000 / span(domain('x')), 1, 7)",
+          "description": "Breakpoint-foot length in pixels: 1 at whole-genome scale, reaching 7 when the viewport spans 100 Mb or less."
+        }
       ]
     },
     {
@@ -400,5 +409,6 @@
         ]
       }
     }
-  ]
+  ],
+  "config": { "legend": { "symbolOpacity": 1 } }
 }
