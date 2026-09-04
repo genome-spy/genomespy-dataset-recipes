@@ -1,6 +1,8 @@
 import json
 from pathlib import Path
 
+import pytest
+
 from tools.check_repo import check_file, check_recipe, check_spec_values, is_cc0_covered
 
 
@@ -61,6 +63,32 @@ def test_accepts_relative_output_url() -> None:
     )
 
     assert errors == []
+
+
+def test_import_urls_are_distinct_from_data_urls() -> None:
+    errors = check_spec_values(
+        "example",
+        "overview.json",
+        {
+            "vconcat": [
+                {"import": {"url": "track.json"}},
+                {"data": {"url": "track.json"}},
+            ]
+        },
+    )
+
+    assert errors == ["example: non-output data URL in overview.json: track.json"]
+
+
+@pytest.mark.parametrize(
+    "url", ["https://example.org/track.json", "/track.json", "../output/data.json"]
+)
+def test_imports_must_reference_local_specs(url: str) -> None:
+    errors = check_spec_values("example", "overview.json", {"import": {"url": url}})
+
+    assert errors == [
+        f"example: import must reference a local spec in overview.json: {url}"
+    ]
 
 
 def test_accepts_empty_signal_value() -> None:

@@ -1,0 +1,65 @@
+{
+  "$schema": "https://cdn.jsdelivr.net/npm/@genome-spy/core/dist/schema.json",
+  "description": "Shared CN autoscaling and Wakhan calibration for two chromosome-local haplotypes.",
+  "name": "copy-number",
+  "params": [
+    {
+      "name": "singleCopyDepth",
+      "value": 14.012,
+      "description": "Expected read-depth increase per additional inferred copy, from the selected Wakhan solution's run log."
+    },
+    {
+      "name": "depthOffset",
+      "value": 0.1,
+      "description": "Read-depth intercept at zero inferred copies, from the archived Plotly CN-axis calibration: depth = singleCopyDepth * copies + depthOffset."
+    }
+  ],
+  "spacing": 13,
+  "resolve": {
+    "scale": {
+      "y": "shared"
+    },
+    "axis": {
+      "x": "shared"
+    }
+  },
+  "vconcat": [
+    {
+      "name": "cn-hp1",
+      "import": {
+        "url": "haplotype.json"
+      },
+      "params": {
+        "hp": "HP1",
+        "ink": "firebrick",
+        "binInk": "#cd6f6f"
+      }
+    },
+    {
+      "name": "cn-hp2",
+      "import": {
+        "url": "haplotype.json"
+      },
+      "params": {
+        "hp": "HP2",
+        "ink": "steelblue",
+        "binInk": "#87aece"
+      }
+    }
+  ],
+  "data": {
+    "values": [{}]
+  },
+  "transform": [
+    {
+      "type": "formula",
+      "expr": "domain('y')[0] * singleCopyDepth + depthOffset",
+      "as": "depthMin"
+    },
+    {
+      "type": "formula",
+      "expr": "domain('y')[1] * singleCopyDepth + depthOffset",
+      "as": "depthMax"
+    }
+  ]
+}

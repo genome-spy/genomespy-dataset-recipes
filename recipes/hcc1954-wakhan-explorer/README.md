@@ -53,6 +53,25 @@ The small HTML wrapper supplies explanatory text and six locus buttons. The
 spec itself implements the tracks, brushing, tooltips, autoscaling, semantic
 labels, and SV highlighting.
 
+### Specification files
+
+[`explorer.json`](specs/explorer.json) is the entry point. It sets the assembly,
+styling, shared genomic viewport, ruler, and region selection, and imports these
+track specifications:
+
+| File | Contents |
+| --- | --- |
+| [`genome-navigator.json`](specs/genome-navigator.json) | Whole-genome overview and navigation brush |
+| [`structural-variants.json`](specs/structural-variants.json) | SV domes, breakpoint feet, insertions and single breakends |
+| [`copy-number.json`](specs/copy-number.json) | Shared CN autoscaling, calibration parameters and two HP instances |
+| [`haplotype.json`](specs/haplotype.json) | Reusable HP coverage/CN overlay, including the blacklist template |
+| [`baf.json`](specs/baf.json) | Folded BAF bins and reference guides |
+| [`cytobands.json`](specs/cytobands.json) | Chromosome bands and labels that appear when space permits |
+| [`selected-genes.json`](specs/selected-genes.json) | Selected genes and zoom-dependent labels |
+
+Imports are relative to their containing spec. Keep these files together in
+`specs/`; data URLs remain relative paths into `../output/`.
+
 ## Explore
 
 - Double-click the genome navigator, then drag to draw a brush. Scroll over
@@ -60,8 +79,10 @@ labels, and SV highlighting.
   the detail tracks to zoom and drag them to pan. Every detail track shares
   one locus viewport; the overview stays fixed and follows navigation.
 - Shift-drag across any detail track to select an x interval. Arcs with either
-  breakpoint inside use 2 px strokes and retain their current opacity;
-  other arcs use opacity 0.1 and keep their usual stroke widths.
+  breakpoint inside use 2 px strokes and opacity 0.7. Hovered arcs use opacity 1;
+  clicked arcs use 0.7, even outside the interval. Unselected arcs grow more
+  opaque with zoom, capped at 0.4, and are dimmed while a click or interval
+  selection is active. They keep their usual stroke widths.
   Double-click to clear the interval and restore the usual SV styling. This
   selection does not change track opacity elsewhere or move the viewport.
 - Move the pointer over a detail track to show a vertical genomic ruler across
@@ -78,8 +99,10 @@ labels, and SV highlighting.
   left and `-` right. Their length grows with zoom from 1 px at whole-genome
   scale to 7 px when the viewport spans 100 Mb, then
   stays capped. Feet share the arc colours. Arc hover/selection fading is retained.
-  Tall domes are clipped at the track boundary: GenomeSpy's `arcFadingDistance` currently supports
-  circular arcs only, so it cannot provide a top-edge fade for these domes.
+  Domes fade over `[height - 20, height + 20]` pixels from their baseline,
+  following `hcc1954-sv-cnv.json`. Clipping only along x lets the fade extend
+  smoothly past the track's top edge. Hovered, clicked, or interval-selected
+  arcs bypass fading. This requires the local Core build with dome-fading support.
   Single breakends and insertions are small triangle sites, not invented arcs.
 - Hover CN intervals for original start/end, haplotype, copy state, segment
   median depth, BED confidence, and breakpoint IDs. Solid CN intervals overlay
@@ -179,6 +202,9 @@ Tooltips explicitly identify the original coordinate convention.
 - Dense rearrangements still overlap at whole-genome scale; hover, selection,
   and zoom provide inspection. This is a single-run
   proof of concept, not a generic Wakhan importer or caller benchmark.
+- The SV class legend inherits the arcs' dimmed opacity fallback, so its symbols
+  are faint and can dim further during selection. Core currently lacks a
+  symbol-opacity override; this needs a legend-level solution.
 
 Local browser validation covers whole genome, chr8, CN33, MYC, ERBB2 and
 chr21, synchronized scales, range coverage, brushing/panning, original-coordinate

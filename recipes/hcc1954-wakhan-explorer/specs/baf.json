@@ -1,0 +1,173 @@
+{
+  "$schema": "https://cdn.jsdelivr.net/npm/@genome-spy/core/dist/schema.json",
+  "description": "Folded BAF bins and reference guides; grey crosses retain zeros with unknown SNP support.",
+  "name": "baf",
+  "height": 67,
+  "title": {
+    "text": "Folded BAF | 50 kb means | grey zeros have unknown SNP support",
+    "anchor": "start",
+    "fontSize": 11,
+    "color": "#364653",
+    "offset": 5
+  },
+  "layer": [
+    {
+      "data": {
+        "values": [0.25, 0.5]
+      },
+      "mark": {
+        "type": "rule",
+        "color": "#d8e0e1",
+        "strokeDash": [3, 3],
+        "tooltip": null
+      },
+      "encoding": {
+        "y": {
+          "field": "data",
+          "type": "quantitative"
+        }
+      }
+    },
+    {
+      "data": {
+        "url": "../output/coverage-baf.tsv"
+      },
+      "mark": {
+        "type": "point",
+        "size": {
+          "expr": "min(1 * pow(zoomLevel, 1.5), 100)"
+        },
+        "opacity": 0.25,
+        "strokeWidth": 0,
+        "color": "#428b81",
+        "clip": "x"
+      },
+      "encoding": {
+        "x": {
+          "chrom": "chrom",
+          "pos": "start",
+          "type": "locus",
+          "band": 0
+        },
+        "x2": {
+          "chrom": "chrom",
+          "pos": "end",
+          "band": 0
+        },
+        "y": {
+          "field": "baf",
+          "type": "quantitative",
+          "scale": {
+            "domain": [0, 0.5]
+          },
+          "axis": {
+            "title": null,
+            "values": [0, 0.25, 0.5]
+          }
+        },
+        "tooltip": [
+          {
+            "field": "chrom",
+            "title": "Chromosome"
+          },
+          {
+            "field": "sourceStart",
+            "title": "Original Wakhan start",
+            "format": ",d"
+          },
+          {
+            "field": "end",
+            "title": "End",
+            "format": ",d"
+          },
+          {
+            "field": "baf",
+            "title": "Folded BAF",
+            "format": ".3f"
+          },
+          {
+            "field": "bafStatus",
+            "title": "Interpretation"
+          }
+        ]
+      },
+      "transform": [
+        {
+          "type": "filter",
+          "expr": "datum.baf > 0"
+        }
+      ]
+    },
+    {
+      "data": {
+        "url": "../output/coverage-baf.tsv"
+      },
+      "mark": {
+        "type": "point",
+        "size": {
+          "expr": "min(1 * pow(zoomLevel, 1.5), 100)"
+        },
+        "opacity": 0.25,
+        "strokeWidth": 0,
+        "color": "#aeb8bd",
+        "shape": "cross",
+        "clip": "x"
+      },
+      "encoding": {
+        "x": {
+          "chrom": "chrom",
+          "pos": "start",
+          "type": "locus",
+          "band": 0
+        },
+        "x2": {
+          "chrom": "chrom",
+          "pos": "end",
+          "band": 0
+        },
+        "y": {
+          "field": "baf",
+          "type": "quantitative",
+          "scale": {
+            "domain": [0, 0.5]
+          },
+          "axis": {
+            "title": null,
+            "values": [0, 0.25, 0.5]
+          }
+        },
+        "tooltip": [
+          {
+            "field": "chrom",
+            "title": "Chromosome"
+          },
+          {
+            "field": "sourceStart",
+            "title": "Original Wakhan start",
+            "format": ",d"
+          },
+          {
+            "field": "end",
+            "title": "End",
+            "format": ",d"
+          },
+          {
+            "field": "baf",
+            "title": "Folded BAF",
+            "format": ".3f"
+          },
+          {
+            "field": "bafStatus",
+            "title": "Interpretation"
+          }
+        ]
+      },
+      "transform": [
+        {
+          "type": "filter",
+          "expr": "datum.baf == 0"
+        }
+      ]
+    }
+  ]
+}

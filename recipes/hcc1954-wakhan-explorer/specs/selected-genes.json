@@ -1,0 +1,119 @@
+{
+  "$schema": "https://cdn.jsdelivr.net/npm/@genome-spy/core/dist/schema.json",
+  "description": "Selected cancer genes with restrained labels and genomic tooltips.",
+  "name": "genes",
+  "title": {
+    "text": "Selected cancer genes | RefSeq / GRCh38",
+    "anchor": "start",
+    "fontSize": 11,
+    "color": "#364653",
+    "offset": 5
+  },
+  "height": 25,
+  "data": {
+    "url": "../output/genes.tsv"
+  },
+  "encoding": {
+    "x": {
+      "chrom": "chrom",
+      "pos": "start",
+      "type": "locus",
+      "band": 0
+    },
+    "x2": {
+      "chrom": "chrom",
+      "pos": "end",
+      "band": 0
+    },
+    "tooltip": [
+      {
+        "field": "symbol",
+        "title": "Gene"
+      },
+      {
+        "field": "chrom",
+        "title": "Chromosome"
+      },
+      {
+        "expr": "format(datum.start + 1, \",d\")",
+        "title": "Start (1-based)"
+      },
+      {
+        "field": "end",
+        "title": "End",
+        "format": ",d"
+      },
+      {
+        "field": "strand",
+        "title": "Strand"
+      },
+      {
+        "title": "Annotation",
+        "expr": "\"Union of curated protein-coding RefSeq transcripts\""
+      }
+    ]
+  },
+  "layer": [
+    {
+      "mark": {
+        "type": "rect",
+        "color": "#64747c",
+        "y": 0.1,
+        "y2": 0.3,
+        "minWidth": 2
+      }
+    },
+    {
+      "transform": [
+        {
+          "type": "linearizeGenomicCoordinate",
+          "chrom": "chrom",
+          "pos": "start",
+          "as": "_pos"
+        },
+        {
+          "type": "formula",
+          "expr": "datum.symbol == 'MYC' || datum.symbol == 'ERBB2' || datum.symbol == 'TERT' ? 10 : 1",
+          "as": "score"
+        },
+        {
+          "type": "formula",
+          "expr": "0",
+          "as": "lane"
+        },
+        {
+          "type": "measureText",
+          "field": "symbol",
+          "fontSize": 10,
+          "as": "_width"
+        },
+        {
+          "type": "filterScoredLabels",
+          "lane": "lane",
+          "score": "score",
+          "width": "_width",
+          "pos": "_pos",
+          "padding": 12
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "size": 10,
+        "color": "#425560",
+        "y": 0.75,
+        "align": "center"
+      },
+      "encoding": {
+        "x2": null,
+        "text": {
+          "field": "symbol"
+        },
+        "opacity": {
+          "expr": "datum.score == 10 || zoomLevel > 5 ? 1 : 0",
+          "type": "quantitative",
+          "scale": null
+        }
+      }
+    }
+  ]
+}

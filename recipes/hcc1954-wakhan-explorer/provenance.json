@@ -317,7 +317,8 @@
       "svClickHighlight": "passed",
       "svIntervalSelection": {
         "gesture": "Shift-drag across linked detail tracks; double-click to clear",
-        "matching": "GenomeSpy link interval hit testing selects either breakpoint; matching arcs use 2 px strokes and retain existing hover/click opacity, other arcs use opacity 0.1 and retain existing stroke widths. Empty selection restores existing styling.",
+        "matching": "GenomeSpy link interval hit testing selects either breakpoint; matching arcs use 2 px strokes and opacity 0.7. Hovered arcs use opacity 1; clicked arcs use 0.7 even outside the interval. Unselected opacity is min((active click or interval selection ? 0.07 : 0.2) * zoomLevel, 0.4). Empty selection restores the unselected zoom-dependent styling.",
+        "opacityEncoding": "Ordered selection conditions use empty: false for hover, click and interval. A value-expression fallback sets unselected opacity without referring to internal record IDs. Native interval draw/clear, hover outside the interval, and retained click highlighting inside/outside the interval passed before the later opacity tuning; SV data loaded once. The tuned spec and dome fading were subsequently checked at whole-genome and chr8 scale without console errors.",
         "spanningBrush": true,
         "otherTrackStylingUnchanged": true,
         "viewportUnchanged": true,
@@ -326,7 +327,7 @@
         "svFileRequestsAcrossSelectionChanges": 1,
         "consoleErrors": []
       },
-      "svArcRendering": "Dome height uses a square-root scale over absolute linearized breakpoint separation, with domain [0, span(domain('x')) * height / width * 5] from sashimi-plot.json. An apex-only yOffset of -4 adds a 4 px visibility floor. Hover/selection fading is retained. Tall domes clip at the track boundary because GenomeSpy supports arcFadingDistance only for circular arcs. Eager loading remains intact.",
+      "svArcRendering": "Dome height uses a square-root scale over absolute linearized breakpoint separation, with domain [0, span(domain('x')) * height / width * 5] from sashimi-plot.json. An apex-only yOffset of -4 adds a 4 px visibility floor. arcFadingDistance uses [height - 20, height + 20] with x-only clipping, following hcc1954-sv-cnv.json. The local Core dome-fading fix measures fade distance from the endpoint baseline. Hovered, clicked, and interval-selected arcs bypass fading; eager loading remains intact.",
       "eagerSvLoading": {
         "linksRetained": 992,
         "sitesRetained": 82,
