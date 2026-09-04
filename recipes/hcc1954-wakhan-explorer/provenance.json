@@ -9,10 +9,7 @@
       "conceptRecordId": 17780981,
       "version": "v1",
       "title": "Wakhan: reconstruction of chromosome-scale copy number profiles of tumor genomes with long-read sequencing",
-      "creators": [
-        "Tanveer, Ahmad",
-        "Mikhail, Kolmogorov"
-      ],
+      "creators": ["Tanveer, Ahmad", "Mikhail, Kolmogorov"],
       "publicationDate": "2025-12-01",
       "license": "CC-BY-4.0",
       "assembly": "GRCh38",
@@ -211,10 +208,7 @@
       "HP1": 23.0,
       "HP2": 33.0
     },
-    "sourcePlotCoverageRange": [
-      -495.42,
-      495.42
-    ],
+    "sourcePlotCoverageRange": [-495.42, 495.42],
     "chromosomeLengthsMatchVcfAndPlot": true,
     "geneCount": 14,
     "maskedIntervals": 22,
@@ -250,75 +244,69 @@
       "quantitativeChecks": [
         {
           "view": "Whole genome",
-          "cnDomain": [
-            0,
-            35
-          ],
-          "depthDomain": [
-            0,
-            500
-          ],
-          "allVisibleValuesFit": true
+          "cnDomain": [0, 35],
+          "depthDomain": [0, 490.52],
+          "allVisibleCopyStatesFit": true,
+          "rawBinsAboveRange": {
+            "HP1": 0,
+            "HP2": 1
+          },
+          "maxTrackingDomainError": 0.1
         },
         {
           "view": "Chromosome 8",
-          "cnDomain": [
-            0,
-            35
-          ],
-          "depthDomain": [
-            0,
-            500
-          ],
-          "allVisibleValuesFit": true
+          "cnDomain": [0, 35],
+          "depthDomain": [0, 490.52],
+          "allVisibleCopyStatesFit": true,
+          "rawBinsAboveRange": {
+            "HP1": 0,
+            "HP2": 1
+          },
+          "maxTrackingDomainError": 0.1
         },
         {
           "view": "HP2 CN 33",
-          "cnDomain": [
-            0,
-            35
-          ],
-          "depthDomain": [
-            0,
-            500
-          ],
-          "allVisibleValuesFit": true
+          "cnDomain": [0, 35],
+          "depthDomain": [0, 490.52],
+          "allVisibleCopyStatesFit": true,
+          "rawBinsAboveRange": {
+            "HP1": 0,
+            "HP2": 0
+          },
+          "maxTrackingDomainError": 0.1
         },
         {
           "view": "MYC neighbourhood",
-          "cnDomain": [
-            0,
-            24
-          ],
-          "depthDomain": [
-            0,
-            450
-          ],
-          "allVisibleValuesFit": true
+          "cnDomain": [0, 24],
+          "depthDomain": [0, 336.388],
+          "allVisibleCopyStatesFit": true,
+          "rawBinsAboveRange": {
+            "HP1": 0,
+            "HP2": 2
+          },
+          "maxTrackingDomainError": 0.1
         },
         {
           "view": "ERBB2 locus",
-          "cnDomain": [
-            0,
-            4
-          ],
-          "depthDomain": [
-            0,
-            120
-          ],
-          "allVisibleValuesFit": true
+          "cnDomain": [0, 4],
+          "depthDomain": [0, 56.148],
+          "allVisibleCopyStatesFit": true,
+          "rawBinsAboveRange": {
+            "HP1": 2,
+            "HP2": 33
+          },
+          "maxTrackingDomainError": 0.1
         },
         {
           "view": "Chromosome 21",
-          "cnDomain": [
-            0,
-            9
-          ],
-          "depthDomain": [
-            0,
-            130
-          ],
-          "allVisibleValuesFit": true
+          "cnDomain": [0, 9],
+          "depthDomain": [0, 126.208],
+          "allVisibleCopyStatesFit": true,
+          "rawBinsAboveRange": {
+            "HP1": 1,
+            "HP2": 0
+          },
+          "maxTrackingDomainError": 0.1
         }
       ],
       "brushReplacement": "double-click then drag passed",
@@ -327,8 +315,55 @@
       "overviewFollowsDetailViewport": "passed",
       "originalCoordinateTooltips": "CN33 interval and BND8437 passed",
       "svClickHighlight": "passed",
+      "svIntervalSelection": {
+        "gesture": "Shift-drag across linked detail tracks; double-click to clear",
+        "matching": "GenomeSpy link interval hit testing selects either breakpoint; matching arcs use 2 px strokes and retain existing hover/click opacity, other arcs use opacity 0.1 and retain existing stroke widths. Empty selection restores existing styling.",
+        "spanningBrush": true,
+        "otherTrackStylingUnchanged": true,
+        "viewportUnchanged": true,
+        "drawAndClear": "passed",
+        "hoverAndRetainedClickHighlight": "passed",
+        "svFileRequestsAcrossSelectionChanges": 1,
+        "consoleErrors": []
+      },
+      "svArcRendering": "Dome height uses a square-root scale over absolute linearized breakpoint separation, with domain [0, span(domain('x')) * height / width * 5] from sashimi-plot.json. An apex-only yOffset of -4 adds a 4 px visibility floor. Hover/selection fading is retained. Tall domes clip at the track boundary because GenomeSpy supports arcFadingDistance only for circular arcs. Eager loading remains intact.",
+      "eagerSvLoading": {
+        "linksRetained": 992,
+        "sitesRetained": 82,
+        "initialRequestsPerSvFile": 1,
+        "additionalRequestsDuringNavigation": 0,
+        "viewsChecked": ["whole genome", "chr8", "MYC"]
+      },
       "genotypeParsing": "GT 0/1 displayed correctly",
-      "standaloneSpecInGenomeSpyApp": "rendered without console warnings/errors"
+      "standaloneSpecInGenomeSpyApp": "rendered without console warnings/errors",
+      "svFeet": {
+        "encoding": "Two strand-directed breakpoint rules per SV, using an ordinal xOffset scale with domain ['-', '+'] and viewport-expression range [+length, -length]. Length is clamp(7 * 100000000 / viewportSpan, 1, 7) CSS pixels.",
+        "browserAndSvgChecks": {
+          "wholeGenomePx": 1,
+          "span200MbPx": 3.5,
+          "span100MbPx": 7,
+          "mycSpanPx": 7
+        },
+        "endpointRows": 1984,
+        "originalVcfCoordinatesRetainedInTooltips": true,
+        "svFileRequestsAcrossZooms": 1,
+        "consoleErrors": []
+      },
+      "declarativeCoverageOverlay": {
+        "calibration": {
+          "singleCopyDepth": 14.012,
+          "offset": 0.1,
+          "source": "Pinned run log rank-1 centers and archived Plotly layout.yaxis3 tickvals/ticktext"
+        },
+        "scaleResolution": "Shared viewport-derived primary CN y scale across HP1/HP2; excluded depth y resolutions with independent right axes.",
+        "domainTracking": "A one-row formula reads the primary CN domain and converts both bounds; invisible rules supply the two depth domains. Raw bins use the existing internal domainInert property. The zero-depth guide extends the lower bound from calibrated depth 0.1 to 0. Depth nicing, clamping and separate transitions are disabled.",
+        "rawBinClipping": "Raw bins outside calibrated CN bounds are clipped at the track edges without filtering the data, as requested.",
+        "wrapperJavaScriptUnchanged": true,
+        "knownLociAndTransitionAlignment": "Six views: upper bounds track CN calibration throughout transitions; the zero-depth guide extends lower bounds to 0, a 0.1-depth deviation from exact affine alignment. All detail tracks share the locus scale.",
+        "cn33OriginalCoordinateTooltip": "passed",
+        "svBrushingAndPointHighlightAfterOverlay": "passed",
+        "consoleErrors": []
+      }
     },
     "repositoryChecks": {
       "pytest": "51 passed",
@@ -356,13 +391,15 @@
     "The inspected chr8 Unphased trace is all zero and does not establish a reliable genome-wide series. Unphased depth and phasing confidence are unavailable here.",
     "Autosomal integer CN solution only; no inferred subclonal fractions or parental identities.",
     "UCSC snapshot URLs are mutable. Checksums pin accepted bytes and fail on drift; retain the cached downloads for long-term reproducibility.",
-    "Dense SVs overlap at whole-genome scale. Existing hover, retained selection, endpoint filtering and synchronized zoom provide inspection."
+    "Dense SVs overlap at whole-genome scale. Existing hover, retained selection and synchronized zoom provide inspection. All SVs load eagerly without viewport-dependent data filtering.",
+    "The CN-driven overlay intentionally clips raw read-depth bins outside the calibrated range; all inferred CN states fit the viewport-derived bounds. The declarative domain driver uses the existing domainInert flag, currently marked internal in Core."
   ],
   "references": {
     "wakhanCodeInspected": "https://github.com/KolmogorovLab/Wakhan/tree/d407ee6e2e609aa6c4c9d3690cd1cfc2be39ef37",
     "genomespyPatterns": [
       "examples/docs/grammar/parameters/genome-overview-detail.json",
-      "examples/docs/grammar/mark/link/dome-height.json",
+      "examples/docs/examples/genomic-data/hcc1954-sv-cnv.json",
+      "examples/docs/examples/genomic-data/sashimi-plot.json",
       "examples/docs/grammar/parameters/point-selection.json"
     ],
     "sentinelDefinition": "src/utils/chromosome.py in the inspected Wakhan revision defines CENTROMERE_SENTINEL=3300 for centromeric/blacklisted regions."

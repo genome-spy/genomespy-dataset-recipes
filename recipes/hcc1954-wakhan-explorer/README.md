@@ -59,24 +59,60 @@ labels, and SV highlighting.
   the brush to resize it; drag it to move. Scroll over
   the detail tracks to zoom and drag them to pan. Every detail track shares
   one locus viewport; the overview stays fixed and follows navigation.
+- Shift-drag across any detail track to select an x interval. Arcs with either
+  breakpoint inside use 2 px strokes and retain their current opacity;
+  other arcs use opacity 0.1 and keep their usual stroke widths.
+  Double-click to clear the interval and restore the usual SV styling. This
+  selection does not change track opacity elsewhere or move the viewport.
+- Move the pointer over a detail track to show a vertical genomic ruler across
+  the linked tracks. It follows the pointer and clears when you leave the tracks.
 - Start with **Chromosome 8**, then **HP2 CN 33** and **MYC neighbourhood**.
   MYC overlaps source CN 4 + 5; the separate CN-33 event is near 106.59 Mb.
   **ERBB2 locus** shows source CN 1 + 4, without overstating its amplification.
 - Hover or click an SV arc to highlight it. A retained selection dims other
-  arcs; clicking empty space clears it. BNDs require a visible endpoint at
-  closer zoom; interval SVs spanning the viewport remain visible. Single
-  breakends and insertions are small triangle sites, not invented arcs.
+  arcs; clicking empty space clears it. All SVs load eagerly and remain in
+  the dataflow while zooming and panning. Dome heights use the viewport-aware
+  square-root scale from GenomeSpy's `sashimi-plot.json` example, applied to
+  breakpoint separation. A 4 px height floor keeps short SVs visible at
+  whole-genome scale. Strand-directed feet mark both breakpoints: `+` extends
+  left and `-` right. Their length grows with zoom from 1 px at whole-genome
+  scale to 7 px when the viewport spans 100 Mb, then
+  stays capped. Feet share the arc colours. Arc hover/selection fading is retained.
+  Tall domes are clipped at the track boundary: GenomeSpy's `arcFadingDistance` currently supports
+  circular arcs only, so it cannot provide a top-edge fade for these domes.
+  Single breakends and insertions are small triangle sites, not invented arcs.
 - Hover CN intervals for original start/end, haplotype, copy state, segment
-  median depth, BED confidence, and breakpoint IDs. Coverage remains a
-  separate point track. The paired haplotypes share a quantitative range.
+  median depth, BED confidence, and breakpoint IDs. Solid CN intervals overlay
+  translucent coverage points. Copies use the left axis and read depth the
+  right; both HP tracks share the same CN range.
 
 This retains Wakhan's organization—SVs, haplotype depth/CN, BAF, genomic
 context—but uses positive, aligned HP tracks. **HP1/HP2 are chromosome-local,
-not maternal/paternal labels.** Quantitative ranges use viewport-derived
-extrema, with a zero baseline and a square-root depth axis. No measured
-high values are discarded or capped. Ranges settle after navigation pauses.
+not maternal/paternal labels.** The CN range uses viewport-derived extrema
+and a zero baseline. Linear read-depth axes follow the CN range using Wakhan's
+calibration, so inferred high-copy states remain visible. Raw bins outside
+the calibrated range are clipped without dropping them from the data.
+Ranges settle after navigation pauses.
 Genes use collision-aware labels, with only TERT, MYC, and ERBB2 labelled at
 whole-genome scale. The plot is intentionally quiet until a region is explored.
+
+### Declarative coverage/CN overlay
+
+The pinned run log and the archived Plotly CN axis agree on
+`depth = 14.012 × copies + 0.1`. The `copy-number` container owns a shared,
+viewport-derived y scale. Each HP's depth scale has `excluded` resolution and
+an independent right axis, with nicing and separate transitions disabled.
+
+A one-row formula at the shared CN scope reads `domain('y')` and converts its
+two bounds. An invisible `coverage-domain` rule supplies those bounds to each
+depth scale; `domainInert` on the raw bins prevents them from expanding it.
+Depth domains follow CN transitions without JavaScript scale listeners. The
+zero-depth guide extends the lower depth bound from 0.1 to 0; the upper bound
+remains calibrated. `domainInert` is an existing Core property currently marked internal.
+The more direct derived-parameter approach hits a Core initialization-order
+limitation: the tracking scale is initialized before a parameter based on
+`domain('y')` is registered. The formula approach avoids that dependency;
+[Core issue #505](https://github.com/genome-spy/genome-spy/issues/505) tracks it.
 
 ## Regenerate and verify
 
@@ -119,7 +155,8 @@ Tooltips explicitly identify the original coordinate convention.
 
 - **Masked is not amplified.** The source uses `3300` as a centromeric/blacklist
   sentinel in 4,800 bins. Preserve the raw values in the table but exclude
-  them from depth measurement and show 22 shaded intervals on depth/CN tracks.
+  them from depth measurement and show 22 diagonally hatched intervals with
+  subtle gray outlines on depth/CN tracks.
   Source zero CN inside these masks is not evidence of deletion.
 - Other zero depth and zero CN values remain visible as reported; an empty
   region is not filled with zeros. Sex chromosomes were outside the Wakhan
@@ -140,7 +177,7 @@ Tooltips explicitly identify the original coordinate convention.
   RefSeq gene spans are unions of curated coding transcripts, not a new
   cancer-gene census or evidence that each selected gene is altered.
 - Dense rearrangements still overlap at whole-genome scale; hover, selection,
-  endpoint-aware filtering and zoom provide inspection. This is a single-run
+  and zoom provide inspection. This is a single-run
   proof of concept, not a generic Wakhan importer or caller benchmark.
 
 Local browser validation covers whole genome, chr8, CN33, MYC, ERBB2 and

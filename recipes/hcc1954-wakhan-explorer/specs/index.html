@@ -56,11 +56,11 @@
             font-size: 12px;
         }
         .hp1 {
-            color: #a95737;
+            color: firebrick;
             font-weight: 650;
         }
         .hp2 {
-            color: #29738f;
+            color: steelblue;
             font-weight: 650;
         }
         nav {
@@ -173,15 +173,16 @@
             <div>
                 <p>
                     <strong>Reading the tracks.</strong> Solid intervals show
-                    inferred CN; dots show read depth. Paired HP tracks share a
-                    y range that adapts after navigation pauses. Masked
-                    centromeric bins are shaded; all measured coverage is
-                    retained; depth uses a square-root axis.
+                    inferred CN over read-depth dots. Copies use the left axis;
+                    depth uses the calibrated right axis. Paired HP tracks share
+                    a CN range that adapts after navigation pauses. Raw bins
+                    outside this range are clipped. Masked centromeric bins are
+                    hatched.
                 </p>
                 <p>
                     Folded BAF spans 0–0.5. Grey zero bins have unknown SNP
-                    support. Shaded regions are masked or lack source segments;
-                    a coloured interval at zero is a reported zero CN state.
+                    support. Plain gray regions lack source CN segments; a
+                    coloured interval at zero is a reported zero CN state.
                 </p>
             </div>
             <div>
