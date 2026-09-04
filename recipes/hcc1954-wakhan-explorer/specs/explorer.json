@@ -7,7 +7,7 @@
   "assembly": "hg38",
   "padding": {
     "left": 10,
-    "right": 18,
+    "right": 10,
     "top": 8,
     "bottom": 5
   },
@@ -92,7 +92,12 @@
               "stroke": "#487d91",
               "strokeOpacity": 0.65,
               "strokeWidth": 1,
-              "fillOpacity": 0,
+              "fill": "#75adbf",
+              "fillOpacity": 0.01,
+              "shadowBlur": 10,
+              "shadowColor": "#75adbf",
+              "shadowOpacity": 0.5,
+              "clip": false,
               "measure": "inside"
             }
           }

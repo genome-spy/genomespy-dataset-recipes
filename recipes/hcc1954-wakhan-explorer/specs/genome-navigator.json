@@ -2,12 +2,10 @@
   "$schema": "https://cdn.jsdelivr.net/npm/@genome-spy/core/dist/schema.json",
   "description": "Whole-genome overview and linked navigation brush.",
   "name": "overview",
-  "resolve": {
-    "scale": {
-      "x": "excluded"
-    }
-  },
-  "height": 25,
+
+  "resolve": { "scale": { "x": "excluded" } },
+
+  "height": 20,
   "title": {
     "text": "Genome navigator | double-click, then drag to brush; scroll to resize; drag selection to move",
     "anchor": "start",
@@ -22,7 +20,8 @@
     }
   },
   "view": {
-    "stroke": "#ccd4d8"
+    "stroke": "#ccd4d8",
+    "strokeZindex": 10
   },
   "encoding": {
     "x": {
@@ -80,8 +79,12 @@
         "mark": {
           "stroke": "#487d91",
           "strokeWidth": 1.5,
+          "strokeOpacity": 0.85,
           "fill": "#75adbf",
-          "fillOpacity": 0.1,
+          "fillOpacity": 0.02,
+          "shadowBlur": 10,
+          "shadowColor": "#75adbf",
+          "shadowOpacity": 0.5,
           "zindex": 11,
           "clip": false
         },
