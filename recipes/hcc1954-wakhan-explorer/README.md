@@ -60,15 +60,15 @@ labels, and SV highlighting.
 styling, shared genomic viewport, ruler, and region selection, and imports these
 track specifications:
 
-| File | Contents |
-| --- | --- |
-| [`genome-navigator.json`](specs/genome-navigator.json) | Whole-genome overview and navigation brush |
-| [`structural-variants.json`](specs/structural-variants.json) | SV domes, breakpoint feet, insertions and single breakends |
-| [`copy-number.json`](specs/copy-number.json) | Shared CN autoscaling, calibration parameters and two HP instances |
-| [`haplotype.json`](specs/haplotype.json) | Reusable HP coverage/CN overlay, including the blacklist template |
-| [`baf.json`](specs/baf.json) | Folded BAF bins and reference guides |
-| [`cytobands.json`](specs/cytobands.json) | Chromosome bands and labels that appear when space permits |
-| [`selected-genes.json`](specs/selected-genes.json) | Selected genes and zoom-dependent labels |
+| File                                                         | Contents                                                           |
+| ------------------------------------------------------------ | ------------------------------------------------------------------ |
+| [`genome-navigator.json`](specs/genome-navigator.json)       | Whole-genome overview and navigation brush                         |
+| [`structural-variants.json`](specs/structural-variants.json) | SV domes, breakpoint feet, insertions and single breakends         |
+| [`copy-number.json`](specs/copy-number.json)                 | Shared CN autoscaling, calibration parameters and two HP instances |
+| [`haplotype.json`](specs/haplotype.json)                     | Reusable HP coverage/CN overlay, including the blacklist template  |
+| [`baf.json`](specs/baf.json)                                 | Folded BAF bins and reference guides                               |
+| [`cytobands.json`](specs/cytobands.json)                     | Chromosome bands and labels that appear when space permits         |
+| [`selected-genes.json`](specs/selected-genes.json)           | Selected genes and zoom-dependent labels                           |
 
 Imports are relative to their containing spec. Keep these files together in
 `specs/`; data URLs remain relative paths into `../output/`.
@@ -88,10 +88,16 @@ Imports are relative to their containing spec. Keep these files together in
   selection does not change track opacity elsewhere or move the viewport.
 - Move the pointer over a detail track to show a vertical genomic ruler across
   the linked tracks. It follows the pointer and clears when you leave the tracks.
-  Uncheck **Show ruler** beside the locus buttons to clear it and stop tracking
-  (in GenomeSpy App: **View settings → Parameters**). Rechecking resumes
+  Uncheck **Show ruler** beside the locus buttons to clear the guides and stop
+  tracking (in GenomeSpy App: **View settings → Parameters**). Rechecking resumes
   tracking on the next pointer movement. This uses Core's reactive
   `ruler.disabled` support.
+- CN and BAF tracks also show restrained, track-local horizontal rulers. The CN
+  rulers follow the primary copy-number scale; the BAF ruler follows its 0–0.5
+  scale. All rulers share the same gray styling. They clear independently when
+  the pointer leaves each track and follow the same **Show ruler** control. The
+  guides are hidden while the pointer is inside the SV interval selection,
+  leaving the brush unobstructed, and return immediately when the pointer exits.
 - Start with **Chromosome 8**, then **HP2 CN 33** and **MYC neighbourhood**.
   MYC overlaps source CN 4 + 5; the separate CN-33 event is near 106.59 Mb.
   **ERBB2 locus** shows source CN 1 + 4, without overstating its amplification.

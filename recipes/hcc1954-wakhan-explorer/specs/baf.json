@@ -10,6 +10,26 @@
     "color": "#364653",
     "offset": 5
   },
+  "params": [
+    {
+      "name": "bafHorizontalCursor",
+      "persist": false,
+      "ruler": {
+        "disabled": { "expr": "!showRuler" },
+        "encodings": ["y"],
+        "extent": "view",
+        "display": "line",
+        "mark": {
+          "stroke": "#6b7c85",
+          "strokeWidth": 1,
+          "strokeDash": [3, 3],
+          "opacity": {
+            "expr": "pointerOverSvRegion ? 0 : 0.75"
+          }
+        }
+      }
+    }
+  ],
   "layer": [
     {
       "data": {

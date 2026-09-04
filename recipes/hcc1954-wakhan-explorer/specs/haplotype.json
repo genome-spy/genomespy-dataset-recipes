@@ -15,6 +15,24 @@
       "name": "binInk",
       "value": "#cd6f6f",
       "description": "Lighter haplotype colour for raw coverage bins; inferred CN uses ink."
+    },
+    {
+      "name": "cnHorizontalCursor",
+      "persist": false,
+      "ruler": {
+        "disabled": { "expr": "!showRuler" },
+        "encodings": ["y"],
+        "extent": "view",
+        "display": "line",
+        "mark": {
+          "stroke": "#6b7c85",
+          "strokeWidth": 1,
+          "strokeDash": [3, 3],
+          "opacity": {
+            "expr": "pointerOverSvRegion ? 0 : 0.75"
+          }
+        }
+      }
     }
   ],
   "title": {

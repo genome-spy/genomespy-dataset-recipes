@@ -72,7 +72,9 @@
               "stroke": "#6b7c85",
               "strokeWidth": 1,
               "strokeDash": [3, 3],
-              "opacity": 0.75
+              "opacity": {
+                "expr": "pointerOverSvRegion ? 0 : 0.75"
+              }
             }
           }
         },
@@ -94,6 +96,11 @@
               "measure": "inside"
             }
           }
+        },
+        {
+          "name": "pointerOverSvRegion",
+          "expr": "genomicCursor.values.x != null && svRegion.intervals.x != null && linearize('x', genomicCursor.values.x) >= svRegion.intervals.x[0] && linearize('x', genomicCursor.values.x) <= svRegion.intervals.x[1]",
+          "description": "Whether the genomic pointer is inside the active SV interval selection. Used to suppress rulers while the brush is under the pointer."
         }
       ],
       "resolve": {

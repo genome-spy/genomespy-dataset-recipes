@@ -372,6 +372,14 @@
         "disabledTracking": "Checkbox clears the coordinate; movement over HP1, HP2 and BAF leaves it inactive.",
         "reenabledTracking": "Rechecking restores tracking during pointer movement across the linked tracks.",
         "consoleErrors": []
+      },
+      "horizontalRulers": {
+        "parameters": "Track-local cnHorizontalCursor in each imported haplotype view and bafHorizontalCursor in the BAF view; all use y encodings with view extent.",
+        "copyNumberScale": "HP1 and HP2 rulers resolve independently to the shared primary CN scale and report finite values within its current viewport-derived domain.",
+        "bafScale": "The BAF ruler resolves to the fixed [0, 0.5] scale and reports values within that domain.",
+        "interaction": "Only the hovered track ruler is active; all three clear on track exit. The linked vertical genomic ruler remains available concurrently. Show ruler disables and restores every guide. Reactive opacity suppresses all guides while genomicCursor is inside the active svRegion interval and restores them immediately on exit.",
+        "consoleErrors": [],
+        "styling": "Vertical, CN and BAF rulers use the same #6b7c85 stroke, 1 px width, [3, 3] dash and normal opacity 0.75."
       }
     },
     "repositoryChecks": {
