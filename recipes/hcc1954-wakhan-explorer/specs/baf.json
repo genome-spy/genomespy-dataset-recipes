@@ -57,18 +57,18 @@
         "size": {
           "expr": "min(1 * pow(zoomLevel, 1.5), 100)"
         },
+        "opacity": 0.25,
         "strokeWidth": 0,
-        "color": "#428b81",
         "clip": "x"
       },
       "encoding": {
-        "opacity": {
+        "color": {
           "condition": {
             "param": "svRegion",
             "empty": true,
-            "value": 0.25
+            "value": "#428b81"
           },
-          "value": 0.08
+          "value": "#cbd2d6"
         },
         "x": {
           "chrom": "chrom",
@@ -134,19 +134,19 @@
         "size": {
           "expr": "min(1 * pow(zoomLevel, 1.5), 100)"
         },
+        "opacity": 0.25,
         "strokeWidth": 0,
-        "color": "#aeb8bd",
         "shape": "cross",
         "clip": "x"
       },
       "encoding": {
-        "opacity": {
+        "color": {
           "condition": {
             "param": "svRegion",
             "empty": true,
-            "value": 0.25
+            "value": "#aeb8bd"
           },
-          "value": 0.08
+          "value": "#cbd2d6"
         },
         "x": {
           "chrom": "chrom",

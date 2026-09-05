@@ -127,20 +127,20 @@
         "size": {
           "expr": "min(1 * pow(zoomLevel, 1.5) + 2, 100)"
         },
-        "color": {
-          "expr": "binInk"
-        },
+        "opacity": 0.25,
         "strokeWidth": 0,
         "clip": true
       },
       "encoding": {
-        "opacity": {
+        "color": {
           "condition": {
             "param": "svRegion",
             "empty": true,
-            "value": 0.25
+            "value": {
+              "expr": "binInk"
+            }
           },
-          "value": 0.08
+          "value": "#cbd2d6"
         },
         "x": {
           "chrom": "chrom",
@@ -221,21 +221,20 @@
       ],
       "mark": {
         "type": "rule",
-        "color": {
-          "expr": "ink"
-        },
         "size": 3,
         "minLength": 1,
         "clip": "x"
       },
       "encoding": {
-        "opacity": {
+        "color": {
           "condition": {
             "param": "svRegion",
             "empty": true,
-            "value": 1
+            "value": {
+              "expr": "ink"
+            }
           },
-          "value": 0.4
+          "value": "#8f999e"
         },
         "x": {
           "chrom": "chrom",
