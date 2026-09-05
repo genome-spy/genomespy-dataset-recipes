@@ -73,7 +73,7 @@
               "strokeWidth": 1,
               "strokeDash": [3, 3],
               "opacity": {
-                "expr": "pointerOverSvRegion ? 0 : 0.75"
+                "expr": "rulerOpacity"
               }
             }
           }
@@ -106,6 +106,16 @@
           "name": "pointerOverSvRegion",
           "expr": "genomicCursor.values.x != null && svRegion.intervals.x != null && linearize('x', genomicCursor.values.x) >= svRegion.intervals.x[0] && linearize('x', genomicCursor.values.x) <= svRegion.intervals.x[1]",
           "description": "Whether the genomic pointer is inside the active SV interval selection. Used to suppress rulers while the brush is under the pointer."
+        },
+        {
+          "name": "rulerOpacity",
+          "expr": "pointerOverSvRegion ? 0 : 0.75",
+          "transition": {
+            "type": "lerp",
+            "halfLife": 50,
+            "epsilon": 0.01
+          },
+          "description": "Shared ruler opacity. A 50 ms half-life and 0.01 snap threshold settle a 0-0.75 change in about 300 ms."
         }
       ],
       "resolve": {
