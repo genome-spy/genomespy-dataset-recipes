@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "releaseId": "v1",
+  "releaseId": "v2",
   "recipeId": "hcc1954-wakhan-explorer",
   "sources": [
     {
@@ -89,6 +89,22 @@
       "retrieved": "2026-09-03",
       "fileSizeBytes": 4801131,
       "sha256": "67090326b606658bdabdfe5f8dcb97b7943ac802c7945399522be7174ec021ca"
+    },
+    {
+      "id": "ncg",
+      "title": "Network of Cancer Genes 7.2: cancer-driver annotation and supporting evidence",
+      "version": "7.2",
+      "publication": "https://doi.org/10.1186/s13059-022-02607-z",
+      "url": "http://www.network-cancer-genes.org/download.php",
+      "formData": {
+        "downloadcancergenes": "Download"
+      },
+      "filename": "NCG_cancerdrivers_annotation_supporting_evidence.tsv",
+      "retrieved": "2026-09-05",
+      "lastModified": "2022-02-21T17:00:35Z",
+      "license": "Freely downloadable; no license required; citation requested",
+      "fileSizeBytes": 959142,
+      "sha256": "e1e1f8ff4dd6f3107a5dfe9f60e20dc52c62313cb8e4411856329a66849580a1"
     }
   ],
   "parameters": {
@@ -104,22 +120,8 @@
     "ploidy": 4.57,
     "cellPurity": 0.99,
     "solutionConfidence": 0.9,
-    "selectedGenes": [
-      "APC",
-      "BRCA1",
-      "BRCA2",
-      "CCND1",
-      "CDKN2A",
-      "EGFR",
-      "ERBB2",
-      "KRAS",
-      "MYC",
-      "PIK3CA",
-      "PTEN",
-      "RB1",
-      "TERT",
-      "TP53"
-    ]
+    "geneSet": "NCG 7.2 canonical cancer drivers",
+    "geneSupportScore": "Distinct PubMed IDs across all NCG evidence rows for each canonical driver"
   },
   "tools": {
     "python": "3.12.13",
@@ -166,9 +168,9 @@
     },
     "genes.tsv": {
       "path": "output/genes.tsv",
-      "fileSizeBytes": 465,
-      "sha256": "7bf4b3c7a25cc887261c7062b58a3ba77949f574ad5f268ca367872ea699afcd",
-      "recordCount": 14
+      "fileSizeBytes": 46034,
+      "sha256": "c4f8c1ab41e9125e96ec1e3d4bd5bed73a8dafbf91f349261b6365035f927ffc",
+      "recordCount": 593
     },
     "unavailable-cn.tsv": {
       "path": "output/unavailable-cn.tsv",
@@ -210,7 +212,6 @@
     },
     "sourcePlotCoverageRange": [-495.42, 495.42],
     "chromosomeLengthsMatchVcfAndPlot": true,
-    "geneCount": 14,
     "maskedIntervals": 22,
     "sourceLinkage": {
       "reference": "grch38_chr.fasta",
@@ -234,7 +235,8 @@
       "downloadUrls": {
         "archive": 200,
         "cytobands": 200,
-        "refseq": 200
+        "refseq": 200,
+        "ncg": 200
       }
     },
     "browser": {
@@ -386,14 +388,36 @@
         "interaction": "Only the hovered track ruler is active; all three clear on track exit. The linked vertical genomic ruler remains available concurrently. Show ruler disables and restores every guide. Reactive opacity suppresses all guides while genomicCursor is inside the active svRegion interval and restores them immediately on exit.",
         "consoleErrors": [],
         "styling": "Vertical, CN and BAF rulers use the same #6b7c85 stroke, 1 px width, [3, 3] dash and normal opacity 0.75."
+      },
+      "geneAnnotations": {
+        "dataRows": 593,
+        "uniqueCanonicalGenes": 591,
+        "wholeGenomeLabels": "Collision-filtered publication-ranked labels rendered",
+        "chromosome8": "Gene intervals and labels rendered across chr8; MYC remained visible",
+        "linkedViewport": "passed",
+        "consoleErrors": []
       }
     },
     "repositoryChecks": {
-      "pytest": "51 passed",
+      "pytest": "56 passed",
       "ruff": "passed",
       "ruffFormat": "passed",
       "mypy": "passed",
       "recipeContract": "passed"
+    },
+    "geneAnnotations": {
+      "canonicalGenes": 591,
+      "genomicLoci": 593,
+      "supportCount": {
+        "definition": "Distinct PubMed IDs in NCG evidence rows",
+        "minimum": 1,
+        "median": 3,
+        "percentile90": 21,
+        "maximum": 203,
+        "distinctValues": 54
+      },
+      "allCanonicalGenesMappedToRefSeq": true,
+      "pseudoautosomalGenesWithTwoLoci": ["CRLF2", "P2RY8"]
     }
   },
   "transformations": {
@@ -403,7 +427,7 @@
     "coverage": "Parse literal Plotly JSON without executing HTML. Match HP1, HP2 and BAF coordinates. Undo mirrored HP2 sign. Recover chr1-22 from source position resets and verify offsets against pinned GRCh38 lengths. Retain all 50 kb bins without sampling.",
     "masks": "Preserve raw sentinel 3300 in the table with coverageStatus=masked, exclude it from depth plotting/autoscaling, and shade merged mask intervals over depth/CN. Do not interpret masked source CN zero as deletion.",
     "missingness": "Keep reported nonmasked zeros. Mark CN terminal tails and unanalysed sex chromosomes as unavailable. Preserve BAF zero with an explicit unknown-SNP-support status. Do not infer phasing confidence or unphased depth.",
-    "annotations": "UCSC hg38 cytobands plus unions of curated NM_ RefSeq transcript spans for 14 explicitly selected genes. No COSMIC data are copied.",
+    "annotations": "UCSC hg38 cytobands plus unions of curated NM_ RefSeq transcript spans for all 591 NCG 7.2 canonical cancer drivers. Rank labels by the number of distinct supporting PubMed IDs across NCG evidence rows.",
     "chromosomeLengthsDigest": "SHA-256 of UTF-8 JSON of chr1-22/X/Y length mapping, sorted keys, separators comma and colon; independently matched to GenomeSpy GRCh38.",
     "browserParsing": "Explicit string parsing preserves GT, HP, phase sets and variant IDs; original genomic anchors are retained for tooltips."
   },
@@ -414,6 +438,7 @@
     "The inspected chr8 Unphased trace is all zero and does not establish a reliable genome-wide series. Unphased depth and phasing confidence are unavailable here.",
     "Autosomal integer CN solution only; no inferred subclonal fractions or parental identities.",
     "UCSC snapshot URLs are mutable. Checksums pin accepted bytes and fail on drift; retain the cached downloads for long-term reproducibility.",
+    "NCG supportCount measures breadth of supporting publications, not effect size, formal statistical significance or evidence that a gene is altered in HCC1954.",
     "Dense SVs overlap at whole-genome scale. Existing hover, retained selection and synchronized zoom provide inspection. All SVs load eagerly without viewport-dependent data filtering.",
     "The CN-driven overlay intentionally clips raw read-depth bins outside the calibrated range; all inferred CN states fit the viewport-derived bounds. Scale-dependent parameters require the Core initialization fix for #505."
   ],
@@ -425,10 +450,14 @@
       "examples/docs/examples/genomic-data/sashimi-plot.json",
       "examples/docs/grammar/parameters/point-selection.json"
     ],
-    "sentinelDefinition": "src/utils/chromosome.py in the inspected Wakhan revision defines CENTROMERE_SENTINEL=3300 for centromeric/blacklisted regions."
+    "sentinelDefinition": "src/utils/chromosome.py in the inspected Wakhan revision defines CENTROMERE_SENTINEL=3300 for centromeric/blacklisted regions.",
+    "ncg": {
+      "database": "http://www.network-cancer-genes.org/",
+      "publication": "https://doi.org/10.1186/s13059-022-02607-z"
+    }
   },
   "distribution": {
-    "baseUrl": "https://data.genomespy.app/datasets/hcc1954-wakhan-explorer/v1/",
+    "baseUrl": "https://data.genomespy.app/datasets/hcc1954-wakhan-explorer/v2/",
     "artifacts": {
       "output/coverage-baf.tsv": {
         "fileSizeBytes": 5581542,
@@ -455,8 +484,8 @@
         "sha256": "c1d07d3aba76426c133c2e7ee2b345c80f3d02ced98b775d17a0f76ffac90325"
       },
       "output/genes.tsv": {
-        "fileSizeBytes": 465,
-        "sha256": "7bf4b3c7a25cc887261c7062b58a3ba77949f574ad5f268ca367872ea699afcd"
+        "fileSizeBytes": 46034,
+        "sha256": "c4f8c1ab41e9125e96ec1e3d4bd5bed73a8dafbf91f349261b6365035f927ffc"
       },
       "output/unavailable-cn.tsv": {
         "fileSizeBytes": 1309,

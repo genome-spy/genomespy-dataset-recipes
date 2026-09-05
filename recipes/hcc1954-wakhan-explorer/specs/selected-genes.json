@@ -1,15 +1,20 @@
 {
   "$schema": "https://cdn.jsdelivr.net/npm/@genome-spy/core/dist/schema.json",
-  "description": "Selected cancer genes with restrained labels and genomic tooltips.",
+  "description": "NCG canonical cancer drivers with evidence-ranked labels and genomic tooltips.",
   "name": "genes",
   "title": {
-    "text": "Selected cancer genes | RefSeq / GRCh38",
+    "text": "NCG canonical cancer drivers | RefSeq / GRCh38",
     "anchor": "start",
     "fontSize": 11,
     "color": "#364653",
     "offset": 5
   },
   "height": 25,
+  "axes": {
+    "x": {
+      "title": null
+    }
+  },
   "data": {
     "url": "../output/genes.tsv"
   },
@@ -48,8 +53,21 @@
         "title": "Strand"
       },
       {
+        "field": "driverRole",
+        "title": "Driver role"
+      },
+      {
+        "field": "supportCount",
+        "title": "Supporting publications",
+        "format": ",d"
+      },
+      {
+        "field": "entrez",
+        "title": "Entrez Gene ID"
+      },
+      {
         "title": "Annotation",
-        "expr": "\"Union of curated protein-coding RefSeq transcripts\""
+        "expr": "\"NCG 7.2 canonical driver; union of curated protein-coding RefSeq transcripts\""
       }
     ]
   },
@@ -69,12 +87,12 @@
           "type": "linearizeGenomicCoordinate",
           "chrom": "chrom",
           "pos": "start",
-          "as": "_pos"
+          "as": "_start"
         },
         {
           "type": "formula",
-          "expr": "datum.symbol == 'MYC' || datum.symbol == 'ERBB2' || datum.symbol == 'TERT' ? 10 : 1",
-          "as": "score"
+          "expr": "datum._start + (datum.end - datum.start) / 2",
+          "as": "_centroid"
         },
         {
           "type": "formula",
@@ -90,10 +108,10 @@
         {
           "type": "filterScoredLabels",
           "lane": "lane",
-          "score": "score",
+          "score": "supportCount",
           "width": "_width",
-          "pos": "_pos",
-          "padding": 12
+          "pos": "_centroid",
+          "padding": 3
         }
       ],
       "mark": {
@@ -101,17 +119,20 @@
         "size": 10,
         "color": "#425560",
         "y": 0.75,
-        "align": "center"
+        "yOffset": 2,
+        "align": "center",
+        "tooltip": {
+          "handler": "refseqgene"
+        }
       },
       "encoding": {
+        "x": {
+          "field": "_centroid",
+          "type": "locus"
+        },
         "x2": null,
         "text": {
           "field": "symbol"
-        },
-        "opacity": {
-          "expr": "datum.score == 10 || zoomLevel > 5 ? 1 : 0",
-          "type": "quantitative",
-          "scale": null
         }
       }
     }

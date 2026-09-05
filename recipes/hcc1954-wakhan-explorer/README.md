@@ -19,7 +19,15 @@ This fuller recipe complements `hcc1954-castle-severus-wakhan`; it does not
 change that recipe's data contract. The source figure supplies **57,509 50 kb
 bins** of coverage and folded BAF. No BAM processing, imputation, random
 sampling, or new CN inference is performed. Reference context comes from UCSC
-GRCh38 cytobands and 14 selected NCBI RefSeq genes.
+GRCh38 cytobands and all 591 canonical cancer drivers in Network of Cancer
+Genes (NCG) 7.2, positioned using NCBI RefSeq.
+
+This is a proof of concept built from published analysis artifacts, not a
+general Wakhan importer. The deposited CN and SV results are tabular, but the
+binned coverage and BAF values are available only as literal JSON in an
+archived Plotly figure. The recipe extracts those arrays without executing the
+HTML. If there is interest, the same visualization approach could later be
+adapted to standard Wakhan output directories or portable result bundles.
 
 ## View the demo
 
@@ -68,7 +76,7 @@ track specifications:
 | [`haplotype.json`](specs/haplotype.json)                     | Reusable HP coverage/CN overlay, including the blacklist template  |
 | [`baf.json`](specs/baf.json)                                 | Folded BAF bins and reference guides                               |
 | [`cytobands.json`](specs/cytobands.json)                     | Chromosome bands and labels that appear when space permits         |
-| [`selected-genes.json`](specs/selected-genes.json)           | Selected genes and zoom-dependent labels                           |
+| [`selected-genes.json`](specs/selected-genes.json)           | NCG canonical drivers with publication-ranked labels               |
 
 Imports are relative to their containing spec. Keep these files together in
 `specs/`; data URLs remain relative paths into `../output/`.
@@ -131,8 +139,10 @@ and a zero baseline. Linear read-depth axes follow the CN range using Wakhan's
 calibration, so inferred high-copy states remain visible. Raw bins outside
 the calibrated range are clipped without dropping them from the data.
 Ranges settle after navigation pauses.
-Genes use collision-aware labels, with only TERT, MYC, and ERBB2 labelled at
-whole-genome scale. The plot is intentionally quiet until a region is explored.
+Genes use collision-aware labels ranked by the number of distinct publications
+supporting each canonical driver in NCG. This provides useful label priority
+without presenting the count as formal significance. More labels appear as the
+viewport narrows.
 
 ### Declarative coverage/CN overlay
 
@@ -166,13 +176,13 @@ uv run pytest tests/test_hcc1954_wakhan_explorer.py
 uv run python tools/check_repo.py
 ```
 
-The standard-library Python script pins archive/member and reference-file
-SHA-256s, extracts only selected members, parses literal JSON arrays without
-executing Plotly HTML, and checks accepted output fingerprints. The UCSC URLs
-are mutable; a changed upstream snapshot fails checksum validation instead of
-silently changing the dataset. Retain the pinned download cache for long-term
-reproduction. Exact sources, parameters, fingerprints, and accepted validation
-are in [provenance.json](provenance.json).
+The standard-library Python script pins archive/member, reference-table, and
+NCG evidence-file SHA-256s, extracts only selected members, parses literal JSON
+arrays without executing Plotly HTML, and checks accepted output fingerprints.
+The UCSC URLs and NCG download response are mutable; changed upstream bytes fail
+checksum validation instead of silently changing the dataset. Retain the pinned
+download cache for long-term reproduction. Exact sources, parameters,
+fingerprints, and accepted validation are in [provenance.json](provenance.json).
 
 **SV rule:** select the `wakhan_haplotagged` FORMAT column explicitly; require
 `FILTER=PASS`, a fully called GT, and at least one allele greater than zero.
@@ -183,6 +193,11 @@ with both original IDs. All 1,766 records in this single-sample source pass,
 producing 992 links and 82 sites. Synthetic multi-sample regression tests
 exercise the exclusion rule.
 
+**Gene rule:** retain every symbol with at least one NCG row whose `type` is
+`Canonical Cancer Driver`. Count distinct nonempty PubMed IDs across all NCG
+rows for that symbol and store the result as `supportCount`. Map every retained
+symbol to the union of its curated protein-coding RefSeq transcripts on GRCh38.
+
 Outputs in ignored `output/` are `coverage-baf.tsv`,
 `copy-number-segments.tsv`, `sv-links.tsv`, `sv-sites.tsv`, `masked-regions.tsv`,
 `unavailable-cn.tsv`, `cytobands.tsv`, and `genes.tsv`. Coordinates used for
@@ -190,6 +205,9 @@ plotting are zero-based, half-open. VCF anchors subtract one; original VCF
 positions remain in `position1/2`. Wakhan's mixed zero/one-based first bin and
 closed segment coordinates use `start=max(0,sourceStart-1)`, retaining the end.
 Tooltips explicitly identify the original coordinate convention.
+`genes.tsv` contains 591 canonical NCG genes at 593 RefSeq loci: CRLF2 and
+P2RY8 each occur in both pseudoautosomal regions. `supportCount` is the number
+of distinct PubMed IDs across all NCG evidence rows for that gene.
 
 ## Availability and limitations
 
@@ -214,8 +232,9 @@ Tooltips explicitly identify the original coordinate convention.
   confidence values differ from the HTML tooltip values; the BED is the
   authoritative source here. These are CN scores, not phasing confidence.
 - The chosen integer CN solution is shown; no subclonal fraction is invented.
-  RefSeq gene spans are unions of curated coding transcripts, not a new
-  cancer-gene census or evidence that each selected gene is altered.
+  RefSeq gene spans are unions of curated coding transcripts. NCG canonical
+  status and publication counts describe general cancer-driver evidence, not
+  formal significance or evidence that a gene is altered in HCC1954.
 - Dense rearrangements still overlap at whole-genome scale; hover, selection,
   and zoom provide inspection. This is a single-run
   proof of concept, not a generic Wakhan importer or caller benchmark.
@@ -232,6 +251,8 @@ Data: Ahmad Tanveer and Mikhail Kolmogorov, Wakhan / CASTLE,
 [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Cite the
 [Wakhan paper](https://doi.org/10.64898/2025.12.11.25342098) and the
 [Severus publication](https://doi.org/10.1038/s41587-025-02618-8).
-Annotations: UCSC Genome Browser and NCBI RefSeq. Tables are transformed extracts;
-no author endorsement is implied. See [RIGHTS.md](RIGHTS.md). Hosting is eligible
-under its conditions; this task remains local, with no S3 upload.
+Annotations: UCSC Genome Browser, NCBI RefSeq, and NCG 7.2; cite the
+[NCG publication](https://doi.org/10.1186/s13059-022-02607-z). Tables are
+transformed extracts; no author endorsement is implied. See
+[RIGHTS.md](RIGHTS.md). Hosting is eligible under its conditions; this task
+remains local, with no S3 upload.

@@ -20,13 +20,11 @@ import tarfile
 from collections import Counter
 from pathlib import Path
 from typing import Any
+from urllib.parse import urlencode
 from urllib.request import Request, urlopen
 
 ROOT = Path(__file__).resolve().parents[1]
 SAMPLE = "wakhan_haplotagged"
-GENES = (
-    "MYC ERBB2 TP53 BRCA1 BRCA2 PIK3CA PTEN EGFR TERT APC RB1 CCND1 CDKN2A KRAS".split()
-)
 Row = dict[str, Any]
 
 
@@ -44,7 +42,13 @@ def verify(path: Path, lock: Row) -> None:
 def fetch(source: Row, destination: Path) -> None:
     if not destination.exists():
         temporary = destination.with_suffix(destination.suffix + ".part")
-        request = Request(source["url"], headers={"User-Agent": "GenomeSpy recipe"})
+        form_data = source.get("formData")
+        body = urlencode(form_data).encode() if form_data else None
+        request = Request(
+            source["url"],
+            data=body,
+            headers={"User-Agent": "GenomeSpy recipe"},
+        )
         with urlopen(request, timeout=120) as response, temporary.open("wb") as out:
             shutil.copyfileobj(response, out)
         verify(temporary, source)
@@ -268,6 +272,46 @@ def bins(traces: list[Row], lengths: dict[str, int]) -> list[Row]:
     return result
 
 
+def canonical_drivers(path: Path) -> dict[str, Row]:
+    """Aggregate NCG canonical drivers and their literature support."""
+
+    evidence: dict[str, list[Row]] = {}
+    canonical: set[str] = set()
+    with path.open() as stream:
+        for row in csv.DictReader(stream, delimiter="\t"):
+            symbol = row["symbol"]
+            evidence.setdefault(symbol, []).append(row)
+            if row["type"] == "Canonical Cancer Driver":
+                canonical.add(symbol)
+
+    result: dict[str, Row] = {}
+    for symbol in canonical:
+        rows = evidence[symbol]
+        entrez_ids = {row["entrez"] for row in rows}
+        roles = {
+            (row["NCG_oncogene"], row["NCG_tsg"])
+            for row in rows
+            if row["NCG_oncogene"] and row["NCG_tsg"]
+        }
+        assert len(entrez_ids) == len(roles) == 1
+        oncogene, tumour_suppressor = roles.pop()
+        if (oncogene, tumour_suppressor) == ("1", "0"):
+            role = "Oncogene"
+        elif (oncogene, tumour_suppressor) == ("0", "1"):
+            role = "Tumour suppressor"
+        else:
+            assert (oncogene, tumour_suppressor) == ("0", "0")
+            role = "Dual or unclassified"
+        publications = {row["pubmed_id"] for row in rows if row["pubmed_id"]}
+        result[symbol] = dict(
+            entrez=int(entrez_ids.pop()),
+            ncgClass="Canonical cancer driver",
+            driverRole=role,
+            supportCount=len(publications),
+        )
+    return result
+
+
 def reference_annotations(
     paths: dict[str, Path], lengths: dict[str, int]
 ) -> tuple[list[Row], list[Row]]:
@@ -285,34 +329,43 @@ def reference_annotations(
                         stain=stain,
                     )
                 )
-    genes: dict[str, Row] = {}
+    drivers = canonical_drivers(paths["ncg"])
+    assert len(drivers) == 591, "Unexpected NCG canonical driver count"
+    genes: dict[tuple[str, str, str], Row] = {}
     with gzip.open(paths["refseq"], "rt") as stream:
         for fields in csv.reader(stream, delimiter="\t"):
             _, accession, chrom, strand, start, end = fields[:6]
             symbol = fields[12]
             if (
-                symbol not in GENES
+                symbol not in drivers
                 or chrom not in lengths
                 or not accession.startswith("NM_")
             ):
                 continue
-            if symbol in genes:
-                row = genes[symbol]
-                assert row["chrom"] == chrom and row["strand"] == strand
+            key = (symbol, chrom, strand)
+            if key in genes:
+                row = genes[key]
                 row["start"], row["end"] = (
                     min(row["start"], int(start)),
                     max(row["end"], int(end)),
                 )
             else:
-                genes[symbol] = dict(
+                genes[key] = dict(
                     chrom=chrom,
                     start=int(start),
                     end=int(end),
                     symbol=symbol,
                     strand=strand,
+                    **drivers[symbol],
                 )
-    assert set(genes) == set(GENES), "Missing requested gene"
-    return bands, list(genes.values())
+    assert {row["symbol"] for row in genes.values()} == set(drivers), (
+        "Missing NCG gene in RefSeq"
+    )
+    chrom_order = {chrom: index for index, chrom in enumerate(lengths)}
+    ordered_genes = sorted(
+        genes.values(), key=lambda row: (chrom_order[row["chrom"]], row["start"])
+    )
+    return bands, ordered_genes
 
 
 def write_table(name: str, rows: list[Row]) -> Row:
@@ -444,6 +497,8 @@ def main() -> None:
         ("unavailable-cn.tsv", gaps),
     ]:
         outputs[name] = write_table(name, rows)
+    support_by_gene = {row["symbol"]: row["supportCount"] for row in genes}
+    support_counts = sorted(support_by_gene.values())
     validation = dict(
         sourcePlotComparison=validate_source_plot(traces, cn),
         svFiltering=counts,
@@ -463,7 +518,25 @@ def main() -> None:
         },
         sourcePlotCoverageRange=layout["yaxis2"]["range"],
         chromosomeLengthsMatchVcfAndPlot=True,
-        genes={r["symbol"]: f"{r['chrom']}:{r['start'] + 1}-{r['end']}" for r in genes},
+        geneAnnotations=dict(
+            canonicalGenes=len(support_by_gene),
+            genomicLoci=len(genes),
+            supportCount=dict(
+                definition="Distinct PubMed IDs in NCG evidence rows",
+                minimum=min(support_counts),
+                median=support_counts[len(support_counts) // 2],
+                percentile90=support_counts[int(0.9 * (len(support_counts) - 1))],
+                maximum=max(support_counts),
+                distinctValues=len(set(support_counts)),
+            ),
+            allCanonicalGenesMappedToRefSeq=True,
+            pseudoautosomalGenesWithTwoLoci=["CRLF2", "P2RY8"],
+            knownGenes={
+                row["symbol"]: f"{row['chrom']}:{row['start'] + 1}-{row['end']}"
+                for row in genes
+                if row["symbol"] in {"ERBB2", "MYC"}
+            },
+        ),
     )
     report = {"outputs": outputs, "validation": validation}
     (ROOT / "work" / "validation.json").write_text(json.dumps(report, indent=2) + "\n")

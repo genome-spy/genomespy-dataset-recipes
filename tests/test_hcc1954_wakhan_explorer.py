@@ -55,6 +55,26 @@ def test_target_sample_cannot_be_inferred_from_another_column(tmp_path: Path) ->
         recipe.variants(path)
 
 
+def test_canonical_driver_support_counts_distinct_publications(tmp_path: Path) -> None:
+    path = tmp_path / "ncg.tsv"
+    path.write_text(
+        "entrez\tsymbol\tpubmed_id\ttype\tNCG_oncogene\tNCG_tsg\n"
+        "1\tDRIVER\t11\tCanonical Cancer Driver\t1\t0\n"
+        "1\tDRIVER\t11\tWES\t1\t0\n"
+        "1\tDRIVER\t22\tWGS\t1\t0\n"
+        "2\tCANDIDATE\t33\tWES\t0\t1\n"
+    )
+
+    assert recipe.canonical_drivers(path) == {
+        "DRIVER": {
+            "entrez": 1,
+            "ncgClass": "Canonical cancer driver",
+            "driverRole": "Oncogene",
+            "supportCount": 2,
+        }
+    }
+
+
 @pytest.mark.parametrize("mate_gt", ["0/1", "./."])
 def test_bnd_pair_requires_two_applicable_mates(tmp_path: Path, mate_gt: str) -> None:
     path = tmp_path / "paired.vcf"
