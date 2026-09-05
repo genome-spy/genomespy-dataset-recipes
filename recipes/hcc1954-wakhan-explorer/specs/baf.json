@@ -66,9 +66,32 @@
           "condition": {
             "param": "svRegion",
             "empty": true,
-            "value": "#428b81"
+            "field": "bafStatus",
+            "type": "nominal",
+            "scale": {
+              "type": "ordinal",
+              "domain": [
+                "Zero in source; SNP support unavailable",
+                "Reported bin mean"
+              ],
+              "range": ["#aeb8bd", "#428b81"]
+            },
+            "legend": null
           },
           "value": "#cbd2d6"
+        },
+        "shape": {
+          "field": "bafStatus",
+          "type": "nominal",
+          "scale": {
+            "type": "ordinal",
+            "domain": [
+              "Zero in source; SNP support unavailable",
+              "Reported bin mean"
+            ],
+            "range": ["cross", "circle"]
+          },
+          "legend": null
         },
         "x": {
           "chrom": "chrom",
@@ -117,91 +140,7 @@
             "title": "Interpretation"
           }
         ]
-      },
-      "transform": [
-        {
-          "type": "filter",
-          "expr": "datum.baf > 0"
-        }
-      ]
-    },
-    {
-      "data": {
-        "url": "../output/coverage-baf.tsv"
-      },
-      "mark": {
-        "type": "point",
-        "size": {
-          "expr": "min(1 * pow(zoomLevel, 1.5), 100)"
-        },
-        "opacity": 0.25,
-        "strokeWidth": 0,
-        "shape": "cross",
-        "clip": "x"
-      },
-      "encoding": {
-        "color": {
-          "condition": {
-            "param": "svRegion",
-            "empty": true,
-            "value": "#aeb8bd"
-          },
-          "value": "#cbd2d6"
-        },
-        "x": {
-          "chrom": "chrom",
-          "pos": "start",
-          "type": "locus",
-          "band": 0
-        },
-        "x2": {
-          "chrom": "chrom",
-          "pos": "end",
-          "band": 0
-        },
-        "y": {
-          "field": "baf",
-          "type": "quantitative",
-          "scale": {
-            "domain": [0, 0.5]
-          },
-          "axis": {
-            "title": null,
-            "values": [0, 0.25, 0.5]
-          }
-        },
-        "tooltip": [
-          {
-            "field": "chrom",
-            "title": "Chromosome"
-          },
-          {
-            "field": "sourceStart",
-            "title": "Original Wakhan start",
-            "format": ",d"
-          },
-          {
-            "field": "end",
-            "title": "End",
-            "format": ",d"
-          },
-          {
-            "field": "baf",
-            "title": "Folded BAF",
-            "format": ".3f"
-          },
-          {
-            "field": "bafStatus",
-            "title": "Interpretation"
-          }
-        ]
-      },
-      "transform": [
-        {
-          "type": "filter",
-          "expr": "datum.baf == 0"
-        }
-      ]
+      }
     }
   ]
 }

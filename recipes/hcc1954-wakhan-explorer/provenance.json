@@ -329,6 +329,7 @@
         "spanningBrush": true,
         "brushStyling": "The linked-track interval uses a 1 px #487d91 outline, 0.01-opacity fill and a 10 px #75adbf shadow at 0.5 opacity.",
         "linkedTrackStyling": "While the brush is active, conditional color keeps selected coverage, BAF, and CN marks in their semantic colors, while rendering unselected CN rules in #8f999e and unselected points in the lighter #cbd2d6. Empty selection preserves semantic colors for every instance; opacity, guides, masks, and unavailable regions are unchanged.",
+        "bafRendering": "All 57,509 BAF bins use one point layer. Ordinal scales map the existing bafStatus categories to cross/circle shapes and gray/green semantic colors. Both legends are suppressed, and bafStatus remains in the tooltip. An Inspector snapshot reported one ready point mark with 57,509 rows, and whole-track plus interval-selection browser checks produced no console errors.",
         "viewportUnchanged": true,
         "drawAndClear": "passed",
         "hoverAndRetainedClickHighlight": "passed",
