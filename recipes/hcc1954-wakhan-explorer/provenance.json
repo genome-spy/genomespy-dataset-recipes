@@ -328,7 +328,7 @@
         "opacityEncoding": "Ordered selection conditions use empty: false for hover, click and interval. A value-expression fallback sets unselected opacity without referring to internal record IDs. Native interval draw/clear, hover outside the interval, and retained click highlighting inside/outside the interval passed before the later opacity tuning; SV data loaded once. The tuned spec and dome fading were subsequently checked at whole-genome and chr8 scale without console errors.",
         "spanningBrush": true,
         "brushStyling": "The linked-track interval uses a 1 px #487d91 outline, 0.01-opacity fill and a 10 px #75adbf shadow at 0.5 opacity.",
-        "otherTrackStylingUnchanged": true,
+        "linkedTrackStyling": "While the brush is active, conditional opacity keeps selected coverage and BAF points at 0.25 and selected CN segments at 1, while lowering unselected points to 0.08 and unselected segments to 0.4. Empty selection preserves normal opacity for every instance; guides, masks, and unavailable regions are unchanged.",
         "viewportUnchanged": true,
         "drawAndClear": "passed",
         "hoverAndRetainedClickHighlight": "passed",

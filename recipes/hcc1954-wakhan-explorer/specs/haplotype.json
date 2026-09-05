@@ -130,11 +130,18 @@
         "color": {
           "expr": "binInk"
         },
-        "opacity": 0.25,
         "strokeWidth": 0,
         "clip": true
       },
       "encoding": {
+        "opacity": {
+          "condition": {
+            "param": "svRegion",
+            "empty": true,
+            "value": 0.25
+          },
+          "value": 0.08
+        },
         "x": {
           "chrom": "chrom",
           "pos": "start",
@@ -222,6 +229,14 @@
         "clip": "x"
       },
       "encoding": {
+        "opacity": {
+          "condition": {
+            "param": "svRegion",
+            "empty": true,
+            "value": 1
+          },
+          "value": 0.4
+        },
         "x": {
           "chrom": "chrom",
           "pos": "start",
