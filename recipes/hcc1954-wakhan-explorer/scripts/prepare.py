@@ -289,6 +289,46 @@ def loh_regions(
     )
 
 
+def omit_masked_copy_number_segments(
+    source: list[Row], masked: list[Row]
+) -> tuple[list[Row], Row]:
+    """Omit CN-zero placeholders that current Wakhan renders as mask gaps."""
+
+    mask_by_interval = {
+        (row["chrom"], row["start"], row["end"]): row for row in masked
+    }
+    omitted: list[Row] = []
+    displayed: list[Row] = []
+    for row in source:
+        overlapping = [
+            mask
+            for mask in masked
+            if mask["chrom"] == row["chrom"]
+            and mask["end"] > row["start"]
+            and mask["start"] < row["end"]
+        ]
+        if not overlapping:
+            displayed.append(row)
+            continue
+
+        key = (row["chrom"], row["start"], row["end"])
+        assert len(overlapping) == 1 and key in mask_by_interval
+        assert row["copyNumber"] == 0 and row["medianCoverage"] == 0
+        omitted.append(row)
+
+    assert len(omitted) == 2 * len(masked)
+    assert Counter(row["haplotype"] for row in omitted) == {
+        "HP1": len(masked),
+        "HP2": len(masked),
+    }
+    return displayed, dict(
+        sourceIntervals=len(source),
+        displayedIntervals=len(displayed),
+        maskedPlaceholdersOmitted=len(omitted),
+        policy="Omit exact mask-matching CN-zero placeholders",
+    )
+
+
 def bins(traces: list[Row], lengths: dict[str, int]) -> list[Row]:
     hp1, hp2, baf = [
         next(t for t in traces if t.get("name") == name and t.get("mode") == "markers")
@@ -468,7 +508,8 @@ def validate_source_plot(traces: list[Row], cn: list[Row]) -> Row:
         maskedStateDifferences=masked_differences,
         confidenceDifferences=confidence_differences,
         policy=(
-            "BED is authoritative for CN and confidence; "
+            "BED is authoritative outside exact masks; "
+            "current Wakhan renders masked CN as gaps; "
             "HTML supplies binned depth and BAF"
         ),
     )
@@ -526,7 +567,10 @@ def main() -> None:
                         ),
                     )
                 )
-    cn = segments(paths["hp1"], 1, lengths) + segments(paths["hp2"], 2, lengths)
+    source_cn = segments(paths["hp1"], 1, lengths) + segments(
+        paths["hp2"], 2, lengths
+    )
+    cn, cn_mask_validation = omit_masked_copy_number_segments(source_cn, masked)
     loh, loh_validation = loh_regions(paths["loh"], lengths, masked)
     bands, genes = reference_annotations(paths, lengths)
     # Preserve missing source tails and unanalysed sex chromosomes explicitly.
@@ -561,7 +605,7 @@ def main() -> None:
     support_by_gene = {row["symbol"]: row["supportCount"] for row in genes}
     support_counts = sorted(support_by_gene.values())
     validation = dict(
-        sourcePlotComparison=validate_source_plot(traces, cn),
+        sourcePlotComparison=validate_source_plot(traces, source_cn),
         svFiltering=counts,
         svLinks=len(links),
         svSites=len(points),
@@ -578,6 +622,7 @@ def main() -> None:
             hp: max(r["copyNumber"] for r in cn if r["haplotype"] == hp)
             for hp in ["HP1", "HP2"]
         },
+        copyNumberMasks=cn_mask_validation,
         loh=loh_validation,
         sourcePlotCoverageRange=layout["yaxis2"]["range"],
         chromosomeLengthsMatchVcfAndPlot=True,

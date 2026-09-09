@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "releaseId": "v4",
+  "releaseId": "v5",
   "recipeId": "hcc1954-wakhan-explorer",
   "sources": [
     {
@@ -152,9 +152,9 @@
     },
     "copy-number-segments.tsv": {
       "path": "output/copy-number-segments.tsv",
-      "fileSizeBytes": 265195,
-      "sha256": "4956ad0a79208af8064214950d289eb62a95a40acb3d26a9638b32ab46cdfe1d",
-      "recordCount": 2116
+      "fileSizeBytes": 260533,
+      "sha256": "d6001b95358f311bea7352d9676090fd820d2c1c6a3327f35fc4786c442da902",
+      "recordCount": 2072
     },
     "loh-segments.tsv": {
       "path": "output/loh-segments.tsv",
@@ -198,7 +198,7 @@
       "intervalsCompared": 2116,
       "maskedStateDifferences": 44,
       "confidenceDifferences": 2116,
-      "policy": "BED is authoritative for CN and confidence; HTML supplies binned depth and BAF"
+      "policy": "BED is authoritative outside exact masks; current Wakhan renders masked CN as gaps; HTML supplies binned depth and BAF"
     },
     "svFiltering": {
       "sourceRecords": 1766,
@@ -229,6 +229,12 @@
     "copyNumberMax": {
       "HP1": 23.0,
       "HP2": 33.0
+    },
+    "copyNumberMasks": {
+      "sourceIntervals": 2116,
+      "displayedIntervals": 2072,
+      "maskedPlaceholdersOmitted": 44,
+      "policy": "Omit exact mask-matching CN-zero placeholders"
     },
     "loh": {
       "sourceIntervals": 21,
@@ -289,6 +295,18 @@
         "allMarksReady": true,
         "allLayersUseSharedLocusResolution": true,
         "wholeGenomeVisualCheck": "passed",
+        "consoleErrors": []
+      },
+      "maskRendering": {
+        "semantics": "Current Wakhan gaps: sentinel HP depth and exact mask-matching CN-zero placeholders are absent; BAF remains visible",
+        "view": "chr1:115,000,001-156,000,001",
+        "hatchVisible": true,
+        "coverageRowsPerHaplotype": 52709,
+        "copyNumberRows": {
+          "HP1": 1031,
+          "HP2": 1041
+        },
+        "maskedCopyNumberPlaceholdersRendered": 0,
         "consoleErrors": []
       },
       "quantitativeChecks": [
@@ -448,7 +466,7 @@
       }
     },
     "repositoryChecks": {
-      "pytest": "58 passed",
+      "pytest": "59 passed",
       "ruff": "passed",
       "ruffFormat": "passed",
       "mypy": "passed",
@@ -472,9 +490,9 @@
   "transformations": {
     "sourceSelection": "Eight exact members from the matching HCC1954 HiFi Wakhan run; the run log names this somatic VCF. The archived whole-genome HTML supplies otherwise unavailable binned measurements.",
     "structuralVariants": "Require the explicit wakhan_haplotagged FORMAT column, completely called GT containing an alternate allele, and PASS. Both BND mates must pass, have reciprocal IDs and reciprocal ALT positions. Collapse mates into one link; retain INS/sBND as sites. Preserve the original Severus SVTYPE as sourceSvType and map sBND to BND only in the Wakhan-facing svClass. Preserve raw source IDs, strands, HP, phase sets and target support.",
-    "copyNumbers": "Keep independent HP1/HP2 BED intervals and integer states. Normalize source closed coordinates with start=max(0,sourceStart-1), end unchanged. Preserve original boundaries, confidence, median coverage and breakpoint annotations.",
+    "copyNumbers": "Keep independent HP1/HP2 BED intervals and integer states. Normalize source closed coordinates with start=max(0,sourceStart-1), end unchanged. Preserve original boundaries, confidence, median coverage and breakpoint annotations. Omit the 44 CN-zero placeholders whose bounds exactly match the 22 source masks, following current Wakhan's gap semantics.",
     "coverage": "Parse literal Plotly JSON without executing HTML. Match HP1, HP2 and BAF coordinates. Undo mirrored HP2 sign. Recover chr1-22 from source position resets and verify offsets against pinned GRCh38 lengths. Retain all 50 kb bins without sampling.",
-    "masks": "Preserve raw sentinel 3300 in the table with coverageStatus=masked, exclude it from depth plotting/autoscaling, and shade merged mask intervals over depth/CN. Do not interpret masked source CN zero as deletion.",
+    "masks": "Preserve raw sentinel 3300 in the table with coverageStatus=masked, exclude it from depth plotting/autoscaling, and shade merged mask intervals over depth/CN. Omit exact mask-matching CN-zero placeholders from display data; retain biological CN zero elsewhere.",
     "loh": "Read Wakhan's zero-based, half-open loh_regions.bed. Preserve each source interval in the derived table, split calls at source depth-mask boundaries, and omit masked pieces from LOH display data.",
     "missingness": "Keep reported nonmasked zeros. Mark CN terminal tails and unanalysed sex chromosomes as unavailable. Preserve BAF zero with an explicit unknown-SNP-support status. Do not infer phasing confidence or unphased depth.",
     "annotations": "UCSC hg38 cytobands plus unions of curated NM_ RefSeq transcript spans for all 591 NCG 7.2 canonical cancer drivers. Rank labels by the number of distinct supporting PubMed IDs across NCG evidence rows.",
@@ -482,7 +500,7 @@
     "browserParsing": "Explicit string parsing preserves GT, HP, phase sets and variant IDs; original genomic anchors remain in the derived tables."
   },
   "limitations": [
-    "Source 3300 depth/line values denote masks. HP1 HTML masked tooltip CN is -3300 and HP2 is 34, while companion BED CN is zero. These are not biological CN states.",
+    "Source 3300 depth/line values denote masks. HP1 HTML masked tooltip CN is -3300 and HP2 is 34, while companion BED CN is zero. These 44 mask placeholders are omitted from display data and are not biological CN states.",
     "All 2116 source confidence values differ between BED and HTML; BED confidence is used and is not a phasing-confidence score.",
     "The export provides folded 50 kb BAF means without per-SNP support. Zero may be unsupported or biologically informative; no conclusion is imposed.",
     "The inspected chr8 Unphased trace is all zero and does not establish a reliable genome-wide series. Unphased depth and phasing confidence are unavailable here.",
@@ -508,7 +526,7 @@
     }
   },
   "distribution": {
-    "baseUrl": "https://data.genomespy.app/datasets/hcc1954-wakhan-explorer/v4/",
+    "baseUrl": "https://data.genomespy.app/datasets/hcc1954-wakhan-explorer/v5/",
     "artifacts": {
       "output/coverage-baf.tsv": {
         "fileSizeBytes": 5581542,
@@ -519,8 +537,8 @@
         "sha256": "e2c342caf3466f4a42481c351d49ddf7ed1508341374d3f5137031ab5ac88d16"
       },
       "output/copy-number-segments.tsv": {
-        "fileSizeBytes": 265195,
-        "sha256": "4956ad0a79208af8064214950d289eb62a95a40acb3d26a9638b32ab46cdfe1d"
+        "fileSizeBytes": 260533,
+        "sha256": "d6001b95358f311bea7352d9676090fd820d2c1c6a3327f35fc4786c442da902"
       },
       "output/loh-segments.tsv": {
         "fileSizeBytes": 1696,

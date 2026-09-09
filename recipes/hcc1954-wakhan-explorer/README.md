@@ -148,6 +148,12 @@ and a zero baseline. Linear read-depth axes follow the CN range using Wakhan's
 calibration, so inferred high-copy states remain visible. Raw bins outside
 the calibrated range are clipped without dropping them from the data.
 Ranges settle after navigation pauses.
+
+Although the concrete HCC1954 analysis is a published archived run, mask
+semantics follow the inspected current Wakhan implementation: sentinel HP
+depth bins and exact mask-matching CN-zero placeholders are gaps rather than
+measurements.
+
 Genes use collision-aware labels ranked by the number of distinct publications
 supporting each canonical driver in NCG. This provides useful label priority
 without presenting the count as formal significance. More labels appear as the
@@ -222,6 +228,9 @@ closed segment coordinates use `start=max(0,sourceStart-1)`, retaining the end.
 GenomeSpy's tooltip handler adds the plotted genomic coordinates automatically.
 SV tables contain the Wakhan-facing `svClass` and the original
 `sourceSvType`; single breakends and insertions remain point records.
+`copy-number-segments.tsv` contains 2,072 inferred intervals. It omits 44
+CN-zero placeholders whose bounds exactly match the 22 Wakhan masks while
+retaining biological zero-copy intervals elsewhere.
 `loh-segments.tsv` uses the zero-based, half-open coordinates supplied by
 Wakhan. The source has 21 LOH intervals spanning 319,576,241 bases; the display
 contains 18 nonmasked pieces spanning 275,576,244 bases. The omitted 43,999,997
@@ -235,8 +244,9 @@ of distinct PubMed IDs across all NCG evidence rows for that gene.
 - **Masked is not amplified.** The source uses `3300` as a centromeric/blacklist
   sentinel in 4,800 bins. Preserve the raw values in the table but exclude
   them from depth measurement and show 22 diagonally hatched intervals with
-  subtle gray outlines on depth/CN tracks.
-  Source zero CN inside these masks is not evidence of deletion.
+  subtle gray outlines on depth/CN tracks. Omit the two exact mask-matching
+  CN-zero placeholders per interval; current Wakhan renders these regions as
+  gaps, and their zeros are not evidence of deletion.
 - Other zero depth and zero CN values remain visible as reported; an empty
   region is not filled with zeros. Sex chromosomes were outside the Wakhan
   analysis, and rounded CN terminal tails lack segments. Shading identifies
@@ -247,11 +257,12 @@ of distinct PubMed IDs across all NCG evidence rows for that gene.
 - Phasing confidence and reliable genome-wide unphased depth are unavailable.
   The archived chr8 coverage figure has an all-zero `Unphased` trace; this
   alone does not establish biological absence. It is not mixed into either HP.
-- All 2,116 BED segment intervals match the source figure. Copy states agree
-  except for the 44 masked entries (BED zero versus HTML sentinel line values;
-  HP2 tooltip state is mapped to 34). All BED
-  confidence values differ from the HTML tooltip values; the BED is the
-  authoritative source here. These are CN scores, not phasing confidence.
+- All 2,116 source BED intervals match the archived figure. The display keeps
+  2,072 inferred intervals and omits the 44 mask placeholders (BED zero versus
+  HTML sentinel line values; HP2 tooltip state is mapped to 34). All BED
+  confidence values differ from the HTML tooltip values; the BED remains
+  authoritative for displayed intervals. These are CN scores, not phasing
+  confidence.
 - The chosen integer CN solution is shown; no subclonal fraction is invented.
   Wakhan's LOH BED supplies intervals only, without confidence, allelic state,
   or a distinction between copy-neutral and deletion-associated LOH.

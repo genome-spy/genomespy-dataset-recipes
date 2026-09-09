@@ -128,6 +128,46 @@ def test_loh_regions_preserve_source_calls_but_omit_masked_parts(
     }
 
 
+def test_copy_number_masks_omit_placeholders_but_keep_biological_zero() -> None:
+    source = [
+        {
+            "chrom": "chr8",
+            "start": 100,
+            "end": 200,
+            "haplotype": "HP1",
+            "copyNumber": 0,
+            "medianCoverage": 0,
+        },
+        {
+            "chrom": "chr8",
+            "start": 100,
+            "end": 200,
+            "haplotype": "HP2",
+            "copyNumber": 0,
+            "medianCoverage": 0,
+        },
+        {
+            "chrom": "chr8",
+            "start": 300,
+            "end": 400,
+            "haplotype": "HP1",
+            "copyNumber": 0,
+            "medianCoverage": 0,
+        },
+    ]
+    masked = [{"chrom": "chr8", "start": 100, "end": 200}]
+
+    rows, validation = recipe.omit_masked_copy_number_segments(source, masked)
+
+    assert rows == [source[2]]
+    assert validation == {
+        "sourceIntervals": 3,
+        "displayedIntervals": 1,
+        "maskedPlaceholdersOmitted": 2,
+        "policy": "Omit exact mask-matching CN-zero placeholders",
+    }
+
+
 @pytest.mark.parametrize("mate_gt", ["0/1", "./."])
 def test_bnd_pair_requires_two_applicable_mates(tmp_path: Path, mate_gt: str) -> None:
     path = tmp_path / "paired.vcf"
