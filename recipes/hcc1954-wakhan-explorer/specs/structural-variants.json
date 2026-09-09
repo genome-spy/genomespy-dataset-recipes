@@ -21,13 +21,7 @@
     {
       "name": "structural-variants",
       "height": 110,
-      "title": {
-        "text": "Structural variants | Shift-drag a region; hover or click an arc",
-        "anchor": "start",
-        "fontSize": 11,
-        "color": "#364653",
-        "offset": 5
-      },
+      "title": "Structural variants | Shift-drag a region; hover or click an arc",
       "data": {
         "url": "../output/sv-links.tsv",
         "format": {

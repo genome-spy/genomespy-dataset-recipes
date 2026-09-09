@@ -6,13 +6,7 @@
   "resolve": { "scale": { "x": "excluded" } },
 
   "height": 20,
-  "title": {
-    "text": "Genome navigator | double-click, then drag to brush; scroll to resize; drag selection to move",
-    "anchor": "start",
-    "fontSize": 11,
-    "color": "#364653",
-    "offset": 5
-  },
+  "title": "Genome navigator | double-click, then drag to brush; scroll to resize; drag selection to move",
   "data": {
     "lazy": {
       "type": "axisGenome",

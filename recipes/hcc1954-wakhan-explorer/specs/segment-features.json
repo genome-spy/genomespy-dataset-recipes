@@ -3,13 +3,7 @@
   "description": "Compact Wakhan segment features, currently loss of heterozygosity.",
   "name": "segment-features",
   "height": 12,
-  "title": {
-    "text": "Wakhan LOH calls",
-    "anchor": "start",
-    "fontSize": 11,
-    "color": "#364653",
-    "offset": 5
-  },
+  "title": "Wakhan LOH calls",
   "layer": [
     {
       "name": "loh-unavailable",

@@ -40,11 +40,7 @@
   "title": {
     "text": {
       "expr": "hp + ' | copy number + binned read depth'"
-    },
-    "anchor": "start",
-    "fontSize": 11,
-    "color": "#364653",
-    "offset": 5
+    }
   },
   "layer": [
     {

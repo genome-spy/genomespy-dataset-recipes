@@ -2,13 +2,7 @@
   "$schema": "https://cdn.jsdelivr.net/npm/@genome-spy/core/dist/schema.json",
   "description": "NCG canonical cancer drivers with evidence-ranked labels and genomic tooltips.",
   "name": "genes",
-  "title": {
-    "text": "NCG canonical cancer drivers | RefSeq / GRCh38",
-    "anchor": "start",
-    "fontSize": 11,
-    "color": "#364653",
-    "offset": 5
-  },
+  "title": "NCG canonical cancer drivers | RefSeq / GRCh38",
   "height": 25,
   "axes": {
     "x": {

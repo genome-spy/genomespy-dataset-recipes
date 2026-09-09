@@ -35,6 +35,12 @@
     }
   },
   "config": {
+    "title": {
+      "anchor": "start",
+      "fontSize": 11,
+      "color": "#364653",
+      "offset": 5
+    },
     "axis": {
       "labelFontSize": 10,
       "titleFontSize": 10,

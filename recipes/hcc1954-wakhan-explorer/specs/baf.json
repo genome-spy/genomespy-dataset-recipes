@@ -5,13 +5,7 @@
 
   "height": { "grow": 0.7 },
 
-  "title": {
-    "text": "Folded BAF | 50 kb means | grey zeros have unknown SNP support",
-    "anchor": "start",
-    "fontSize": 11,
-    "color": "#364653",
-    "offset": 5
-  },
+  "title": "Folded BAF | 50 kb means | grey zeros have unknown SNP support",
   "params": [
     {
       "name": "bafHorizontalCursor",
@@ -33,23 +27,6 @@
     }
   ],
   "layer": [
-    {
-      "data": {
-        "values": [0.25, 0.5]
-      },
-      "mark": {
-        "type": "rule",
-        "color": "#d8e0e1",
-        "strokeDash": [3, 3],
-        "tooltip": null
-      },
-      "encoding": {
-        "y": {
-          "field": "data",
-          "type": "quantitative"
-        }
-      }
-    },
     {
       "data": {
         "url": "../output/coverage-baf.tsv"
@@ -114,7 +91,9 @@
           },
           "axis": {
             "title": null,
-            "values": [0, 0.25, 0.5]
+            "values": [0, 0.25, 0.5],
+            "grid": true,
+            "gridDash": [3, 3]
           }
         },
         "tooltip": [
