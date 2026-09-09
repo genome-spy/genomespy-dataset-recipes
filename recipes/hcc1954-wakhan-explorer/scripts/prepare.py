@@ -156,9 +156,10 @@ def variants(path: Path) -> tuple[list[Row], list[Row], dict[str, int], Row]:
         if record["id"] in seen:
             continue
         info, sample = record["info"], record["sample"]
-        kind = info["SVTYPE"]
+        source_type = info["SVTYPE"]
+        sv_class = "BND" if source_type == "sBND" else source_type
         chrom2, pos2, mate_id = record["chrom"], record["pos"], "unavailable"
-        if kind == "BND":
+        if source_type == "BND":
             mate_id = info["MATE_ID"]
             # Both ends must pass the target-sample genotype rule.
             assert mate_id in records, f"Missing or filtered BND mate: {mate_id}"
@@ -173,10 +174,10 @@ def variants(path: Path) -> tuple[list[Row], list[Row], dict[str, int], Row]:
                 record["pos"],
             )
             seen.add(mate_id)
-        elif kind in {"DEL", "DUP", "INV"}:
+        elif source_type in {"DEL", "DUP", "INV"}:
             pos2 = int(info["END"])
         else:
-            assert kind in {"INS", "sBND"}, kind
+            assert source_type in {"INS", "sBND"}, source_type
         for chrom, pos in [(record["chrom"], record["pos"]), (chrom2, pos2)]:
             assert chrom in lengths and 1 <= pos <= lengths[chrom]
         row: Row = dict(
@@ -186,7 +187,8 @@ def variants(path: Path) -> tuple[list[Row], list[Row], dict[str, int], Row]:
             start2=pos2 - 1,
             position1=record["pos"],
             position2=pos2,
-            svType=kind,
+            svClass=sv_class,
+            sourceSvType=source_type,
             variantId=record["id"],
             mateId=mate_id,
             orientation=info.get("STRANDS", "unavailable"),
@@ -200,7 +202,7 @@ def variants(path: Path) -> tuple[list[Row], list[Row], dict[str, int], Row]:
             haplotypeVaf=sample.get("hVAF", "unavailable"),
             detailedType=info.get("DETAILED_TYPE", "unavailable"),
         )
-        (points if kind in {"INS", "sBND"} else links).append(row)
+        (points if source_type in {"INS", "sBND"} else links).append(row)
     return links, points, lengths, dict(counts)
 
 
@@ -504,7 +506,8 @@ def main() -> None:
         svFiltering=counts,
         svLinks=len(links),
         svSites=len(points),
-        svTypes=dict(Counter(row["svType"] for row in links + points)),
+        sourceSvTypes=dict(Counter(row["sourceSvType"] for row in links + points)),
+        wakhanSvClasses=dict(Counter(row["svClass"] for row in links + points)),
         coverageBins=len(coverage),
         maskedBins=sum(r["coverageStatus"] == "masked" for r in coverage),
         bafZeroBins=sum(r["baf"] == 0 for r in coverage),

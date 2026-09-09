@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "releaseId": "v2",
+  "releaseId": "v3",
   "recipeId": "hcc1954-wakhan-explorer",
   "sources": [
     {
@@ -125,8 +125,8 @@
   },
   "tools": {
     "python": "3.12.13",
-    "genomespyCore": "0.86.0",
-    "genomespyCommit": "fe8e2356c1d9518ab2bdf466d86366a1205752d0",
+    "genomespyCore": "0.87.0",
+    "genomespyCommit": "5361ef3b07f327cb5639ccd97394d698625dfc37",
     "sourceCaller": "Severus_v1.7"
   },
   "outputs": {
@@ -150,14 +150,14 @@
     },
     "sv-links.tsv": {
       "path": "output/sv-links.tsv",
-      "fileSizeBytes": 172048,
-      "sha256": "2379dca78dbc125777b2af98a7c8d934fc9f57602142de0880f8c0c062a1dd4c",
+      "fileSizeBytes": 176030,
+      "sha256": "129aa6940ff9c1bd2cce073321ad057d3e89ebe02d433137f37d3714cb0896fd",
       "recordCount": 992
     },
     "sv-sites.tsv": {
       "path": "output/sv-sites.tsv",
-      "fileSizeBytes": 14070,
-      "sha256": "21e7e06b74d8be52d059602c8469ee68c94f3f3726d03ff69dfc720bd90c8251",
+      "fileSizeBytes": 14412,
+      "sha256": "b7bd869f33c5d48a9edd84490b248525c0d4fc6c52a63e0ae56adf4af6947806",
       "recordCount": 82
     },
     "cytobands.tsv": {
@@ -192,12 +192,18 @@
     },
     "svLinks": 992,
     "svSites": 82,
-    "svTypes": {
+    "sourceSvTypes": {
       "DEL": 238,
       "DUP": 62,
       "BND": 692,
       "INS": 31,
       "sBND": 51
+    },
+    "wakhanSvClasses": {
+      "DEL": 238,
+      "DUP": 62,
+      "BND": 743,
+      "INS": 31
     },
     "coverageBins": 57509,
     "maskedBins": 4800,
@@ -242,6 +248,15 @@
     "browser": {
       "schemaValidation": "passed",
       "consoleErrors": [],
+      "svClassScale": {
+        "domain": ["DEL", "INV", "INS", "BND", "DUP"],
+        "sourceMapping": "sBND is displayed as BND; original sourceSvType remains in single-site tooltips",
+        "marksReady": {
+          "links": 992,
+          "sites": 82,
+          "feet": 1984
+        }
+      },
       "allDetailTracksUseSharedLocusResolution": true,
       "quantitativeChecks": [
         {
@@ -423,7 +438,7 @@
   },
   "transformations": {
     "sourceSelection": "Seven exact members from the matching HCC1954 HiFi Wakhan run; the run log names this somatic VCF. The archived whole-genome HTML supplies otherwise unavailable binned measurements.",
-    "structuralVariants": "Require the explicit wakhan_haplotagged FORMAT column, completely called GT containing an alternate allele, and PASS. Both BND mates must pass, have reciprocal IDs and reciprocal ALT positions. Collapse mates into one link; retain INS/sBND as sites. Preserve raw source IDs, strands, HP, phase sets and target support.",
+    "structuralVariants": "Require the explicit wakhan_haplotagged FORMAT column, completely called GT containing an alternate allele, and PASS. Both BND mates must pass, have reciprocal IDs and reciprocal ALT positions. Collapse mates into one link; retain INS/sBND as sites. Preserve the original Severus SVTYPE as sourceSvType and map sBND to BND only in the Wakhan-facing svClass. Preserve raw source IDs, strands, HP, phase sets and target support.",
     "copyNumbers": "Keep independent HP1/HP2 BED intervals and integer states. Normalize source closed coordinates with start=max(0,sourceStart-1), end unchanged. Preserve original boundaries, confidence, median coverage and breakpoint annotations.",
     "coverage": "Parse literal Plotly JSON without executing HTML. Match HP1, HP2 and BAF coordinates. Undo mirrored HP2 sign. Recover chr1-22 from source position resets and verify offsets against pinned GRCh38 lengths. Retain all 50 kb bins without sampling.",
     "masks": "Preserve raw sentinel 3300 in the table with coverageStatus=masked, exclude it from depth plotting/autoscaling, and shade merged mask intervals over depth/CN. Do not interpret masked source CN zero as deletion.",
@@ -458,7 +473,7 @@
     }
   },
   "distribution": {
-    "baseUrl": "https://data.genomespy.app/datasets/hcc1954-wakhan-explorer/v2/",
+    "baseUrl": "https://data.genomespy.app/datasets/hcc1954-wakhan-explorer/v3/",
     "artifacts": {
       "output/coverage-baf.tsv": {
         "fileSizeBytes": 5581542,
@@ -473,12 +488,12 @@
         "sha256": "4956ad0a79208af8064214950d289eb62a95a40acb3d26a9638b32ab46cdfe1d"
       },
       "output/sv-links.tsv": {
-        "fileSizeBytes": 172048,
-        "sha256": "2379dca78dbc125777b2af98a7c8d934fc9f57602142de0880f8c0c062a1dd4c"
+        "fileSizeBytes": 176030,
+        "sha256": "129aa6940ff9c1bd2cce073321ad057d3e89ebe02d433137f37d3714cb0896fd"
       },
       "output/sv-sites.tsv": {
-        "fileSizeBytes": 14070,
-        "sha256": "21e7e06b74d8be52d059602c8469ee68c94f3f3726d03ff69dfc720bd90c8251"
+        "fileSizeBytes": 14412,
+        "sha256": "b7bd869f33c5d48a9edd84490b248525c0d4fc6c52a63e0ae56adf4af6947806"
       },
       "output/cytobands.tsv": {
         "fileSizeBytes": 30775,

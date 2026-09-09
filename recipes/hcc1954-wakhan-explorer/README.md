@@ -193,6 +193,11 @@ with both original IDs. All 1,766 records in this single-sample source pass,
 producing 992 links and 82 sites. Synthetic multi-sample regression tests
 exercise the exclusion rule.
 
+For display, map the Severus `SVTYPE` values to Wakhan's five-class vocabulary:
+`DEL`, `INV`, `INS`, `BND`, and `DUP`. A source `sBND` is shown as `BND`, while
+its original value remains available as `sourceSvType`. Do not reclassify
+inversion-related BND detail strings as simple `INV` calls.
+
 **Gene rule:** retain every symbol with at least one NCG row whose `type` is
 `Canonical Cancer Driver`. Count distinct nonempty PubMed IDs across all NCG
 rows for that symbol and store the result as `supportCount`. Map every retained
@@ -205,6 +210,8 @@ plotting are zero-based, half-open. VCF anchors subtract one; original VCF
 positions remain in `position1/2`. Wakhan's mixed zero/one-based first bin and
 closed segment coordinates use `start=max(0,sourceStart-1)`, retaining the end.
 Tooltips explicitly identify the original coordinate convention.
+SV tables contain the Wakhan-facing `svClass` and the original
+`sourceSvType`; single breakends and insertions remain point records.
 `genes.tsv` contains 591 canonical NCG genes at 593 RefSeq loci: CRLF2 and
 P2RY8 each occur in both pseudoautosomal regions. `supportCount` is the number
 of distinct PubMed IDs across all NCG evidence rows for that gene.

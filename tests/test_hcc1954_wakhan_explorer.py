@@ -55,6 +55,23 @@ def test_target_sample_cannot_be_inferred_from_another_column(tmp_path: Path) ->
         recipe.variants(path)
 
 
+def test_source_svtype_is_preserved_while_wakhan_class_folds_sbnd(
+    tmp_path: Path,
+) -> None:
+    path = tmp_path / "sv-types.vcf"
+    path.write_text(
+        "##contig=<ID=chr8,length=145138636>\n"
+        "#CHROM\tPOS\tID\tREF\tALT\tQUAL\tFILTER\tINFO\tFORMAT\twakhan_haplotagged\n"
+        "chr8\t100\tsingle\tN\tN.\t.\tPASS\tSVTYPE=sBND\tGT\t0/1\n"
+        "chr8\t300\tinversion\tN\t<INV>\t.\tPASS\tSVTYPE=INV;END=400\tGT\t0/1\n"
+    )
+
+    links, sites, _, _ = recipe.variants(path)
+
+    assert (links[0]["sourceSvType"], links[0]["svClass"]) == ("INV", "INV")
+    assert (sites[0]["sourceSvType"], sites[0]["svClass"]) == ("sBND", "BND")
+
+
 def test_canonical_driver_support_counts_distinct_publications(tmp_path: Path) -> None:
     path = tmp_path / "ncg.tsv"
     path.write_text(

@@ -1,6 +1,6 @@
 {
   "$schema": "https://cdn.jsdelivr.net/npm/@genome-spy/core/dist/schema.json",
-  "description": "SV domes and strand-directed feet, followed by insertions and single breakends.",
+  "description": "Wakhan-classed SV domes and strand-directed feet, followed by insertions and single breakends.",
   "name": "sv-tracks",
   "spacing": 5,
 
@@ -12,8 +12,8 @@
 
   "scales": {
     "color": {
-      "domain": ["BND", "DEL", "DUP", "INS", "sBND"],
-      "range": ["#677580", "#d88033", "#309c88", "#9b60c6", "#1d8ac2"]
+      "domain": ["DEL", "INV", "INS", "BND", "DUP"],
+      "range": ["#d88033", "#1d8ac2", "#9b60c6", "#677580", "#309c88"]
     }
   },
 
@@ -64,10 +64,10 @@
       ],
       "encoding": {
         "color": {
-          "field": "svType",
+          "field": "svClass",
           "type": "nominal",
           "legend": {
-            "title": "SV class",
+            "title": "Wakhan SV class",
             "orient": "top",
             "direction": "horizontal"
           }
@@ -132,8 +132,8 @@
                 "title": "Original variant ID"
               },
               {
-                "field": "svType",
-                "title": "SV type"
+                "field": "svClass",
+                "title": "Wakhan SV class"
               },
               {
                 "expr": "datum.chrom + ':' + datum['position' + datum.endpoint]",
@@ -178,8 +178,9 @@
                   "param": { "or": ["svSelect", "svRegion"] },
                   "empty": true
                 },
-                "field": "svType",
-                "type": "nominal"
+                "field": "svClass",
+                "type": "nominal",
+                "legend": null
               },
               "value": "#d8dbe0"
             },
@@ -211,8 +212,8 @@
             },
             "tooltip": [
               {
-                "field": "svType",
-                "title": "SV type"
+                "field": "svClass",
+                "title": "Wakhan SV class"
               },
               {
                 "field": "variantId",
@@ -371,15 +372,20 @@
               },
               "empty": true
             },
-            "field": "svType",
-            "type": "nominal"
+            "field": "svClass",
+            "type": "nominal",
+            "legend": null
           },
           "value": "#d0d8db"
         },
         "tooltip": [
           {
-            "field": "svType",
-            "title": "SV type"
+            "field": "svClass",
+            "title": "Wakhan SV class"
+          },
+          {
+            "field": "sourceSvType",
+            "title": "Source SVTYPE"
           },
           {
             "field": "variantId",
