@@ -2,9 +2,9 @@
   "$schema": "https://cdn.jsdelivr.net/npm/@genome-spy/core/dist/schema.json",
   "description": "Compact Wakhan segment features, currently loss of heterozygosity.",
   "name": "segment-features",
-  "height": 18,
+  "height": 12,
   "title": {
-    "text": "Segment features | Wakhan LOH calls",
+    "text": "Wakhan LOH calls",
     "anchor": "start",
     "fontSize": 11,
     "color": "#364653",
@@ -33,9 +33,7 @@
           "pos": "end",
           "band": 0
         },
-        "tooltip": [
-          { "field": "status", "title": "Availability" }
-        ]
+        "tooltip": [{ "field": "status", "title": "Availability" }]
       }
     },
     {
@@ -51,13 +49,27 @@
       },
       "mark": {
         "type": "rect",
-        "color": "#b279a2",
         "opacity": 0.78,
-        "stroke": "#8f5f82",
         "strokeWidth": 0.5,
         "clip": "x"
       },
       "encoding": {
+        "fill": {
+          "condition": {
+            "param": "svRegion",
+            "empty": true,
+            "value": "#6195b9"
+          },
+          "value": "#8f999e"
+        },
+        "stroke": {
+          "condition": {
+            "param": "svRegion",
+            "empty": true,
+            "value": "#417497"
+          },
+          "value": "#768187"
+        },
         "x": {
           "chrom": "chrom",
           "pos": "start",

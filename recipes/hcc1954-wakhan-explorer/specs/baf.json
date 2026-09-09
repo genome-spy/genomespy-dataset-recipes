@@ -2,7 +2,9 @@
   "$schema": "https://cdn.jsdelivr.net/npm/@genome-spy/core/dist/schema.json",
   "description": "Folded BAF bins and reference guides; grey crosses retain zeros with unknown SNP support.",
   "name": "baf",
-  "height": 67,
+
+  "height": { "grow": 0.7 },
+
   "title": {
     "text": "Folded BAF | 50 kb means | grey zeros have unknown SNP support",
     "anchor": "start",

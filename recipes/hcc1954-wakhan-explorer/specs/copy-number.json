@@ -1,7 +1,10 @@
 {
   "$schema": "https://cdn.jsdelivr.net/npm/@genome-spy/core/dist/schema.json",
+
   "description": "Shared CN autoscaling and Wakhan calibration for two chromosome-local haplotypes.",
+
   "name": "copy-number",
+
   "params": [
     {
       "name": "singleCopyDepth",
@@ -19,14 +22,12 @@
       "description": "Effective domain of the shared copy-number scale, including autoscale transition frames."
     }
   ],
-  "spacing": 13,
+
+  "spacing": 10,
+
   "resolve": {
-    "scale": {
-      "y": "shared"
-    },
-    "axis": {
-      "x": "shared"
-    }
+    "scale": { "y": "shared" },
+    "axis": { "x": "shared" }
   },
   "vconcat": [
     {

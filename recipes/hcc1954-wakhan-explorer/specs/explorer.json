@@ -4,15 +4,20 @@
     "HCC1954 \u00b7 a chromosome-local view",
     "Matched Wakhan / CASTLE HiFi outputs. HP1 and HP2 are arbitrary within each chromosome, not parental identities."
   ],
+
   "assembly": "hg38",
+
   "padding": {
     "left": 10,
     "right": 10,
     "top": 8,
-    "bottom": 5
+    "bottom": 8
   },
+
   "width": "container",
-  "spacing": 10,
+
+  "spacing": 6,
+
   "params": [
     {
       "name": "showRuler",
@@ -58,7 +63,7 @@
     },
     {
       "name": "detail",
-      "spacing": 12,
+      "spacing": 10,
       "params": [
         {
           "name": "genomicCursor",

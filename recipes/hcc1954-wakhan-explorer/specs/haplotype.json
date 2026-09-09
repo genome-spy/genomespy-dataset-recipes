@@ -1,7 +1,9 @@
 {
   "$schema": "https://cdn.jsdelivr.net/npm/@genome-spy/core/dist/schema.json",
   "description": "One haplotype: inferred CN over raw coverage, with masks and independent depth axis.",
-  "height": 105,
+
+  "height": { "grow": 1 },
+
   "params": [
     {
       "name": "hp",
