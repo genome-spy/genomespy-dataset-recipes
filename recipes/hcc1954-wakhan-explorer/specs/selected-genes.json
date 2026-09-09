@@ -76,11 +76,6 @@
           "as": "_centroid"
         },
         {
-          "type": "formula",
-          "expr": "0",
-          "as": "lane"
-        },
-        {
           "type": "measureText",
           "field": "symbol",
           "fontSize": 10,
@@ -88,7 +83,6 @@
         },
         {
           "type": "filterScoredLabels",
-          "lane": "lane",
           "score": "supportCount",
           "width": "_width",
           "pos": "_centroid",

@@ -109,7 +109,7 @@
       "mark": {
         "type": "point",
         "size": {
-          "expr": "min(1 * pow(zoomLevel, 1.5) + 2, 100)"
+          "expr": "min(pow(zoomLevel, 1.5) + 2, 100)"
         },
         "opacity": 0.25,
         "strokeWidth": 0,
@@ -220,15 +220,6 @@
         "y": {
           "field": "copyNumber",
           "type": "quantitative",
-          "scale": {
-            "domain": {
-              "source": "viewport"
-            },
-            "zero": true,
-            "nice": true,
-            "name": "copyNumber",
-            "clamp": true
-          },
           "axis": {
             "title": "Copies",
             "tickCount": 4,

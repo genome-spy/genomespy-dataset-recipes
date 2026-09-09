@@ -278,13 +278,12 @@
                   "value": 1
                 },
                 {
-                  "param": "svSelect",
-                  "empty": false,
-                  "value": 0.7
-                },
-                {
-                  "param": "svRegion",
-                  "empty": false,
+                  "test": {
+                    "param": {
+                      "or": ["svSelect", "svRegion"]
+                    },
+                    "empty": false
+                  },
                   "value": 0.7
                 }
               ],

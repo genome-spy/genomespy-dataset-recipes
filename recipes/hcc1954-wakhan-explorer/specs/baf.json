@@ -34,7 +34,7 @@
       "mark": {
         "type": "point",
         "size": {
-          "expr": "min(1 * pow(zoomLevel, 1.5), 100)"
+          "expr": "min(pow(zoomLevel, 1.5), 100)"
         },
         "opacity": 0.25,
         "strokeWidth": 0,

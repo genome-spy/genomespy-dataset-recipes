@@ -4,6 +4,19 @@
   "name": "segment-features",
   "height": 12,
   "title": "Wakhan LOH calls",
+  "encoding": {
+    "x": {
+      "chrom": "chrom",
+      "pos": "start",
+      "type": "locus",
+      "band": 0
+    },
+    "x2": {
+      "chrom": "chrom",
+      "pos": "end",
+      "band": 0
+    }
+  },
   "layer": [
     {
       "name": "loh-unavailable",
@@ -16,17 +29,6 @@
         "clip": "x"
       },
       "encoding": {
-        "x": {
-          "chrom": "chrom",
-          "pos": "start",
-          "type": "locus",
-          "band": 0
-        },
-        "x2": {
-          "chrom": "chrom",
-          "pos": "end",
-          "band": 0
-        },
         "tooltip": [{ "field": "status", "title": "Availability" }]
       }
     },
@@ -63,17 +65,6 @@
             "value": "#417497"
           },
           "value": "#768187"
-        },
-        "x": {
-          "chrom": "chrom",
-          "pos": "start",
-          "type": "locus",
-          "band": 0
-        },
-        "x2": {
-          "chrom": "chrom",
-          "pos": "end",
-          "band": 0
         },
         "tooltip": [
           { "field": "feature", "title": "Feature" },

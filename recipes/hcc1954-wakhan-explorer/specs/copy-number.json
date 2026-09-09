@@ -29,6 +29,17 @@
     "scale": { "y": "shared" },
     "axis": { "x": "shared" }
   },
+
+  "scales": {
+    "y": {
+      "domain": { "source": "viewport" },
+      "zero": true,
+      "nice": true,
+      "name": "copyNumber",
+      "clamp": true
+    }
+  },
+
   "vconcat": [
     {
       "name": "cn-hp1",
