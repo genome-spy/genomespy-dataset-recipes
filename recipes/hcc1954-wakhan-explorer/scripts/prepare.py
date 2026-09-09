@@ -232,6 +232,63 @@ def segments(path: Path, hp: int, lengths: dict[str, int]) -> list[Row]:
     return result
 
 
+def loh_regions(
+    path: Path, lengths: dict[str, int], masked: list[Row]
+) -> tuple[list[Row], Row]:
+    """Read Wakhan LOH calls and omit portions where its depth is masked."""
+
+    source: list[Row] = []
+    for line in path.read_text().splitlines():
+        if line.startswith("#"):
+            continue
+        chrom, start_text, end_text = line.split("\t")
+        start, end = int(start_text), int(end_text)
+        assert chrom in lengths and 0 <= start < end <= lengths[chrom]
+        if source and source[-1]["chrom"] == chrom:
+            assert source[-1]["end"] <= start
+        source.append(dict(chrom=chrom, start=start, end=end))
+
+    displayed: list[Row] = []
+    for row in source:
+        fragments = [(row["start"], row["end"])]
+        for mask in masked:
+            if mask["chrom"] != row["chrom"]:
+                continue
+            remaining = []
+            for start, end in fragments:
+                if mask["end"] <= start or mask["start"] >= end:
+                    remaining.append((start, end))
+                else:
+                    if start < mask["start"]:
+                        remaining.append((start, mask["start"]))
+                    if mask["end"] < end:
+                        remaining.append((mask["end"], end))
+            fragments = remaining
+        displayed.extend(
+            dict(
+                chrom=row["chrom"],
+                start=start,
+                end=end,
+                sourceStart=row["start"],
+                sourceEnd=row["end"],
+                feature="LOH",
+                basis="Wakhan loh_regions.bed; masked overlap omitted",
+            )
+            for start, end in fragments
+        )
+
+    source_bases = sum(row["end"] - row["start"] for row in source)
+    displayed_bases = sum(row["end"] - row["start"] for row in displayed)
+    return displayed, dict(
+        sourceIntervals=len(source),
+        displayedIntervals=len(displayed),
+        sourceBases=source_bases,
+        displayedBases=displayed_bases,
+        maskedOverlapBases=source_bases - displayed_bases,
+        policy="Use Wakhan LOH calls, excluding source depth-mask overlap",
+    )
+
+
 def bins(traces: list[Row], lengths: dict[str, int]) -> list[Row]:
     hp1, hp2, baf = [
         next(t for t in traces if t.get("name") == name and t.get("mode") == "markers")
@@ -470,6 +527,7 @@ def main() -> None:
                     )
                 )
     cn = segments(paths["hp1"], 1, lengths) + segments(paths["hp2"], 2, lengths)
+    loh, loh_validation = loh_regions(paths["loh"], lengths, masked)
     bands, genes = reference_annotations(paths, lengths)
     # Preserve missing source tails and unanalysed sex chromosomes explicitly.
     gaps = []
@@ -492,6 +550,7 @@ def main() -> None:
         ("coverage-baf.tsv", coverage),
         ("masked-regions.tsv", masked),
         ("copy-number-segments.tsv", cn),
+        ("loh-segments.tsv", loh),
         ("sv-links.tsv", links),
         ("sv-sites.tsv", points),
         ("cytobands.tsv", bands),
@@ -519,6 +578,7 @@ def main() -> None:
             hp: max(r["copyNumber"] for r in cn if r["haplotype"] == hp)
             for hp in ["HP1", "HP2"]
         },
+        loh=loh_validation,
         sourcePlotCoverageRange=layout["yaxis2"]["range"],
         chromosomeLengthsMatchVcfAndPlot=True,
         geneAnnotations=dict(

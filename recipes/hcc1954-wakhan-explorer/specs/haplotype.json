@@ -91,7 +91,7 @@
     {
       "name": "cn-blacklist",
       "import": {
-        "template": "blacklist"
+        "url": "blacklist.json"
       }
     },
     {
@@ -309,54 +309,6 @@
   "resolve": {
     "axis": {
       "y": "independent"
-    }
-  },
-  "templates": {
-    "blacklist": {
-      "data": {
-        "url": "../output/masked-regions.tsv"
-      },
-      "mark": {
-        "type": "rect",
-        "fill": "#f7f9fa",
-        "fillOpacity": 0,
-        "stroke": "#dce2e4",
-        "strokeWidth": 1,
-        "hatch": "diagonal",
-        "clip": "x"
-      },
-      "encoding": {
-        "x": {
-          "chrom": "chrom",
-          "pos": "start",
-          "type": "locus",
-          "band": 0
-        },
-        "x2": {
-          "chrom": "chrom",
-          "pos": "end",
-          "band": 0
-        },
-        "tooltip": [
-          {
-            "field": "chrom",
-            "title": "Chromosome"
-          },
-          {
-            "expr": "format(datum.start + 1, \",d\")",
-            "title": "Start (1-based)"
-          },
-          {
-            "field": "end",
-            "title": "End",
-            "format": ",d"
-          },
-          {
-            "field": "status",
-            "title": "Availability"
-          }
-        ]
-      }
     }
   }
 }

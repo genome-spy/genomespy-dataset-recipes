@@ -1,0 +1,99 @@
+{
+  "$schema": "https://cdn.jsdelivr.net/npm/@genome-spy/core/dist/schema.json",
+  "description": "Compact Wakhan segment features, currently loss of heterozygosity.",
+  "name": "segment-features",
+  "height": 18,
+  "title": {
+    "text": "Segment features | Wakhan LOH calls",
+    "anchor": "start",
+    "fontSize": 11,
+    "color": "#364653",
+    "offset": 5
+  },
+  "layer": [
+    {
+      "name": "loh-unavailable",
+      "data": {
+        "url": "../output/unavailable-cn.tsv"
+      },
+      "mark": {
+        "type": "rect",
+        "color": "#edf0f2",
+        "clip": "x"
+      },
+      "encoding": {
+        "x": {
+          "chrom": "chrom",
+          "pos": "start",
+          "type": "locus",
+          "band": 0
+        },
+        "x2": {
+          "chrom": "chrom",
+          "pos": "end",
+          "band": 0
+        },
+        "tooltip": [
+          { "field": "chrom", "title": "Chromosome" },
+          {
+            "expr": "format(datum.start + 1, \",d\")",
+            "title": "Start (1-based)"
+          },
+          { "field": "end", "title": "End", "format": ",d" },
+          { "field": "status", "title": "Availability" }
+        ]
+      }
+    },
+    {
+      "name": "loh-blacklist",
+      "import": {
+        "url": "blacklist.json"
+      }
+    },
+    {
+      "name": "loh-segments",
+      "data": {
+        "url": "../output/loh-segments.tsv"
+      },
+      "mark": {
+        "type": "rect",
+        "color": "#b279a2",
+        "opacity": 0.78,
+        "stroke": "#8f5f82",
+        "strokeWidth": 0.5,
+        "clip": "x"
+      },
+      "encoding": {
+        "x": {
+          "chrom": "chrom",
+          "pos": "start",
+          "type": "locus",
+          "band": 0
+        },
+        "x2": {
+          "chrom": "chrom",
+          "pos": "end",
+          "band": 0
+        },
+        "tooltip": [
+          { "field": "feature", "title": "Feature" },
+          { "field": "chrom", "title": "Chromosome" },
+          {
+            "expr": "format(datum.start + 1, \",d\")",
+            "title": "Displayed start (1-based)"
+          },
+          { "field": "end", "title": "Displayed end", "format": ",d" },
+          {
+            "expr": "datum.chrom + ':' + format(datum.sourceStart + 1, ',d') + '–' + format(datum.sourceEnd, ',d')",
+            "title": "Source Wakhan interval"
+          },
+          { "field": "basis", "title": "Basis" },
+          {
+            "expr": "'Not supplied by Wakhan LOH BED'",
+            "title": "Confidence"
+          }
+        ]
+      }
+    }
+  ]
+}

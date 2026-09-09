@@ -142,6 +142,9 @@
           "import": { "url": "baf.json" }
         },
         {
+          "import": { "url": "segment-features.json" }
+        },
+        {
           "import": { "url": "cytobands.json" }
         },
         {

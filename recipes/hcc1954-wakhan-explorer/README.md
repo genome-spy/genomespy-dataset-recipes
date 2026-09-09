@@ -12,8 +12,9 @@ The sample is the CASTLE **HCC1954 / HCC1954BL** tumour/normal cell-line pair,
 PacBio HiFi, **GRCh38**. Inputs come from the same published Wakhan run in
 [Zenodo record 17780982, v1](https://zenodo.org/records/17780982): rank-1 solution
 `4.57_0.99_0.9` (ploidy 4.57, cellular purity 0.99, solution confidence 0.90),
-its original Severus v1.7 somatic VCF, both CN BED files, and the archived
-whole-genome Plotly figure. The log links these inputs explicitly.
+its original Severus v1.7 somatic VCF, both CN BED files, the Wakhan LOH BED,
+and the archived whole-genome Plotly figure. The log links these inputs
+explicitly.
 
 This fuller recipe complements `hcc1954-castle-severus-wakhan`; it does not
 change that recipe's data contract. The source figure supplies **57,509 50 kb
@@ -73,8 +74,10 @@ track specifications:
 | [`genome-navigator.json`](specs/genome-navigator.json)       | Whole-genome overview with a highlighted navigation brush          |
 | [`structural-variants.json`](specs/structural-variants.json) | SV domes, breakpoint feet, insertions and single breakends         |
 | [`copy-number.json`](specs/copy-number.json)                 | Shared CN autoscaling, calibration parameters and two HP instances |
-| [`haplotype.json`](specs/haplotype.json)                     | Reusable HP coverage/CN overlay, including the blacklist template  |
+| [`haplotype.json`](specs/haplotype.json)                     | Reusable HP coverage/CN overlay with mask and availability layers  |
 | [`baf.json`](specs/baf.json)                                 | Folded BAF bins and reference guides                               |
+| [`segment-features.json`](specs/segment-features.json)       | Compact LOH intervals with explicit masks and unavailable regions  |
+| [`blacklist.json`](specs/blacklist.json)                     | Reusable hatched Wakhan source-mask layer                           |
 | [`cytobands.json`](specs/cytobands.json)                     | Chromosome bands and labels that appear when space permits         |
 | [`selected-genes.json`](specs/selected-genes.json)           | NCG canonical drivers with publication-ranked labels               |
 
@@ -131,6 +134,12 @@ Imports are relative to their containing spec. Keep these files together in
   median depth, BED confidence, and breakpoint IDs. Solid CN intervals overlay
   translucent coverage points. Copies use the left axis and read depth the
   right; both HP tracks share the same CN range.
+- A compact segment-feature track below BAF shows Wakhan's explicit LOH calls
+  without covering the BAF points or CN estimates. It preserves the source BED
+  interval in each tooltip and omits only overlap with Wakhan's depth mask.
+  Hatched mask regions and pale unavailable regions remain distinct from both
+  LOH and ordinary uncalled territory. The LOH BED contains no confidence
+  values, so the tooltip says that directly.
 
 This retains Wakhan's organization—SVs, haplotype depth/CN, BAF, genomic
 context—but uses positive, aligned HP tracks. **HP1/HP2 are chromosome-local,
@@ -204,14 +213,19 @@ rows for that symbol and store the result as `supportCount`. Map every retained
 symbol to the union of its curated protein-coding RefSeq transcripts on GRCh38.
 
 Outputs in ignored `output/` are `coverage-baf.tsv`,
-`copy-number-segments.tsv`, `sv-links.tsv`, `sv-sites.tsv`, `masked-regions.tsv`,
-`unavailable-cn.tsv`, `cytobands.tsv`, and `genes.tsv`. Coordinates used for
-plotting are zero-based, half-open. VCF anchors subtract one; original VCF
+`copy-number-segments.tsv`, `loh-segments.tsv`, `sv-links.tsv`, `sv-sites.tsv`,
+`masked-regions.tsv`, `unavailable-cn.tsv`, `cytobands.tsv`, and `genes.tsv`.
+Coordinates used for plotting are zero-based, half-open. VCF anchors subtract
+one; original VCF
 positions remain in `position1/2`. Wakhan's mixed zero/one-based first bin and
 closed segment coordinates use `start=max(0,sourceStart-1)`, retaining the end.
 Tooltips explicitly identify the original coordinate convention.
 SV tables contain the Wakhan-facing `svClass` and the original
 `sourceSvType`; single breakends and insertions remain point records.
+`loh-segments.tsv` uses the zero-based, half-open coordinates supplied by
+Wakhan. The source has 21 LOH intervals spanning 319,576,241 bases; the display
+contains 18 nonmasked pieces spanning 275,576,244 bases. The omitted 43,999,997
+bases overlap Wakhan's explicit depth mask and remain visible as hatching.
 `genes.tsv` contains 591 canonical NCG genes at 593 RefSeq loci: CRLF2 and
 P2RY8 each occur in both pseudoautosomal regions. `supportCount` is the number
 of distinct PubMed IDs across all NCG evidence rows for that gene.
@@ -239,6 +253,8 @@ of distinct PubMed IDs across all NCG evidence rows for that gene.
   confidence values differ from the HTML tooltip values; the BED is the
   authoritative source here. These are CN scores, not phasing confidence.
 - The chosen integer CN solution is shown; no subclonal fraction is invented.
+  Wakhan's LOH BED supplies intervals only, without confidence, allelic state,
+  or a distinction between copy-neutral and deletion-associated LOH.
   RefSeq gene spans are unions of curated coding transcripts. NCG canonical
   status and publication counts describe general cancer-driver evidence, not
   formal significance or evidence that a gene is altered in HCC1954.

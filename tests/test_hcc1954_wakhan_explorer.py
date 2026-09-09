@@ -92,6 +92,42 @@ def test_canonical_driver_support_counts_distinct_publications(tmp_path: Path) -
     }
 
 
+def test_loh_regions_preserve_source_calls_but_omit_masked_parts(
+    tmp_path: Path,
+) -> None:
+    path = tmp_path / "loh.bed"
+    path.write_text(
+        "#chr\tstart\tend\n"
+        "chr8\t100\t500\n"
+        "chr8\t700\t900\n"
+    )
+    masked = [
+        {"chrom": "chr8", "start": 200, "end": 300},
+        {"chrom": "chr8", "start": 400, "end": 800},
+    ]
+
+    rows, validation = recipe.loh_regions(path, {"chr8": 1000}, masked)
+
+    assert [(row["start"], row["end"]) for row in rows] == [
+        (100, 200),
+        (300, 400),
+        (800, 900),
+    ]
+    assert [(row["sourceStart"], row["sourceEnd"]) for row in rows] == [
+        (100, 500),
+        (100, 500),
+        (700, 900),
+    ]
+    assert validation == {
+        "sourceIntervals": 2,
+        "displayedIntervals": 3,
+        "sourceBases": 600,
+        "displayedBases": 300,
+        "maskedOverlapBases": 300,
+        "policy": "Use Wakhan LOH calls, excluding source depth-mask overlap",
+    }
+
+
 @pytest.mark.parametrize("mate_gt", ["0/1", "./."])
 def test_bnd_pair_requires_two_applicable_mates(tmp_path: Path, mate_gt: str) -> None:
     path = tmp_path / "paired.vcf"

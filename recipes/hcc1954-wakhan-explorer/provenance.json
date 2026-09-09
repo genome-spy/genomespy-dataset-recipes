@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "releaseId": "v3",
+  "releaseId": "v4",
   "recipeId": "hcc1954-wakhan-explorer",
   "sources": [
     {
@@ -19,7 +19,7 @@
       "fileSizeBytes": 5419437368,
       "md5": "6c44bbd50582754f82b1b6a83b753549",
       "sha256": "3f50bfdbb16263a0e55f2fa275507e43fdfa2851a933258b2030ddc4dbce1129",
-      "selection": "The archive contains the exact Severus VCF consumed by the paired Wakhan HCC1954 HiFi run and the ranked Wakhan copy-number solutions.",
+      "selection": "The archive contains the exact Severus VCF consumed by the paired Wakhan HCC1954 HiFi run, the ranked copy-number solution, and its LOH calls.",
       "members": [
         {
           "id": "vcf",
@@ -41,6 +41,13 @@
           "localName": "hp2.bed",
           "fileSizeBytes": 109442,
           "sha256": "f40ea2f6f755923ea614791c9f920d1f32cbaa8ad80845e3376777dfaea0bff1"
+        },
+        {
+          "id": "loh",
+          "path": "castle_benchmarks/wakhan/wakhan_HCC1954_hifi/wakhan/4.57_0.99_0.9/bed_output/loh_regions.bed",
+          "localName": "loh.bed",
+          "fileSizeBytes": 586,
+          "sha256": "ec8cb05f5252ca7682983452236ccaa5f81adaf0c0d701d540e44ad48ded4436"
         },
         {
           "id": "figure",
@@ -120,13 +127,14 @@
     "ploidy": 4.57,
     "cellPurity": 0.99,
     "solutionConfidence": 0.9,
+    "lohMaskPolicy": "Retain Wakhan LOH calls outside the source depth mask",
     "geneSet": "NCG 7.2 canonical cancer drivers",
     "geneSupportScore": "Distinct PubMed IDs across all NCG evidence rows for each canonical driver"
   },
   "tools": {
     "python": "3.12.13",
     "genomespyCore": "0.87.0",
-    "genomespyCommit": "5361ef3b07f327cb5639ccd97394d698625dfc37",
+    "genomespyCommit": "3894221d20a5537b77ac46f2b762773f255c51c6",
     "sourceCaller": "Severus_v1.7"
   },
   "outputs": {
@@ -147,6 +155,12 @@
       "fileSizeBytes": 265195,
       "sha256": "4956ad0a79208af8064214950d289eb62a95a40acb3d26a9638b32ab46cdfe1d",
       "recordCount": 2116
+    },
+    "loh-segments.tsv": {
+      "path": "output/loh-segments.tsv",
+      "fileSizeBytes": 1696,
+      "sha256": "e3d442029512ffe41614cc322a763beabfab6a9799cbca8600dce5fd192de10e",
+      "recordCount": 18
     },
     "sv-links.tsv": {
       "path": "output/sv-links.tsv",
@@ -216,6 +230,14 @@
       "HP1": 23.0,
       "HP2": 33.0
     },
+    "loh": {
+      "sourceIntervals": 21,
+      "displayedIntervals": 18,
+      "sourceBases": 319576241,
+      "displayedBases": 275576244,
+      "maskedOverlapBases": 43999997,
+      "policy": "Use Wakhan LOH calls, excluding source depth-mask overlap"
+    },
     "sourcePlotCoverageRange": [-495.42, 495.42],
     "chromosomeLengthsMatchVcfAndPlot": true,
     "maskedIntervals": 22,
@@ -236,7 +258,7 @@
     ],
     "reproducibility": {
       "freshExtractionFromVerifiedArchive": "passed",
-      "regeneratedEightOutputsByteIdentical": true,
+      "regeneratedNineOutputsByteIdentical": true,
       "allSourceAndMemberHashesVerified": true,
       "downloadUrls": {
         "archive": 200,
@@ -258,6 +280,17 @@
         }
       },
       "allDetailTracksUseSharedLocusResolution": true,
+      "lohTrack": {
+        "source": "Pinned Wakhan 4.57_0.99_0.9/bed_output/loh_regions.bed",
+        "sourceIntervals": 21,
+        "displayedIntervals": 18,
+        "maskedOverlapBasesOmitted": 43999997,
+        "layerOrder": ["unavailable", "source mask", "LOH"],
+        "allMarksReady": true,
+        "allLayersUseSharedLocusResolution": true,
+        "wholeGenomeVisualCheck": "passed",
+        "consoleErrors": []
+      },
       "quantitativeChecks": [
         {
           "view": "Whole genome",
@@ -415,7 +448,7 @@
       }
     },
     "repositoryChecks": {
-      "pytest": "56 passed",
+      "pytest": "58 passed",
       "ruff": "passed",
       "ruffFormat": "passed",
       "mypy": "passed",
@@ -437,11 +470,12 @@
     }
   },
   "transformations": {
-    "sourceSelection": "Seven exact members from the matching HCC1954 HiFi Wakhan run; the run log names this somatic VCF. The archived whole-genome HTML supplies otherwise unavailable binned measurements.",
+    "sourceSelection": "Eight exact members from the matching HCC1954 HiFi Wakhan run; the run log names this somatic VCF. The archived whole-genome HTML supplies otherwise unavailable binned measurements.",
     "structuralVariants": "Require the explicit wakhan_haplotagged FORMAT column, completely called GT containing an alternate allele, and PASS. Both BND mates must pass, have reciprocal IDs and reciprocal ALT positions. Collapse mates into one link; retain INS/sBND as sites. Preserve the original Severus SVTYPE as sourceSvType and map sBND to BND only in the Wakhan-facing svClass. Preserve raw source IDs, strands, HP, phase sets and target support.",
     "copyNumbers": "Keep independent HP1/HP2 BED intervals and integer states. Normalize source closed coordinates with start=max(0,sourceStart-1), end unchanged. Preserve original boundaries, confidence, median coverage and breakpoint annotations.",
     "coverage": "Parse literal Plotly JSON without executing HTML. Match HP1, HP2 and BAF coordinates. Undo mirrored HP2 sign. Recover chr1-22 from source position resets and verify offsets against pinned GRCh38 lengths. Retain all 50 kb bins without sampling.",
     "masks": "Preserve raw sentinel 3300 in the table with coverageStatus=masked, exclude it from depth plotting/autoscaling, and shade merged mask intervals over depth/CN. Do not interpret masked source CN zero as deletion.",
+    "loh": "Read Wakhan's zero-based, half-open loh_regions.bed. Preserve each source interval for tooltips, split calls at source depth-mask boundaries, and omit masked pieces from LOH display data.",
     "missingness": "Keep reported nonmasked zeros. Mark CN terminal tails and unanalysed sex chromosomes as unavailable. Preserve BAF zero with an explicit unknown-SNP-support status. Do not infer phasing confidence or unphased depth.",
     "annotations": "UCSC hg38 cytobands plus unions of curated NM_ RefSeq transcript spans for all 591 NCG 7.2 canonical cancer drivers. Rank labels by the number of distinct supporting PubMed IDs across NCG evidence rows.",
     "chromosomeLengthsDigest": "SHA-256 of UTF-8 JSON of chr1-22/X/Y length mapping, sorted keys, separators comma and colon; independently matched to GenomeSpy GRCh38.",
@@ -453,6 +487,7 @@
     "The export provides folded 50 kb BAF means without per-SNP support. Zero may be unsupported or biologically informative; no conclusion is imposed.",
     "The inspected chr8 Unphased trace is all zero and does not establish a reliable genome-wide series. Unphased depth and phasing confidence are unavailable here.",
     "Autosomal integer CN solution only; no inferred subclonal fractions or parental identities.",
+    "Wakhan's LOH BED contains intervals without confidence or allelic-state fields. Masked overlap is omitted rather than interpreted as LOH; no confidence or LOH subtype is inferred.",
     "UCSC snapshot URLs are mutable. Checksums pin accepted bytes and fail on drift; retain the cached downloads for long-term reproducibility.",
     "NCG supportCount measures breadth of supporting publications, not effect size, formal statistical significance or evidence that a gene is altered in HCC1954.",
     "Dense SVs overlap at whole-genome scale. Existing hover, retained selection and synchronized zoom provide inspection. All SVs load eagerly without viewport-dependent data filtering.",
@@ -473,7 +508,7 @@
     }
   },
   "distribution": {
-    "baseUrl": "https://data.genomespy.app/datasets/hcc1954-wakhan-explorer/v3/",
+    "baseUrl": "https://data.genomespy.app/datasets/hcc1954-wakhan-explorer/v4/",
     "artifacts": {
       "output/coverage-baf.tsv": {
         "fileSizeBytes": 5581542,
@@ -486,6 +521,10 @@
       "output/copy-number-segments.tsv": {
         "fileSizeBytes": 265195,
         "sha256": "4956ad0a79208af8064214950d289eb62a95a40acb3d26a9638b32ab46cdfe1d"
+      },
+      "output/loh-segments.tsv": {
+        "fileSizeBytes": 1696,
+        "sha256": "e3d442029512ffe41614cc322a763beabfab6a9799cbca8600dce5fd192de10e"
       },
       "output/sv-links.tsv": {
         "fileSizeBytes": 176030,
