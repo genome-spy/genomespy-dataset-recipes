@@ -3,14 +3,20 @@
   "description": "SV domes and strand-directed feet, followed by insertions and single breakends.",
   "name": "sv-tracks",
   "spacing": 5,
+
   "resolve": {
-    "scale": {
-      "x": "shared"
-    },
-    "axis": {
-      "x": "shared"
+    "scale": { "x": "shared", "color": "shared" },
+    "axis": { "x": "shared" },
+    "legend": { "default": "shared" }
+  },
+
+  "scales": {
+    "color": {
+      "domain": ["BND", "DEL", "DUP", "INS", "sBND"],
+      "range": ["#677580", "#d88033", "#309c88", "#9b60c6", "#1d8ac2"]
     }
   },
+
   "vconcat": [
     {
       "name": "structural-variants",
@@ -60,10 +66,6 @@
         "color": {
           "field": "svType",
           "type": "nominal",
-          "scale": {
-            "domain": ["BND", "DEL", "DUP", "INS", "sBND"],
-            "range": ["#74828d", "#317eac", "#ce8040", "#9063b2", "#4b9686"]
-          },
           "legend": {
             "title": "SV class",
             "orient": "top",
@@ -91,9 +93,9 @@
             "type": "rule",
             "y": 0,
             "yOffset": -0.5,
-            "clip": "x",
             "size": 1,
-            "opacity": 0.28
+            "opacity": 0.28,
+            "clip": "x"
           },
           "encoding": {
             "x": {
@@ -122,8 +124,7 @@
                   }
                 ],
                 "type": "ordinal"
-              },
-              "legend": null
+              }
             },
             "tooltip": [
               {
@@ -161,27 +162,32 @@
             "clip": "x"
           },
           "encoding": {
+            "order": {
+              "condition": {
+                "test": {
+                  "param": { "or": ["svSelect", "svRegion"] },
+                  "empty": false
+                },
+                "value": 1
+              },
+              "value": 0
+            },
+            "color": {
+              "condition": {
+                "test": {
+                  "param": { "or": ["svSelect", "svRegion"] },
+                  "empty": true
+                },
+                "field": "svType",
+                "type": "nominal"
+              },
+              "value": "#d8dbe0"
+            },
             "x": {
               "chrom": "chrom1",
               "pos": "start1",
               "type": "locus",
-              "band": 0,
-              "scale": {
-                "name": "genome",
-                "domain": {
-                  "param": "brush",
-                  "initial": [
-                    {
-                      "chrom": "chr1",
-                      "pos": 0
-                    },
-                    {
-                      "chrom": "chrY",
-                      "pos": 57227415
-                    }
-                  ]
-                }
-              }
+              "band": 0
             },
             "x2": {
               "chrom": "chrom2",
@@ -291,9 +297,7 @@
                   "value": 0.7
                 }
               ],
-              "value": {
-                "expr": "min(((svRegion.intervals.x || svSelect.data.size) ? 0.07 : 0.2) * zoomLevel, 0.4)"
-              }
+              "value": { "expr": "min(0.2 * zoomLevel, 0.4)" }
             }
           },
           "params": [
@@ -336,6 +340,13 @@
           }
         }
       },
+      "params": [
+        {
+          "name": "svSiteSelect",
+          "select": "point",
+          "persist": false
+        }
+      ],
       "mark": {
         "type": "point",
         "shape": "triangle-up",
@@ -353,13 +364,17 @@
           "value": 0.5
         },
         "color": {
-          "field": "svType",
-          "type": "nominal",
-          "scale": {
-            "domain": ["BND", "DEL", "DUP", "INS", "sBND"],
-            "range": ["#74828d", "#317eac", "#ce8040", "#9063b2", "#4b9686"]
+          "condition": {
+            "test": {
+              "param": {
+                "or": ["svSiteSelect", "svRegion"]
+              },
+              "empty": true
+            },
+            "field": "svType",
+            "type": "nominal"
           },
-          "legend": null
+          "value": "#d0d8db"
         },
         "tooltip": [
           {
