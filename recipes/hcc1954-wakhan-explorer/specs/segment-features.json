@@ -34,12 +34,6 @@
           "band": 0
         },
         "tooltip": [
-          { "field": "chrom", "title": "Chromosome" },
-          {
-            "expr": "format(datum.start + 1, \",d\")",
-            "title": "Start (1-based)"
-          },
-          { "field": "end", "title": "End", "format": ",d" },
           { "field": "status", "title": "Availability" }
         ]
       }
@@ -77,16 +71,6 @@
         },
         "tooltip": [
           { "field": "feature", "title": "Feature" },
-          { "field": "chrom", "title": "Chromosome" },
-          {
-            "expr": "format(datum.start + 1, \",d\")",
-            "title": "Displayed start (1-based)"
-          },
-          { "field": "end", "title": "Displayed end", "format": ",d" },
-          {
-            "expr": "datum.chrom + ':' + format(datum.sourceStart + 1, ',d') + '–' + format(datum.sourceEnd, ',d')",
-            "title": "Source Wakhan interval"
-          },
           { "field": "basis", "title": "Basis" },
           {
             "expr": "'Not supplied by Wakhan LOH BED'",

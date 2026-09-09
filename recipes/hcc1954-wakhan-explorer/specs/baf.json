@@ -117,20 +117,6 @@
         },
         "tooltip": [
           {
-            "field": "chrom",
-            "title": "Chromosome"
-          },
-          {
-            "field": "sourceStart",
-            "title": "Original Wakhan start",
-            "format": ",d"
-          },
-          {
-            "field": "end",
-            "title": "End",
-            "format": ",d"
-          },
-          {
             "field": "baf",
             "title": "Folded BAF",
             "format": ".3f"

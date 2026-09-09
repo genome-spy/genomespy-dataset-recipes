@@ -368,7 +368,7 @@
         "reference": "Uses GenomeSpy shadow properties demonstrated by examples/docs/grammar/parameters/genome-overview-detail.json.",
         "browserAndSvgChecks": "Chromosome 8 brush equals the detail domain; the overview retains its independent whole-genome domain; the shadow filter renders without SVG warnings or console errors."
       },
-      "originalCoordinateTooltips": "CN33 interval and BND8437 passed",
+      "automaticGenomicCoordinateTooltips": "CN33 interval and BND8437 passed",
       "svClickHighlight": "passed",
       "svIntervalSelection": {
         "gesture": "Shift-drag across linked detail tracks; double-click to clear",
@@ -403,7 +403,7 @@
           "mycSpanPx": 7
         },
         "endpointRows": 1984,
-        "originalVcfCoordinatesRetainedInTooltips": true,
+        "genomicCoordinatesProvidedByTooltipHandler": true,
         "svFileRequestsAcrossZooms": 1,
         "consoleErrors": []
       },
@@ -418,7 +418,7 @@
         "rawBinClipping": "Raw bins outside calibrated CN bounds are clipped at the track edges without filtering the data, as requested.",
         "wrapperJavaScriptUnchanged": true,
         "knownLociAndTransitionAlignment": "Six views: both depth-domain bounds exactly match CN calibration at every sampled transition frame (maximum error 0). The baseline guide is at zero copies; the corresponding lower depth bound is 0.1. All detail tracks share the locus scale.",
-        "cn33OriginalCoordinateTooltip": "passed",
+        "cn33AutomaticCoordinateTooltip": "passed",
         "svBrushingAndPointHighlightAfterOverlay": "passed",
         "consoleErrors": [],
         "scaleDependentParameters": "Uses the local Core initialization fix for #505; cnDomain drives the depth domains and svFootLength drives the signed ordinal offset range. Whole genome, chr8, CN33, MYC, ERBB2 and chr21 passed, with one eager SV data request and no console errors."
@@ -475,11 +475,11 @@
     "copyNumbers": "Keep independent HP1/HP2 BED intervals and integer states. Normalize source closed coordinates with start=max(0,sourceStart-1), end unchanged. Preserve original boundaries, confidence, median coverage and breakpoint annotations.",
     "coverage": "Parse literal Plotly JSON without executing HTML. Match HP1, HP2 and BAF coordinates. Undo mirrored HP2 sign. Recover chr1-22 from source position resets and verify offsets against pinned GRCh38 lengths. Retain all 50 kb bins without sampling.",
     "masks": "Preserve raw sentinel 3300 in the table with coverageStatus=masked, exclude it from depth plotting/autoscaling, and shade merged mask intervals over depth/CN. Do not interpret masked source CN zero as deletion.",
-    "loh": "Read Wakhan's zero-based, half-open loh_regions.bed. Preserve each source interval for tooltips, split calls at source depth-mask boundaries, and omit masked pieces from LOH display data.",
+    "loh": "Read Wakhan's zero-based, half-open loh_regions.bed. Preserve each source interval in the derived table, split calls at source depth-mask boundaries, and omit masked pieces from LOH display data.",
     "missingness": "Keep reported nonmasked zeros. Mark CN terminal tails and unanalysed sex chromosomes as unavailable. Preserve BAF zero with an explicit unknown-SNP-support status. Do not infer phasing confidence or unphased depth.",
     "annotations": "UCSC hg38 cytobands plus unions of curated NM_ RefSeq transcript spans for all 591 NCG 7.2 canonical cancer drivers. Rank labels by the number of distinct supporting PubMed IDs across NCG evidence rows.",
     "chromosomeLengthsDigest": "SHA-256 of UTF-8 JSON of chr1-22/X/Y length mapping, sorted keys, separators comma and colon; independently matched to GenomeSpy GRCh38.",
-    "browserParsing": "Explicit string parsing preserves GT, HP, phase sets and variant IDs; original genomic anchors are retained for tooltips."
+    "browserParsing": "Explicit string parsing preserves GT, HP, phase sets and variant IDs; original genomic anchors remain in the derived tables."
   },
   "limitations": [
     "Source 3300 depth/line values denote masks. HP1 HTML masked tooltip CN is -3300 and HP2 is 34, while companion BED CN is zero. These are not biological CN states.",

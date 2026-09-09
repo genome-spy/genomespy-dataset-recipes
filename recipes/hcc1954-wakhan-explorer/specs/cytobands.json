@@ -61,21 +61,8 @@
         },
         "tooltip": [
           {
-            "field": "chrom",
-            "title": "Chromosome"
-          },
-          {
             "field": "band",
             "title": "Cytoband"
-          },
-          {
-            "expr": "format(datum.start + 1, \",d\")",
-            "title": "Start (1-based)"
-          },
-          {
-            "field": "end",
-            "title": "End",
-            "format": ",d"
           }
         ]
       }

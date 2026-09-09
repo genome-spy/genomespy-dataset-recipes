@@ -130,13 +130,13 @@ Imports are relative to their containing spec. Keep these files together in
   smoothly past the track's top edge. Hovered, clicked, or interval-selected
   arcs bypass fading. This requires the local Core build with dome-fading support.
   Single breakends and insertions are small triangle sites, not invented arcs.
-- Hover CN intervals for original start/end, haplotype, copy state, segment
+- Hover CN intervals for their genomic span, haplotype, copy state, segment
   median depth, BED confidence, and breakpoint IDs. Solid CN intervals overlay
   translucent coverage points. Copies use the left axis and read depth the
   right; both HP tracks share the same CN range.
 - A compact segment-feature track below BAF shows Wakhan's explicit LOH calls
-  without covering the BAF points or CN estimates. It preserves the source BED
-  interval in each tooltip and omits only overlap with Wakhan's depth mask.
+  without covering the BAF points or CN estimates. Its derived table preserves
+  the source BED intervals and omits only overlap with Wakhan's depth mask.
   Hatched mask regions and pale unavailable regions remain distinct from both
   LOH and ordinary uncalled territory. The LOH BED contains no confidence
   values, so the tooltip says that directly.
@@ -216,10 +216,10 @@ Outputs in ignored `output/` are `coverage-baf.tsv`,
 `copy-number-segments.tsv`, `loh-segments.tsv`, `sv-links.tsv`, `sv-sites.tsv`,
 `masked-regions.tsv`, `unavailable-cn.tsv`, `cytobands.tsv`, and `genes.tsv`.
 Coordinates used for plotting are zero-based, half-open. VCF anchors subtract
-one; original VCF
-positions remain in `position1/2`. Wakhan's mixed zero/one-based first bin and
+one; original VCF positions remain in `position1/2`. Wakhan's mixed
+zero/one-based first bin and
 closed segment coordinates use `start=max(0,sourceStart-1)`, retaining the end.
-Tooltips explicitly identify the original coordinate convention.
+GenomeSpy's tooltip handler adds the plotted genomic coordinates automatically.
 SV tables contain the Wakhan-facing `svClass` and the original
 `sourceSvType`; single breakends and insertions remain point records.
 `loh-segments.tsv` uses the zero-based, half-open coordinates supplied by

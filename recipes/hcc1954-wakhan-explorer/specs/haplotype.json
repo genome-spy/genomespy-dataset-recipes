@@ -68,20 +68,6 @@
         },
         "tooltip": [
           {
-            "field": "chrom",
-            "title": "Chromosome"
-          },
-          {
-            "field": "start",
-            "title": "Start (0-based)",
-            "format": ",d"
-          },
-          {
-            "field": "end",
-            "title": "End",
-            "format": ",d"
-          },
-          {
             "field": "status",
             "title": "Availability"
           }
@@ -174,20 +160,6 @@
         },
         "tooltip": [
           {
-            "field": "chrom",
-            "title": "Chromosome"
-          },
-          {
-            "field": "sourceStart",
-            "title": "Original Wakhan start",
-            "format": ",d"
-          },
-          {
-            "field": "end",
-            "title": "End",
-            "format": ",d"
-          },
-          {
             "expr": "hp",
             "title": "Chromosome-local haplotype"
           },
@@ -266,20 +238,6 @@
           }
         },
         "tooltip": [
-          {
-            "field": "chrom",
-            "title": "Chromosome"
-          },
-          {
-            "field": "sourceStart",
-            "title": "Original Wakhan start",
-            "format": ",d"
-          },
-          {
-            "field": "end",
-            "title": "End",
-            "format": ",d"
-          },
           {
             "field": "haplotype",
             "title": "Chromosome-local haplotype"

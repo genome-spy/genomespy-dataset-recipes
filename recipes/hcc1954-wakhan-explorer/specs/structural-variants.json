@@ -136,10 +136,6 @@
                 "title": "Wakhan SV class"
               },
               {
-                "expr": "datum.chrom + ':' + datum['position' + datum.endpoint]",
-                "title": "Breakpoint (VCF, 1-based)"
-              },
-              {
                 "field": "strand",
                 "title": "Strand"
               }

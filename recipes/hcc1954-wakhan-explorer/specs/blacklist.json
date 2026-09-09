@@ -27,19 +27,6 @@
     },
     "tooltip": [
       {
-        "field": "chrom",
-        "title": "Chromosome"
-      },
-      {
-        "expr": "format(datum.start + 1, \",d\")",
-        "title": "Start (1-based)"
-      },
-      {
-        "field": "end",
-        "title": "End",
-        "format": ",d"
-      },
-      {
         "field": "status",
         "title": "Availability"
       }
