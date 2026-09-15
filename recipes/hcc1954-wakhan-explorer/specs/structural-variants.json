@@ -23,7 +23,7 @@
       "height": 110,
       "title": "Structural variants | Shift-drag a region; hover or click an arc",
       "data": {
-        "url": "../output/sv-links.tsv",
+        "url": { "expr": "dataUrlPrefix + 'sv-links.tsv'" },
         "format": {
           "parse": {
             "genotype": "string",
@@ -319,7 +319,7 @@
       "name": "single-sites",
       "height": 10,
       "data": {
-        "url": "../output/sv-sites.tsv",
+        "url": { "expr": "dataUrlPrefix + 'sv-sites.tsv'" },
         "format": {
           "parse": {
             "genotype": "string",

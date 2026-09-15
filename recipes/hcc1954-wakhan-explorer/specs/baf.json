@@ -29,7 +29,7 @@
   "layer": [
     {
       "data": {
-        "url": "../output/coverage-baf.tsv"
+        "url": { "expr": "dataUrlPrefix + 'coverage-baf.tsv'" }
       },
       "mark": {
         "type": "point",

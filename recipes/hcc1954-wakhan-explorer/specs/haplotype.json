@@ -46,7 +46,7 @@
     {
       "name": "cn-unavailable",
       "data": {
-        "url": "../output/unavailable-cn.tsv"
+        "url": { "expr": "dataUrlPrefix + 'unavailable-cn.tsv'" }
       },
       "mark": {
         "type": "rect",
@@ -93,7 +93,7 @@
     {
       "name": "coverage-bins",
       "data": {
-        "url": "../output/coverage-baf.tsv"
+        "url": { "expr": "dataUrlPrefix + 'coverage-baf.tsv'" }
       },
       "transform": [
         {
@@ -181,7 +181,7 @@
     {
       "name": "cn-segments",
       "data": {
-        "url": "../output/copy-number-segments.tsv"
+        "url": { "expr": "dataUrlPrefix + 'copy-number-segments.tsv'" }
       },
       "transform": [
         {

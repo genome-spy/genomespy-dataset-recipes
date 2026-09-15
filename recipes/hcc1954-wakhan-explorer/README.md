@@ -76,6 +76,8 @@ styling, ruler, and interval selection. It imports focused track specifications:
 | [`selected-genes.json`](specs/selected-genes.json) | Publication-ranked NCG drivers |
 
 Keep the files together in `specs/`; their data URLs point to `../output/`.
+The top-level `dataUrlPrefix` parameter controls that location, so a deployed
+specification can instead use the versioned public data URL.
 
 ## Explore
 

@@ -10,7 +10,7 @@
     }
   },
   "data": {
-    "url": "../output/genes.tsv"
+    "url": { "expr": "dataUrlPrefix + 'genes.tsv'" }
   },
   "encoding": {
     "x": {

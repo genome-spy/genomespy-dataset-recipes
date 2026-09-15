@@ -20,6 +20,11 @@
 
   "params": [
     {
+      "name": "dataUrlPrefix",
+      "value": "../output/",
+      "description": "Base URL for generated Wakhan data files. Must end with a slash."
+    },
+    {
       "name": "showRuler",
       "value": true,
       "description": "Show a vertical genomic ruler across the linked detail tracks.",

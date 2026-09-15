@@ -2,7 +2,7 @@
   "$schema": "https://cdn.jsdelivr.net/npm/@genome-spy/core/dist/schema.json",
   "description": "Reusable Wakhan source-mask layer.",
   "data": {
-    "url": "../output/masked-regions.tsv"
+    "url": { "expr": "dataUrlPrefix + 'masked-regions.tsv'" }
   },
   "mark": {
     "type": "rect",

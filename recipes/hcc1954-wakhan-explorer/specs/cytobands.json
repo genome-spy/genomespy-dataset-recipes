@@ -4,7 +4,7 @@
   "name": "cytobands",
   "height": 16,
   "data": {
-    "url": "../output/cytobands.tsv"
+    "url": { "expr": "dataUrlPrefix + 'cytobands.tsv'" }
   },
   "encoding": {
     "x": {

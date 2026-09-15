@@ -21,7 +21,7 @@
     {
       "name": "loh-unavailable",
       "data": {
-        "url": "../output/unavailable-cn.tsv"
+        "url": { "expr": "dataUrlPrefix + 'unavailable-cn.tsv'" }
       },
       "mark": {
         "type": "rect",
@@ -41,7 +41,7 @@
     {
       "name": "loh-segments",
       "data": {
-        "url": "../output/loh-segments.tsv"
+        "url": { "expr": "dataUrlPrefix + 'loh-segments.tsv'" }
       },
       "mark": {
         "type": "rect",
