@@ -17,9 +17,11 @@ import math
 import re
 import shutil
 import tarfile
+import time
 from collections import Counter
 from pathlib import Path
 from typing import Any
+from urllib.error import HTTPError, URLError
 from urllib.parse import urlencode
 from urllib.request import Request, urlopen
 
@@ -39,18 +41,65 @@ def verify(path: Path, lock: Row) -> None:
     assert actual == {k: lock[k] for k in actual}, f"Changed input/output: {path}"
 
 
+def open_with_retry(request: Request) -> Any:
+    """Open a download, tolerating brief upstream or network failures."""
+    for attempt in range(5):
+        try:
+            return urlopen(request, timeout=120)
+        except (HTTPError, URLError) as error:
+            if isinstance(error, HTTPError) and error.code not in {
+                429,
+                500,
+                502,
+                503,
+                504,
+            }:
+                raise
+            if attempt == 4:
+                raise
+            time.sleep(5 * (attempt + 1))
+    raise AssertionError("Unreachable")
+
+
 def fetch(source: Row, destination: Path) -> None:
     if not destination.exists():
         temporary = destination.with_suffix(destination.suffix + ".part")
         form_data = source.get("formData")
         body = urlencode(form_data).encode() if form_data else None
-        request = Request(
-            source["url"],
-            data=body,
-            headers={"User-Agent": "GenomeSpy recipe"},
-        )
-        with urlopen(request, timeout=120) as response, temporary.open("wb") as out:
-            shutil.copyfileobj(response, out)
+        offset = temporary.stat().st_size if temporary.exists() else 0
+        resumable = source.get("resumable", False)
+        if resumable:
+            expected_size = source["fileSizeBytes"]
+            chunk_size = source["chunkSizeBytes"]
+            while offset < expected_size:
+                end = min(offset + chunk_size, expected_size) - 1
+                request = Request(
+                    source["url"],
+                    headers={
+                        "User-Agent": "GenomeSpy recipe",
+                        "Range": f"bytes={offset}-{end}",
+                    },
+                )
+                with open_with_retry(request) as response, temporary.open(
+                    "ab"
+                ) as out:
+                    content_range = response.headers.get("Content-Range", "")
+                    assert response.status == 206 and content_range.startswith(
+                        f"bytes {offset}-{end}/"
+                    ), "Server did not honor the requested download range"
+                    shutil.copyfileobj(response, out)
+                assert temporary.stat().st_size == end + 1, "Incomplete download chunk"
+                offset = end + 1
+        else:
+            request = Request(
+                source["url"],
+                data=body,
+                headers={"User-Agent": "GenomeSpy recipe"},
+            )
+            with open_with_retry(request) as response, temporary.open(
+                "wb"
+            ) as out:
+                shutil.copyfileobj(response, out)
         verify(temporary, source)
         temporary.replace(destination)
     verify(destination, source)

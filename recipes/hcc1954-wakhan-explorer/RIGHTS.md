@@ -1,13 +1,13 @@
 # Data-rights review
 
-Reviewed: 2026-09-05.
+Reviewed: 2026-09-15.
 
 ## Scope and evidence
 
-This review covers the seven pinned members of `castle_benchmarks.tar.gz` in
+This review covers the eight pinned members of `castle_benchmarks.tar.gz` in
 [Zenodo record 17780982 v1](https://zenodo.org/records/17780982), and the UCSC
 GRCh38 `cytoBandIdeo` and `ncbiRefSeqCurated` tables and NCG 7.2 cancer-driver
-evidence table listed in provenance. The outputs are eight reduced/transformed
+evidence table listed in provenance. The outputs are nine reduced/transformed
 TSVs; the original Plotly HTML and upstream program code are not
 repository-authored artifacts.
 
@@ -38,6 +38,6 @@ notices with the data and do not imply endorsement. The repository's CC0 applies
 only to original scripts, specs, and prose, never to the datasets.
 
 The proposed release root is
-`https://data.genomespy.app/datasets/hcc1954-wakhan-explorer/v2/`.
+`https://data.genomespy.app/datasets/hcc1954-wakhan-explorer/v5/`.
 The explicit artifact inventory in provenance excludes source HTML, archives,
 reference-table downloads, screenshots, and GenomeSpy runtime bundles.

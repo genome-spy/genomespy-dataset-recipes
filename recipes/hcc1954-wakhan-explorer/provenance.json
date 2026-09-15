@@ -14,7 +14,9 @@
       "license": "CC-BY-4.0",
       "assembly": "GRCh38",
       "landingPage": "https://zenodo.org/records/17780982",
-      "url": "https://zenodo.org/api/records/17780982/files/castle_benchmarks.tar.gz/content",
+      "url": "https://zenodo.org/records/17780982/files/castle_benchmarks.tar.gz?download=1",
+      "resumable": true,
+      "chunkSizeBytes": 268435456,
       "filename": "castle_benchmarks.tar.gz",
       "fileSizeBytes": 5419437368,
       "md5": "6c44bbd50582754f82b1b6a83b753549",
@@ -129,6 +131,7 @@
     "solutionConfidence": 0.9,
     "lohMaskPolicy": "Retain Wakhan LOH calls outside the source depth mask",
     "geneSet": "NCG 7.2 canonical cancer drivers",
+    "geneSetRationale": "NCG 7.2 was selected instead of Wakhan's bundled default COSMIC list because Wakhan documents 100 genes while the current four-column table has 99 rows and 98 unique symbols (TBL1Y is duplicated) and records no COSMIC release, stable identifiers, or selection method. NCG provides a citable, freely downloadable evidence table with PubMed identifiers for label ranking.",
     "geneSupportScore": "Distinct PubMed IDs across all NCG evidence rows for each canonical driver"
   },
   "tools": {
@@ -390,7 +393,7 @@
       "svClickHighlight": "passed",
       "svIntervalSelection": {
         "gesture": "Shift-drag across linked detail tracks; double-click to clear",
-        "matching": "GenomeSpy link interval hit testing selects either breakpoint. Matching arcs retain their SV-class color, use 2 px strokes, and have opacity 0.7. Hovered arcs use opacity 1; clicked arcs use 0.7 even outside the interval. Unselected arcs use light gray with their normal zoom-dependent opacity, min(0.2 * zoomLevel, 0.4). Empty selection restores SV-class colors.",
+        "matching": "GenomeSpy link interval hit testing selects either breakpoint. Matching arcs retain their SV-class color, use 2 px strokes, and have opacity 0.7. Hovered arcs use opacity 1; clicked arcs use 0.7 even outside the interval. Unselected arcs use light gray with their normal zoom-dependent opacity, min(0.2 * zoomLevel('x'), 0.4). Empty selection restores SV-class colors.",
         "opacityEncoding": "Arc color uses a declarative selection-union predicate combining point and interval selections with empty: true. Hover remains independent of color and only affects size and opacity. This avoids selection-state expressions and any dependency on internal datum identifiers.",
         "spanningBrush": true,
         "brushStyling": "The linked-track interval uses a 1 px #487d91 outline, 0.01-opacity fill and a 10 px #75adbf shadow at 0.5 opacity.",
