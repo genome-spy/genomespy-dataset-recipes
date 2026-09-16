@@ -96,11 +96,7 @@ def test_loh_regions_preserve_source_calls_but_omit_masked_parts(
     tmp_path: Path,
 ) -> None:
     path = tmp_path / "loh.bed"
-    path.write_text(
-        "#chr\tstart\tend\n"
-        "chr8\t100\t500\n"
-        "chr8\t700\t900\n"
-    )
+    path.write_text("#chr\tstart\tend\nchr8\t100\t500\nchr8\t700\t900\n")
     masked = [
         {"chrom": "chr8", "start": 200, "end": 300},
         {"chrom": "chr8", "start": 400, "end": 800},

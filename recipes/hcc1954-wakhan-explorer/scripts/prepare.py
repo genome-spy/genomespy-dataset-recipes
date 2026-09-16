@@ -80,9 +80,7 @@ def fetch(source: Row, destination: Path) -> None:
                         "Range": f"bytes={offset}-{end}",
                     },
                 )
-                with open_with_retry(request) as response, temporary.open(
-                    "ab"
-                ) as out:
+                with open_with_retry(request) as response, temporary.open("ab") as out:
                     content_range = response.headers.get("Content-Range", "")
                     assert response.status == 206 and content_range.startswith(
                         f"bytes {offset}-{end}/"
@@ -96,9 +94,7 @@ def fetch(source: Row, destination: Path) -> None:
                 data=body,
                 headers={"User-Agent": "GenomeSpy recipe"},
             )
-            with open_with_retry(request) as response, temporary.open(
-                "wb"
-            ) as out:
+            with open_with_retry(request) as response, temporary.open("wb") as out:
                 shutil.copyfileobj(response, out)
         verify(temporary, source)
         temporary.replace(destination)
@@ -343,9 +339,7 @@ def omit_masked_copy_number_segments(
 ) -> tuple[list[Row], Row]:
     """Omit CN-zero placeholders that current Wakhan renders as mask gaps."""
 
-    mask_by_interval = {
-        (row["chrom"], row["start"], row["end"]): row for row in masked
-    }
+    mask_by_interval = {(row["chrom"], row["start"], row["end"]): row for row in masked}
     omitted: list[Row] = []
     displayed: list[Row] = []
     for row in source:
@@ -616,9 +610,7 @@ def main() -> None:
                         ),
                     )
                 )
-    source_cn = segments(paths["hp1"], 1, lengths) + segments(
-        paths["hp2"], 2, lengths
-    )
+    source_cn = segments(paths["hp1"], 1, lengths) + segments(paths["hp2"], 2, lengths)
     cn, cn_mask_validation = omit_masked_copy_number_segments(source_cn, masked)
     loh, loh_validation = loh_regions(paths["loh"], lengths, masked)
     bands, genes = reference_annotations(paths, lengths)
