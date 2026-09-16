@@ -1,0 +1,572 @@
+{
+  "schemaVersion": 2,
+  "releaseId": "v5",
+  "recipeId": "hcc1954-wakhan-explorer",
+  "sources": [
+    {
+      "id": "zenodo-17780982-castle-benchmarks",
+      "recordId": 17780982,
+      "conceptRecordId": 17780981,
+      "version": "v1",
+      "title": "Wakhan: reconstruction of chromosome-scale copy number profiles of tumor genomes with long-read sequencing",
+      "creators": ["Tanveer, Ahmad", "Mikhail, Kolmogorov"],
+      "publicationDate": "2025-12-01",
+      "license": "CC-BY-4.0",
+      "assembly": "GRCh38",
+      "landingPage": "https://zenodo.org/records/17780982",
+      "url": "https://zenodo.org/records/17780982/files/castle_benchmarks.tar.gz?download=1",
+      "resumable": true,
+      "chunkSizeBytes": 268435456,
+      "filename": "castle_benchmarks.tar.gz",
+      "fileSizeBytes": 5419437368,
+      "md5": "6c44bbd50582754f82b1b6a83b753549",
+      "sha256": "3f50bfdbb16263a0e55f2fa275507e43fdfa2851a933258b2030ddc4dbce1129",
+      "selection": "The archive contains the exact Severus VCF consumed by the paired Wakhan HCC1954 HiFi run, the ranked copy-number solution, and its LOH calls.",
+      "members": [
+        {
+          "id": "vcf",
+          "path": "castle_benchmarks/wakhan/wakhan_HCC1954_hifi/severus/somatic_SVs/severus_somatic.vcf",
+          "localName": "vcf.vcf",
+          "fileSizeBytes": 627579,
+          "sha256": "54d28a1b6d78fbb39a75b7886336c244c00594901793046f2a1b77e30ec219b5"
+        },
+        {
+          "id": "hp1",
+          "path": "castle_benchmarks/wakhan/wakhan_HCC1954_hifi/wakhan/4.57_0.99_0.9/bed_output/HCC1954_4.57_0.99_0.9_copynumbers_segments_HP_1.bed",
+          "localName": "hp1.bed",
+          "fileSizeBytes": 108852,
+          "sha256": "78522884dd4fe647ee112ea8e733399790842e516d99536ffc878ee36a44cd81"
+        },
+        {
+          "id": "hp2",
+          "path": "castle_benchmarks/wakhan/wakhan_HCC1954_hifi/wakhan/4.57_0.99_0.9/bed_output/HCC1954_4.57_0.99_0.9_copynumbers_segments_HP_2.bed",
+          "localName": "hp2.bed",
+          "fileSizeBytes": 109442,
+          "sha256": "f40ea2f6f755923ea614791c9f920d1f32cbaa8ad80845e3376777dfaea0bff1"
+        },
+        {
+          "id": "loh",
+          "path": "castle_benchmarks/wakhan/wakhan_HCC1954_hifi/wakhan/4.57_0.99_0.9/bed_output/loh_regions.bed",
+          "localName": "loh.bed",
+          "fileSizeBytes": 586,
+          "sha256": "ec8cb05f5252ca7682983452236ccaa5f81adaf0c0d701d540e44ad48ded4436"
+        },
+        {
+          "id": "figure",
+          "path": "castle_benchmarks/wakhan/wakhan_HCC1954_hifi/wakhan/4.57_0.99_0.9/HCC1954_4.57_0.99_0.9_genome_copynumbers_breakpoints.html",
+          "localName": "figure.html",
+          "fileSizeBytes": 13364712,
+          "sha256": "d6b3e8f0bb470b8523b71ee64052b2e522ad8a826052a41e6a1bae231fdc9235"
+        },
+        {
+          "id": "log",
+          "path": "castle_benchmarks/wakhan/wakhan_HCC1954_hifi/wakhan/wakhan.log",
+          "localName": "log.log",
+          "fileSizeBytes": 98582,
+          "sha256": "36f4263ad331543ab7d7a0b2c4f57c130bc23f1b39c7f28fd1aff7f94765df76"
+        },
+        {
+          "id": "ranks",
+          "path": "castle_benchmarks/wakhan/wakhan_HCC1954_hifi/wakhan/solutions_ranks.tsv",
+          "localName": "ranks.tsv",
+          "fileSizeBytes": 142,
+          "sha256": "964de51acc32444a5675fba579f62dd7758e75b9308c4da64a88eea830e83c35"
+        },
+        {
+          "id": "chr8Coverage",
+          "path": "castle_benchmarks/wakhan/wakhan_HCC1954_hifi/wakhan/coverage_plots/chr8_cov.html",
+          "localName": "chr8Coverage.html",
+          "fileSizeBytes": 3988623,
+          "sha256": "dbb3f6231c406f1e88b2badabe1acba62c13509eb7edb5ba416d4a04315ab086"
+        }
+      ]
+    },
+    {
+      "id": "cytobands",
+      "url": "https://hgdownload.soe.ucsc.edu/goldenPath/hg38/database/cytoBandIdeo.txt.gz",
+      "filename": "cytoBandIdeo.txt.gz",
+      "assembly": "GRCh38",
+      "retrieved": "2026-09-03",
+      "fileSizeBytes": 12122,
+      "sha256": "c092fd7f0c1d0a3a543d1d826b3ae07a55bc9c8a9818580232ff9c8f13c60865"
+    },
+    {
+      "id": "refseq",
+      "url": "https://hgdownload.soe.ucsc.edu/goldenPath/hg38/database/ncbiRefSeqCurated.txt.gz",
+      "filename": "ncbiRefSeqCurated.txt.gz",
+      "assembly": "GRCh38",
+      "retrieved": "2026-09-03",
+      "fileSizeBytes": 4801131,
+      "sha256": "67090326b606658bdabdfe5f8dcb97b7943ac802c7945399522be7174ec021ca"
+    },
+    {
+      "id": "ncg",
+      "title": "Network of Cancer Genes 7.2: cancer-driver annotation and supporting evidence",
+      "version": "7.2",
+      "publication": "https://doi.org/10.1186/s13059-022-02607-z",
+      "url": "http://www.network-cancer-genes.org/download.php",
+      "formData": {
+        "downloadcancergenes": "Download"
+      },
+      "filename": "NCG_cancerdrivers_annotation_supporting_evidence.tsv",
+      "retrieved": "2026-09-05",
+      "lastModified": "2022-02-21T17:00:35Z",
+      "license": "Freely downloadable; no license required; citation requested",
+      "fileSizeBytes": 959142,
+      "sha256": "e1e1f8ff4dd6f3107a5dfe9f60e20dc52c62313cb8e4411856329a66849580a1"
+    }
+  ],
+  "parameters": {
+    "sample": "HCC1954",
+    "vcfSample": "wakhan_haplotagged",
+    "assembly": "GRCh38",
+    "solution": "4.57_0.99_0.9",
+    "binSize": 50000,
+    "chromosomeLengthsSha256": "e1a8f809443125e39ca0f6bb8675ad55d1cb176680debe9f23755644639bd126",
+    "sampleTechnology": "PacBio HiFi",
+    "normalSample": "HCC1954BL",
+    "solutionRank": 1,
+    "ploidy": 4.57,
+    "cellPurity": 0.99,
+    "solutionConfidence": 0.9,
+    "lohMaskPolicy": "Retain Wakhan LOH calls outside the source depth mask",
+    "geneSet": "NCG 7.2 canonical cancer drivers",
+    "geneSetRationale": "NCG 7.2 was selected instead of Wakhan's bundled default COSMIC list because Wakhan documents 100 genes while the current four-column table has 99 rows and 98 unique symbols (TBL1Y is duplicated) and records no COSMIC release, stable identifiers, or selection method. NCG provides a citable, freely downloadable evidence table with PubMed identifiers for label ranking.",
+    "geneSupportScore": "Distinct PubMed IDs across all NCG evidence rows for each canonical driver"
+  },
+  "tools": {
+    "python": "3.12.13",
+    "genomespyCore": "0.87.0",
+    "genomespyCommit": "3894221d20a5537b77ac46f2b762773f255c51c6",
+    "sourceCaller": "Severus_v1.7"
+  },
+  "outputs": {
+    "coverage-baf.tsv": {
+      "path": "output/coverage-baf.tsv",
+      "fileSizeBytes": 5581542,
+      "sha256": "ace9c5277e74a9d540a83cd55f5619c838c392e205152b092eff861a005fe604",
+      "recordCount": 57509
+    },
+    "masked-regions.tsv": {
+      "path": "output/masked-regions.tsv",
+      "fileSizeBytes": 2775,
+      "sha256": "e2c342caf3466f4a42481c351d49ddf7ed1508341374d3f5137031ab5ac88d16",
+      "recordCount": 22
+    },
+    "copy-number-segments.tsv": {
+      "path": "output/copy-number-segments.tsv",
+      "fileSizeBytes": 260533,
+      "sha256": "d6001b95358f311bea7352d9676090fd820d2c1c6a3327f35fc4786c442da902",
+      "recordCount": 2072
+    },
+    "loh-segments.tsv": {
+      "path": "output/loh-segments.tsv",
+      "fileSizeBytes": 1696,
+      "sha256": "e3d442029512ffe41614cc322a763beabfab6a9799cbca8600dce5fd192de10e",
+      "recordCount": 18
+    },
+    "sv-links.tsv": {
+      "path": "output/sv-links.tsv",
+      "fileSizeBytes": 176030,
+      "sha256": "129aa6940ff9c1bd2cce073321ad057d3e89ebe02d433137f37d3714cb0896fd",
+      "recordCount": 992
+    },
+    "sv-sites.tsv": {
+      "path": "output/sv-sites.tsv",
+      "fileSizeBytes": 14412,
+      "sha256": "b7bd869f33c5d48a9edd84490b248525c0d4fc6c52a63e0ae56adf4af6947806",
+      "recordCount": 82
+    },
+    "cytobands.tsv": {
+      "path": "output/cytobands.tsv",
+      "fileSizeBytes": 30775,
+      "sha256": "c1d07d3aba76426c133c2e7ee2b345c80f3d02ced98b775d17a0f76ffac90325",
+      "recordCount": 862
+    },
+    "genes.tsv": {
+      "path": "output/genes.tsv",
+      "fileSizeBytes": 46034,
+      "sha256": "c4f8c1ab41e9125e96ec1e3d4bd5bed73a8dafbf91f349261b6365035f927ffc",
+      "recordCount": 593
+    },
+    "unavailable-cn.tsv": {
+      "path": "output/unavailable-cn.tsv",
+      "fileSizeBytes": 1309,
+      "sha256": "5b58ae896286c3cef6b9f10f50e77abcb717ced828df61c92decec02c461802b",
+      "recordCount": 24
+    }
+  },
+  "validation": {
+    "sourcePlotComparison": {
+      "intervalsCompared": 2116,
+      "maskedStateDifferences": 44,
+      "confidenceDifferences": 2116,
+      "policy": "BED is authoritative outside exact masks; current Wakhan renders masked CN as gaps; HTML supplies binned depth and BAF"
+    },
+    "svFiltering": {
+      "sourceRecords": 1766,
+      "retainedRecords": 1766
+    },
+    "svLinks": 992,
+    "svSites": 82,
+    "sourceSvTypes": {
+      "DEL": 238,
+      "DUP": 62,
+      "BND": 692,
+      "INS": 31,
+      "sBND": 51
+    },
+    "wakhanSvClasses": {
+      "DEL": 238,
+      "DUP": 62,
+      "BND": 743,
+      "INS": 31
+    },
+    "coverageBins": 57509,
+    "maskedBins": 4800,
+    "bafZeroBins": 10900,
+    "coverageMax": {
+      "hp1": 479.2083333333333,
+      "hp2": 492.9333333333333
+    },
+    "copyNumberMax": {
+      "HP1": 23.0,
+      "HP2": 33.0
+    },
+    "copyNumberMasks": {
+      "sourceIntervals": 2116,
+      "displayedIntervals": 2072,
+      "maskedPlaceholdersOmitted": 44,
+      "policy": "Omit exact mask-matching CN-zero placeholders"
+    },
+    "loh": {
+      "sourceIntervals": 21,
+      "displayedIntervals": 18,
+      "sourceBases": 319576241,
+      "displayedBases": 275576244,
+      "maskedOverlapBases": 43999997,
+      "policy": "Use Wakhan LOH calls, excluding source depth-mask overlap"
+    },
+    "sourcePlotCoverageRange": [-495.42, 495.42],
+    "chromosomeLengthsMatchVcfAndPlot": true,
+    "maskedIntervals": 22,
+    "sourceLinkage": {
+      "reference": "grch38_chr.fasta",
+      "analysedContigs": "chr1-22",
+      "tumourAndNormalNamesMatchLog": true,
+      "breakpointInputMatchesLog": true,
+      "solutionMatchesRank1": true,
+      "vcfLengthsMatchGenomeSpyGRCh38": true
+    },
+    "knownEvents": [
+      "chr8:106589232-106602017: HP2 CN 33, median depth 467.60; interval/state checked against BED and archived Plotly arrays. Adjacent high states remain visible.",
+      "MYC RefSeq span chr8:127735434-127742951 overlaps source HP1 CN 4 and HP2 CN 5; distinct from the CN-33 region.",
+      "ERBB2 RefSeq span chr17:39688094-39728658 overlaps source HP1 CN 1 and HP2 CN 4.",
+      "severus_BND8437_1/_2: chr8:120297570 to chr8:122701725, strands --, HP 2|0, GT 0/1, DV 14, DR 176, VAF 0.07; VCF and hovered arc agree.",
+      "severus_BND6680_1/_2: chr5:115478653 to chr8:128191966, GT 0/1, HP 0|2, VAF 0.33; source VCF anchors preserved."
+    ],
+    "reproducibility": {
+      "freshExtractionFromVerifiedArchive": "passed",
+      "regeneratedNineOutputsByteIdentical": true,
+      "allSourceAndMemberHashesVerified": true,
+      "downloadUrls": {
+        "archive": 200,
+        "cytobands": 200,
+        "refseq": 200,
+        "ncg": 200
+      }
+    },
+    "browser": {
+      "schemaValidation": "passed",
+      "consoleErrors": [],
+      "svClassScale": {
+        "domain": ["DEL", "INV", "INS", "BND", "DUP"],
+        "sourceMapping": "sBND is displayed as BND; original sourceSvType remains in single-site tooltips",
+        "marksReady": {
+          "links": 992,
+          "sites": 82,
+          "feet": 1984
+        }
+      },
+      "allDetailTracksUseSharedLocusResolution": true,
+      "lohTrack": {
+        "source": "Pinned Wakhan 4.57_0.99_0.9/bed_output/loh_regions.bed",
+        "sourceIntervals": 21,
+        "displayedIntervals": 18,
+        "maskedOverlapBasesOmitted": 43999997,
+        "layerOrder": ["unavailable", "source mask", "LOH"],
+        "allMarksReady": true,
+        "allLayersUseSharedLocusResolution": true,
+        "wholeGenomeVisualCheck": "passed",
+        "consoleErrors": []
+      },
+      "maskRendering": {
+        "semantics": "Current Wakhan gaps: sentinel HP depth and exact mask-matching CN-zero placeholders are absent; BAF remains visible",
+        "view": "chr1:115,000,001-156,000,001",
+        "hatchVisible": true,
+        "coverageRowsPerHaplotype": 52709,
+        "copyNumberRows": {
+          "HP1": 1031,
+          "HP2": 1041
+        },
+        "maskedCopyNumberPlaceholdersRendered": 0,
+        "consoleErrors": []
+      },
+      "quantitativeChecks": [
+        {
+          "view": "Whole genome",
+          "cnDomain": [0, 35],
+          "depthDomain": [0.1, 490.52],
+          "allVisibleCopyStatesFit": true,
+          "rawBinsAboveRange": {
+            "HP1": 0,
+            "HP2": 1
+          },
+          "maxTrackingDomainError": 0
+        },
+        {
+          "view": "Chromosome 8",
+          "cnDomain": [0, 35],
+          "depthDomain": [0.1, 490.52],
+          "allVisibleCopyStatesFit": true,
+          "rawBinsAboveRange": {
+            "HP1": 0,
+            "HP2": 1
+          },
+          "maxTrackingDomainError": 0
+        },
+        {
+          "view": "HP2 CN 33",
+          "cnDomain": [0, 35],
+          "depthDomain": [0.1, 490.52],
+          "allVisibleCopyStatesFit": true,
+          "rawBinsAboveRange": {
+            "HP1": 0,
+            "HP2": 0
+          },
+          "maxTrackingDomainError": 0
+        },
+        {
+          "view": "MYC neighbourhood",
+          "cnDomain": [0, 24],
+          "depthDomain": [0.1, 336.388],
+          "allVisibleCopyStatesFit": true,
+          "rawBinsAboveRange": {
+            "HP1": 0,
+            "HP2": 2
+          },
+          "maxTrackingDomainError": 0
+        },
+        {
+          "view": "ERBB2 locus",
+          "cnDomain": [0, 4],
+          "depthDomain": [0.1, 56.148],
+          "allVisibleCopyStatesFit": true,
+          "rawBinsAboveRange": {
+            "HP1": 2,
+            "HP2": 33
+          },
+          "maxTrackingDomainError": 0
+        },
+        {
+          "view": "Chromosome 21",
+          "cnDomain": [0, 9],
+          "depthDomain": [0.1, 126.208],
+          "allVisibleCopyStatesFit": true,
+          "rawBinsAboveRange": {
+            "HP1": 1,
+            "HP2": 0
+          },
+          "maxTrackingDomainError": 0
+        }
+      ],
+      "brushReplacement": "double-click then drag passed",
+      "wheelZoom": "passed",
+      "dragPan": "passed",
+      "overviewFollowsDetailViewport": "passed",
+      "navigatorDecoration": {
+        "brush": "A 1.5 px #487d91 outline at 0.85 opacity stays crisp over a 0.02-opacity fill; a 10 px #75adbf shadow at 0.5 opacity adds a soft glow without changing interaction behavior.",
+        "reference": "Uses GenomeSpy shadow properties demonstrated by examples/docs/grammar/parameters/genome-overview-detail.json.",
+        "browserAndSvgChecks": "Chromosome 8 brush equals the detail domain; the overview retains its independent whole-genome domain; the shadow filter renders without SVG warnings or console errors."
+      },
+      "automaticGenomicCoordinateTooltips": "CN33 interval and BND8437 passed",
+      "svClickHighlight": "passed",
+      "svIntervalSelection": {
+        "gesture": "Shift-drag across linked detail tracks; double-click to clear",
+        "matching": "GenomeSpy link interval hit testing selects either breakpoint. Matching arcs retain their SV-class color, use 2 px strokes, and have opacity 0.7. Hovered arcs use opacity 1; clicked arcs use 0.7 even outside the interval. Unselected arcs use light gray with their normal zoom-dependent opacity, min(0.2 * zoomLevel('x'), 0.4). Empty selection restores SV-class colors.",
+        "opacityEncoding": "Arc color uses a declarative selection-union predicate combining point and interval selections with empty: true. Hover remains independent of color and only affects size and opacity. This avoids selection-state expressions and any dependency on internal datum identifiers.",
+        "spanningBrush": true,
+        "brushStyling": "The linked-track interval uses a 1 px #487d91 outline, 0.01-opacity fill and a 10 px #75adbf shadow at 0.5 opacity.",
+        "linkedTrackStyling": "While the brush is active, conditional color keeps selected coverage, BAF, and CN marks in their semantic colors, while rendering unselected CN rules in #8f999e and unselected points in the lighter #cbd2d6. Empty selection preserves semantic colors for every instance; opacity, guides, masks, and unavailable regions are unchanged.",
+        "bafRendering": "All 57,509 BAF bins use one point layer. Ordinal scales map the existing bafStatus categories to cross/circle shapes and gray/green semantic colors. Both legends are suppressed, and bafStatus remains in the tooltip. An Inspector snapshot reported one ready point mark with 57,509 rows, and whole-track plus interval-selection browser checks produced no console errors.",
+        "viewportUnchanged": true,
+        "drawAndClear": "passed",
+        "hoverAndRetainedClickHighlight": "passed",
+        "svFileRequestsAcrossSelectionChanges": 1,
+        "consoleErrors": []
+      },
+      "svArcRendering": "Dome height uses a square-root scale over absolute linearized breakpoint separation, with domain [0, span(domain('x')) * height / width * 5] from sashimi-plot.json. An apex-only yOffset of -4 adds a 4 px visibility floor. arcFadingDistance uses [height - 20, height + 20] with x-only clipping, following hcc1954-sv-cnv.json. The local Core dome-fading fix measures fade distance from the endpoint baseline. Hovered, clicked, and interval-selected arcs bypass fading; eager loading remains intact.",
+      "eagerSvLoading": {
+        "linksRetained": 992,
+        "sitesRetained": 82,
+        "initialRequestsPerSvFile": 1,
+        "additionalRequestsDuringNavigation": 0,
+        "viewsChecked": ["whole genome", "chr8", "MYC"]
+      },
+      "genotypeParsing": "GT 0/1 displayed correctly",
+      "standaloneSpecInGenomeSpyApp": "rendered without console warnings/errors",
+      "svFeet": {
+        "encoding": "Two strand-directed breakpoint rules per SV, using an ordinal xOffset scale with domain ['-', '+'] and range expressions [+svFootLength, -svFootLength]. The parameter is declared on the resolution-owning structural-variants view and evaluates clamp(7 * 100000000 / viewportSpan, 1, 7) CSS pixels.",
+        "browserAndSvgChecks": {
+          "wholeGenomePx": 1,
+          "span200MbPx": 3.5,
+          "span100MbPx": 7,
+          "mycSpanPx": 7
+        },
+        "endpointRows": 1984,
+        "genomicCoordinatesProvidedByTooltipHandler": true,
+        "svFileRequestsAcrossZooms": 1,
+        "consoleErrors": []
+      },
+      "declarativeCoverageOverlay": {
+        "calibration": {
+          "singleCopyDepth": 14.012,
+          "offset": 0.1,
+          "source": "Pinned run log rank-1 centers and archived Plotly layout.yaxis3 tickvals/ticktext"
+        },
+        "scaleResolution": "Shared viewport-derived primary CN y scale across HP1/HP2; excluded depth y resolutions with independent right axes.",
+        "domainTracking": "The cnDomain expression parameter reads domain('y') at the shared CN scope. Each excluded depth scale directly converts both bounds in its domain expression using singleCopyDepth and depthOffset. Depth nicing, clamping and separate transitions are disabled. No synthetic domain-driving data, invisible rules or domainInert flags are used.",
+        "rawBinClipping": "Raw bins outside calibrated CN bounds are clipped at the track edges without filtering the data, as requested.",
+        "wrapperJavaScriptUnchanged": true,
+        "knownLociAndTransitionAlignment": "Six views: both depth-domain bounds exactly match CN calibration at every sampled transition frame (maximum error 0). The baseline guide is at zero copies; the corresponding lower depth bound is 0.1. All detail tracks share the locus scale.",
+        "cn33AutomaticCoordinateTooltip": "passed",
+        "svBrushingAndPointHighlightAfterOverlay": "passed",
+        "consoleErrors": [],
+        "scaleDependentParameters": "Core 0.88.1 includes the initialization fix from #505; cnDomain drives the depth domains and svFootLength drives the signed ordinal offset range. Whole genome, chr8, CN33, MYC, ERBB2 and chr21 passed, with one eager SV data request and no console errors."
+      },
+      "rulerToggle": {
+        "control": "Show ruler checkbox, enabled initially; placed beside the standalone locus buttons with inputBindingContainer and available under View settings > Parameters in GenomeSpy App.",
+        "binding": "Root showRuler boolean parameter; genomicCursor.ruler.disabled uses !showRuler. Uses Core commit 1d2ebd5ad.",
+        "disabledTracking": "Checkbox clears the coordinate; movement over HP1, HP2 and BAF leaves it inactive.",
+        "reenabledTracking": "Rechecking restores tracking during pointer movement across the linked tracks.",
+        "consoleErrors": []
+      },
+      "horizontalRulers": {
+        "parameters": "Track-local cnHorizontalCursor in each imported haplotype view and bafHorizontalCursor in the BAF view; all use y encodings with view extent.",
+        "copyNumberScale": "HP1 and HP2 rulers resolve independently to the shared primary CN scale and report finite values within its current viewport-derived domain.",
+        "bafScale": "The BAF ruler resolves to the fixed [0, 0.5] scale and reports values within that domain.",
+        "interaction": "Only the hovered track ruler is active; all three clear on track exit. The linked vertical genomic ruler remains available concurrently. Show ruler disables and restores every guide. A shared transitioned opacity fades all guides over about 300 ms when genomicCursor enters or leaves the active svRegion interval.",
+        "consoleErrors": [],
+        "styling": "Vertical, CN and BAF rulers use the same #6b7c85 stroke, 1 px width, [3, 3] dash and normal opacity 0.75."
+      },
+      "geneAnnotations": {
+        "dataRows": 593,
+        "uniqueCanonicalGenes": 591,
+        "wholeGenomeLabels": "Collision-filtered publication-ranked labels rendered",
+        "chromosome8": "Gene intervals and labels rendered across chr8; MYC remained visible",
+        "linkedViewport": "passed",
+        "consoleErrors": []
+      }
+    },
+    "repositoryChecks": {
+      "pytest": "59 passed",
+      "ruff": "passed",
+      "ruffFormat": "passed",
+      "mypy": "passed",
+      "recipeContract": "passed"
+    },
+    "geneAnnotations": {
+      "canonicalGenes": 591,
+      "genomicLoci": 593,
+      "supportCount": {
+        "definition": "Distinct PubMed IDs in NCG evidence rows",
+        "minimum": 1,
+        "median": 3,
+        "percentile90": 21,
+        "maximum": 203,
+        "distinctValues": 54
+      },
+      "allCanonicalGenesMappedToRefSeq": true,
+      "pseudoautosomalGenesWithTwoLoci": ["CRLF2", "P2RY8"]
+    }
+  },
+  "transformations": {
+    "sourceSelection": "Eight exact members from the matching HCC1954 HiFi Wakhan run; the run log names this somatic VCF. The archived whole-genome HTML supplies otherwise unavailable binned measurements.",
+    "structuralVariants": "Require the explicit wakhan_haplotagged FORMAT column, completely called GT containing an alternate allele, and PASS. Both BND mates must pass, have reciprocal IDs and reciprocal ALT positions. Collapse mates into one link; retain INS/sBND as sites. Preserve the original Severus SVTYPE as sourceSvType and map sBND to BND only in the Wakhan-facing svClass. Preserve raw source IDs, strands, HP, phase sets and target support.",
+    "copyNumbers": "Keep independent HP1/HP2 BED intervals and integer states. Normalize source closed coordinates with start=max(0,sourceStart-1), end unchanged. Preserve original boundaries, confidence, median coverage and breakpoint annotations. Omit the 44 CN-zero placeholders whose bounds exactly match the 22 source masks, following current Wakhan's gap semantics.",
+    "coverage": "Parse literal Plotly JSON without executing HTML. Match HP1, HP2 and BAF coordinates. Undo mirrored HP2 sign. Recover chr1-22 from source position resets and verify offsets against pinned GRCh38 lengths. Retain all 50 kb bins without sampling.",
+    "masks": "Preserve raw sentinel 3300 in the table with coverageStatus=masked, exclude it from depth plotting/autoscaling, and shade merged mask intervals over depth/CN. Omit exact mask-matching CN-zero placeholders from display data; retain biological CN zero elsewhere.",
+    "loh": "Read Wakhan's zero-based, half-open loh_regions.bed. Preserve each source interval in the derived table, split calls at source depth-mask boundaries, and omit masked pieces from LOH display data.",
+    "missingness": "Keep reported nonmasked zeros. Mark CN terminal tails and unanalysed sex chromosomes as unavailable. Preserve BAF zero with an explicit unknown-SNP-support status. Do not infer phasing confidence or unphased depth.",
+    "annotations": "UCSC hg38 cytobands plus unions of curated NM_ RefSeq transcript spans for all 591 NCG 7.2 canonical cancer drivers. Rank labels by the number of distinct supporting PubMed IDs across NCG evidence rows.",
+    "chromosomeLengthsDigest": "SHA-256 of UTF-8 JSON of chr1-22/X/Y length mapping, sorted keys, separators comma and colon; independently matched to GenomeSpy GRCh38.",
+    "browserParsing": "Explicit string parsing preserves GT, HP, phase sets and variant IDs; original genomic anchors remain in the derived tables."
+  },
+  "limitations": [
+    "Source 3300 depth/line values denote masks. HP1 HTML masked tooltip CN is -3300 and HP2 is 34, while companion BED CN is zero. These 44 mask placeholders are omitted from display data and are not biological CN states.",
+    "All 2116 source confidence values differ between BED and HTML; BED confidence is used and is not a phasing-confidence score.",
+    "The export provides folded 50 kb BAF means without per-SNP support. Zero may be unsupported or biologically informative; no conclusion is imposed.",
+    "The inspected chr8 Unphased trace is all zero and does not establish a reliable genome-wide series. Unphased depth and phasing confidence are unavailable here.",
+    "Autosomal integer CN solution only; no inferred subclonal fractions or parental identities.",
+    "Wakhan's LOH BED contains intervals without confidence or allelic-state fields. Masked overlap is omitted rather than interpreted as LOH; no confidence or LOH subtype is inferred.",
+    "UCSC snapshot URLs are mutable. Checksums pin accepted bytes and fail on drift; retain the cached downloads for long-term reproducibility.",
+    "NCG supportCount measures breadth of supporting publications, not effect size, formal statistical significance or evidence that a gene is altered in HCC1954.",
+    "Dense SVs overlap at whole-genome scale. Existing hover, retained selection and synchronized zoom provide inspection. All SVs load eagerly without viewport-dependent data filtering.",
+    "The CN-driven overlay intentionally clips raw read-depth bins outside the calibrated range; all inferred CN states fit the viewport-derived bounds."
+  ],
+  "references": {
+    "wakhanCodeInspected": "https://github.com/KolmogorovLab/Wakhan/tree/d407ee6e2e609aa6c4c9d3690cd1cfc2be39ef37",
+    "genomespyPatterns": [
+      "examples/docs/grammar/parameters/genome-overview-detail.json",
+      "examples/docs/examples/genomic-data/hcc1954-sv-cnv.json",
+      "examples/docs/examples/genomic-data/sashimi-plot.json",
+      "examples/docs/grammar/parameters/point-selection.json"
+    ],
+    "sentinelDefinition": "src/utils/chromosome.py in the inspected Wakhan revision defines CENTROMERE_SENTINEL=3300 for centromeric/blacklisted regions.",
+    "ncg": {
+      "database": "http://www.network-cancer-genes.org/",
+      "publication": "https://doi.org/10.1186/s13059-022-02607-z"
+    }
+  },
+  "distribution": {
+    "baseUrl": "https://data.genomespy.app/datasets/hcc1954-wakhan-explorer/v5/",
+    "artifacts": {
+      "output/coverage-baf.tsv": {
+        "fileSizeBytes": 5581542,
+        "sha256": "ace9c5277e74a9d540a83cd55f5619c838c392e205152b092eff861a005fe604"
+      },
+      "output/masked-regions.tsv": {
+        "fileSizeBytes": 2775,
+        "sha256": "e2c342caf3466f4a42481c351d49ddf7ed1508341374d3f5137031ab5ac88d16"
+      },
+      "output/copy-number-segments.tsv": {
+        "fileSizeBytes": 260533,
+        "sha256": "d6001b95358f311bea7352d9676090fd820d2c1c6a3327f35fc4786c442da902"
+      },
+      "output/loh-segments.tsv": {
+        "fileSizeBytes": 1696,
+        "sha256": "e3d442029512ffe41614cc322a763beabfab6a9799cbca8600dce5fd192de10e"
+      },
+      "output/sv-links.tsv": {
+        "fileSizeBytes": 176030,
+        "sha256": "129aa6940ff9c1bd2cce073321ad057d3e89ebe02d433137f37d3714cb0896fd"
+      },
+      "output/sv-sites.tsv": {
+        "fileSizeBytes": 14412,
+        "sha256": "b7bd869f33c5d48a9edd84490b248525c0d4fc6c52a63e0ae56adf4af6947806"
+      },
+      "output/cytobands.tsv": {
+        "fileSizeBytes": 30775,
+        "sha256": "c1d07d3aba76426c133c2e7ee2b345c80f3d02ced98b775d17a0f76ffac90325"
+      },
+      "output/genes.tsv": {
+        "fileSizeBytes": 46034,
+        "sha256": "c4f8c1ab41e9125e96ec1e3d4bd5bed73a8dafbf91f349261b6365035f927ffc"
+      },
+      "output/unavailable-cn.tsv": {
+        "fileSizeBytes": 1309,
+        "sha256": "5b58ae896286c3cef6b9f10f50e77abcb717ced828df61c92decec02c461802b"
+      }
+    }
+  }
+}

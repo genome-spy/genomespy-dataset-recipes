@@ -276,7 +276,7 @@ def check_recipe(recipe_dir: Path) -> list[str]:
                 f"{recipe_dir.name}: missing PEP 723 metadata in {script.name}"
             )
 
-    for spec in sorted((recipe_dir / "specs").glob("*.json")):
+    for spec in sorted((recipe_dir / "specs").rglob("*.json")):
         try:
             value = json.loads(spec.read_text(encoding="utf-8"))
         except json.JSONDecodeError as error:
@@ -286,24 +286,42 @@ def check_recipe(recipe_dir: Path) -> list[str]:
     return errors
 
 
-def walk_json(value: Any) -> Iterable[tuple[str, Any]]:
-    """Yield every object key and value recursively."""
+def walk_json(
+    value: Any, path: tuple[str, ...] = ()
+) -> Iterable[tuple[tuple[str, ...], Any]]:
+    """Yield every object key path and value recursively, ignoring array indexes."""
 
     if isinstance(value, dict):
         for key, child in value.items():
-            yield key, child
-            yield from walk_json(child)
+            child_path = (*path, key)
+            yield child_path, child
+            yield from walk_json(child, child_path)
     elif isinstance(value, list):
         for child in value:
-            yield from walk_json(child)
+            yield from walk_json(child, path)
 
 
 def check_spec_values(recipe_id: str, spec_name: str, value: Any) -> list[str]:
-    """Return errors for data URLs and embedded tables in a local spec."""
+    """Check local spec imports, output data URLs, and embedded tables."""
 
     errors: list[str] = []
-    for key, child in walk_json(value):
+    for path, child in walk_json(value):
+        key = path[-1]
         if key == "url" and isinstance(child, str):
+            if path[-2:] == ("import", "url"):
+                import_path = PurePosixPath(child)
+                if (
+                    import_path.is_absolute()
+                    or ".." in import_path.parts
+                    or ":" in child
+                    or "\\" in child
+                    or import_path.suffix != ".json"
+                ):
+                    errors.append(
+                        f"{recipe_id}: import must reference a local spec "
+                        f"in {spec_name}: {child}"
+                    )
+                continue
             is_remote = child.startswith(("http://", "https://"))
             if is_remote:
                 errors.append(f"{recipe_id}: remote data URL in {spec_name}: {child}")
