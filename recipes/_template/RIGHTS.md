@@ -16,7 +16,8 @@ List required attribution, notices, citations, or share-alike terms. Write
 
 ## Decision
 
-Choose one: eligible for GenomeSpy-managed hosting; use the authoritative
-upstream URL; local-only: prohibited; or local-only: unresolved.
+Replace this paragraph with one of the canonical decision openings listed in
+`docs/rights-and-publication.md`. Keep the opening as plain text rather than
+adding Markdown emphasis.
 
 Reviewed: YYYY-MM-DD

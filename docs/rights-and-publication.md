@@ -30,9 +30,17 @@ Every concrete recipe has a `RIGHTS.md` with:
 2. authoritative evidence links;
 3. a short interpretation;
 4. required conditions; and
-5. one decision: **eligible for GenomeSpy-managed hosting**, **use the
-   authoritative upstream URL**, **local-only: prohibited**, or **local-only:
-   unresolved**.
+5. one decision using one of these canonical openings:
+
+   ```text
+   Eligible for GenomeSpy-managed hosting under the conditions above.
+   Use the authoritative upstream URL.
+   Local-only: prohibited.
+   Local-only: unresolved.
+   ```
+
+   Keep the opening as plain text immediately after the `## Decision` heading.
+   It may be followed by recipe-specific conditions or rationale.
 
 Include the review date. Keep the assessment concise and avoid copying policy
 text. The recipe README links to it instead of restating it.

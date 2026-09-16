@@ -14,6 +14,8 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
 
       - name: Install uv and Python
         uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d # v10.0.1
@@ -26,6 +28,12 @@ jobs:
 
       - name: Check repository contract
         run: uv run python tools/check_repo.py
+
+      - name: Check rights decisions for new recipes
+        if: github.event_name == 'pull_request'
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: uv run python -m tools.check_new_recipe_rights --base "$BASE_SHA"
 
       - name: Lint Python
         run: uv run ruff check .
