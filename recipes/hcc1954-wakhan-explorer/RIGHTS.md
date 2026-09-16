@@ -28,10 +28,11 @@ with coordinates from NCBI RefSeq; it does not use the COSMIC annotations in
 Wakhan's figure. Credit NCG, UCSC, and NCBI and retain the exact source
 identities.
 
-## Conditions and decision
+## Decision
 
-**Eligible for GenomeSpy-managed hosting.** Credit the deposit creators, NCG,
-UCSC, and NCBI; link the versioned deposit, CC BY 4.0 and source tables; describe
+Eligible for GenomeSpy-managed hosting under the conditions above. Credit the
+deposit creators, NCG, UCSC, and NCBI; link the versioned deposit, CC BY 4.0 and
+source tables; describe
 coordinate normalization, masking, bin extraction, SV filtering, gene mapping,
 and evidence aggregation as changes. Cite the NCG publication. Preserve these
 notices with the data and do not imply endorsement. The repository's CC0 applies
