@@ -442,7 +442,7 @@
         "cn33AutomaticCoordinateTooltip": "passed",
         "svBrushingAndPointHighlightAfterOverlay": "passed",
         "consoleErrors": [],
-        "scaleDependentParameters": "Uses the local Core initialization fix for #505; cnDomain drives the depth domains and svFootLength drives the signed ordinal offset range. Whole genome, chr8, CN33, MYC, ERBB2 and chr21 passed, with one eager SV data request and no console errors."
+        "scaleDependentParameters": "Core 0.88.1 includes the initialization fix from #505; cnDomain drives the depth domains and svFootLength drives the signed ordinal offset range. Whole genome, chr8, CN33, MYC, ERBB2 and chr21 passed, with one eager SV data request and no console errors."
       },
       "rulerToggle": {
         "control": "Show ruler checkbox, enabled initially; placed beside the standalone locus buttons with inputBindingContainer and available under View settings > Parameters in GenomeSpy App.",
@@ -512,7 +512,7 @@
     "UCSC snapshot URLs are mutable. Checksums pin accepted bytes and fail on drift; retain the cached downloads for long-term reproducibility.",
     "NCG supportCount measures breadth of supporting publications, not effect size, formal statistical significance or evidence that a gene is altered in HCC1954.",
     "Dense SVs overlap at whole-genome scale. Existing hover, retained selection and synchronized zoom provide inspection. All SVs load eagerly without viewport-dependent data filtering.",
-    "The CN-driven overlay intentionally clips raw read-depth bins outside the calibrated range; all inferred CN states fit the viewport-derived bounds. Scale-dependent parameters require the Core initialization fix for #505."
+    "The CN-driven overlay intentionally clips raw read-depth bins outside the calibrated range; all inferred CN states fit the viewport-derived bounds."
   ],
   "references": {
     "wakhanCodeInspected": "https://github.com/KolmogorovLab/Wakhan/tree/d407ee6e2e609aa6c4c9d3690cd1cfc2be39ef37",

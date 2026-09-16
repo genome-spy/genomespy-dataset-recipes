@@ -156,10 +156,6 @@ while retaining the original type.
 - Dense rearrangements still overlap at whole-genome scale; zoom and selection
   provide detailed inspection.
 
-The output depends on a few recent GenomeSpy Core fixes present in the local
-checkout, including scale-dependent parameter initialization
-([#505](https://github.com/genome-spy/genome-spy/issues/505)).
-
 ## Attribution and rights
 
 Data: Ahmad Tanveer and Mikhail Kolmogorov, Wakhan / CASTLE,
