@@ -276,7 +276,10 @@
     </footer>
 </main>
 <script type="module">
-    import { embed, favIcon } from "/runtime/index.es.js";
+    import {
+        embed,
+        favIcon,
+    } from "https://cdn.jsdelivr.net/npm/@genome-spy/core@0.88.1/dist/bundle/index.es.js";
     const container = document.querySelector("#vis");
     const api = await embed(
         container,

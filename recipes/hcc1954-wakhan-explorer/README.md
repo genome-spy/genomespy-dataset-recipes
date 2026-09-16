@@ -34,13 +34,7 @@ output directories would be.
 
 ## Run the demo
 
-Build GenomeSpy Core from the **GenomeSpy repository root**:
-
-```sh
-npm exec --workspace @genome-spy/core -- vite build
-```
-
-Then, from the **dataset-recipes repository root**:
+From the **dataset-recipes repository root**:
 
 ```sh
 uv run --script recipes/hcc1954-wakhan-explorer/scripts/prepare.py
@@ -48,8 +42,8 @@ uv run --script recipes/hcc1954-wakhan-explorer/scripts/serve.py
 ```
 
 Open [the local demo](http://127.0.0.1:8082/specs/index.html). The page uses the
-surrounding GenomeSpy checkout; pass `--genomespy /path/to/genome-spy` to use a
-different one. Once prepared, the visualization makes no external requests.
+GenomeSpy 0.88.1 ESM bundle from jsDelivr. Once prepared, visualization data are
+served locally; loading the page still requires access to jsDelivr.
 
 The entry specification can also be opened in the GenomeSpy App development
 server:
