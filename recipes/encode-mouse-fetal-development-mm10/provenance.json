@@ -1,0 +1,320 @@
+{
+  "schemaVersion": 2,
+  "releaseId": "v2",
+  "recipeId": "encode-mouse-fetal-development-mm10",
+  "sources": [
+    {
+      "id": "encode-h3k27ac",
+      "title": "Mouse fetal tissue H3K27ac fold change over control",
+      "provider": "ENCODE Consortium; Bing Ren laboratory",
+      "assembly": "mm10",
+      "selection": "Released single-biological-replicate fold-change-over-control BigWigs from Histone ChIP-seq 2 (unreplicated), pipeline v1.3.5.1. Biological-replicate-pooled and pseudoreplicate outputs are excluded.",
+      "files": [
+        {"accession":"ENCFF799GJG","experiment":"ENCSR275KPI","tissue":"Forebrain","stageDays":11.5,"stageLabel":"E11.5","biologicalReplicate":1,"technicalReplicate":"1_1","biosample":"ENCBS745VOM","fileSizeBytes":352406987,"md5":"9e1287c03d0bf06e7a3dea737730f2d3","cloudUrl":"https://encode-public.s3.amazonaws.com/2020/10/10/7df10ebb-afcc-4a3d-a304-13d4c2e1c75a/ENCFF799GJG.bigWig"},
+        {"accession":"ENCFF034HXA","experiment":"ENCSR275KPI","tissue":"Forebrain","stageDays":11.5,"stageLabel":"E11.5","biologicalReplicate":2,"technicalReplicate":"2_1","biosample":"ENCBS720JOH","fileSizeBytes":379997680,"md5":"dbf23b6c4f529ab67012d1dce1f73f19","cloudUrl":"https://encode-public.s3.amazonaws.com/2020/10/10/7c5038c3-7b04-4cd6-a733-93d2953a4b04/ENCFF034HXA.bigWig"},
+        {"accession":"ENCFF549YDI","experiment":"ENCSR966AIB","tissue":"Forebrain","stageDays":12.5,"stageLabel":"E12.5","biologicalReplicate":1,"technicalReplicate":"1_1","biosample":"ENCBS974GPH","fileSizeBytes":712621353,"md5":"711582919cf14abf726351820375ecc9","cloudUrl":"https://encode-public.s3.amazonaws.com/2020/10/09/2632f73a-d17a-45e7-ace1-3824797ff56f/ENCFF549YDI.bigWig"},
+        {"accession":"ENCFF539MQF","experiment":"ENCSR966AIB","tissue":"Forebrain","stageDays":12.5,"stageLabel":"E12.5","biologicalReplicate":2,"technicalReplicate":"2_1","biosample":"ENCBS617DPG","fileSizeBytes":802029571,"md5":"ddcb52e716239744545bccad37c712b7","cloudUrl":"https://encode-public.s3.amazonaws.com/2020/10/09/97d9585a-82fb-4a2b-8055-b52f887021c0/ENCFF539MQF.bigWig"},
+        {"accession":"ENCFF455GRV","experiment":"ENCSR311YPF","tissue":"Forebrain","stageDays":13.5,"stageLabel":"E13.5","biologicalReplicate":1,"technicalReplicate":"1_1","biosample":"ENCBS273RVL","fileSizeBytes":743204767,"md5":"e48efa9c7280f4f91f2d4e2d47759418","cloudUrl":"https://encode-public.s3.amazonaws.com/2020/10/10/86fbe9b9-5926-4701-857c-d413df0ded38/ENCFF455GRV.bigWig"},
+        {"accession":"ENCFF904QWY","experiment":"ENCSR311YPF","tissue":"Forebrain","stageDays":13.5,"stageLabel":"E13.5","biologicalReplicate":2,"technicalReplicate":"2_1","biosample":"ENCBS793ZRY","fileSizeBytes":721047193,"md5":"32bf6ff1d0b3bdd0b4729a76dffccf79","cloudUrl":"https://encode-public.s3.amazonaws.com/2020/10/10/7886eadb-c8d2-4e9e-b641-7440522c04be/ENCFF904QWY.bigWig"},
+        {"accession":"ENCFF032MLV","experiment":"ENCSR691NQH","tissue":"Forebrain","stageDays":15.5,"stageLabel":"E15.5","biologicalReplicate":1,"technicalReplicate":"1_1","biosample":"ENCBS811RMD","fileSizeBytes":920020604,"md5":"0a726d9c004092ee352c8352bb9bfe27","cloudUrl":"https://encode-public.s3.amazonaws.com/2020/10/09/714467b6-327b-4741-9659-bb5842593319/ENCFF032MLV.bigWig"},
+        {"accession":"ENCFF802YED","experiment":"ENCSR691NQH","tissue":"Forebrain","stageDays":15.5,"stageLabel":"E15.5","biologicalReplicate":2,"technicalReplicate":"2_1","biosample":"ENCBS841GER","fileSizeBytes":1003807812,"md5":"7a619eae407042e2f4d9ab485eb658f6","cloudUrl":"https://encode-public.s3.amazonaws.com/2020/10/09/408f5116-ceb0-42fd-94b5-7a40915de75c/ENCFF802YED.bigWig"},
+        {"accession":"ENCFF088BYS","experiment":"ENCSR222IHX","tissue":"Heart","stageDays":11.5,"stageLabel":"E11.5","biologicalReplicate":1,"technicalReplicate":"1_1","biosample":"ENCBS225RIF","fileSizeBytes":365649810,"md5":"502ad2fb7cd0b2a56b02934b074b34f5","cloudUrl":"https://encode-public.s3.amazonaws.com/2020/10/10/3c4d128c-8f89-4683-9fbc-686e52a5ae58/ENCFF088BYS.bigWig"},
+        {"accession":"ENCFF970UCS","experiment":"ENCSR222IHX","tissue":"Heart","stageDays":11.5,"stageLabel":"E11.5","biologicalReplicate":2,"technicalReplicate":"2_1","biosample":"ENCBS046IMM","fileSizeBytes":275904232,"md5":"56e3fc98525f7fc9e1a90078037d04bc","cloudUrl":"https://encode-public.s3.amazonaws.com/2020/10/10/96d8d560-5686-4499-8eb1-b740a1c71c46/ENCFF970UCS.bigWig"},
+        {"accession":"ENCFF587ZRD","experiment":"ENCSR123MLY","tissue":"Heart","stageDays":12.5,"stageLabel":"E12.5","biologicalReplicate":1,"technicalReplicate":"1_1,1_2","biosample":"ENCBS452TDN","fileSizeBytes":886317934,"md5":"5c3d06aed5a9277f3fd973ed48bce5e5","cloudUrl":"https://encode-public.s3.amazonaws.com/2020/10/10/a3aa1fcb-45d9-473a-b7c0-be3d74b62a76/ENCFF587ZRD.bigWig"},
+        {"accession":"ENCFF724HYE","experiment":"ENCSR123MLY","tissue":"Heart","stageDays":12.5,"stageLabel":"E12.5","biologicalReplicate":2,"technicalReplicate":"2_1","biosample":"ENCBS004ZLN","fileSizeBytes":890588390,"md5":"e8b434d19d581203b9f3891813ece3f1","cloudUrl":"https://encode-public.s3.amazonaws.com/2020/10/10/ce1835f9-9251-4a4e-85a3-95691dff7603/ENCFF724HYE.bigWig"},
+        {"accession":"ENCFF181EWM","experiment":"ENCSR699XHY","tissue":"Heart","stageDays":13.5,"stageLabel":"E13.5","biologicalReplicate":1,"technicalReplicate":"1_1","biosample":"ENCBS490ZWZ","fileSizeBytes":683482016,"md5":"3ec95133b06a01a9f9c3cc7fb149a958","cloudUrl":"https://encode-public.s3.amazonaws.com/2020/10/09/a6df2555-f779-40e2-8c94-02294198884c/ENCFF181EWM.bigWig"},
+        {"accession":"ENCFF107RIR","experiment":"ENCSR699XHY","tissue":"Heart","stageDays":13.5,"stageLabel":"E13.5","biologicalReplicate":2,"technicalReplicate":"2_1","biosample":"ENCBS814PLT","fileSizeBytes":773937690,"md5":"f4ad88f8fc35d24abfe799655403441f","cloudUrl":"https://encode-public.s3.amazonaws.com/2020/10/09/baf7dbf1-a35b-4455-92e1-db49c3c6b5fb/ENCFF107RIR.bigWig"},
+        {"accession":"ENCFF610JUE","experiment":"ENCSR574VME","tissue":"Heart","stageDays":15.5,"stageLabel":"E15.5","biologicalReplicate":1,"technicalReplicate":"1_1","biosample":"ENCBS595EMK","fileSizeBytes":941787126,"md5":"b1ebb7d19c3e2227aae19ba1f3834411","cloudUrl":"https://encode-public.s3.amazonaws.com/2020/10/10/259a93e8-3cb3-4a45-b358-3d85b09d92f7/ENCFF610JUE.bigWig"},
+        {"accession":"ENCFF633BKS","experiment":"ENCSR574VME","tissue":"Heart","stageDays":15.5,"stageLabel":"E15.5","biologicalReplicate":2,"technicalReplicate":"2_1","biosample":"ENCBS909LOF","fileSizeBytes":945979520,"md5":"bff74a5865d3db2f024a2c5eef2aa264","cloudUrl":"https://encode-public.s3.amazonaws.com/2020/10/10/0441d643-1e10-4e1a-b16f-4e1b2859890b/ENCFF633BKS.bigWig"},
+        {"accession":"ENCFF682BDZ","experiment":"ENCSR897WBY","tissue":"Limb","stageDays":11.5,"stageLabel":"E11.5","biologicalReplicate":1,"technicalReplicate":"1_1","biosample":"ENCBS066IEL","fileSizeBytes":373986580,"md5":"295adaaf27cd950b529f55ed05f8040f","cloudUrl":"https://encode-public.s3.amazonaws.com/2020/10/09/d14c69c7-21f0-4985-8977-cc023b720ff0/ENCFF682BDZ.bigWig"},
+        {"accession":"ENCFF745JWC","experiment":"ENCSR897WBY","tissue":"Limb","stageDays":11.5,"stageLabel":"E11.5","biologicalReplicate":2,"technicalReplicate":"2_1","biosample":"ENCBS681XPR","fileSizeBytes":260038864,"md5":"6f8babe9913a9c8822b4b2c6da67e546","cloudUrl":"https://encode-public.s3.amazonaws.com/2020/10/09/fb153ae8-573a-44ed-9a78-4d6df7f7de63/ENCFF745JWC.bigWig"},
+        {"accession":"ENCFF896KSI","experiment":"ENCSR737QWV","tissue":"Limb","stageDays":12.5,"stageLabel":"E12.5","biologicalReplicate":1,"technicalReplicate":"1_1","biosample":"ENCBS731DGJ","fileSizeBytes":729073065,"md5":"38df1d21a5063da3e1e486845400686f","cloudUrl":"https://encode-public.s3.amazonaws.com/2020/10/09/92a28e50-37ba-4017-a53c-fe8a9fe1b54c/ENCFF896KSI.bigWig"},
+        {"accession":"ENCFF098FVA","experiment":"ENCSR737QWV","tissue":"Limb","stageDays":12.5,"stageLabel":"E12.5","biologicalReplicate":2,"technicalReplicate":"2_1","biosample":"ENCBS313XRY","fileSizeBytes":763891937,"md5":"2fa3d21f8df3475528e4f03ebe9c6a09","cloudUrl":"https://encode-public.s3.amazonaws.com/2020/10/09/4f7a860c-bac9-416f-aef6-52d8b370d312/ENCFF098FVA.bigWig"},
+        {"accession":"ENCFF788IOU","experiment":"ENCSR905FFU","tissue":"Limb","stageDays":13.5,"stageLabel":"E13.5","biologicalReplicate":1,"technicalReplicate":"1_1,1_2","biosample":"ENCBS176PGP","fileSizeBytes":592400712,"md5":"0e13764979b463e7fff04c2c345c8a37","cloudUrl":"https://encode-public.s3.amazonaws.com/2020/10/09/91fceeb4-885c-4970-a8fc-145be5be8c04/ENCFF788IOU.bigWig"},
+        {"accession":"ENCFF829BDZ","experiment":"ENCSR905FFU","tissue":"Limb","stageDays":13.5,"stageLabel":"E13.5","biologicalReplicate":2,"technicalReplicate":"2_1","biosample":"ENCBS896ZED","fileSizeBytes":723339535,"md5":"df9e060e67c188ea6fdcb1293fa04294","cloudUrl":"https://encode-public.s3.amazonaws.com/2020/10/09/b2a9f420-1d71-4d54-b18c-bf91ce398d8b/ENCFF829BDZ.bigWig"},
+        {"accession":"ENCFF774LMF","experiment":"ENCSR988BRP","tissue":"Limb","stageDays":15.5,"stageLabel":"E15.5","biologicalReplicate":1,"technicalReplicate":"1_1","biosample":"ENCBS735QNY","fileSizeBytes":906091112,"md5":"532e151df07a12829007f3994983b796","cloudUrl":"https://encode-public.s3.amazonaws.com/2020/10/09/9ae97e38-ae1f-431b-8d34-fa064f0414ac/ENCFF774LMF.bigWig"},
+        {"accession":"ENCFF556QMY","experiment":"ENCSR988BRP","tissue":"Limb","stageDays":15.5,"stageLabel":"E15.5","biologicalReplicate":2,"technicalReplicate":"2_1","biosample":"ENCBS696JKV","fileSizeBytes":868851442,"md5":"e8a6920bec6240de046e4bd8d3fb777d","cloudUrl":"https://encode-public.s3.amazonaws.com/2020/10/09/9611a516-cdd0-401e-aeb7-1017efcbe784/ENCFF556QMY.bigWig"}
+      ],
+      "auditInterpretation": "The accepted experiments contain ENCODE audit warnings, including library complexity, read depth/length, control, and platform notes. ENCSR123MLY additionally carries NOT_COMPLIANT library-complexity/bottlenecking audit entries. These are disclosed rather than silently discarded; its two source tracks remain visually concordant at the selected elements and were used in the published atlas. The tracks are not presented as quantitative measurements of absolute acetylation across tissues."
+    },
+    {
+      "id": "encode-rna",
+      "title": "Mouse fetal tissue bulk RNA-seq gene quantification",
+      "provider": "ENCODE Consortium; Barbara Wold laboratory",
+      "assembly": "mm10",
+      "annotation": "GENCODE M21",
+      "selection": "Released gene-level TPM tables from Bulk RNA-seq v1.2.4, two biological replicates per tissue-stage.",
+      "files": [
+        {"accession":"ENCFF696BTU","experiment":"ENCSR160IIN","tissue":"Forebrain","stageDays":11.5,"stageLabel":"E11.5","biologicalReplicate":1,"fileSizeBytes":11875909,"md5":"e7eb7276a9a15fed4549e1a84b717f9d","cloudUrl":"https://encode-public.s3.amazonaws.com/2021/03/15/f564e283-d8fa-4d57-b255-84941990a2d5/ENCFF696BTU.tsv"},
+        {"accession":"ENCFF042VCB","experiment":"ENCSR160IIN","tissue":"Forebrain","stageDays":11.5,"stageLabel":"E11.5","biologicalReplicate":2,"fileSizeBytes":11889550,"md5":"00f3ce1a6f3af98d5c2f0d9067038db7","cloudUrl":"https://encode-public.s3.amazonaws.com/2021/03/15/308254c7-06aa-4d23-8506-342eeb2a36c5/ENCFF042VCB.tsv"},
+        {"accession":"ENCFF698XIB","experiment":"ENCSR647QBV","tissue":"Forebrain","stageDays":12.5,"stageLabel":"E12.5","biologicalReplicate":1,"fileSizeBytes":11886868,"md5":"49667b83b331c0abf6ac2222fa0e395b","cloudUrl":"https://encode-public.s3.amazonaws.com/2021/03/15/eb9c4913-c6d1-4a2d-bf5f-652b6de088ad/ENCFF698XIB.tsv"},
+        {"accession":"ENCFF649WEQ","experiment":"ENCSR647QBV","tissue":"Forebrain","stageDays":12.5,"stageLabel":"E12.5","biologicalReplicate":2,"fileSizeBytes":11886391,"md5":"552c0763e5a92f704b2fadd694de9c4b","cloudUrl":"https://encode-public.s3.amazonaws.com/2021/03/15/28c170b2-ebd7-4c84-9b1c-dbb782bc6b00/ENCFF649WEQ.tsv"},
+        {"accession":"ENCFF088OEQ","experiment":"ENCSR970EWM","tissue":"Forebrain","stageDays":13.5,"stageLabel":"E13.5","biologicalReplicate":1,"fileSizeBytes":11886561,"md5":"dab7effbdf52be75433e66c52b33aab7","cloudUrl":"https://encode-public.s3.amazonaws.com/2021/03/24/9a45475b-e3fa-48da-a488-d5b41ce7f8ad/ENCFF088OEQ.tsv"},
+        {"accession":"ENCFF794PWS","experiment":"ENCSR970EWM","tissue":"Forebrain","stageDays":13.5,"stageLabel":"E13.5","biologicalReplicate":2,"fileSizeBytes":11890562,"md5":"fbae17b5ea5e4f1d1f83cfffcb190546","cloudUrl":"https://encode-public.s3.amazonaws.com/2021/03/24/a648ab6e-d773-47b0-8c40-3d230f6a92e3/ENCFF794PWS.tsv"},
+        {"accession":"ENCFF080PBH","experiment":"ENCSR752RGN","tissue":"Forebrain","stageDays":15.5,"stageLabel":"E15.5","biologicalReplicate":1,"fileSizeBytes":11891757,"md5":"d9f8407dc23253e355301c47c83a41c4","cloudUrl":"https://encode-public.s3.amazonaws.com/2021/03/15/e1e8a05d-0089-4400-a061-fd9f5fb4d670/ENCFF080PBH.tsv"},
+        {"accession":"ENCFF890FJF","experiment":"ENCSR752RGN","tissue":"Forebrain","stageDays":15.5,"stageLabel":"E15.5","biologicalReplicate":2,"fileSizeBytes":11887794,"md5":"3a299908f05a69c3c01959d939380675","cloudUrl":"https://encode-public.s3.amazonaws.com/2021/03/15/c30e4277-456a-4f87-937a-ebfb99f66883/ENCFF890FJF.tsv"},
+        {"accession":"ENCFF159DWP","experiment":"ENCSR691OPQ","tissue":"Heart","stageDays":11.5,"stageLabel":"E11.5","biologicalReplicate":1,"fileSizeBytes":11893961,"md5":"b80a13c550966b2cf2960c8fd3a0706e","cloudUrl":"https://encode-public.s3.amazonaws.com/2021/03/15/ee5b0539-a40d-44e4-9cc2-86a783d92883/ENCFF159DWP.tsv"},
+        {"accession":"ENCFF168UJM","experiment":"ENCSR691OPQ","tissue":"Heart","stageDays":11.5,"stageLabel":"E11.5","biologicalReplicate":2,"fileSizeBytes":11883149,"md5":"76e26d27e6a8b3026cbf6244312e310a","cloudUrl":"https://encode-public.s3.amazonaws.com/2021/03/15/8f9b6ce5-773d-481d-bb3a-f3ae036d56b8/ENCFF168UJM.tsv"},
+        {"accession":"ENCFF484QWQ","experiment":"ENCSR150CUE","tissue":"Heart","stageDays":12.5,"stageLabel":"E12.5","biologicalReplicate":1,"fileSizeBytes":11891743,"md5":"cd62226fc2e975b5f3aa547f33c546c8","cloudUrl":"https://encode-public.s3.amazonaws.com/2021/03/15/6f5232d2-37b8-443c-a988-795b73e5a744/ENCFF484QWQ.tsv"},
+        {"accession":"ENCFF329HOZ","experiment":"ENCSR150CUE","tissue":"Heart","stageDays":12.5,"stageLabel":"E12.5","biologicalReplicate":2,"fileSizeBytes":11887604,"md5":"e58a9de1c8e9bda7258e1e4b48469ac6","cloudUrl":"https://encode-public.s3.amazonaws.com/2021/03/15/02ad8941-2a58-4a71-85d8-228dd7bfb42f/ENCFF329HOZ.tsv"},
+        {"accession":"ENCFF148BEQ","experiment":"ENCSR284YKY","tissue":"Heart","stageDays":13.5,"stageLabel":"E13.5","biologicalReplicate":1,"fileSizeBytes":11893064,"md5":"12bd29422de2c44eecb119a7651c7106","cloudUrl":"https://encode-public.s3.amazonaws.com/2021/03/15/cd9364d0-478f-403e-aa4b-526d79eba7ec/ENCFF148BEQ.tsv"},
+        {"accession":"ENCFF836QQS","experiment":"ENCSR284YKY","tissue":"Heart","stageDays":13.5,"stageLabel":"E13.5","biologicalReplicate":2,"fileSizeBytes":11891694,"md5":"5306f761f55fd93e58406ce679703d3f","cloudUrl":"https://encode-public.s3.amazonaws.com/2021/03/15/dfe1cbb6-9e4b-4bd1-a8c9-6d7e035c489f/ENCFF836QQS.tsv"},
+        {"accession":"ENCFF868TGE","experiment":"ENCSR597UZW","tissue":"Heart","stageDays":15.5,"stageLabel":"E15.5","biologicalReplicate":1,"fileSizeBytes":11899067,"md5":"f247dbab885bb09469e1844d9b99fcd9","cloudUrl":"https://encode-public.s3.amazonaws.com/2021/03/15/ce2d59e6-f52b-4ff0-8e9b-56ac1106e508/ENCFF868TGE.tsv"},
+        {"accession":"ENCFF227HCW","experiment":"ENCSR597UZW","tissue":"Heart","stageDays":15.5,"stageLabel":"E15.5","biologicalReplicate":2,"fileSizeBytes":11894952,"md5":"288da4c114d0e06657394c6dffb7e6a0","cloudUrl":"https://encode-public.s3.amazonaws.com/2021/03/15/4a269950-1e57-480d-a814-036d9fbabc4d/ENCFF227HCW.tsv"},
+        {"accession":"ENCFF836WUM","experiment":"ENCSR541XZK","tissue":"Limb","stageDays":11.5,"stageLabel":"E11.5","biologicalReplicate":1,"fileSizeBytes":11902399,"md5":"f2627f7e4a2b000a19a493ece2ae0775","cloudUrl":"https://encode-public.s3.amazonaws.com/2021/03/15/c4d5b5a8-46c9-42ea-bd62-d8162bd6f87a/ENCFF836WUM.tsv"},
+        {"accession":"ENCFF999RRU","experiment":"ENCSR541XZK","tissue":"Limb","stageDays":11.5,"stageLabel":"E11.5","biologicalReplicate":2,"fileSizeBytes":11892619,"md5":"0776aa76cbf0abbc325783aaff0e0577","cloudUrl":"https://encode-public.s3.amazonaws.com/2021/03/15/2a8daf66-f81b-4c07-9837-ccca120c8d1b/ENCFF999RRU.tsv"},
+        {"accession":"ENCFF346EZY","experiment":"ENCSR750YSX","tissue":"Limb","stageDays":12.5,"stageLabel":"E12.5","biologicalReplicate":1,"fileSizeBytes":11882837,"md5":"6ba676925267ce72fa19628ff452412d","cloudUrl":"https://encode-public.s3.amazonaws.com/2021/03/15/929ec9f7-6ab4-4b2b-813d-e4d15103361a/ENCFF346EZY.tsv"},
+        {"accession":"ENCFF915GEL","experiment":"ENCSR750YSX","tissue":"Limb","stageDays":12.5,"stageLabel":"E12.5","biologicalReplicate":2,"fileSizeBytes":11882388,"md5":"d1a8e7d92af8a63213595d6482c75543","cloudUrl":"https://encode-public.s3.amazonaws.com/2021/03/15/b59acb22-2cf9-4906-aae4-e47f2ecd4693/ENCFF915GEL.tsv"},
+        {"accession":"ENCFF710BPJ","experiment":"ENCSR347SQR","tissue":"Limb","stageDays":13.5,"stageLabel":"E13.5","biologicalReplicate":1,"fileSizeBytes":11883248,"md5":"d2b21cec9408f7826b996ae0674398d0","cloudUrl":"https://encode-public.s3.amazonaws.com/2021/03/15/f3dcbf1e-6d14-4349-8236-899dd74d564b/ENCFF710BPJ.tsv"},
+        {"accession":"ENCFF734XAZ","experiment":"ENCSR347SQR","tissue":"Limb","stageDays":13.5,"stageLabel":"E13.5","biologicalReplicate":2,"fileSizeBytes":11897623,"md5":"8c54cdb4e61753dac813d1cf83c6afba","cloudUrl":"https://encode-public.s3.amazonaws.com/2021/03/15/c978736e-26ff-4c9e-842b-94c83a5a53ea/ENCFF734XAZ.tsv"},
+        {"accession":"ENCFF525DML","experiment":"ENCSR830IVQ","tissue":"Limb","stageDays":15.5,"stageLabel":"E15.5","biologicalReplicate":1,"fileSizeBytes":11890339,"md5":"ae389e0b184c68eb723fdc221c469259","cloudUrl":"https://encode-public.s3.amazonaws.com/2021/03/15/6ac456ab-03d0-4395-a71f-d734f8f3d6c2/ENCFF525DML.tsv"},
+        {"accession":"ENCFF081SJL","experiment":"ENCSR830IVQ","tissue":"Limb","stageDays":15.5,"stageLabel":"E15.5","biologicalReplicate":2,"fileSizeBytes":11897297,"md5":"794aca8d1f42f53bbb72537c99ab26d4","cloudUrl":"https://encode-public.s3.amazonaws.com/2021/03/15/f7e44d9c-e463-4c4a-bbe4-5ea2978cdb0c/ENCFF081SJL.tsv"}
+      ]
+    },
+    {
+      "id": "gencode-m21",
+      "title": "GENCODE M21 primary-assembly annotation with UCSC chromosome names",
+      "url": "https://encode-public.s3.amazonaws.com/2019/06/04/2db3b447-2a33-46f9-b76c-1b38ae0927da/gencode.vM21.primary_assembly.annotation_UCSC_names.gtf.gz",
+      "fileSizeBytes": 29536170,
+      "md5": "f33917459610ce3c29066a1619bd2160",
+      "sha256": "f2e30b0e60dc607f4b772f53b6176c467c572c6ae881cb72e9b3d9a43c78d05a"
+    },
+    {
+      "id": "gorkin-supplementary-tables",
+      "title": "Gorkin et al. supplementary tables 5-11 and 13",
+      "record": "https://authors.library.caltech.edu/records/bbq8c-fbs42",
+      "license": "CC BY 4.0",
+      "files": [
+        {"name":"41586_2020_2093_MOESM6_ESM.xlsx","localName":"MOESM6.xlsx","url":"https://authors.library.caltech.edu/records/bbq8c-fbs42/files/41586_2020_2093_MOESM6_ESM.xlsx?download=1","fileSizeBytes":10913621,"md5":"c8ff8c040b538ab02ce95452d152c433","sha256":"0df9591565183dd1ac7a335c475de24b620fa4c066ae858456684189c18176ba"},
+        {"name":"41586_2020_2093_MOESM8_ESM.xlsx","localName":"MOESM8.xlsx","url":"https://authors.library.caltech.edu/records/bbq8c-fbs42/files/41586_2020_2093_MOESM8_ESM.xlsx?download=1","fileSizeBytes":30736,"md5":"b85e9348e4dcae7f4866b6b6bd046916","sha256":"ec13bcfb7908efb140e97d81f9640068f1ae39eda7b147a5606c64c025f388f0"}
+      ]
+    },
+    {"id":"gorkin-2020","title":"An atlas of dynamic chromatin landscapes in mouse fetal development","doi":"10.1038/s41586-020-2093-3","license":"CC BY 4.0"},
+    {"id":"he-2020","title":"The changing mouse embryo transcriptome at whole tissue and single-cell resolution","doi":"10.1038/s41586-020-2536-x","license":"CC BY 4.0"}
+  ],
+  "parameters": {
+    "assembly": "mm10",
+    "coordinateConvention": "zero-based half-open",
+    "sampleLabel": "{tissue} {stageLabel} R{biologicalReplicate}",
+    "regions": [
+      {"id":"Ascl1","chrom":"chr10","start":86900000,"end":87900000,"story":"Ascl1 regulatory neighbourhood and five replicated enhancer-gene predictions within the paper viewport."},
+      {"id":"mEN886","chrom":"chr12","start":111200000,"end":112200000,"story":"Forebrain reporter-positive mEN886/mm1606 with the overlapping Ckb prediction."},
+      {"id":"mEN978","chrom":"chr7","start":139000000,"end":140000000,"story":"Heart reporter-positive mEN978/mm1683."},
+      {"id":"mEN918","chrom":"chr9","start":42750000,"end":43750000,"story":"Limb reporter-positive mEN918/mm1617."}
+    ],
+    "genes": [
+      {"symbol":"Ascl1","geneId":"ENSMUSG00000020052.9","rationale":"Retained Ascl1 bookmark and predicted target."},
+      {"symbol":"Ckb","geneId":"ENSMUSG00000001270.9","rationale":"Both-replicate predicted target of the enhancer overlapping mEN886."},
+      {"symbol":"Foxg1","geneId":"ENSMUSG00000020950.10","rationale":"Forebrain identity context."},
+      {"symbol":"Tnnt2","geneId":"ENSMUSG00000026414.13","rationale":"Heart identity context."},
+      {"symbol":"Nkx2-5","geneId":"ENSMUSG00000015579.5","rationale":"Heart identity context."},
+      {"symbol":"Hand2","geneId":"ENSMUSG00000038193.4","rationale":"Limb identity context."},
+      {"symbol":"Prrx1","geneId":"ENSMUSG00000026586.16","rationale":"Limb mesenchyme identity context."},
+      {"symbol":"Myog","geneId":"ENSMUSG00000026459.5","rationale":"Limb myogenesis context discussed in the companion expression study."}
+    ],
+    "expressionTransform": "log2(mean TPM + 1)",
+    "expressionJoin": "tissue and numeric embryonic age; condition mean shared across both H3K27ac biological replicates",
+    "candidateAssessment": [
+      {"candidate":"Ascl1 predictions","decision":"accepted","e12_5SignalSummary":"Across the five retained predictions, replicate-level mean signal is generally about 2-8 in forebrain and below 3 in heart and limb.","reason":"At E12.5 both forebrain replicates show visibly stronger H3K27ac than heart and limb across the published neighbourhood."},
+      {"candidate":"mEN886/mm1606","decision":"accepted","e12_5SignalSummary":"Forebrain 21.74/17.13; heart 1.36/1.74; limb 1.81/2.20.","reason":"Both E12.5 forebrain replicates are clearly stronger than heart and limb at the reporter-tested interval."},
+      {"candidate":"mEN978/mm1683","decision":"accepted","e12_5SignalSummary":"Forebrain 1.25/1.16; heart 14.67/18.91; limb 2.05/2.37.","reason":"Both E12.5 heart replicates are clearly stronger than forebrain and limb at the reporter-tested interval."},
+      {"candidate":"mEN918/mm1617","decision":"accepted","e12_5SignalSummary":"Forebrain 2.37/1.98; heart 1.69/1.81; limb 14.74/17.09.","reason":"Both E12.5 limb replicates are clearly stronger than forebrain and heart at the reporter-tested interval."},
+      {"candidate":"mEN917/mm1616","decision":"rejected","e12_5SignalSummary":"Forebrain not competitive; heart 15.56/17.84; limb 17.33/20.94.","reason":"Heart and limb signals are similarly strong at E12.5, so the intended tissue contrast is not visually specific."},
+      {"candidate":"mEN976/mm1681","decision":"rejected","e12_5SignalSummary":"Forebrain 3.71/2.48; heart 15.99/20.34; limb 8.97/10.75.","reason":"Heart signal is only about twice limb signal and gives a weaker visual contrast than mEN978."},
+      {"candidate":"mEN916/mm1615","decision":"rejected","e12_5SignalSummary":"Forebrain 7.76/5.97; heart 7.09/7.88; limb 21.74/23.69.","reason":"Limb enrichment is visible but comparison tissues also have substantial signal; mEN918 is clearer."}
+    ]
+  },
+  "tools": {"python":">=3.12","numpy":"2.5.1","openpyxl":"3.1.5","pyBigWig":"0.3.25"},
+  "distribution": {
+    "artifacts": {
+      "output/bigwigs/forebrain-e11-5-rep1.bigWig": {
+        "fileSizeBytes": 765498,
+        "sha256": "97fccbb21a8595a50662ea286f707a68afbff2639811c47fcaa2bb83add23141"
+      },
+      "output/bigwigs/forebrain-e11-5-rep2.bigWig": {
+        "fileSizeBytes": 849604,
+        "sha256": "e65fbaecd2dd51a22b2d0d6eeac64d1d7d6d25e7325eeab7d9f32d5d7b6293c5"
+      },
+      "output/bigwigs/forebrain-e12-5-rep1.bigWig": {
+        "fileSizeBytes": 1760485,
+        "sha256": "2fea5a1b176bea40f1a338064d41e0627fcc23c286c878ae5558e715982eaf69"
+      },
+      "output/bigwigs/forebrain-e12-5-rep2.bigWig": {
+        "fileSizeBytes": 1922282,
+        "sha256": "252de1a777ecf6a46f301a4485ffa89776acd1f1b5a7401641a1b8af0a762882"
+      },
+      "output/bigwigs/forebrain-e13-5-rep1.bigWig": {
+        "fileSizeBytes": 1829988,
+        "sha256": "4b1e3362a690593226643e858eab749e679da636fe656f223d9fbc877e0d150d"
+      },
+      "output/bigwigs/forebrain-e13-5-rep2.bigWig": {
+        "fileSizeBytes": 1799110,
+        "sha256": "d8901ee4f6cc16b51b5d6829118ffc8a2305e3f8dd6b0a29368b06c1cbbfe766"
+      },
+      "output/bigwigs/forebrain-e15-5-rep1.bigWig": {
+        "fileSizeBytes": 2213677,
+        "sha256": "e27308889aad17f57c705e4a6ae31cc6ddadb928c0c4df07c27863b4c4ffc398"
+      },
+      "output/bigwigs/forebrain-e15-5-rep2.bigWig": {
+        "fileSizeBytes": 2386295,
+        "sha256": "f96d7468e10c23fb3f6911de798fec6179f096ff83e3a267a6140de5526609f2"
+      },
+      "output/bigwigs/heart-e11-5-rep1.bigWig": {
+        "fileSizeBytes": 858322,
+        "sha256": "363df8dab5bd4b11cece15ea88d18f854fd3458a56e20c569b14cda2ad0b009b"
+      },
+      "output/bigwigs/heart-e11-5-rep2.bigWig": {
+        "fileSizeBytes": 672183,
+        "sha256": "130309a760c39c730ac2cf8f41791313fcc210074feabdb83814d339664d7179"
+      },
+      "output/bigwigs/heart-e12-5-rep1.bigWig": {
+        "fileSizeBytes": 2563543,
+        "sha256": "338d1547c3ed5a9427f7a113bce460d6545f61256b4db06f123a7549131a1b98"
+      },
+      "output/bigwigs/heart-e12-5-rep2.bigWig": {
+        "fileSizeBytes": 2649026,
+        "sha256": "122c0ef20a1be2fb56852b4d97d112da7d3ff4950386f5da877811f2847d5e74"
+      },
+      "output/bigwigs/heart-e13-5-rep1.bigWig": {
+        "fileSizeBytes": 1586976,
+        "sha256": "1da5c9628781de699f34e64f10ae94ce84e13cd00ef8394b28ba9e6c342614d4"
+      },
+      "output/bigwigs/heart-e13-5-rep2.bigWig": {
+        "fileSizeBytes": 1772086,
+        "sha256": "f75d561ebad197d0f7e49c0ade12a280b1df6cc9778a8659392e3244240fab42"
+      },
+      "output/bigwigs/heart-e15-5-rep1.bigWig": {
+        "fileSizeBytes": 2289643,
+        "sha256": "b898644815a2ae407b2532f1b743a881927e90579e06929b2534e9ccb16a602a"
+      },
+      "output/bigwigs/heart-e15-5-rep2.bigWig": {
+        "fileSizeBytes": 2305723,
+        "sha256": "89742d393e15d5e6a593ee46fc043ab457414a302b85854fc8645e46a8f5886a"
+      },
+      "output/bigwigs/limb-e11-5-rep1.bigWig": {
+        "fileSizeBytes": 802421,
+        "sha256": "0528f39c93500029d42a60e8f852327cbe395b2caa9ab3f2220b8537bc003d62"
+      },
+      "output/bigwigs/limb-e11-5-rep2.bigWig": {
+        "fileSizeBytes": 585565,
+        "sha256": "f6c4de069d04fbc664cb88b7cc1afffbbfb6f8ec96e6955a34edac9cf75a3940"
+      },
+      "output/bigwigs/limb-e12-5-rep1.bigWig": {
+        "fileSizeBytes": 1632770,
+        "sha256": "98c02885139929b4eadd298d02983bfdbc6b847fd61ab0a4e323664cc5aa1500"
+      },
+      "output/bigwigs/limb-e12-5-rep2.bigWig": {
+        "fileSizeBytes": 1676336,
+        "sha256": "b9311f12e07c1be5da7048306eca5b1da76199ea83cc7149469cf22a306966e2"
+      },
+      "output/bigwigs/limb-e13-5-rep1.bigWig": {
+        "fileSizeBytes": 1263644,
+        "sha256": "2f9a956ff945a54d3d143417700f3d2a526a9de73695929a42d54ba3b8686607"
+      },
+      "output/bigwigs/limb-e13-5-rep2.bigWig": {
+        "fileSizeBytes": 1440374,
+        "sha256": "68602e4c63ddd73f3d51b2cd12c8e4b7dd704caf957587b5f3527b2c67824034"
+      },
+      "output/bigwigs/limb-e15-5-rep1.bigWig": {
+        "fileSizeBytes": 2101299,
+        "sha256": "26050f9abc9946ca267ba68ffd6c7566caffb6c212c47d906406a8d6ba758d99"
+      },
+      "output/bigwigs/limb-e15-5-rep2.bigWig": {
+        "fileSizeBytes": 1980602,
+        "sha256": "3f1cc9774cffa40c40850497f37480b4acba85a8790a45c5c71960cc7218c8ec"
+      },
+      "output/candidate-assessment.tsv": {
+        "fileSizeBytes": 1431,
+        "sha256": "9e26e0321e291cfb495fa1ef1657409561299d9837ca60f45f8ee66633bfc6a6"
+      },
+      "output/elements.tsv": {
+        "fileSizeBytes": 1375,
+        "sha256": "abb3178ca524f21aabe9e8613df83eacd1a532d10c6e19b75453a46e36a48025"
+      },
+      "output/expression-conditions.tsv": {
+        "fileSizeBytes": 9775,
+        "sha256": "0d1c5b84826429b17c41de275709e540c97d47f9c07dc003f0e5014ae3d27440"
+      },
+      "output/expression-replicates.tsv": {
+        "fileSizeBytes": 14771,
+        "sha256": "788fb729513fc27a02eed14441db7eea6ebe0a7b3fad94ce0699d77f3dd75e47"
+      },
+      "output/genes.tsv": {
+        "fileSizeBytes": 5792,
+        "sha256": "5dc0e7f2b8fc8a97993221cc909b3fe7db386fbb6d3b84a59b881e6e43f13faa"
+      },
+      "output/regions.tsv": {
+        "fileSizeBytes": 418,
+        "sha256": "df730e03f75892127257578389f13168f51b21c663bdd1d3d0a0c5e542fcab41"
+      },
+      "output/samples.tsv": {
+        "fileSizeBytes": 10007,
+        "sha256": "bfbdd78c2605b361578dd7142a35d30708471308308d8a47623f1910ae456bf9"
+      },
+      "output/selection-report.tsv": {
+        "fileSizeBytes": 5313,
+        "sha256": "71a223f23aa27d4f12a9efd8fa4175b86fb9d22f6b708bc433beef02d5069c39"
+      }
+    },
+    "baseUrl": "https://data.genomespy.app/datasets/encode-mouse-fetal-development-mm10/v2/"
+  },
+  "outputs": {
+    "candidateAssessment": {
+      "path": "output/candidate-assessment.tsv",
+      "recordCount": 7
+    },
+    "elements": {
+      "path": "output/elements.tsv",
+      "recordCount": 9
+    },
+    "expressionConditions": {
+      "path": "output/expression-conditions.tsv",
+      "recordCount": 96
+    },
+    "expressionReplicates": {
+      "path": "output/expression-replicates.tsv",
+      "recordCount": 192
+    },
+    "genes": {
+      "path": "output/genes.tsv",
+      "recordCount": 103
+    },
+    "regionalBigWigs": {
+      "fileCount": 24,
+      "path": "output/bigwigs/{sampleId}.bigWig",
+      "totalFileSizeBytes": 39707452
+    },
+    "regions": {
+      "path": "output/regions.tsv",
+      "recordCount": 4
+    },
+    "samples": {
+      "path": "output/samples.tsv",
+      "recordCount": 24
+    },
+    "selectionReport": {
+      "path": "output/selection-report.tsv",
+      "recordCount": 48
+    }
+  },
+  "validation": {
+    "allObservedSignalsFiniteAndNonnegative": true,
+    "expressionConditionRecordCount": 96,
+    "expressionMeansTraceToTwoRnaReplicates": true,
+    "expressionReplicateRecordCount": 192,
+    "h3AcceptedFileCount": 24,
+    "maximumRegionalSignal": 53.05236053466797,
+    "numericStageOrdering": true,
+    "oneSignalFilePerBiologicalReplicate": true,
+    "pooledAndPseudoreplicateSignalsExcluded": true,
+    "regionalBigWigFileCount": 24,
+    "regionalBigWigStructureAndBoundsValid": true,
+    "regionalBigWigTotalBytes": 39707452,
+    "rnaAcceptedFileCount": 24,
+    "sampleCount": 24,
+    "sampleExpressionValuesMatchConditionMeans": true,
+    "sourceBigWigIdentityCheck": "ENCODE-reported sizes and MD5 values are pinned. Remote headers and extracted intervals are read from pinned public object URLs; complete upstream BigWig payloads are not downloaded or checksummed locally.",
+    "supplementaryRecordsMatchPinnedWorkbook": true,
+    "phase1": "Passed at 1280x900 in GenomeSpy App v0.88.1 using the six E12.5 biological-replicate tracks and a shared 0-60 H3K27ac scale."
+  }
+}

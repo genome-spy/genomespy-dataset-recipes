@@ -22,6 +22,7 @@ Reproducible wrangling scripts and provenance for datasets used in
 | [`dynseq-spi1-bqtl`](recipes/dynseq-spi1-bqtl/) | Allele-specific SPI1 model importance scores | GRCh38 | Nucleotide-resolution BigWig comparison |
 | [`encode-atac-grch38`](recipes/encode-atac-grch38/) | Multi-file ATAC signal integration fixture | GRCh38 | SampleView-driven BigWig tracks |
 | [`encode-h3k27ac-chip-seq-grch38`](recipes/encode-h3k27ac-chip-seq-grch38/) | Multi-file H3K27ac ChIP-seq integration fixture | GRCh38 | SampleView-driven BigWig tracks |
+| [`encode-mouse-fetal-development-mm10`](recipes/encode-mouse-fetal-development-mm10/) | Tissue-specific regulatory activity during mouse fetal development | mm10 | Regional H3K27ac, expression metadata, genes, elements, and bookmark tour |
 
 ## How recipes work
 
