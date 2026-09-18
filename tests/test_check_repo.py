@@ -87,7 +87,32 @@ def test_imports_must_reference_local_specs(url: str) -> None:
     errors = check_spec_values("example", "overview.json", {"import": {"url": url}})
 
     assert errors == [
-        f"example: import must reference a local spec in overview.json: {url}"
+        f"example: authored JSON reference must be local in overview.json: {url}"
+    ]
+
+
+def test_accepts_local_remote_bookmark_file() -> None:
+    errors = check_spec_values(
+        "example",
+        "overview.json",
+        {"bookmarks": {"remote": {"url": "bookmarks.json"}}},
+    )
+
+    assert errors == []
+
+
+@pytest.mark.parametrize(
+    "url", ["https://example.org/bookmarks.json", "../bookmarks.json"]
+)
+def test_remote_bookmarks_must_reference_local_authored_json(url: str) -> None:
+    errors = check_spec_values(
+        "example",
+        "overview.json",
+        {"bookmarks": {"remote": {"url": url}}},
+    )
+
+    assert errors == [
+        f"example: authored JSON reference must be local in overview.json: {url}"
     ]
 
 
