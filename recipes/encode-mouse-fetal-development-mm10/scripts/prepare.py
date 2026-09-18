@@ -45,6 +45,7 @@ RNA_DIR = DOWNLOAD_DIR / "rna"
 SUPPLEMENT_DIR = DOWNLOAD_DIR / "supplements"
 BIGWIG_DIR = OUTPUT_DIR / "bigwigs"
 ACCEPTED_RUN_PATH = WORK_DIR / "accepted-run.json"
+EXTRACTION_REGIONS_PATH = WORK_DIR / "bigwig-extraction-regions.json"
 USER_AGENT = "GenomeSpy dataset recipe encode-mouse-fetal-development-mm10"
 
 CHROM_LENGTHS = {
@@ -276,8 +277,17 @@ def regions(provenance: dict[str, Any]) -> list[Region]:
     ]
     if len(values) != 4 or any(item.end <= item.start for item in values):
         raise ValueError("Expected four nonempty retained regions")
-    if any(item.end - item.start != 1_000_000 for item in values):
-        raise ValueError("Every retained region must provide one megabase of context")
+    expected_widths = {
+        "Ascl1 landscape": 10_000_000,
+        "mEN886": 1_000_000,
+        "mEN978": 1_000_000,
+        "mEN918": 1_000_000,
+    }
+    observed_widths = {item.region_id: item.end - item.start for item in values}
+    if observed_widths != expected_widths:
+        raise ValueError(
+            "Expected a 10 Mb Ascl1 overview and three 1 Mb focused regions"
+        )
     return values
 
 
@@ -528,9 +538,19 @@ def expression_summaries(
     return output
 
 
-def extract_bigwig(lock: FileLock, retained_regions: list[Region]) -> None:
+def extraction_regions(retained_regions: list[Region]) -> list[dict[str, Any]]:
+    """Return the interval contract used to create regional BigWigs."""
+    return [
+        {"chrom": item.chrom, "start": item.start, "end": item.end}
+        for item in retained_regions
+    ]
+
+
+def extract_bigwig(
+    lock: FileLock, retained_regions: list[Region], *, replace: bool
+) -> None:
     destination = BIGWIG_DIR / f"{lock.sample_id}.bigWig"
-    if destination.exists():
+    if destination.exists() and not replace:
         return
     destination.parent.mkdir(parents=True, exist_ok=True)
     temporary = destination.with_name(destination.name + ".part")
@@ -980,14 +1000,22 @@ def main() -> None:
             retained_regions,
             annotation_rows,
         )
+        extraction_contract = extraction_regions(retained_regions)
+        previous_contract = (
+            json.loads(EXTRACTION_REGIONS_PATH.read_text(encoding="utf-8"))
+            if EXTRACTION_REGIONS_PATH.exists()
+            else None
+        )
+        replace_bigwigs = previous_contract != extraction_contract
         for index, lock in enumerate(h3, start=1):
-            extract_bigwig(lock, retained_regions)
+            extract_bigwig(lock, retained_regions, replace=replace_bigwigs)
             print(f"Prepared regional BigWig {index}/24: {lock.accession}")
+        write_text(
+            EXTRACTION_REGIONS_PATH,
+            json.dumps(extraction_contract, indent=2, sort_keys=True) + "\n",
+        )
     validation = validate_outputs(h3, rna, selected_genes, retained_regions)
     artifacts = artifact_identities(h3)
-    accepted = provenance.get("distribution", {}).get("artifacts")
-    if accepted is not None and accepted != artifacts:
-        raise ValueError("Generated outputs do not match committed artifact identities")
     accepted_run = {
         "distribution": {
             "baseUrl": (
@@ -1048,6 +1076,12 @@ def main() -> None:
     write_text(
         ACCEPTED_RUN_PATH, json.dumps(accepted_run, indent=2, sort_keys=True) + "\n"
     )
+    accepted = provenance.get("distribution", {}).get("artifacts")
+    if accepted is not None and accepted != artifacts:
+        raise ValueError(
+            "Generated outputs do not match committed artifact identities; "
+            f"review {ACCEPTED_RUN_PATH}"
+        )
     action = "Verified" if args.verify_only else "Prepared and verified"
     print(
         f"{action} 24 H3K27ac rows, 24 RNA inputs, and four regional extracts per row."

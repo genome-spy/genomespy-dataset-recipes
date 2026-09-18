@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "releaseId": "v3",
+  "releaseId": "v4",
   "recipeId": "encode-mouse-fetal-development-mm10",
   "sources": [
     {
@@ -97,7 +97,7 @@
     "coordinateConvention": "zero-based half-open",
     "sampleLabel": "{tissue} {stageLabel} R{biologicalReplicate}",
     "regions": [
-      {"id":"Ascl1","chrom":"chr10","start":86900000,"end":87900000,"story":"Ascl1 regulatory neighbourhood and five replicated enhancer-gene predictions within the paper viewport."},
+      {"id":"Ascl1 landscape","chrom":"chr10","start":82400000,"end":92400000,"story":"Ten-megabase exploration window containing the focused Ascl1 neighbourhood and five replicated enhancer-gene predictions."},
       {"id":"mEN886","chrom":"chr12","start":111200000,"end":112200000,"story":"Forebrain reporter-positive mEN886/mm1606 with the overlapping Ckb prediction."},
       {"id":"mEN978","chrom":"chr7","start":139000000,"end":140000000,"story":"Heart reporter-positive mEN978/mm1683."},
       {"id":"mEN918","chrom":"chr9","start":42750000,"end":43750000,"story":"Limb reporter-positive mEN918/mm1617."}
@@ -128,100 +128,100 @@
   "distribution": {
     "artifacts": {
       "output/bigwigs/forebrain-e11-5-rep1.bigWig": {
-        "fileSizeBytes": 765498,
-        "sha256": "97fccbb21a8595a50662ea286f707a68afbff2639811c47fcaa2bb83add23141"
+        "fileSizeBytes": 2236292,
+        "sha256": "f1548cbbe90337317932d1c190fa509413654b893498a181293288e7b397e573"
       },
       "output/bigwigs/forebrain-e11-5-rep2.bigWig": {
-        "fileSizeBytes": 849604,
-        "sha256": "e65fbaecd2dd51a22b2d0d6eeac64d1d7d6d25e7325eeab7d9f32d5d7b6293c5"
+        "fileSizeBytes": 2490836,
+        "sha256": "d20ecc53ae7b311485424da0b4a7af4f3b4b28da877d80bfddc58e618e3a89f1"
       },
       "output/bigwigs/forebrain-e12-5-rep1.bigWig": {
-        "fileSizeBytes": 1760485,
-        "sha256": "2fea5a1b176bea40f1a338064d41e0627fcc23c286c878ae5558e715982eaf69"
+        "fileSizeBytes": 4857652,
+        "sha256": "10c27b768c534b022e7eb451913b7f2b0a75a43d9ed0f728ccea95e9e8c24745"
       },
       "output/bigwigs/forebrain-e12-5-rep2.bigWig": {
-        "fileSizeBytes": 1922282,
-        "sha256": "252de1a777ecf6a46f301a4485ffa89776acd1f1b5a7401641a1b8af0a762882"
+        "fileSizeBytes": 5346603,
+        "sha256": "1bb9da41da0726da56af26530aef5308efa348d911a5a27e6d48adbcf283a77c"
       },
       "output/bigwigs/forebrain-e13-5-rep1.bigWig": {
-        "fileSizeBytes": 1829988,
-        "sha256": "4b1e3362a690593226643e858eab749e679da636fe656f223d9fbc877e0d150d"
+        "fileSizeBytes": 5094184,
+        "sha256": "d177665407119cc31fb090d574ec26d2c3eb9c1201c2798fae6dcd99f773233a"
       },
       "output/bigwigs/forebrain-e13-5-rep2.bigWig": {
-        "fileSizeBytes": 1799110,
-        "sha256": "d8901ee4f6cc16b51b5d6829118ffc8a2305e3f8dd6b0a29368b06c1cbbfe766"
+        "fileSizeBytes": 4988811,
+        "sha256": "e953b18407464219c55c43c088c3510bc3f9819ab3ae94a0838e29c5e390fa08"
       },
       "output/bigwigs/forebrain-e15-5-rep1.bigWig": {
-        "fileSizeBytes": 2213677,
-        "sha256": "e27308889aad17f57c705e4a6ae31cc6ddadb928c0c4df07c27863b4c4ffc398"
+        "fileSizeBytes": 6374346,
+        "sha256": "4ac359fb5293062d591d16521731837884afe7c2f23c0e82c6321cfad896c6ba"
       },
       "output/bigwigs/forebrain-e15-5-rep2.bigWig": {
-        "fileSizeBytes": 2386295,
-        "sha256": "f96d7468e10c23fb3f6911de798fec6179f096ff83e3a267a6140de5526609f2"
+        "fileSizeBytes": 6706738,
+        "sha256": "3c28d952d519094029a5ea13e0bd04eb231fd9505569b5064d0ecd64d713c04f"
       },
       "output/bigwigs/heart-e11-5-rep1.bigWig": {
-        "fileSizeBytes": 858322,
-        "sha256": "363df8dab5bd4b11cece15ea88d18f854fd3458a56e20c569b14cda2ad0b009b"
+        "fileSizeBytes": 2336848,
+        "sha256": "97ca6f86729d79640ff9d41af08a6e0f88dd8f70137b49b1534dbff5af3eef91"
       },
       "output/bigwigs/heart-e11-5-rep2.bigWig": {
-        "fileSizeBytes": 672183,
-        "sha256": "130309a760c39c730ac2cf8f41791313fcc210074feabdb83814d339664d7179"
+        "fileSizeBytes": 1783901,
+        "sha256": "88790296920069d9678ac2149203a0a434a231730af100861b309c3eccc379b0"
       },
       "output/bigwigs/heart-e12-5-rep1.bigWig": {
-        "fileSizeBytes": 2563543,
-        "sha256": "338d1547c3ed5a9427f7a113bce460d6545f61256b4db06f123a7549131a1b98"
+        "fileSizeBytes": 6496414,
+        "sha256": "f1aa09b26347f22a29cdf6cf56d34fa8904014da40f8e79fceb2dc9d2174b6f7"
       },
       "output/bigwigs/heart-e12-5-rep2.bigWig": {
-        "fileSizeBytes": 2649026,
-        "sha256": "122c0ef20a1be2fb56852b4d97d112da7d3ff4950386f5da877811f2847d5e74"
+        "fileSizeBytes": 6538281,
+        "sha256": "4b00caa2762b1162699004909becdb8037def88aa0b92103105a06451fc0aaad"
       },
       "output/bigwigs/heart-e13-5-rep1.bigWig": {
-        "fileSizeBytes": 1586976,
-        "sha256": "1da5c9628781de699f34e64f10ae94ce84e13cd00ef8394b28ba9e6c342614d4"
+        "fileSizeBytes": 4417073,
+        "sha256": "0a3cc94ea3d43d606643eba7b927e19ff2014aa812b77be48e1206023e17b4e9"
       },
       "output/bigwigs/heart-e13-5-rep2.bigWig": {
-        "fileSizeBytes": 1772086,
-        "sha256": "f75d561ebad197d0f7e49c0ade12a280b1df6cc9778a8659392e3244240fab42"
+        "fileSizeBytes": 4990970,
+        "sha256": "7cdf42e270cd2924ad7fae0941ae6d94c6802edd0b2b9150c69bd899f87ae006"
       },
       "output/bigwigs/heart-e15-5-rep1.bigWig": {
-        "fileSizeBytes": 2289643,
-        "sha256": "b898644815a2ae407b2532f1b743a881927e90579e06929b2534e9ccb16a602a"
+        "fileSizeBytes": 6490330,
+        "sha256": "e3d2b321d6462adf1ea932994595dc2d967e2e1d9f35df2ef38865d85bb0889f"
       },
       "output/bigwigs/heart-e15-5-rep2.bigWig": {
-        "fileSizeBytes": 2305723,
-        "sha256": "89742d393e15d5e6a593ee46fc043ab457414a302b85854fc8645e46a8f5886a"
+        "fileSizeBytes": 6516454,
+        "sha256": "dc891582c0b00e85665ca64a45e346ec6167277ddb5bb742c0d5b9b4beb2bfbb"
       },
       "output/bigwigs/limb-e11-5-rep1.bigWig": {
-        "fileSizeBytes": 802421,
-        "sha256": "0528f39c93500029d42a60e8f852327cbe395b2caa9ab3f2220b8537bc003d62"
+        "fileSizeBytes": 2356554,
+        "sha256": "1c539bf5cbe40804fd0be5a38a8dc6b663684454c7c4e06d6a4d65836a5b9f7c"
       },
       "output/bigwigs/limb-e11-5-rep2.bigWig": {
-        "fileSizeBytes": 585565,
-        "sha256": "f6c4de069d04fbc664cb88b7cc1afffbbfb6f8ec96e6955a34edac9cf75a3940"
+        "fileSizeBytes": 1679484,
+        "sha256": "4e4dbccb038da5148f2a986fe8217f29a72b878ee046b7bf8dbcae1fcf03f49c"
       },
       "output/bigwigs/limb-e12-5-rep1.bigWig": {
-        "fileSizeBytes": 1632770,
-        "sha256": "98c02885139929b4eadd298d02983bfdbc6b847fd61ab0a4e323664cc5aa1500"
+        "fileSizeBytes": 4733972,
+        "sha256": "f428166a8450c060f462594e0e01fd5d10fd66541ebbccf78ad72fac05be71bc"
       },
       "output/bigwigs/limb-e12-5-rep2.bigWig": {
-        "fileSizeBytes": 1676336,
-        "sha256": "b9311f12e07c1be5da7048306eca5b1da76199ea83cc7149469cf22a306966e2"
+        "fileSizeBytes": 4935733,
+        "sha256": "7da7d45ff86ccfe0cdcae4c08b78d26b939c8a5ff8a587ad93a61fcfc7b1f682"
       },
       "output/bigwigs/limb-e13-5-rep1.bigWig": {
-        "fileSizeBytes": 1263644,
-        "sha256": "2f9a956ff945a54d3d143417700f3d2a526a9de73695929a42d54ba3b8686607"
+        "fileSizeBytes": 3824758,
+        "sha256": "0935d09b23d6208c250860c1adeaf0f0041cb8265b657c812b42aa4fd66225b6"
       },
       "output/bigwigs/limb-e13-5-rep2.bigWig": {
-        "fileSizeBytes": 1440374,
-        "sha256": "68602e4c63ddd73f3d51b2cd12c8e4b7dd704caf957587b5f3527b2c67824034"
+        "fileSizeBytes": 4526700,
+        "sha256": "92b2508ad2d14458a6bebad56492d07100cb965778befc447969c6768922bd4c"
       },
       "output/bigwigs/limb-e15-5-rep1.bigWig": {
-        "fileSizeBytes": 2101299,
-        "sha256": "26050f9abc9946ca267ba68ffd6c7566caffb6c212c47d906406a8d6ba758d99"
+        "fileSizeBytes": 5909727,
+        "sha256": "29e404e56ea5950a41ca7833a61318f9a7f3c6263287a0d2453200dfef79bf8e"
       },
       "output/bigwigs/limb-e15-5-rep2.bigWig": {
-        "fileSizeBytes": 1980602,
-        "sha256": "3f1cc9774cffa40c40850497f37480b4acba85a8790a45c5c71960cc7218c8ec"
+        "fileSizeBytes": 5681992,
+        "sha256": "db9815ebf0e3fce0d596ab484bab9b9e416d0897bc072e927db553c54bd9aad3"
       },
       "output/candidate-assessment.tsv": {
         "fileSizeBytes": 1431,
@@ -240,12 +240,12 @@
         "sha256": "788fb729513fc27a02eed14441db7eea6ebe0a7b3fad94ce0699d77f3dd75e47"
       },
       "output/genes.tsv": {
-        "fileSizeBytes": 5792,
-        "sha256": "5dc0e7f2b8fc8a97993221cc909b3fe7db386fbb6d3b84a59b881e6e43f13faa"
+        "fileSizeBytes": 17023,
+        "sha256": "04698a90142ed745b11359a47923414e8918769abc56c0c94b6ab66f20f586ca"
       },
       "output/regions.tsv": {
-        "fileSizeBytes": 418,
-        "sha256": "df730e03f75892127257578389f13168f51b21c663bdd1d3d0a0c5e542fcab41"
+        "fileSizeBytes": 446,
+        "sha256": "83d292965f35ee1181af48bc7b2e63589ab4e7770d5d78fa0881553e03918003"
       },
       "output/samples.tsv": {
         "fileSizeBytes": 13019,
@@ -256,7 +256,7 @@
         "sha256": "71a223f23aa27d4f12a9efd8fa4175b86fb9d22f6b708bc433beef02d5069c39"
       }
     },
-    "baseUrl": "https://data.genomespy.app/datasets/encode-mouse-fetal-development-mm10/v3/"
+    "baseUrl": "https://data.genomespy.app/datasets/encode-mouse-fetal-development-mm10/v4/"
   },
   "outputs": {
     "candidateAssessment": {
@@ -277,12 +277,12 @@
     },
     "genes": {
       "path": "output/genes.tsv",
-      "recordCount": 103
+      "recordCount": 307
     },
     "regionalBigWigs": {
       "fileCount": 24,
       "path": "output/bigwigs/{sampleId}.bigWig",
-      "totalFileSizeBytes": 39707452
+      "totalFileSizeBytes": 111314653
     },
     "regions": {
       "path": "output/regions.tsv",
@@ -304,13 +304,13 @@
     "expressionZScoresStandardizedAcrossTissueStagePanel": true,
     "expressionReplicateRecordCount": 192,
     "h3AcceptedFileCount": 24,
-    "maximumRegionalSignal": 53.05236053466797,
+    "maximumRegionalSignal": 74.14244079589844,
     "numericStageOrdering": true,
     "oneSignalFilePerBiologicalReplicate": true,
     "pooledAndPseudoreplicateSignalsExcluded": true,
     "regionalBigWigFileCount": 24,
     "regionalBigWigStructureAndBoundsValid": true,
-    "regionalBigWigTotalBytes": 39707452,
+    "regionalBigWigTotalBytes": 111314653,
     "rnaAcceptedFileCount": 24,
     "sampleCount": 24,
     "sampleExpressionValuesMatchConditionMeans": true,

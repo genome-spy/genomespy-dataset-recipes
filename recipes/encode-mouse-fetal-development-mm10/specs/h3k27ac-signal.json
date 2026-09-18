@@ -31,7 +31,7 @@
     "y": {
       "field": "score",
       "type": "quantitative",
-      "scale": { "domain": [0, 60], "zero": true },
+      "scale": { "zero": true },
       "axis": { "title": "Fold change", "titleFit": "range" }
     },
     "tooltip": [

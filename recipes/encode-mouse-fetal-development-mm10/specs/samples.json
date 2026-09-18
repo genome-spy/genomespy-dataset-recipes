@@ -2,7 +2,7 @@
   "$schema": "https://cdn.jsdelivr.net/npm/@genome-spy/app/dist/schema.json",
   "name": "samples",
   "title": "H3K27ac fold change over control",
-  "description": "Each row is one biological replicate. Every row uses the same fixed 0-60 linear scale, including when bookmarks filter samples.",
+  "description": "Each row is one biological replicate. The linear y-scale starts at zero and is shared across the displayed rows, but it adapts to the data in the current viewport.",
   "stickySummaries": true,
   "samples": {
     "identity": {

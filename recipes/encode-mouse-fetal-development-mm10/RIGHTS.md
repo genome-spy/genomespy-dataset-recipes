@@ -35,10 +35,10 @@ below.
 
 GENCODE's authoritative
 [data-access page](https://www.gencodegenes.org/pages/data_access.html) states
-that all GENCODE project data are open access. The recipe redistributes only 103
-gene records overlapping the retained windows, with coordinates converted from
-GTF one-based inclusive to zero-based half-open, and identifies M21 as the
-annotation release.
+that all GENCODE project data are open access. The recipe redistributes only
+307 gene records overlapping the retained windows, with coordinates converted
+from GTF one-based inclusive to zero-based half-open, and identifies M21 as
+the annotation release.
 
 Gorkin et al., DOI
 [`10.1038/s41586-020-2093-3`](https://doi.org/10.1038/s41586-020-2093-3),
@@ -79,7 +79,7 @@ or prose.
 ## Decision
 
 Eligible for GenomeSpy-managed hosting under the conditions above. This
-decision applies only to the exact `v3` artifacts recorded in
+decision applies only to the exact `v4` artifacts recorded in
 `provenance.json`; publication and upload remain out of scope for this work.
 
 Reviewed: 2026-09-18

@@ -2,7 +2,7 @@
   "$schema": "https://cdn.jsdelivr.net/npm/@genome-spy/core/dist/schema.json",
   "name": "included-regions",
   "title": { "text": "Included regions", "style": "track-title" },
-  "description": "Search Ascl1, mEN886, mEN978, or mEN918. An empty track outside these four intervals means no data were retained, not biological inactivity.",
+  "description": "Search Ascl1 landscape, mEN886, mEN978, or mEN918. An empty track outside these four intervals means no data were retained, not biological inactivity.",
   "height": 22,
   "data": { "url": "../output/regions.tsv" },
   "layer": [

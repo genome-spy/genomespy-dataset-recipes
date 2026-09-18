@@ -36,22 +36,24 @@ not a genome-wide enhancer search.
 
 ## Retained regions and size
 
-The source H3K27ac files total 16,616,455,932 bytes (about 15.5 GiB). The recipe uses remote range
-reads and writes native intervals and values only inside the same four one-
-megabase regions for all 24 rows:
+The source H3K27ac files total 16,616,455,932 bytes (about 15.5 GiB). The
+recipe uses remote range reads and writes native intervals and values only
+inside the same four regions for all 24 rows. The broad Ascl1 landscape is the
+initial exploration view; the other three windows remain compact:
 
 | Region | Zero-based, half-open bounds | Purpose |
 | --- | --- | --- |
-| Ascl1 | `chr10:86,900,000-87,900,000` | Published Ascl1 neighbourhood and five retained predictions |
+| Ascl1 landscape | `chr10:82,400,000-92,400,000` | Ten-megabase overview containing the focused Ascl1 neighbourhood and five retained predictions |
 | mEN886 | `chr12:111,200,000-112,200,000` | Forebrain reporter element and overlapping Ckb prediction |
 | mEN978 | `chr7:139,000,000-140,000,000` | Heart reporter element |
 | mEN918 | `chr9:42,750,000-43,750,000` | Limb reporter element |
 
-The resulting regional BigWigs total 39,707,452 bytes (about 37.9 MiB). The
+The resulting regional BigWigs total 111,314,653 bytes (about 106.2 MiB). The
 included-region track labels the available interval on each chromosome and is
-searchable by region name. Users can pan and zoom within the full one-megabase
-context. Absence of signal outside these windows means that no data were
-retained there, not that the locus is inactive.
+searchable by region name. Users can pan and zoom throughout the ten-megabase
+initial view or within the three focused one-megabase windows. Absence of
+signal outside these windows means that no data were retained there, not that
+the locus is inactive.
 
 ## Accepted samples
 
@@ -151,12 +153,13 @@ From a GenomeSpy checkout with the App running at port 8080, open:
 http://localhost:8080/?spec=private/genomespy-dataset-recipes/recipes/encode-mouse-fetal-development-mm10/specs/spec.json
 ```
 
-The first bookmark introduces the complete 24-row panel, the shared H3K27ac
-scale, the annotation tracks, and the expression transformation. The next
-three bookmarks compare tissues at E12.5 using the same row order and 0-60
-H3K27ac scale. The fifth keeps all 24 rows, groups tissue → stage, and sorts by
-replicate at mEN886. Source table rows are ordered tissue → chronological stage
-→ biological replicate, which is the default full-panel order.
+The first bookmark introduces the complete 24-row panel, the annotation tracks,
+and the expression transformation. The H3K27ac scale starts at zero, is shared
+across displayed rows, and adapts to the current viewport and visible samples.
+The next three bookmarks compare tissues at E12.5 using the same row order. The
+fifth keeps all 24 rows, groups tissue → stage, and sorts by replicate at mEN886.
+Source table rows are ordered tissue → chronological stage → biological
+replicate, which is the default full-panel order.
 
 ## Interpretation and limitations
 
@@ -167,8 +170,9 @@ reporter activity, computational enhancer-gene predictions, and gene expression
 are displayed as separate evidence types. Reporter activity does not prove an
 endogenous target, and correlated H3K27ac and RNA do not prove causality.
 
-The regions preserve source resolution but not genome-wide coverage. The fixed
-H3K27ac scale supports comparison within this selected panel; the processed
+The regions preserve source resolution but not genome-wide coverage. The shared
+H3K27ac scale supports comparison among the rows visible in one viewport, but
+its domain changes after zooming, panning, or filtering samples. The processed
 signals still should not be interpreted as calibrated absolute acetylation
 abundance between tissues. Limb follows the source atlas label and refers to a
 pooled dissected embryonic limb preparation rather than separate forelimb and
@@ -182,4 +186,4 @@ GENCODE, and article attribution. No upload or publication is performed by
 this recipe change.
 
 Proposed release root:
-`https://data.genomespy.app/datasets/encode-mouse-fetal-development-mm10/v3/`.
+`https://data.genomespy.app/datasets/encode-mouse-fetal-development-mm10/v4/`.
