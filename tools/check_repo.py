@@ -308,7 +308,12 @@ def check_spec_values(recipe_id: str, spec_name: str, value: Any) -> list[str]:
     for path, child in walk_json(value):
         key = path[-1]
         if key == "url" and isinstance(child, str):
-            if path[-2:] == ("import", "url"):
+            is_local_spec_reference = path[-2:] == ("import", "url") or path[-3:] == (
+                "bookmarks",
+                "remote",
+                "url",
+            )
+            if is_local_spec_reference:
                 import_path = PurePosixPath(child)
                 if (
                     import_path.is_absolute()
@@ -318,7 +323,7 @@ def check_spec_values(recipe_id: str, spec_name: str, value: Any) -> list[str]:
                     or import_path.suffix != ".json"
                 ):
                     errors.append(
-                        f"{recipe_id}: import must reference a local spec "
+                        f"{recipe_id}: authored JSON reference must be local "
                         f"in {spec_name}: {child}"
                     )
                 continue
