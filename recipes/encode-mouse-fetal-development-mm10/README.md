@@ -147,6 +147,13 @@ uv run --locked --script \
   imported files in the same directory define individual annotation tracks,
   the sample collection, metadata, and H3K27ac signal.
 - [`specs/bookmarks.json`](specs/bookmarks.json): the six-stop tour.
+- [`specs/index.html`](specs/index.html): a minimal standalone page that loads
+  GenomeSpy App 0.88.1 and the adjacent `spec.json`.
+
+Keep the specification files together when deploying them. Their checked-in
+data URLs point to `../output/` for local recipe development. Rewrite those
+URLs to the versioned public dataset root recorded in `provenance.json` as part
+of deployment.
 
 From a GenomeSpy checkout with the App running at port 8080, open:
 
