@@ -352,9 +352,7 @@ def join_words(values: list[str]) -> str:
 
 def reporter_evidence(summary: Any, additional: Any) -> str:
     """Format reporter results from Supplementary Table 10 for tooltips."""
-    summary_match = re.fullmatch(
-        r"(.+?) positive \((\d+/\d+)\)", str(summary).strip()
-    )
+    summary_match = re.fullmatch(r"(.+?) positive \((\d+/\d+)\)", str(summary).strip())
     if summary_match is None:
         raise ValueError(f"Unexpected reporter result summary: {summary!r}")
     tissue, ratio = summary_match.groups()
@@ -370,9 +368,7 @@ def reporter_evidence(summary: Any, additional: Any) -> str:
             parsed.append((expand_tissue_label(label), extra_ratio))
         ratios = {item[1] for item in parsed}
         if len(ratios) == 1:
-            parts.append(
-                f"{join_words([item[0] for item in parsed])} {parsed[0][1]}"
-            )
+            parts.append(f"{join_words([item[0] for item in parsed])} {parsed[0][1]}")
         else:
             parts.extend(f"{label} {item_ratio}" for label, item_ratio in parsed)
     return "Supplementary Table 10: " + "; ".join(parts)
