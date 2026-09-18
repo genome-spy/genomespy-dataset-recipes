@@ -19,8 +19,8 @@ List files, field or format contracts, and coordinate conventions. Specs under
 
 ## Validation and limitations
 
-Summarize the scientific checks and caveats. Put exact accepted-run values in
-`provenance.json`.
+Summarize the data-validity checks and caveats. Put exact accepted-run values
+in `provenance.json`.
 
 ## Data rights
 

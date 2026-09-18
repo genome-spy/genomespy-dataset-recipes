@@ -6,7 +6,7 @@ Start new work from `recipes/_template/`.
 Before handoff:
 
 1. Confirm that no input, intermediate, or output data are tracked.
-2. Run the documented recipe and scientific validation.
+2. Run the documented recipe and data validation.
 3. Keep `provenance.json` exact but compact.
 4. Inspect local GenomeSpy specs when present.
 5. Run the checks listed in the root README.

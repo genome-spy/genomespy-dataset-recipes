@@ -16,11 +16,11 @@ are in scope only when requested.
 For a new recipe:
 
 1. Establish the visualization idea, authoritative source, scale, assembly,
-   coordinates, redistribution evidence, outputs, and scientific checks.
+   coordinates, redistribution evidence, outputs, and data-validity checks.
 2. Choose a stable recipe ID and start from `recipes/_template/`.
 3. Keep data in ignored working directories and use pinned inputs.
-4. Provide one clear preparation workflow. Keep scientific transformations in
-   scripts and presentation in specs.
+4. Provide one clear preparation workflow. Keep data preparation in scripts
+   and presentation in specs.
 5. Prototype under `specs/` with `../output/...` URLs.
 6. Record concise rationale in the README, exact accepted-run details in
    `provenance.json`, and the redistribution decision in `RIGHTS.md`.

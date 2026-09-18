@@ -84,7 +84,7 @@ uv run --locked --script recipes/<recipe-id>/scripts/prepare.py
 Use Python 3.12 or newer unless a dependency requires otherwise. Favor type
 annotations, `pathlib.Path`, explicit encodings, context managers, stable
 sorting and serialization, atomic writes, and focused functions. R and shell
-are equally acceptable when they express the scientific workflow more clearly.
+are equally acceptable when they express the preparation workflow more clearly.
 
 ## Outputs and specs
 
@@ -95,12 +95,12 @@ and `end` unless an established format dictates otherwise. Document coordinate
 origin and interval closure.
 
 Specs belong in `specs/` and load local results with
-`../output/<artifact>`. Keep scientific shaping in scripts and presentation in
+`../output/<artifact>`. Keep data preparation in scripts and presentation in
 the spec. Do not embed dataset tables in specs.
 
 ## Validation and handoff
 
-Validate the scientific contract: input identity, output fingerprints, required
+Validate the dataset contract: input identity, output fingerprints, required
 fields, coordinates, sorting, ranges, companion indexes, and representative
 features needed by the visualization. Record useful summaries in provenance,
 not a transcript of every check.
