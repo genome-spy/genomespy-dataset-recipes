@@ -56,6 +56,107 @@
     "notes": "Both E12.5 forebrain replicates show stronger H3K27ac across the five highlighted predictions than heart or limb. *Ascl1* and *Foxg1* expression reinforce the forebrain identity of these samples.\n\nThe highlighted intervals are published enhancer–*Ascl1* predictions from Gorkin et al. (2020). They are computational predictions, not proof that these intervals regulate *Ascl1*."
   },
   {
+    "name": "Ascl1 prediction 3 — chromatin and expression",
+    "actions": [
+      {
+        "type": "sampleView/sortBy",
+        "payload": {
+          "attribute": {
+            "type": "SAMPLE_ATTRIBUTE",
+            "specifier": "H3K27ac/biologicalReplicate"
+          },
+          "order": "ascending"
+        }
+      },
+      {
+        "type": "sampleView/groupByNominal",
+        "payload": {
+          "attribute": {
+            "type": "SAMPLE_ATTRIBUTE",
+            "specifier": "Sample/tissue"
+          }
+        }
+      },
+      {
+        "type": "sampleView/groupByNominal",
+        "payload": {
+          "attribute": {
+            "type": "SAMPLE_ATTRIBUTE",
+            "specifier": "Sample/stageLabel"
+          }
+        }
+      },
+      {
+        "type": "paramProvenance/paramChange",
+        "payload": {
+          "selector": {
+            "scope": [],
+            "param": "brush"
+          },
+          "value": {
+            "type": "interval",
+            "intervals": {
+              "x": [
+                { "chrom": "chr10", "pos": 87446400 },
+                { "chrom": "chr10", "pos": 87448800 }
+              ]
+            }
+          }
+        }
+      },
+      {
+        "type": "sampleView/deriveMetadata",
+        "payload": {
+          "attribute": {
+            "type": "VALUE_AT_LOCUS",
+            "specifier": {
+              "view": {
+                "scope": ["h3k27ac-signal"],
+                "view": "h3k27ac-signal"
+              },
+              "field": "score",
+              "interval": {
+                "type": "selection",
+                "selector": {
+                  "scope": [],
+                  "param": "brush"
+                }
+              },
+              "aggregation": {
+                "op": "weightedMean"
+              }
+            }
+          },
+          "name": "Selected H3K27ac mean",
+          "groupPath": ""
+        }
+      }
+    ],
+    "scaleDomains": {
+      "x_at_root": [
+        { "chrom": "chr10", "pos": 87443089 },
+        { "chrom": "chr10", "pos": 87470758 }
+      ]
+    },
+    "plots": [
+      {
+        "kind": "sample_attribute_plot",
+        "definition": {
+          "plotType": "scatterplot",
+          "xAttribute": {
+            "type": "SAMPLE_ATTRIBUTE",
+            "specifier": "Selected H3K27ac mean"
+          },
+          "yAttribute": {
+            "type": "SAMPLE_ATTRIBUTE",
+            "specifier": "RNA-seq/Ascl1"
+          }
+        }
+      }
+    ],
+    "notes": "The brush marks the published interval Ascl1 prediction 3. GenomeSpy calculates its weighted-mean H3K27ac signal separately for every displayed row and plots that value against the *Ascl1* expression z-score. To explore another interval, create a new selection and then generate a new plot from it—either directly or after deriving a new metadata attribute.\n\nEach pair of H3K27ac replicates has independent signal values but shares one condition-level RNA-seq mean. The points are therefore not 24 independent paired observations. Read the plot as an exploratory comparison of compatible chromatin and expression patterns, not as a correlation test or evidence that the selected interval regulates *Ascl1*."
+  },
+  {
     "name": "mEN978 — heart reporter element",
     "actions": [
       {

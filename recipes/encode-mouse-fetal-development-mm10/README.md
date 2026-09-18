@@ -156,10 +156,13 @@ http://localhost:8080/?spec=private/genomespy-dataset-recipes/recipes/encode-mou
 The first bookmark introduces the complete 24-row panel, the annotation tracks,
 and the expression transformation. The H3K27ac scale starts at zero, is shared
 across displayed rows, and adapts to the current viewport and visible samples.
-The next three bookmarks compare tissues at E12.5 using the same row order. The
-fifth keeps all 24 rows, groups tissue → stage, and sorts by replicate at mEN886.
-Source table rows are ordered tissue → chronological stage → biological
-replicate, which is the default full-panel order.
+The second compares tissues at the *Ascl1* predictions at E12.5. The third uses
+a genomic brush to derive weighted-mean H3K27ac for the selected interval and
+opens a scatter plot against *Ascl1* expression. The fourth and fifth show the
+E12.5 heart and limb reporter examples. The sixth keeps all 24 rows, groups
+tissue → stage, and sorts by replicate at mEN886. Source table rows are ordered
+tissue → chronological stage → biological replicate, which is the default
+full-panel order.
 
 ## Interpretation and limitations
 
