@@ -14,9 +14,6 @@
         "search": { "field": "name" },
         "tooltip": [
           { "field": "name", "title": "Included region" },
-          { "field": "chrom", "title": "Chromosome" },
-          { "field": "start", "title": "Start (0-based)" },
-          { "field": "end", "title": "End (exclusive)" },
           { "field": "description", "title": "Purpose" }
         ]
       }

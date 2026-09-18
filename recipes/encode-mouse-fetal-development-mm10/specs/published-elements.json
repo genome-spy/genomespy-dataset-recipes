@@ -28,10 +28,7 @@
           { "field": "evidenceType", "title": "Evidence" },
           { "field": "intendedTissue", "title": "Tissue context" },
           { "field": "predictedTarget", "title": "Predicted target" },
-          { "field": "sourceEvidence", "title": "Published evidence" },
-          { "field": "chrom", "title": "Chromosome" },
-          { "field": "start", "title": "Start (0-based)" },
-          { "field": "end", "title": "End (exclusive)" }
+          { "field": "sourceEvidence", "title": "Published evidence" }
         ]
       }
     },
@@ -56,10 +53,7 @@
           { "field": "name", "title": "Element" },
           { "field": "evidenceType", "title": "Evidence" },
           { "field": "predictedTarget", "title": "Predicted target" },
-          { "field": "sourceEvidence", "title": "Published evidence" },
-          { "field": "chrom", "title": "Chromosome" },
-          { "field": "start", "title": "Start (0-based)" },
-          { "field": "end", "title": "End (exclusive)" }
+          { "field": "sourceEvidence", "title": "Published evidence" }
         ]
       }
     },
