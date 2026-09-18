@@ -21,11 +21,9 @@
   "sampleYAxis": { "mode": "top", "minSampleHeight": 18 },
   "metadata": {
     "title": "Sample metadata",
-    "attributeWidth": 15,
+    "attributeWidth": 11,
     "missingValueColor": "#bdbdbd",
-    "sources": [
-      { "import": { "url": "metadata.json" } }
-    ]
+    "sources": [{ "import": { "url": "metadata.json" } }]
   },
   "spec": {
     "import": { "url": "h3k27ac-signal.json" }

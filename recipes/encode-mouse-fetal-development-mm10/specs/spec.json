@@ -29,8 +29,8 @@
   "vconcat": [
     { "import": { "url": "included-regions.json" } },
     { "import": { "url": "published-elements.json" } },
-    { "import": { "url": "genes.json" } },
-    { "import": { "url": "samples.json" } }
+    { "import": { "url": "samples.json" } },
+    { "import": { "url": "genes.json" } }
   ],
   "config": {
     "style": { "group-title": { "orient": "none" } },
