@@ -332,7 +332,9 @@ def parse_source_interval(value: Any) -> tuple[str, int, int]:
     start = int(start_text)
     end = int(end_text)
     if chrom not in CHROM_LENGTHS or not 0 <= start < end <= CHROM_LENGTHS[chrom]:
-        raise ValueError(f"Source interval is outside retained mm10 chromosomes: {value}")
+        raise ValueError(
+            f"Source interval is outside retained mm10 chromosomes: {value}"
+        )
     return chrom, start, end
 
 
@@ -509,7 +511,8 @@ def read_elements(path: Path, provenance: dict[str, Any]) -> list[Element]:
         raise ValueError("Expected one replicated Ckb prediction overlapping mEN886")
     chrom, start, end, _, _ = ckb_rows[0]
     ckb_element = Element(
-        f"{ckb_target} prediction overlapping {reporter_names[overlapping_reporter_id]}",
+        f"{ckb_target} prediction overlapping "
+        f"{reporter_names[overlapping_reporter_id]}",
         chrom,
         start,
         end,
