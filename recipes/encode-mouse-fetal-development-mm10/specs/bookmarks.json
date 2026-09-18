@@ -1,18 +1,49 @@
 [
   {
+    "name": "Overview — all 24 samples",
+    "actions": [
+      {
+        "type": "sampleView/sortBy",
+        "payload": {
+          "attribute": { "type": "SAMPLE_ATTRIBUTE", "specifier": "H3K27ac/biologicalReplicate" },
+          "order": "ascending"
+        }
+      },
+      {
+        "type": "sampleView/groupByNominal",
+        "payload": {
+          "attribute": { "type": "SAMPLE_ATTRIBUTE", "specifier": "Sample/tissue" }
+        }
+      },
+      {
+        "type": "sampleView/groupByNominal",
+        "payload": {
+          "attribute": { "type": "SAMPLE_ATTRIBUTE", "specifier": "Sample/stageLabel" }
+        }
+      }
+    ],
+    "scaleDomains": {
+      "x_at_root": [
+        { "chrom": "chr10", "pos": 86900000 },
+        { "chrom": "chr10", "pos": 87900000 }
+      ]
+    },
+    "notes": "This dataset combines regional ENCODE H3K27ac signal with condition-matched bulk RNA-seq from mouse forebrain, heart, and limb at four embryonic stages. This overview shows all 24 H3K27ac rows: two biological replicates for each tissue-stage condition. Rows are grouped by tissue and then stage, and every signal track uses the same 0–60 fold-change scale. The top tracks mark the retained data region, published regulatory elements, and GENCODE genes. Only four one-megabase neighborhoods contain signal in this compact demo.\n\nExpression colors are gene-wise z-scores of log2(mean TPM + 1) across the 12 tissue-stage conditions. Zero is a gene's average in this panel; blue is above average and orange is below average. Each value is the mean of two condition-matched bulk RNA-seq replicates and is shared by both H3K27ac rows for that condition—the assays are not sample-paired.\n\nThe following bookmarks zoom into individual regulatory examples and reduce or regroup the sample set when that makes the tissue contrast easier to see."
+  },
+  {
     "name": "Ascl1 — forebrain at E12.5",
     "actions": [
       {
         "type": "sampleView/filterByNominal",
         "payload": {
-          "attribute": { "type": "SAMPLE_ATTRIBUTE", "specifier": "stageLabel" },
+          "attribute": { "type": "SAMPLE_ATTRIBUTE", "specifier": "Sample/stageLabel" },
           "values": ["E12.5"]
         }
       },
       {
         "type": "sampleView/groupByNominal",
         "payload": {
-          "attribute": { "type": "SAMPLE_ATTRIBUTE", "specifier": "tissue" }
+          "attribute": { "type": "SAMPLE_ATTRIBUTE", "specifier": "Sample/tissue" }
         }
       }
     ],
@@ -30,14 +61,14 @@
       {
         "type": "sampleView/filterByNominal",
         "payload": {
-          "attribute": { "type": "SAMPLE_ATTRIBUTE", "specifier": "stageLabel" },
+          "attribute": { "type": "SAMPLE_ATTRIBUTE", "specifier": "Sample/stageLabel" },
           "values": ["E12.5"]
         }
       },
       {
         "type": "sampleView/groupByNominal",
         "payload": {
-          "attribute": { "type": "SAMPLE_ATTRIBUTE", "specifier": "tissue" }
+          "attribute": { "type": "SAMPLE_ATTRIBUTE", "specifier": "Sample/tissue" }
         }
       }
     ],
@@ -55,14 +86,14 @@
       {
         "type": "sampleView/filterByNominal",
         "payload": {
-          "attribute": { "type": "SAMPLE_ATTRIBUTE", "specifier": "stageLabel" },
+          "attribute": { "type": "SAMPLE_ATTRIBUTE", "specifier": "Sample/stageLabel" },
           "values": ["E12.5"]
         }
       },
       {
         "type": "sampleView/groupByNominal",
         "payload": {
-          "attribute": { "type": "SAMPLE_ATTRIBUTE", "specifier": "tissue" }
+          "attribute": { "type": "SAMPLE_ATTRIBUTE", "specifier": "Sample/tissue" }
         }
       }
     ],
@@ -80,20 +111,20 @@
       {
         "type": "sampleView/sortBy",
         "payload": {
-          "attribute": { "type": "SAMPLE_ATTRIBUTE", "specifier": "chipBiologicalReplicate" },
+          "attribute": { "type": "SAMPLE_ATTRIBUTE", "specifier": "H3K27ac/biologicalReplicate" },
           "order": "ascending"
         }
       },
       {
         "type": "sampleView/groupByNominal",
         "payload": {
-          "attribute": { "type": "SAMPLE_ATTRIBUTE", "specifier": "tissue" }
+          "attribute": { "type": "SAMPLE_ATTRIBUTE", "specifier": "Sample/tissue" }
         }
       },
       {
         "type": "sampleView/groupByNominal",
         "payload": {
-          "attribute": { "type": "SAMPLE_ATTRIBUTE", "specifier": "stageLabel" }
+          "attribute": { "type": "SAMPLE_ATTRIBUTE", "specifier": "Sample/stageLabel" }
         }
       }
     ],

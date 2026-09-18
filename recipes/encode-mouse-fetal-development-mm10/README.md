@@ -86,14 +86,19 @@ treated as absolute acetylation measurements across tissues.
 ## Expression metadata
 
 For each tissue-stage and selected gene, the recipe retains both individual
-RNA TPM measurements and computes:
+RNA TPM measurements and computes the condition mean, its log transform, and a
+gene-wise z-score:
 
 ```text
-log2(mean TPM across the two RNA replicates + 1)
+z = (log2(mean TPM across the two RNA replicates + 1) - gene mean) / gene SD
 ```
 
-The default heatmap uses one shared sequential 0-12 colour scale. Raw mean TPM
-is retained as initially hidden metadata. Missing values would remain missing;
+The mean and standard deviation are calculated separately for each gene across
+the 12 tissue-stage conditions. Thus, zero is that gene's panel mean and the
+default diverging heatmap emphasizes relative expression within this selected
+panel; z-scores are not absolute expression and should not be compared between
+genes as abundance measurements. Raw mean TPM and `log2(mean TPM + 1)` remain
+available as initially hidden metadata. Missing values would remain missing;
 the preparation code never imputes zero or interpolates conditions.
 
 The eight columns are Ascl1, Ckb, Foxg1, Tnnt2, Nkx2-5, Hand2, Prrx1, and Myog.
@@ -125,7 +130,8 @@ uv run --locked --script \
 
 - `output/bigwigs/<sampleId>.bigWig`: 24 full-resolution regional extracts.
 - `output/samples.tsv`: H3K27ac row identity, provenance, and condition-level
-  expression metadata.
+  expression metadata. Dotted column names form Sample, H3K27ac, and RNA-seq
+  groups in the App.
 - `output/expression-conditions.tsv`: 96 tissue-stage-gene summaries.
 - `output/expression-replicates.tsv`: 192 individual RNA measurements.
 - `output/regions.tsv`: the four searchable retained regions.
@@ -134,8 +140,10 @@ uv run --locked --script \
 - `output/genes.tsv`: GENCODE M21 genes overlapping the retained regions.
 - `output/candidate-assessment.tsv`: accepted and rejected feasibility loci.
 - `output/selection-report.tsv`: exact accepted H3K27ac and RNA sources.
-- [`specs/spec.json`](specs/spec.json): the GenomeSpy App prototype.
-- [`specs/bookmarks.json`](specs/bookmarks.json): the four-stop tour.
+- [`specs/spec.json`](specs/spec.json): the root GenomeSpy App prototype;
+  imported files in the same directory define individual annotation tracks,
+  the sample collection, metadata, and H3K27ac signal.
+- [`specs/bookmarks.json`](specs/bookmarks.json): the five-stop tour.
 
 From a GenomeSpy checkout with the App running at port 8080, open:
 
@@ -143,11 +151,12 @@ From a GenomeSpy checkout with the App running at port 8080, open:
 http://localhost:8080/?spec=private/genomespy-dataset-recipes/recipes/encode-mouse-fetal-development-mm10/specs/spec.json
 ```
 
-The first three bookmarks compare tissues at E12.5 using the same row order and
-0-60 H3K27ac scale. The fourth restores all 24 rows, groups tissue → stage, and
-sorts by replicate at mEN886. Source table rows are ordered tissue →
-chronological stage → biological replicate, which is the default full-panel
-order.
+The first bookmark introduces the complete 24-row panel, the shared H3K27ac
+scale, the annotation tracks, and the expression transformation. The next
+three bookmarks compare tissues at E12.5 using the same row order and 0-60
+H3K27ac scale. The fifth keeps all 24 rows, groups tissue → stage, and sorts by
+replicate at mEN886. Source table rows are ordered tissue → chronological stage
+→ biological replicate, which is the default full-panel order.
 
 ## Interpretation and limitations
 
@@ -173,4 +182,4 @@ GENCODE, and article attribution. No upload or publication is performed by
 this recipe change.
 
 Proposed release root:
-`https://data.genomespy.app/datasets/encode-mouse-fetal-development-mm10/v2/`.
+`https://data.genomespy.app/datasets/encode-mouse-fetal-development-mm10/v3/`.

@@ -1,0 +1,33 @@
+{
+  "$schema": "https://cdn.jsdelivr.net/npm/@genome-spy/app/dist/schema.json",
+  "name": "samples",
+  "title": "H3K27ac fold change over control",
+  "description": "Each row is one biological replicate. Every row uses the same fixed 0-60 linear scale, including when bookmarks filter samples.",
+  "stickySummaries": true,
+  "samples": {
+    "identity": {
+      "data": { "url": "../output/samples.tsv" },
+      "idField": "sampleId",
+      "displayNameField": "rowLabel"
+    },
+    "labelTitle": "Sample"
+  },
+  "sampleLayout": {
+    "sampleHeight": 20,
+    "groupSpacing": 5,
+    "peekGroupSpacing": 9,
+    "sampleSpacingFactor": 0.06
+  },
+  "sampleYAxis": { "mode": "top", "minSampleHeight": 18 },
+  "metadata": {
+    "title": "Sample metadata",
+    "attributeWidth": 15,
+    "missingValueColor": "#bdbdbd",
+    "sources": [
+      { "import": { "url": "metadata.json" } }
+    ]
+  },
+  "spec": {
+    "import": { "url": "h3k27ac-signal.json" }
+  }
+}

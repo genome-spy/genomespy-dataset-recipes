@@ -1,0 +1,30 @@
+{
+  "$schema": "https://cdn.jsdelivr.net/npm/@genome-spy/core/dist/schema.json",
+  "name": "genes",
+  "title": { "text": "GENCODE M21 genes", "style": "track-title" },
+  "description": "Gene models overlapping the four retained regions; coordinates are converted from GTF one-based inclusive to zero-based half-open.",
+  "height": 28,
+  "data": { "url": "../output/genes.tsv" },
+  "layer": [
+    {
+      "mark": { "type": "rect", "color": "#8c8c8c", "height": 5 },
+      "encoding": {
+        "x": { "chrom": "chrom", "pos": "start", "type": "locus", "axis": null },
+        "x2": { "chrom": "chrom", "pos": "end" },
+        "tooltip": [
+          { "field": "symbol", "title": "Gene" },
+          { "field": "geneId", "title": "GENCODE ID" },
+          { "field": "strand", "title": "Strand" }
+        ]
+      }
+    },
+    {
+      "mark": { "type": "text", "fontSize": 9, "dy": -8, "color": "#4d4d4d", "paddingX": 3 },
+      "encoding": {
+        "x": { "chrom": "chrom", "pos": "start", "type": "locus" },
+        "x2": { "chrom": "chrom", "pos": "end" },
+        "text": { "field": "symbol" }
+      }
+    }
+  ]
+}

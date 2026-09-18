@@ -28,7 +28,8 @@ along with all `ENCSR...` and `ENCFF...` accessions.
 
 The BigWigs are newly written regional derivatives that retain source intervals
 and values only within four declared mm10 windows. The expression tables contain
-factual source identifiers and newly computed tissue-stage means. ENCODE's
+factual source identifiers and newly computed tissue-stage means and gene-wise
+z-scores. ENCODE's
 unrestricted-use policy supports redistribution with the attribution conditions
 below.
 
@@ -78,7 +79,7 @@ or prose.
 ## Decision
 
 Eligible for GenomeSpy-managed hosting under the conditions above. This
-decision applies only to the exact `v2` artifacts recorded in
+decision applies only to the exact `v3` artifacts recorded in
 `provenance.json`; publication and upload remain out of scope for this work.
 
-Reviewed: 2026-09-17
+Reviewed: 2026-09-18

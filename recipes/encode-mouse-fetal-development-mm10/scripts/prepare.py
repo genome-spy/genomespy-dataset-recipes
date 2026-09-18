@@ -512,6 +512,19 @@ def expression_summaries(
             "files": [item.lock.accession for item in group],
             "replicateCount": len(group),
         }
+    for gene in {key[2] for key in output}:
+        keys = [key for key in output if key[2] == gene]
+        transformed = numpy.array(
+            [output[key]["log2MeanTpmPlus1"] for key in keys], dtype=float
+        )
+        if len(keys) != 12:
+            raise ValueError(f"Expected 12 tissue-stage conditions for {gene}")
+        standard_deviation = float(numpy.std(transformed))
+        if not math.isfinite(standard_deviation) or standard_deviation <= 0:
+            raise ValueError(f"Cannot standardize expression for {gene}")
+        mean = float(numpy.mean(transformed))
+        for key, value in zip(keys, transformed, strict=True):
+            output[key]["zScore"] = (float(value) - mean) / standard_deviation
     return output
 
 
@@ -582,26 +595,30 @@ def write_tables(
     annotation_rows: list[tuple[str, int, int, str, str, str]],
 ) -> None:
     summaries = expression_summaries(rna_values)
-    expression_fields = [item.symbol for item in selected_genes]
-    mean_fields = [f"{item.symbol}MeanTpm" for item in selected_genes]
+    zscore_fields = [f"RNA-seq.{item.symbol}" for item in selected_genes]
+    expression_fields = [
+        f"RNA-seq.log2Abundance.{item.symbol}" for item in selected_genes
+    ]
+    mean_fields = [f"RNA-seq.meanTpm.{item.symbol}" for item in selected_genes]
     sample_fields = [
         "sampleId",
         "rowLabel",
-        "tissue",
-        "stageDays",
-        "stageLabel",
-        "chipBiologicalReplicate",
-        "chipTechnicalReplicate",
-        "chipBiosample",
-        "chipExperiment",
-        "chipFileAccession",
-        "strain",
-        "preparation",
-        "signal",
-        "expressionJoin",
-        "rnaExperiment",
-        "rnaReplicateCount",
-        "rnaFileAccessions",
+        "Sample.tissue",
+        "Sample.stageDays",
+        "Sample.stageLabel",
+        "H3K27ac.biologicalReplicate",
+        "H3K27ac.technicalReplicate",
+        "H3K27ac.biosample",
+        "H3K27ac.experiment",
+        "H3K27ac.fileAccession",
+        "Sample.strain",
+        "Sample.preparation",
+        "H3K27ac.signal",
+        "RNA-seq.provenance.join",
+        "RNA-seq.provenance.experiment",
+        "RNA-seq.provenance.replicateCount",
+        "RNA-seq.provenance.fileAccessions",
+        *zscore_fields,
         *expression_fields,
         *mean_fields,
     ]
@@ -627,6 +644,12 @@ def write_tables(
             first["replicateCount"],
             ",".join(first["files"]),
         ]
+        row.extend(
+            format_number(
+                summaries[(lock.tissue, lock.stage_days, gene.symbol)]["zScore"]
+            )
+            for gene in selected_genes
+        )
         row.extend(
             format_number(
                 summaries[(lock.tissue, lock.stage_days, gene.symbol)][
@@ -690,6 +713,7 @@ def write_tables(
                         gene.symbol,
                         format_number(item["meanTpm"]),
                         format_number(item["log2MeanTpmPlus1"]),
+                        format_number(item["zScore"]),
                         item["replicateCount"],
                         ",".join(item["files"]),
                     )
@@ -706,6 +730,7 @@ def write_tables(
                 "symbol",
                 "meanTpm",
                 "log2MeanTpmPlus1",
+                "zScore",
                 "rnaReplicateCount",
                 "rnaFileAccessions",
             ),
@@ -819,9 +844,9 @@ def validate_outputs(
     expected_order = sorted(
         samples,
         key=lambda row: (
-            TISSUE_ORDER[row["tissue"]],
-            float(row["stageDays"]),
-            int(row["chipBiologicalReplicate"]),
+            TISSUE_ORDER[row["Sample.tissue"]],
+            float(row["Sample.stageDays"]),
+            int(row["H3K27ac.biologicalReplicate"]),
         ),
     )
     if samples != expected_order:
@@ -834,6 +859,7 @@ def validate_outputs(
         if not math.isfinite(tpm) or tpm < 0:
             raise ValueError("Expression TPM must be finite and nonnegative")
         replicate_lookup[(row["tissue"], row["stageDays"], row["symbol"])].append(tpm)
+    conditions_by_gene: dict[str, list[dict[str, str]]] = defaultdict(list)
     for row in conditions:
         values = replicate_lookup[(row["tissue"], row["stageDays"], row["symbol"])]
         if len(values) != 2 or not math.isclose(
@@ -845,17 +871,30 @@ def validate_outputs(
             float(row["log2MeanTpmPlus1"]), expected_log, rel_tol=1e-9, abs_tol=1e-9
         ):
             raise ValueError("Expression transform is not log2(mean TPM + 1)")
+        conditions_by_gene[row["symbol"]].append(row)
+    for symbol, rows in conditions_by_gene.items():
+        transformed = numpy.array(
+            [float(row["log2MeanTpmPlus1"]) for row in rows], dtype=float
+        )
+        expected = (transformed - numpy.mean(transformed)) / numpy.std(transformed)
+        observed = numpy.array([float(row["zScore"]) for row in rows], dtype=float)
+        if len(rows) != 12 or not numpy.allclose(
+            observed, expected, rtol=1e-8, atol=1e-8
+        ):
+            raise ValueError(f"Expression z-scores are invalid for {symbol}")
     condition_lookup = {
         (row["tissue"], row["stageDays"], row["symbol"]): row for row in conditions
     }
     for sample in samples:
         for gene in selected_genes:
             item = condition_lookup[
-                (sample["tissue"], sample["stageDays"], gene.symbol)
+                (sample["Sample.tissue"], sample["Sample.stageDays"], gene.symbol)
             ]
             if (
-                sample[gene.symbol] != item["log2MeanTpmPlus1"]
-                or sample[f"{gene.symbol}MeanTpm"] != item["meanTpm"]
+                sample[f"RNA-seq.{gene.symbol}"] != item["zScore"]
+                or sample[f"RNA-seq.log2Abundance.{gene.symbol}"]
+                != item["log2MeanTpmPlus1"]
+                or sample[f"RNA-seq.meanTpm.{gene.symbol}"] != item["meanTpm"]
             ):
                 raise ValueError("Sample metadata does not match condition expression")
 
@@ -993,6 +1032,7 @@ def main() -> None:
             "pooledAndPseudoreplicateSignalsExcluded": True,
             "numericStageOrdering": True,
             "expressionMeansTraceToTwoRnaReplicates": True,
+            "expressionZScoresStandardizedAcrossTissueStagePanel": True,
             "sampleExpressionValuesMatchConditionMeans": True,
             "regionalBigWigStructureAndBoundsValid": True,
             "allObservedSignalsFiniteAndNonnegative": True,

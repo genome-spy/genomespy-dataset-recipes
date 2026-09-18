@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "releaseId": "v2",
+  "releaseId": "v3",
   "recipeId": "encode-mouse-fetal-development-mm10",
   "sources": [
     {
@@ -112,7 +112,7 @@
       {"symbol":"Prrx1","geneId":"ENSMUSG00000026586.16","rationale":"Limb mesenchyme identity context."},
       {"symbol":"Myog","geneId":"ENSMUSG00000026459.5","rationale":"Limb myogenesis context discussed in the companion expression study."}
     ],
-    "expressionTransform": "log2(mean TPM + 1)",
+    "expressionTransform": "gene-wise z-score of log2(mean TPM + 1) across the 12 tissue-stage conditions, using the population standard deviation (ddof=0); mean TPM and log2 values are retained",
     "expressionJoin": "tissue and numeric embryonic age; condition mean shared across both H3K27ac biological replicates",
     "candidateAssessment": [
       {"candidate":"Ascl1 predictions","decision":"accepted","e12_5SignalSummary":"Across the five retained predictions, replicate-level mean signal is generally about 2-8 in forebrain and below 3 in heart and limb.","reason":"At E12.5 both forebrain replicates show visibly stronger H3K27ac than heart and limb across the published neighbourhood."},
@@ -232,8 +232,8 @@
         "sha256": "abb3178ca524f21aabe9e8613df83eacd1a532d10c6e19b75453a46e36a48025"
       },
       "output/expression-conditions.tsv": {
-        "fileSizeBytes": 9775,
-        "sha256": "0d1c5b84826429b17c41de275709e540c97d47f9c07dc003f0e5014ae3d27440"
+        "fileSizeBytes": 11049,
+        "sha256": "3f9d6b51e88601009ddb08586642c0fe0199bc5254d9c8cec3232572521b41a0"
       },
       "output/expression-replicates.tsv": {
         "fileSizeBytes": 14771,
@@ -248,15 +248,15 @@
         "sha256": "df730e03f75892127257578389f13168f51b21c663bdd1d3d0a0c5e542fcab41"
       },
       "output/samples.tsv": {
-        "fileSizeBytes": 10007,
-        "sha256": "bfbdd78c2605b361578dd7142a35d30708471308308d8a47623f1910ae456bf9"
+        "fileSizeBytes": 13019,
+        "sha256": "e9783eb89d22a37edbc344a04e10edf970682ed6f31f6699cd420e6a6aa223b1"
       },
       "output/selection-report.tsv": {
         "fileSizeBytes": 5313,
         "sha256": "71a223f23aa27d4f12a9efd8fa4175b86fb9d22f6b708bc433beef02d5069c39"
       }
     },
-    "baseUrl": "https://data.genomespy.app/datasets/encode-mouse-fetal-development-mm10/v2/"
+    "baseUrl": "https://data.genomespy.app/datasets/encode-mouse-fetal-development-mm10/v3/"
   },
   "outputs": {
     "candidateAssessment": {
@@ -301,6 +301,7 @@
     "allObservedSignalsFiniteAndNonnegative": true,
     "expressionConditionRecordCount": 96,
     "expressionMeansTraceToTwoRnaReplicates": true,
+    "expressionZScoresStandardizedAcrossTissueStagePanel": true,
     "expressionReplicateRecordCount": 192,
     "h3AcceptedFileCount": 24,
     "maximumRegionalSignal": 53.05236053466797,
