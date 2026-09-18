@@ -3,18 +3,11 @@
 
   "name": "published-elements",
   "title": { "text": "Gorkin et al. elements", "style": "track-title" },
-  "description": "Filled intervals are reporter-tested candidates; outlined intervals are replicated computational enhancer-gene predictions. Hover for the evidence type and target status.",
+  "description": "Tissue-colored intervals are reporter-tested candidates; a black outline marks replicated computational enhancer-gene predictions. Hover for the evidence type and target status.",
 
   "height": 20,
 
   "data": { "url": "../output/elements.tsv" },
-
-  "_transform": [
-    {
-      "type": "filter",
-      "expr": "datum.evidenceType === 'enhancer-gene prediction'"
-    }
-  ],
 
   "layer": [
     {
@@ -22,7 +15,8 @@
         "type": "rect",
         "cornerRadius": 2,
         "minWidth": 2,
-        "clip": "x"
+        "clip": "x",
+        "stroke": "black"
       },
       "encoding": {
         "x": {
@@ -40,6 +34,15 @@
             "range": ["#4e79a7", "#e15759", "#59a14f"]
           },
           "legend": null
+        },
+        "strokeWidth": {
+          "expr": "datum.evidenceType === 'enhancer-gene prediction'",
+          "type": "nominal",
+          "scale": {
+            "type": "ordinal",
+            "domain": [true, false],
+            "range": [1.5, 0]
+          }
         },
         "tooltip": [
           { "field": "name", "title": "Element" },

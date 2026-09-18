@@ -112,101 +112,39 @@ class ExpressionValue:
     tpm: float
 
 
-ELEMENTS: tuple[tuple[str, str, int, int, str, str, str, str], ...] = (
-    (
-        "Ascl1 prediction 1",
-        "chr10",
-        87308700,
-        87310700,
-        "Forebrain",
-        "enhancer-gene prediction",
-        "Ascl1",
-        "Supplementary Table 8c; supported in both prediction replicates",
-    ),
-    (
-        "Ascl1 prediction 2",
-        "chr10",
-        87350700,
-        87352700,
-        "Forebrain",
-        "enhancer-gene prediction",
-        "Ascl1",
-        "Supplementary Table 8c; supported in both prediction replicates",
-    ),
-    (
-        "Ascl1 prediction 3",
-        "chr10",
-        87446400,
-        87448800,
-        "Forebrain",
-        "enhancer-gene prediction",
-        "Ascl1",
-        "Supplementary Table 8c; supported in both prediction replicates",
-    ),
-    (
-        "Ascl1 prediction 4",
-        "chr10",
-        87472500,
-        87474500,
-        "Forebrain",
-        "enhancer-gene prediction",
-        "Ascl1",
-        "Supplementary Table 8c; supported in both prediction replicates",
-    ),
-    (
-        "Ascl1 prediction 5",
-        "chr10",
-        87487400,
-        87491200,
-        "Forebrain",
-        "enhancer-gene prediction",
-        "Ascl1",
-        "Supplementary Table 8c; supported in both prediction replicates",
-    ),
-    (
-        "mEN886 / mm1606",
-        "chr12",
-        111691971,
-        111695499,
-        "Forebrain",
-        "transgenic reporter",
-        "",
-        (
-            "Supplementary Table 10: forebrain positive 6/6; midbrain, "
-            "hindbrain, and neural tube 6/6"
-        ),
-    ),
-    (
-        "Ckb prediction overlapping mEN886",
-        "chr12",
-        111690600,
-        111696400,
-        "Forebrain",
-        "enhancer-gene prediction",
-        "Ckb",
-        "Supplementary Table 8c; supported in both prediction replicates",
-    ),
-    (
-        "mEN978 / mm1683",
-        "chr7",
-        139466376,
-        139469610,
-        "Heart",
-        "transgenic reporter",
-        "",
-        "Supplementary Table 10: heart positive 5/8",
-    ),
-    (
-        "mEN918 / mm1617",
-        "chr9",
-        43252109,
-        43255189,
-        "Limb",
-        "transgenic reporter",
-        "",
-        "Supplementary Table 10: limb positive 4/4; somite 3/4",
-    ),
-)
+@dataclass(frozen=True)
+class Element:
+    """One source-derived reporter or enhancer-gene annotation."""
+
+    name: str
+    chrom: str
+    start: int
+    end: int
+    intended_tissue: str
+    evidence_type: str
+    predicted_target: str
+    source_evidence: str
+
+    def as_row(self) -> tuple[str, str, int, int, str, str, str, str]:
+        return (
+            self.name,
+            self.chrom,
+            self.start,
+            self.end,
+            self.intended_tissue,
+            self.evidence_type,
+            self.predicted_target,
+            self.source_evidence,
+        )
+
+
+TISSUE_ABBREVIATIONS = {
+    "Fb": "forebrain",
+    "Hb": "hindbrain",
+    "Ht": "heart",
+    "Lb": "limb",
+    "Mb": "midbrain",
+}
 
 
 def parse_args() -> argparse.Namespace:
@@ -385,54 +323,207 @@ def prepare_inputs(
     return gtf_path, supplement_paths["MOESM6.xlsx"]
 
 
-def validate_supplement(path: Path) -> None:
-    workbook = load_workbook(path, read_only=True, data_only=True)
-    required_sheets = {
-        "S8c.Enhancer-Gene-Map-Replicatd",
-        "S10.enhancer_validation_results",
-    }
-    if not required_sheets.issubset(workbook.sheetnames):
-        raise ValueError("Gorkin workbook no longer has the required worksheets")
-    s8 = {
-        (str(row[0]), int(row[1]), int(row[2]), str(row[4]), str(row[8]))
-        for row in workbook["S8c.Enhancer-Gene-Map-Replicatd"].iter_rows(
-            values_only=True
-        )
-        if row[0] in {"chr10", "chr12"} and isinstance(row[1], int)
-    }
-    for element in ELEMENTS[:5]:
-        if (element[1], element[2], element[3], "Ascl1", "Ascl1") not in s8:
-            raise ValueError(
-                f"Ascl1 prediction changed in source workbook: {element[0]}"
+def parse_source_interval(value: Any) -> tuple[str, int, int]:
+    """Parse a source mm10 interval without changing its coordinate values."""
+    match = re.fullmatch(r"(chr[0-9XYM]+):(\d+)-(\d+)", str(value))
+    if match is None:
+        raise ValueError(f"Invalid source interval: {value!r}")
+    chrom, start_text, end_text = match.groups()
+    start = int(start_text)
+    end = int(end_text)
+    if chrom not in CHROM_LENGTHS or not 0 <= start < end <= CHROM_LENGTHS[chrom]:
+        raise ValueError(f"Source interval is outside retained mm10 chromosomes: {value}")
+    return chrom, start, end
+
+
+def expand_tissue_label(value: str) -> str:
+    return TISSUE_ABBREVIATIONS.get(value, value.lower())
+
+
+def join_words(values: list[str]) -> str:
+    if len(values) == 1:
+        return values[0]
+    if len(values) == 2:
+        return " and ".join(values)
+    return ", ".join(values[:-1]) + f", and {values[-1]}"
+
+
+def reporter_evidence(summary: Any, additional: Any) -> str:
+    """Format reporter results from Supplementary Table 10 for tooltips."""
+    summary_match = re.fullmatch(
+        r"(.+?) positive \((\d+/\d+)\)", str(summary).strip()
+    )
+    if summary_match is None:
+        raise ValueError(f"Unexpected reporter result summary: {summary!r}")
+    tissue, ratio = summary_match.groups()
+    parts = [f"{expand_tissue_label(tissue)} positive {ratio}"]
+    extra_text = str(additional or "").strip()
+    if extra_text:
+        parsed: list[tuple[str, str]] = []
+        for item in extra_text.split(","):
+            match = re.fullmatch(r"\s*(.+?)\s*\((\d+/\d+)\)\s*", item)
+            if match is None:
+                raise ValueError(f"Unexpected additional reporter result: {item!r}")
+            label, extra_ratio = match.groups()
+            parsed.append((expand_tissue_label(label), extra_ratio))
+        ratios = {item[1] for item in parsed}
+        if len(ratios) == 1:
+            parts.append(
+                f"{join_words([item[0] for item in parsed])} {parsed[0][1]}"
             )
-    if ("chr12", 111690600, 111696400, "Ckb", "Ckb") not in s8:
-        raise ValueError("Ckb prediction overlapping mEN886 changed")
-    s10_rows = {
-        (str(row[2]), str(row[3]), str(row[4]), str(row[5]), str(row[6] or ""))
-        for row in workbook["S10.enhancer_validation_results"].iter_rows(
-            values_only=True
+        else:
+            parts.extend(f"{label} {item_ratio}" for label, item_ratio in parsed)
+    return "Supplementary Table 10: " + "; ".join(parts)
+
+
+def read_elements(path: Path, provenance: dict[str, Any]) -> list[Element]:
+    """Extract the selected annotations from the pinned Gorkin workbook."""
+    selection = provenance["parameters"]["elementSelection"]
+    ascl1_selection = selection["ascl1Predictions"]
+    ckb_selection = selection["ckbPrediction"]
+    reporter_ids = tuple(str(value) for value in selection["reporterVistaIds"])
+    if len(reporter_ids) != len(set(reporter_ids)):
+        raise ValueError("Reporter VISTA selection identifiers must be unique")
+
+    workbook = load_workbook(path, read_only=True, data_only=True)
+    try:
+        s8_name = "S8c.Enhancer-Gene-Map-Replicatd"
+        s10_name = "S10.enhancer_validation_results"
+        if not {s8_name, s10_name}.issubset(workbook.sheetnames):
+            raise ValueError("Gorkin workbook no longer has the required worksheets")
+
+        s8 = workbook[s8_name]
+        s8_header = tuple(cell.value for cell in s8[2])
+        if (
+            s8_header[:3] != ("chrom", "start", "end")
+            or s8_header[4] != "Target Gene"
+            or s8_header[8] != "Target Gene"
+        ):
+            raise ValueError("Supplementary Table 8c columns changed")
+        predictions: list[tuple[str, int, int, str, str]] = []
+        for row in s8.iter_rows(min_row=3, values_only=True):
+            if not (
+                isinstance(row[0], str)
+                and isinstance(row[1], int)
+                and isinstance(row[2], int)
+                and isinstance(row[4], str)
+                and isinstance(row[8], str)
+            ):
+                continue
+            chrom = row[0]
+            start = row[1]
+            end = row[2]
+            if chrom in CHROM_LENGTHS and not 0 <= start < end <= CHROM_LENGTHS[chrom]:
+                raise ValueError(f"Invalid Table 8c interval: {chrom}:{start}-{end}")
+            predictions.append((chrom, start, end, row[4], row[8]))
+
+        s10 = workbook[s10_name]
+        s10_header = tuple(cell.value for cell in s10[2])
+        expected_s10_header = (
+            "Tissue",
+            "H3K27ac Rank",
+            "VISTA ID",
+            "Element Name",
+            "mm10 Coordinates",
+            "Results Summary, Predicted Tissue (reproducibility)",
+            "Additional Tissues With Reprodicible Staining (reproducibility)",
         )
-        if row[2] is not None
-    }
-    expected = {
+        if s10_header[:7] != expected_s10_header:
+            raise ValueError("Supplementary Table 10 columns changed")
+        reporters: dict[str, Element] = {}
+        reporter_names: dict[str, str] = {}
+        for row in s10.iter_rows(min_row=3, values_only=True):
+            vista_id = str(row[2] or "")
+            if vista_id not in reporter_ids:
+                continue
+            if vista_id in reporters:
+                raise ValueError(f"Duplicate selected reporter: {vista_id}")
+            tissue = str(row[0])
+            element_name = str(row[3])
+            chrom, start, end = parse_source_interval(row[4])
+            summary_tissue = str(row[5]).split(maxsplit=1)[0]
+            if expand_tissue_label(summary_tissue).casefold() != tissue.casefold():
+                raise ValueError(f"Reporter tissue fields disagree: {vista_id}")
+            reporters[vista_id] = Element(
+                f"{element_name} / {vista_id}",
+                chrom,
+                start,
+                end,
+                tissue,
+                "transgenic reporter",
+                "",
+                reporter_evidence(row[5], row[6]),
+            )
+            reporter_names[vista_id] = element_name
+    finally:
+        workbook.close()
+
+    if set(reporters) != set(reporter_ids):
+        raise ValueError("Selected reporter identifiers are missing from Table 10")
+
+    ascl1_target = str(ascl1_selection["target"])
+    ascl1_chrom = str(ascl1_selection["chrom"])
+    ascl1_start = int(ascl1_selection["start"])
+    ascl1_end = int(ascl1_selection["end"])
+    ascl1_rows = sorted(
         (
-            "mm1606",
-            "mEN886",
-            "chr12:111691971-111695499",
-            "Fb positive (6/6)",
-            "Mb (6/6), Hb (6/6), neural tube (6/6)",
+            row
+            for row in predictions
+            if row[0] == ascl1_chrom
+            and row[1] >= ascl1_start
+            and row[2] <= ascl1_end
+            and row[3] == ascl1_target
+            and row[4] == ascl1_target
         ),
-        ("mm1683", "mEN978", "chr7:139466376-139469610", "Ht positive (5/8)", ""),
-        (
-            "mm1617",
-            "mEN918",
-            "chr9:43252109-43255189",
-            "Lb positive (4/4)",
-            "somite (3/4)",
-        ),
-    }
-    if not expected.issubset(s10_rows):
-        raise ValueError("Selected reporter records changed in Supplementary Table 10")
+        key=lambda row: (row[0], row[1], row[2]),
+    )
+    if len(ascl1_rows) != int(ascl1_selection["requiredCount"]):
+        raise ValueError("Unexpected number of replicated Ascl1 predictions")
+    elements = [
+        Element(
+            f"{ascl1_target} prediction {index}",
+            chrom,
+            start,
+            end,
+            str(ascl1_selection["intendedTissue"]),
+            "enhancer-gene prediction",
+            ascl1_target,
+            "Supplementary Table 8c; supported in both prediction replicates",
+        )
+        for index, (chrom, start, end, _, _) in enumerate(ascl1_rows, start=1)
+    ]
+
+    ckb_target = str(ckb_selection["target"])
+    overlapping_reporter_id = str(ckb_selection["overlapsReporterVistaId"])
+    overlapping_reporter = reporters[overlapping_reporter_id]
+    ckb_rows = [
+        row
+        for row in predictions
+        if row[0] == overlapping_reporter.chrom
+        and row[1] < overlapping_reporter.end
+        and row[2] > overlapping_reporter.start
+        and row[3] == ckb_target
+        and row[4] == ckb_target
+    ]
+    if len(ckb_rows) != 1:
+        raise ValueError("Expected one replicated Ckb prediction overlapping mEN886")
+    chrom, start, end, _, _ = ckb_rows[0]
+    ckb_element = Element(
+        f"{ckb_target} prediction overlapping {reporter_names[overlapping_reporter_id]}",
+        chrom,
+        start,
+        end,
+        str(ckb_selection["intendedTissue"]),
+        "enhancer-gene prediction",
+        ckb_target,
+        "Supplementary Table 8c; supported in both prediction replicates",
+    )
+
+    for vista_id in reporter_ids:
+        elements.append(reporters[vista_id])
+        if vista_id == overlapping_reporter_id:
+            elements.append(ckb_element)
+    return elements
 
 
 def parse_attributes(value: str) -> dict[str, str]:
@@ -612,6 +703,7 @@ def write_tables(
     rna_values: list[ExpressionValue],
     selected_genes: list[Gene],
     retained_regions: list[Region],
+    elements: list[Element],
     annotation_rows: list[tuple[str, int, int, str, str, str]],
 ) -> None:
     summaries = expression_summaries(rna_values)
@@ -780,7 +872,7 @@ def write_tables(
                 "predictedTarget",
                 "sourceEvidence",
             ),
-            ELEMENTS,
+            (item.as_row() for item in elements),
         ),
     )
     write_text(
@@ -987,7 +1079,7 @@ def main() -> None:
         raise ValueError("The accepted panel must contain 24 ChIP and 24 RNA files")
     if not args.verify_only:
         gtf_path, supplement_path = prepare_inputs(provenance, rna)
-        validate_supplement(supplement_path)
+        elements = read_elements(supplement_path, provenance)
         annotation_rows = read_gene_annotation(
             gtf_path, retained_regions, selected_genes
         )
@@ -998,6 +1090,7 @@ def main() -> None:
             rna_values,
             selected_genes,
             retained_regions,
+            elements,
             annotation_rows,
         )
         extraction_contract = extraction_regions(retained_regions)
@@ -1040,7 +1133,10 @@ def main() -> None:
                 "recordCount": 192,
             },
             "regions": {"path": "output/regions.tsv", "recordCount": 4},
-            "elements": {"path": "output/elements.tsv", "recordCount": len(ELEMENTS)},
+            "elements": {
+                "path": "output/elements.tsv",
+                "recordCount": len(read_tsv(OUTPUT_DIR / "elements.tsv")),
+            },
             "genes": {
                 "path": "output/genes.tsv",
                 "recordCount": len(read_tsv(OUTPUT_DIR / "genes.tsv")),
@@ -1064,7 +1160,7 @@ def main() -> None:
             "sampleExpressionValuesMatchConditionMeans": True,
             "regionalBigWigStructureAndBoundsValid": True,
             "allObservedSignalsFiniteAndNonnegative": True,
-            "supplementaryRecordsMatchPinnedWorkbook": True,
+            "supplementaryRecordsExtractedFromPinnedWorkbook": True,
             "sourceBigWigIdentityCheck": (
                 "ENCODE-reported sizes and MD5 values are pinned. Remote headers "
                 "and extracted intervals are read from pinned public object URLs; "

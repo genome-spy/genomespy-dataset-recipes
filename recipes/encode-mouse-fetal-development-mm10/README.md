@@ -138,14 +138,15 @@ uv run --locked --script \
 - `output/expression-replicates.tsv`: 192 individual RNA measurements.
 - `output/regions.tsv`: the four searchable retained regions.
 - `output/elements.tsv`: published reporter and prediction intervals with
-  evidence types kept distinct.
+  evidence types kept distinct. The preparation script extracts these rows from
+  the pinned Gorkin workbook using the selection rules in `provenance.json`.
 - `output/genes.tsv`: GENCODE M21 genes overlapping the retained regions.
 - `output/candidate-assessment.tsv`: accepted and rejected feasibility loci.
 - `output/selection-report.tsv`: exact accepted H3K27ac and RNA sources.
 - [`specs/spec.json`](specs/spec.json): the root GenomeSpy App prototype;
   imported files in the same directory define individual annotation tracks,
   the sample collection, metadata, and H3K27ac signal.
-- [`specs/bookmarks.json`](specs/bookmarks.json): the five-stop tour.
+- [`specs/bookmarks.json`](specs/bookmarks.json): the six-stop tour.
 
 From a GenomeSpy checkout with the App running at port 8080, open:
 

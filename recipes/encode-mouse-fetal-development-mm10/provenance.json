@@ -95,6 +95,7 @@
   "parameters": {
     "assembly": "mm10",
     "coordinateConvention": "zero-based half-open",
+    "gorkinCoordinateInterpretation": "Selected Supplementary Table 8c integer bounds and Table 10 mm10 coordinate strings are used without an offset as zero-based, half-open intervals.",
     "sampleLabel": "{tissue} {stageLabel} R{biologicalReplicate}",
     "regions": [
       {"id":"Ascl1 landscape","chrom":"chr10","start":82400000,"end":92400000,"story":"Ten-megabase exploration window containing the focused Ascl1 neighbourhood and five replicated enhancer-gene predictions."},
@@ -102,6 +103,11 @@
       {"id":"mEN978","chrom":"chr7","start":139000000,"end":140000000,"story":"Heart reporter-positive mEN978/mm1683."},
       {"id":"mEN918","chrom":"chr9","start":42750000,"end":43750000,"story":"Limb reporter-positive mEN918/mm1617."}
     ],
+    "elementSelection": {
+      "ascl1Predictions": {"target":"Ascl1","chrom":"chr10","start":87300000,"end":87510000,"intendedTissue":"Forebrain","requiredCount":5},
+      "ckbPrediction": {"target":"Ckb","overlapsReporterVistaId":"mm1606","intendedTissue":"Forebrain"},
+      "reporterVistaIds": ["mm1606","mm1683","mm1617"]
+    },
     "genes": [
       {"symbol":"Ascl1","geneId":"ENSMUSG00000020052.9","rationale":"Retained Ascl1 bookmark and predicted target."},
       {"symbol":"Ckb","geneId":"ENSMUSG00000001270.9","rationale":"Both-replicate predicted target of the enhancer overlapping mEN886."},
@@ -315,7 +321,7 @@
     "sampleCount": 24,
     "sampleExpressionValuesMatchConditionMeans": true,
     "sourceBigWigIdentityCheck": "ENCODE-reported sizes and MD5 values are pinned. Remote headers and extracted intervals are read from pinned public object URLs; complete upstream BigWig payloads are not downloaded or checksummed locally.",
-    "supplementaryRecordsMatchPinnedWorkbook": true,
+    "supplementaryRecordsExtractedFromPinnedWorkbook": true,
     "phase1": "Passed at 1280x900 in GenomeSpy App v0.88.1 using the six E12.5 biological-replicate tracks and a shared 0-60 H3K27ac scale."
   }
 }
