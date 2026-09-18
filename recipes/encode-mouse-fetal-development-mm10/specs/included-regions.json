@@ -1,16 +1,35 @@
 {
   "$schema": "https://cdn.jsdelivr.net/npm/@genome-spy/core/dist/schema.json",
+
   "name": "included-regions",
+
   "title": { "text": "Included regions", "style": "track-title" },
+
   "description": "Search Ascl1 landscape, mEN886, mEN978, or mEN918. An empty track outside these four intervals means no data were retained, not biological inactivity.",
-  "height": 22,
+
+  "height": 20,
+
   "data": { "url": "../output/regions.tsv" },
+
+  "encoding": {
+    "x": {
+      "chrom": "chrom",
+      "pos": "start",
+      "type": "locus",
+      "axis": null
+    },
+    "x2": { "chrom": "chrom", "pos": "end" }
+  },
+
   "layer": [
     {
-      "mark": { "type": "rect", "color": "#e4eef7", "stroke": "#4e79a7", "strokeWidth": 1 },
+      "mark": {
+        "type": "rect",
+        "color": "#c4daed",
+        "cornerRadius": 2,
+        "clip": "x"
+      },
       "encoding": {
-        "x": { "chrom": "chrom", "pos": "start", "type": "locus", "axis": null },
-        "x2": { "chrom": "chrom", "pos": "end" },
         "search": { "field": "name" },
         "tooltip": [
           { "field": "name", "title": "Included region" },
@@ -19,10 +38,14 @@
       }
     },
     {
-      "mark": { "type": "text", "color": "#1f4e79", "fontWeight": "bold", "fontSize": 10, "paddingX": 4 },
+      "mark": {
+        "type": "text",
+        "color": "#1f4e79",
+        "fontWeight": "bold",
+        "paddingX": 2,
+        "tooltip": null
+      },
       "encoding": {
-        "x": { "chrom": "chrom", "pos": "start", "type": "locus" },
-        "x2": { "chrom": "chrom", "pos": "end" },
         "text": { "field": "name" }
       }
     }

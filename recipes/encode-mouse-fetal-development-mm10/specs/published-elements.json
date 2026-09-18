@@ -1,18 +1,36 @@
 {
   "$schema": "https://cdn.jsdelivr.net/npm/@genome-spy/core/dist/schema.json",
+
   "name": "published-elements",
   "title": { "text": "Published elements", "style": "track-title" },
   "description": "Filled intervals are reporter-tested candidates; outlined intervals are replicated computational enhancer-gene predictions. Hover for the evidence type and target status.",
-  "height": 30,
+
+  "height": 20,
+
   "data": { "url": "../output/elements.tsv" },
+
+  "_transform": [
+    {
+      "type": "filter",
+      "expr": "datum.evidenceType === 'enhancer-gene prediction'"
+    }
+  ],
+
   "layer": [
     {
-      "transform": [
-        { "type": "filter", "expr": "datum.evidenceType === 'transgenic reporter'" }
-      ],
-      "mark": { "type": "rect", "opacity": 0.72, "strokeWidth": 1.5 },
+      "mark": {
+        "type": "rect",
+        "cornerRadius": 2,
+        "minWidth": 2,
+        "clip": "x"
+      },
       "encoding": {
-        "x": { "chrom": "chrom", "pos": "start", "type": "locus", "axis": null },
+        "x": {
+          "chrom": "chrom",
+          "pos": "start",
+          "type": "locus",
+          "axis": null
+        },
         "x2": { "chrom": "chrom", "pos": "end" },
         "color": {
           "field": "intendedTissue",
@@ -25,32 +43,7 @@
         },
         "tooltip": [
           { "field": "name", "title": "Element" },
-          { "field": "evidenceType", "title": "Evidence" },
-          { "field": "intendedTissue", "title": "Tissue context" },
-          { "field": "predictedTarget", "title": "Predicted target" },
-          { "field": "sourceEvidence", "title": "Published evidence" }
-        ]
-      }
-    },
-    {
-      "transform": [
-        { "type": "filter", "expr": "datum.evidenceType === 'enhancer-gene prediction'" }
-      ],
-      "mark": { "type": "rect", "opacity": 0.18, "strokeWidth": 2 },
-      "encoding": {
-        "x": { "chrom": "chrom", "pos": "start", "type": "locus", "axis": null },
-        "x2": { "chrom": "chrom", "pos": "end" },
-        "color": {
-          "field": "intendedTissue",
-          "type": "nominal",
-          "scale": {
-            "domain": ["Forebrain", "Heart", "Limb"],
-            "range": ["#4e79a7", "#e15759", "#59a14f"]
-          },
-          "legend": null
-        },
-        "tooltip": [
-          { "field": "name", "title": "Element" },
+          { "field": "intendedTissue", "title": "Intended tissue" },
           { "field": "evidenceType", "title": "Evidence" },
           { "field": "predictedTarget", "title": "Predicted target" },
           { "field": "sourceEvidence", "title": "Published evidence" }
@@ -58,7 +51,12 @@
       }
     },
     {
-      "mark": { "type": "text", "fontSize": 9, "dy": -9, "color": "#333333", "paddingX": 3 },
+      "mark": {
+        "type": "text",
+        "color": "white",
+        "paddingX": 2,
+        "tooltip": null
+      },
       "encoding": {
         "x": { "chrom": "chrom", "pos": "start", "type": "locus" },
         "x2": { "chrom": "chrom", "pos": "end" },
