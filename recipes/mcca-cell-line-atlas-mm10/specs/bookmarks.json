@@ -1,0 +1,705 @@
+[
+  {
+    "name": "Welcome to GenomeSpy",
+    "notes": "This tour demonstrates [GenomeSpy](https://genomespy.app/) with data from the Mouse Cancer Cell Line Atlas (MCCA), a non-human cancer model resource described by Mueller et al. in [*A disease model resource reveals core principles of tissue-specific cancer evolution*](https://doi.org/10.1038/s41586-026-10187-2).\n\nThis visualization is an independent GenomeSpy demo and is not affiliated with or endorsed by the MCCA publication authors. The visualization specs, reproducible workflow, provenance, and rights review are available in the [MCCA dataset recipe](https://github.com/genome-spy/genomespy-dataset-recipes/tree/main/recipes/mcca-cell-line-atlas-mm10).\n\n![Encoding](tour/encoding.svg)\n\nThis visualization displays MCCA cell line annotations together with segmented *copy-ratio* data, somatic short variants, model alleles parsed from the mouse model descriptions, sequencing availability, and selected transcriptome metadata. Segment colors encode log2 copy-ratio values from the source data. Points represent somatic short variants; their size encodes tumor allele fraction, and color encodes variant consequence. A tooltip reveals the exact values of variables in the underlying dataset. Try moving your mouse cursor over the data.",
+    "actions": []
+  },
+  {
+    "name": "Navigating around the genome",
+    "notes": "You can navigate along the mm10 genome by dragging or by using a touchpad. To zoom, use the mouse wheel or scroll the touchpad up/down using two fingers.\n\n![Using mouse or touchpad](tour/scroll-and-zoom.svg)\n\nThe genome axis uses canonical mm10 chromosomes. The MCCA wrangling excludes alternative contigs, decoys, and other non-canonical sequence names so that copy-ratio segments, mutations, cytobands, and GENCODE M25 gene annotations share the same genomic coordinate system.",
+    "actions": []
+  },
+  {
+    "name": "Copy-number patterns",
+    "actions": [
+      {
+        "type": "sampleView/groupByNominal",
+        "payload": {
+          "attribute": {
+            "type": "SAMPLE_ATTRIBUTE",
+            "specifier": "Annotations/CancerType"
+          }
+        }
+      },
+      {
+        "type": "sampleView/retainGroupsBySize",
+        "payload": {
+          "level": 1,
+          "measure": "size",
+          "operator": "gte",
+          "operand": 20
+        }
+      }
+    ],
+    "scaleDomains": {
+      "x_at_root": [
+        {
+          "chrom": "chr1",
+          "pos": 0
+        },
+        {
+          "chrom": "chrM",
+          "pos": 16298
+        }
+      ]
+    },
+    "viewSettings": {
+      "visibilities": [
+        {
+          "scope": ["copy-ratios"],
+          "view": "copy-ratio-g-score-summary",
+          "visible": true
+        },
+        {
+          "scope": [],
+          "view": "sample-labels",
+          "visible": false
+        }
+      ]
+    },
+    "notes": "This bookmark shows exploratory copy-number patterns across *CancerType* groups with at least 20 samples.\n\nSome observations visible in this view:\n- Chromosome 4 loss is prominent in lung, pancreatic, and gastric cancer.\n- Focal Cdkn2a-region losses are apparent in intestinal, lung, and pancreatic cancer.\n- Sarcoma and intestinal cancer show frequent whole-chromosome 6 gain.\n- Focal Myc amplification is visible in many sarcoma samples and is also seen in pancreatic cancer.\n\nCaveat: samples within a *CancerType* are not always independent. Some MCCA lines are matched or related samples from the same mouse, tumor, lesion series, or primary-metastasis case. This view is intended to illustrate copy-number patterns and GenomeSpy workflows, not to estimate recurrence frequencies from a strictly independent cohort."
+  },
+  {
+    "name": "Cdkn2a losses in Kras models",
+    "actions": [
+      {
+        "type": "sampleView/filterByNominal",
+        "payload": {
+          "attribute": {
+            "type": "SAMPLE_ATTRIBUTE",
+            "specifier": "ModelAlleles/Kras"
+          },
+          "remove": true,
+          "values": [null]
+        }
+      },
+      {
+        "type": "sampleView/groupByNominal",
+        "payload": {
+          "attribute": {
+            "type": "SAMPLE_ATTRIBUTE",
+            "specifier": "Annotations/CancerType"
+          }
+        }
+      },
+      {
+        "type": "sampleView/retainGroupsBySize",
+        "payload": {
+          "level": 1,
+          "measure": "size",
+          "operator": "gte",
+          "operand": 10
+        }
+      },
+      {
+        "type": "sampleView/addMetadataFromSource",
+        "payload": {
+          "columnIds": ["Cdkn2a", "Kras"],
+          "sourceId": "transcriptome",
+          "groupPath": "Transcriptome"
+        }
+      },
+      {
+        "type": "paramProvenance/paramChange",
+        "payload": {
+          "selector": {
+            "scope": [],
+            "param": "brush"
+          },
+          "value": {
+            "type": "interval",
+            "intervals": {
+              "x": [
+                {
+                  "chrom": "chr4",
+                  "pos": 89274260
+                },
+                {
+                  "chrom": "chr4",
+                  "pos": 89294388
+                }
+              ]
+            }
+          }
+        }
+      },
+      {
+        "type": "sampleView/deriveMetadata",
+        "payload": {
+          "attribute": {
+            "type": "VALUE_AT_LOCUS",
+            "specifier": {
+              "view": {
+                "scope": ["copy-ratios"],
+                "view": "copy-ratios"
+              },
+              "field": "log2fc",
+              "interval": {
+                "type": "selection",
+                "selector": {
+                  "scope": [],
+                  "param": "brush"
+                }
+              },
+              "aggregation": {
+                "op": "min"
+              }
+            }
+          },
+          "name": "Cdkn2a CN",
+          "groupPath": ""
+        }
+      },
+      {
+        "type": "sampleView/sortBy",
+        "payload": {
+          "attribute": {
+            "type": "SAMPLE_ATTRIBUTE",
+            "specifier": "Cdkn2a CN"
+          }
+        }
+      }
+    ],
+    "scaleDomains": {
+      "x_at_root": [
+        {
+          "chrom": "chr4",
+          "pos": 87336675
+        },
+        {
+          "chrom": "chr4",
+          "pos": 96575040
+        }
+      ]
+    },
+    "viewSettings": {
+      "visibilities": [
+        {
+          "scope": [],
+          "view": "attributeGroup-ModelAlleles",
+          "visible": true
+        },
+        {
+          "scope": [],
+          "view": "sample-labels",
+          "visible": false
+        },
+        {
+          "scope": [],
+          "view": "attribute-ModelAlleles/Apc",
+          "visible": false
+        },
+        {
+          "scope": [],
+          "view": "attribute-ModelAlleles/Bloom",
+          "visible": false
+        },
+        {
+          "scope": [],
+          "view": "attribute-ModelAlleles/Braf",
+          "visible": false
+        },
+        {
+          "scope": [],
+          "view": "attribute-ModelAlleles/Erk1",
+          "visible": false
+        },
+        {
+          "scope": [],
+          "view": "attribute-ModelAlleles/Erk2",
+          "visible": false
+        },
+        {
+          "scope": [],
+          "view": "attribute-ModelAlleles/Fgfr2",
+          "visible": false
+        },
+        {
+          "scope": [],
+          "view": "attribute-ModelAlleles/H11",
+          "visible": false
+        },
+        {
+          "scope": [],
+          "view": "attribute-ModelAlleles/Hnf4a",
+          "visible": false
+        },
+        {
+          "scope": [],
+          "view": "attribute-ModelAlleles/Ink4a",
+          "visible": false
+        },
+        {
+          "scope": [],
+          "view": "attribute-ModelAlleles/Pdk1",
+          "visible": false
+        },
+        {
+          "scope": [],
+          "view": "attribute-ModelAlleles/Pten",
+          "visible": false
+        },
+        {
+          "scope": [],
+          "view": "attribute-ModelAlleles/Snail",
+          "visible": false
+        },
+        {
+          "scope": [],
+          "view": "attribute-ModelAlleles/Cdkn1b",
+          "visible": false
+        }
+      ]
+    },
+    "notes": "This view focuses on the Cdkn2a locus in Kras-engineered MCCA models. Samples are grouped by *CancerType*, groups with at least 10 samples are retained, and rows are sorted by the minimum copy-ratio value at Cdkn2a. This makes focal Cdkn2a-region losses stand out from broader chromosome 4 copy-number changes.\n\nThe strongest focal losses are visible in pancreatic cancer, with additional focal events in intestinal and lung cancer. This is consistent with the paper's conclusion that Cdkn2a inactivation is especially frequent in Kras-driven pancreatic cancer, while being less common but still present in lung and intestinal models. The paper links this pattern to tissue-specific Cdkn2a regulation: Cdkn2a is strongly induced during Kras-initiated early pancreatic oncogenesis, but increases only slightly during early intestinal tumour evolution.\n\nThe *Cdkn2a* and *Kras* transcriptome columns show expression z-scores for the same MCCA cell lines and can be used to inspect whether local copy-ratio changes coincide with expression changes. These values provide sample-level context, but they are not a direct reproduction of the paper's early-lesion or cell-of-origin expression analyses. The derived *Cdkn2a CN* column is a visual ranking score based on local log2 copy-ratio, not a curated deletion call."
+  },
+  {
+    "name": "Cdkn2a copy loss and expression",
+    "actions": [
+      {
+        "type": "sampleView/filterByNominal",
+        "payload": {
+          "attribute": {
+            "type": "SAMPLE_ATTRIBUTE",
+            "specifier": "ModelAlleles/Kras"
+          },
+          "remove": true,
+          "values": [null]
+        }
+      },
+      {
+        "type": "sampleView/groupByNominal",
+        "payload": {
+          "attribute": {
+            "type": "SAMPLE_ATTRIBUTE",
+            "specifier": "Annotations/CancerType"
+          }
+        }
+      },
+      {
+        "type": "sampleView/retainGroupsBySize",
+        "payload": {
+          "level": 1,
+          "measure": "size",
+          "operator": "gte",
+          "operand": 10
+        }
+      },
+      {
+        "type": "sampleView/addMetadataFromSource",
+        "payload": {
+          "columnIds": ["Cdkn2a", "Kras"],
+          "sourceId": "transcriptome",
+          "groupPath": "Transcriptome"
+        }
+      },
+      {
+        "type": "paramProvenance/paramChange",
+        "payload": {
+          "selector": {
+            "scope": [],
+            "param": "brush"
+          },
+          "value": {
+            "type": "interval",
+            "intervals": {
+              "x": [
+                {
+                  "chrom": "chr4",
+                  "pos": 89274260
+                },
+                {
+                  "chrom": "chr4",
+                  "pos": 89294388
+                }
+              ]
+            }
+          }
+        }
+      },
+      {
+        "type": "sampleView/deriveMetadata",
+        "payload": {
+          "attribute": {
+            "type": "VALUE_AT_LOCUS",
+            "specifier": {
+              "view": {
+                "scope": ["copy-ratios"],
+                "view": "copy-ratios"
+              },
+              "field": "log2fc",
+              "interval": {
+                "type": "selection",
+                "selector": {
+                  "scope": [],
+                  "param": "brush"
+                }
+              },
+              "aggregation": {
+                "op": "min"
+              }
+            }
+          },
+          "name": "Cdkn2a CN",
+          "groupPath": ""
+        }
+      },
+      {
+        "type": "sampleView/sortBy",
+        "payload": {
+          "attribute": {
+            "type": "SAMPLE_ATTRIBUTE",
+            "specifier": "Cdkn2a CN"
+          }
+        }
+      }
+    ],
+    "scaleDomains": {
+      "x_at_root": [
+        {
+          "chrom": "chr4",
+          "pos": 87336675
+        },
+        {
+          "chrom": "chr4",
+          "pos": 96575040
+        }
+      ]
+    },
+    "viewSettings": {
+      "visibilities": [
+        {
+          "scope": [],
+          "view": "attributeGroup-ModelAlleles",
+          "visible": true
+        },
+        {
+          "scope": [],
+          "view": "sample-labels",
+          "visible": false
+        },
+        {
+          "scope": [],
+          "view": "attribute-ModelAlleles/Apc",
+          "visible": false
+        },
+        {
+          "scope": [],
+          "view": "attribute-ModelAlleles/Bloom",
+          "visible": false
+        },
+        {
+          "scope": [],
+          "view": "attribute-ModelAlleles/Braf",
+          "visible": false
+        },
+        {
+          "scope": [],
+          "view": "attribute-ModelAlleles/Erk1",
+          "visible": false
+        },
+        {
+          "scope": [],
+          "view": "attribute-ModelAlleles/Erk2",
+          "visible": false
+        },
+        {
+          "scope": [],
+          "view": "attribute-ModelAlleles/Fgfr2",
+          "visible": false
+        },
+        {
+          "scope": [],
+          "view": "attribute-ModelAlleles/H11",
+          "visible": false
+        },
+        {
+          "scope": [],
+          "view": "attribute-ModelAlleles/Hnf4a",
+          "visible": false
+        },
+        {
+          "scope": [],
+          "view": "attribute-ModelAlleles/Ink4a",
+          "visible": false
+        },
+        {
+          "scope": [],
+          "view": "attribute-ModelAlleles/Pdk1",
+          "visible": false
+        },
+        {
+          "scope": [],
+          "view": "attribute-ModelAlleles/Pten",
+          "visible": false
+        },
+        {
+          "scope": [],
+          "view": "attribute-ModelAlleles/Snail",
+          "visible": false
+        },
+        {
+          "scope": [],
+          "view": "attribute-ModelAlleles/Cdkn1b",
+          "visible": false
+        }
+      ]
+    },
+    "plots": [
+      {
+        "kind": "sample_attribute_plot",
+        "definition": {
+          "plotType": "scatterplot",
+          "xAttribute": {
+            "type": "SAMPLE_ATTRIBUTE",
+            "specifier": "Cdkn2a CN"
+          },
+          "yAttribute": {
+            "type": "SAMPLE_ATTRIBUTE",
+            "specifier": "Transcriptome/Cdkn2a"
+          }
+        }
+      }
+    ],
+    "notes": "This plot compares the derived *Cdkn2a CN* score with Cdkn2a expression in Kras-engineered MCCA models. *Cdkn2a CN* is the minimum log2 copy-ratio value over the Cdkn2a locus, while *Transcriptome/Cdkn2a* is the cell-line expression z-score from the MCCA transcriptome source.\n\nStrong local Cdkn2a-region copy losses form a clear left-side cluster and generally coincide with low Cdkn2a expression. Samples near neutral copy ratio show a much wider expression range, indicating that Cdkn2a expression varies beyond local copy number alone.\n\nThis supports reading the deep Cdkn2a-region losses as expression-associated events in these cell lines. The broader context from the paper is that Cdkn2a regulation is strongly tissue-specific. The plot is exploratory: *Cdkn2a CN* is a local copy-ratio ranking score, not a curated deletion call."
+  },
+  {
+    "name": "FKC076 branch-specific chr6 gain",
+    "actions": [
+      {
+        "type": "sampleView/filterByNominal",
+        "payload": {
+          "attribute": {
+            "type": "SAMPLE_ATTRIBUTE",
+            "specifier": "Annotations/MouseID"
+          },
+          "values": ["FKC076"]
+        }
+      },
+      {
+        "type": "paramProvenance/paramChange",
+        "payload": {
+          "selector": {
+            "scope": [],
+            "param": "brush"
+          },
+          "value": {
+            "type": "interval",
+            "intervals": {
+              "x": [
+                {
+                  "chrom": "chr6",
+                  "pos": 145216276
+                },
+                {
+                  "chrom": "chr6",
+                  "pos": 145250455
+                }
+              ]
+            }
+          }
+        }
+      },
+      {
+        "type": "sampleView/deriveMetadata",
+        "payload": {
+          "attribute": {
+            "type": "VALUE_AT_LOCUS",
+            "specifier": {
+              "view": {
+                "scope": ["copy-ratios"],
+                "view": "copy-ratios"
+              },
+              "field": "log2fc",
+              "interval": {
+                "type": "selection",
+                "selector": {
+                  "scope": [],
+                  "param": "brush"
+                }
+              },
+              "aggregation": {
+                "op": "weightedMean"
+              }
+            }
+          },
+          "name": "Kras CN",
+          "groupPath": ""
+        }
+      }
+    ],
+    "scaleDomains": {
+      "x_at_root": [
+        {
+          "chrom": "chr4",
+          "pos": 14796833
+        },
+        {
+          "chrom": "chr16",
+          "pos": 25776676
+        }
+      ]
+    },
+    "viewSettings": {
+      "visibilities": [
+        {
+          "scope": [],
+          "view": "attribute-Annotations/CellLineSource",
+          "visible": false
+        },
+        {
+          "scope": [],
+          "view": "attribute-Annotations/CellLineDistributor",
+          "visible": false
+        },
+        {
+          "scope": [],
+          "view": "attribute-Annotations/MouseModelType",
+          "visible": false
+        },
+        {
+          "scope": [],
+          "view": "attribute-Annotations/PublicationStatus",
+          "visible": false
+        },
+        {
+          "scope": [],
+          "view": "attribute-Annotations/MouseModel",
+          "visible": false
+        },
+        {
+          "scope": [],
+          "view": "attribute-Annotations/MouseModelDetailed",
+          "visible": false
+        },
+        {
+          "scope": [],
+          "view": "attribute-Annotations/Tissue",
+          "visible": false
+        },
+        {
+          "scope": [],
+          "view": "attribute-Annotations/Lineage",
+          "visible": false
+        },
+        {
+          "scope": [],
+          "view": "attribute-Annotations/Site",
+          "visible": false
+        },
+        {
+          "scope": [],
+          "view": "attribute-Annotations/CancerType",
+          "visible": false
+        },
+        {
+          "scope": [],
+          "view": "attribute-Annotations/CancerTypeDetailed",
+          "visible": false
+        },
+        {
+          "scope": [],
+          "view": "attribute-Annotations/MicroscopicMorphology",
+          "visible": false
+        },
+        {
+          "scope": [],
+          "view": "attribute-Annotations/MicroscopicMorphologyDetailed",
+          "visible": false
+        },
+        {
+          "scope": [],
+          "view": "attribute-Annotations/SurvivalDays",
+          "visible": false
+        },
+        {
+          "scope": [],
+          "view": "attribute-Annotations/DistantMetastasis",
+          "visible": false
+        },
+        {
+          "scope": [],
+          "view": "attribute-Annotations/ComplexRearrangement",
+          "visible": false
+        },
+        {
+          "scope": [],
+          "view": "attribute-Annotations/Chromothripsis",
+          "visible": false
+        },
+        {
+          "scope": [],
+          "view": "attribute-Annotations/Gender",
+          "visible": false
+        },
+        {
+          "scope": [],
+          "view": "attribute-Annotations/ImmunocompetentTransplantation",
+          "visible": false
+        },
+        {
+          "scope": [],
+          "view": "attributeGroup-Sequencing",
+          "visible": false
+        }
+      ]
+    },
+    "notes": "This bookmark compares four related MCCA lines from mouse FKC076, corresponding to the FKC076 phylogeny shown in Fig. 5j of the MCCA paper. The view derives a *Kras CN* column from the brushed Kras locus on chromosome 6 and shows copy-ratio profiles across a broad genomic window.\n\nThe FKC076-derived lines share a common background, but FKC076_PTu-1 shows a clear whole-chromosome 6 gain, which includes Kras. This matches the Fig. 5j interpretation, where increased KrasG12D dosage is assigned to the P1 branch rather than shared by all FKC076-derived lines.\n\nThis is a visual comparison of related lines, not an independent cohort analysis. *Kras CN* is a local weighted-mean log2 copy-ratio score used to summarize the Kras locus, not the paper's full Kras allelic-state call, which also uses KrasG12D variant allele information."
+  },
+  {
+    "name": "WES vs lcWGS",
+    "title": "Copy-number profiles by sequencing availability",
+    "actions": [
+      {
+        "type": "sampleView/groupCustomCategories",
+        "payload": {
+          "attribute": {
+            "type": "SAMPLE_ATTRIBUTE",
+            "specifier": "Sequencing/SequencingAvailability"
+          },
+          "groups": {
+            "WES": ["WES only", "lcWGS+WES"],
+            "lcWGS": ["lcWGS only"]
+          }
+        }
+      }
+    ],
+    "scaleDomains": {
+      "x_at_root": [
+        {
+          "chrom": "chr2",
+          "pos": 71595392
+        },
+        {
+          "chrom": "chr9",
+          "pos": 26136540
+        }
+      ]
+    },
+    "viewSettings": {
+      "visibilities": [
+        {
+          "scope": ["mutations"],
+          "view": "mutations",
+          "visible": false
+        },
+        {
+          "scope": ["copy-ratios"],
+          "view": "copy-ratio-g-score-summary",
+          "visible": true
+        },
+        {
+          "scope": [],
+          "view": "attributeGroup-Annotations",
+          "visible": false
+        },
+        {
+          "scope": [],
+          "view": "sample-labels",
+          "visible": false
+        }
+      ]
+    },
+    "notes": "This bookmark groups samples by *SequencingAvailability* to compare copy-number profiles from samples with WES data and samples with lcWGS data only. Samples annotated as \"WES only\" and \"lcWGS+WES\" are grouped together because the MCCA copy-number matrix appears to follow the WES-derived profile when both sequencing types are available. Somatic mutations are hidden here because they are only available for WES samples.\n\nThe difference is visually strong in this window: WES-grouped samples show more narrow, focal-looking copy-ratio variation, whereas the lcWGS-only group has smoother segment patterns at the same scale. This makes *SequencingAvailability* useful context when interpreting apparent focal copy-number events.\n\nThe point is assay provenance, not quality control of individual calls. Narrow, sample-specific copy-ratio changes should be interpreted cautiously, especially in views that mix WES-derived and lcWGS-derived profiles."
+  }
+]

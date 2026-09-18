@@ -1,0 +1,83 @@
+{
+  "id": "cell-line-annotations",
+  "name": "cell line annotations",
+  "description": "Static MCCA cell line annotation table.",
+  "groupPath": "Annotations",
+
+  "backend": {
+    "backend": "data",
+    "sampleIdField": "MCCA-ID",
+    "data": {
+      "url": "../output/processed/samples.parquet",
+      "format": {
+        "type": "parquet"
+      }
+    }
+  },
+
+  "attributes": {
+    "MouseID": {
+      "type": "nominal",
+      "semanticType": "subjectId"
+    },
+    "CellLineName": {
+      "type": "nominal",
+      "visible": false
+    },
+    "Lineage": {
+      "type": "nominal",
+      "description": "Broad tissue or cellular lineage context of the MCCA sample."
+    },
+    "Tissue": {
+      "type": "nominal"
+    },
+    "CancerType": {
+      "type": "nominal",
+      "description": "MCCA disease or entity category. Despite the column name, this can include non-malignant contexts such as healthy tissue or precursor lesions when they are part of a cancer-evolution model system."
+    },
+    "CancerTypeDetailed": {
+      "type": "nominal",
+      "description": "More specific MCCA entity, subtype, or disease-stage category within CancerType."
+    },
+    "MouseModelType": {
+      "type": "nominal"
+    },
+    "MouseModel": {
+      "type": "nominal"
+    },
+    "MouseModelDetailed": {
+      "type": "nominal",
+      "description": "Detailed mouse model annotation, including genotype and treatment components when present."
+    },
+    "MicroscopicMorphology": {
+      "type": "nominal"
+    },
+    "DistantMetastasis": {
+      "type": "nominal"
+    },
+    "ComplexRearrangement": {
+      "type": "nominal",
+      "description": "Indicates whether complex rearrangement is annotated for the cell line."
+    },
+    "Chromothripsis": {
+      "type": "nominal",
+      "description": "Indicates whether chromothripsis is annotated for the cell line."
+    },
+    "SurvivalDays": {
+      "type": "quantitative",
+      "description": "Mouse survival time in days when available.",
+      "semanticType": "timeToEvent",
+      "scale": {
+        "scheme": "yellowgreenblue"
+      }
+    },
+    "Gender": {
+      "type": "nominal",
+      "description": "Reported sex of the mouse from which the cell line was derived."
+    },
+    "ImmunocompetentTransplantation": {
+      "type": "nominal",
+      "description": "MCCA category for immunocompetent transplantation suitability."
+    }
+  }
+}

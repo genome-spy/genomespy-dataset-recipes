@@ -1,0 +1,61 @@
+{
+  "$schema": "https://cdn.jsdelivr.net/npm/@genome-spy/app/dist/schema.json",
+
+  "name": "mutations",
+  "title": "Somatic mutations",
+  "description": "MCCA somatic mutation annotations shown as sample-aware points on canonical mm10 chromosomes. Point size reflects tumor allele fraction. Color encodes predicted impact from the source annotation. This starter track does not use semanticScore.",
+
+  "configurableVisibility": true,
+
+  "data": {
+    "url": "../output/processed/mutations.parquet",
+    "format": {
+      "type": "parquet"
+    }
+  },
+
+  "mark": {
+    "type": "point",
+    "stroke": "black",
+    "strokeOpacity": { "expr": "clamp(height / 10.0, 0, 0.65)" },
+    "fillOpacity": { "expr": "clamp(height / 10.0, 0, 1)" },
+    "strokeWidth": 0.8,
+    "fillGradientStrength": 0.3
+  },
+
+  "encoding": {
+    "sample": {
+      "field": "sample"
+    },
+    "x": {
+      "chrom": "chrom",
+      "pos": "pos",
+      "type": "locus",
+      "offset": -1
+    },
+    "color": {
+      "type": "nominal",
+      "field": "impact",
+      "scale": {
+        "domain": ["HIGH", "MODERATE", "LOW", "MODIFIER", ""],
+        "range": ["#d73027", "#4575b4", "#66bd63", "#bdbdbd", "#f0f0f0"]
+      },
+      "description": "Predicted mutation impact from the source ANN[*].IMPACT field."
+    },
+    "size": {
+      "field": "tumor_af",
+      "type": "quantitative",
+      "scale": {
+        "domain": [0, 1],
+
+        "range": [
+          { "expr": "0" },
+          {
+            "expr": "clamp(pow(height * 0.5, 2), 1, 350)"
+          }
+        ]
+      },
+      "description": "Tumor allele fraction from the source GEN[Tumor].AF field."
+    }
+  }
+}
