@@ -1,0 +1,122 @@
+{
+  "$schema": "https://cdn.jsdelivr.net/npm/@genome-spy/app/dist/schema.json",
+
+  "assembly": "mm10",
+  "specId": "MCCA GenomeSpy demo",
+
+  "description": [
+    "GenomeSpy demo for Mouse Cancer Cell Line Atlas (MCCA) data.",
+    "Alternative contigs, decoys, and other non-canonical sequence names are excluded during data wrangling."
+  ],
+
+  "bookmarks": {
+    "remote": {
+      "url": "bookmarks.json",
+      "tour": true
+    }
+  },
+
+  "spacing": 7,
+
+  "vconcat": [
+    {
+      "import": {
+        "url": "cytobands.json"
+      }
+    },
+
+    {
+      "name": "samples",
+      "title": "MCCA cell lines",
+      "description": "Sample-level view of MCCA cell lines. Use metadata attributes to group, sort, and filter the atlas by lineage, tissue, cancer type, model, morphology, metastasis, chromothripsis, sex, or transplantation compatibility.",
+
+      "stickySummaries": true,
+
+      "samples": {
+        "identity": {
+          "data": {
+            "url": "../output/processed/samples.parquet",
+            "format": {
+              "type": "parquet"
+            }
+          },
+          "idField": "MCCA-ID",
+          "displayNameField": "CellLineName"
+        },
+        "labelLength": 130
+      },
+
+      "sampleLayout": {
+        "sampleHeight": 20,
+        "sampleSpacingFactor": 0.05
+      },
+
+      "metadata": {
+        "sources": [
+          { "import": { "url": "metadata.json" } },
+          { "import": { "url": "sequencing.json" } },
+          { "import": { "url": "model-alleles.json" } },
+          { "import": { "url": "transcriptome.json" } }
+        ]
+      },
+
+      "spec": {
+        "title": "Genomic data",
+        "description": "Canonical mm10 copy-ratio segments and somatic mutations shown for each MCCA cell line.",
+
+        "params": [
+          {
+            "name": "brush",
+            "select": {
+              "type": "interval",
+              "encodings": ["x"],
+              "zoom": "wheel[event.shiftKey]",
+              "mark": {
+                "fill": "#a0ff00",
+                "fillOpacity": 0.05,
+                "stroke": "black",
+                "strokeOpacity": 0.8,
+                "measure": "inside",
+                "shadowOpacity": 1.0,
+                "shadowColor": "white",
+                "shadowBlur": 25
+              }
+            }
+          }
+        ],
+
+        "resolve": {
+          "scale": {
+            "color": "independent",
+            "fill": "independent",
+            "size": "independent"
+          }
+        },
+
+        "layer": [
+          { "import": { "url": "copy-ratios.json" }, "name": "copy-ratios" },
+          { "import": { "url": "mutations.json" }, "name": "mutations" }
+        ]
+      },
+      "config": {
+        "legendTrack": {
+          "style": null,
+          "disable": false,
+          "offset": 10
+        }
+      }
+    },
+    { "import": { "url": "gencode-genes.json" }, "name": "gencode-genes" }
+  ],
+
+  "config": {
+    "style": {
+      "group-title": {
+        "orient": "none"
+      }
+    },
+    "legendTrack": {
+      "disable": true
+    }
+  }
+}

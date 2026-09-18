@@ -23,6 +23,7 @@ Reproducible wrangling scripts and provenance for datasets used in
 | [`encode-atac-grch38`](recipes/encode-atac-grch38/) | Multi-file ATAC signal integration fixture | GRCh38 | SampleView-driven BigWig tracks |
 | [`encode-h3k27ac-chip-seq-grch38`](recipes/encode-h3k27ac-chip-seq-grch38/) | Multi-file H3K27ac ChIP-seq integration fixture | GRCh38 | SampleView-driven BigWig tracks |
 | [`encode-mouse-fetal-development-mm10`](recipes/encode-mouse-fetal-development-mm10/) | Tissue-specific regulatory activity during mouse fetal development | mm10 | Regional H3K27ac, expression metadata, genes, elements, and bookmark tour |
+| [`mcca-cell-line-atlas-mm10`](recipes/mcca-cell-line-atlas-mm10/) | Mouse cancer cell-line multi-omics atlas | mm10 | Metadata, copy ratios, mutations, expression, genes, and bookmark tour |
 
 ## How recipes work
 

@@ -1,0 +1,23 @@
+{
+  "id": "sequencing",
+  "name": "sequencing",
+  "description": "Raw sequencing assay availability parsed from ENA run reports for MCCA lcWGS and WES accessions.",
+  "initialLoad": "*",
+  "groupPath": "Sequencing",
+  "backend": {
+    "backend": "data",
+    "sampleIdField": "MCCA-ID",
+    "data": {
+      "url": "../output/processed/sequencing.parquet",
+      "format": {
+        "type": "parquet"
+      }
+    }
+  },
+  "attributes": {
+    "SequencingAvailability": {
+      "type": "nominal",
+      "description": "Raw sequencing data available in ENA for the cell line: lcWGS only, WES only, or both lcWGS and WES. This describes assay availability in PRJEB105230 and PRJEB105231, not which assay produced the displayed copy-ratio profile."
+    }
+  }
+}

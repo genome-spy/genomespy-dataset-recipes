@@ -1,0 +1,23 @@
+{
+  "id": "model-alleles",
+  "name": "model alleles",
+  "description": "Engineered model alleles parsed from the MCCA MouseModelDetailed annotation. These fields describe inherited or experimentally introduced model genotype components, not somatic mutation calls.",
+  "initialLoad": "*",
+  "groupPath": "ModelAlleles",
+  "backend": {
+    "backend": "data",
+    "sampleIdField": "MCCA-ID",
+    "data": {
+      "url": "../output/processed/model-alleles.parquet",
+      "format": {
+        "type": "parquet"
+      }
+    }
+  },
+  "attributes": {
+    "": {
+      "visible": false,
+      "type": "nominal"
+    }
+  }
+}
