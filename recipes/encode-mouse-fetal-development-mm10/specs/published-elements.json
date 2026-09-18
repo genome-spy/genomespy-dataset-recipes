@@ -2,7 +2,7 @@
   "$schema": "https://cdn.jsdelivr.net/npm/@genome-spy/core/dist/schema.json",
 
   "name": "published-elements",
-  "title": { "text": "Published elements", "style": "track-title" },
+  "title": { "text": "Gorkin et al. elements", "style": "track-title" },
   "description": "Filled intervals are reporter-tested candidates; outlined intervals are replicated computational enhancer-gene predictions. Hover for the evidence type and target status.",
 
   "height": 20,
