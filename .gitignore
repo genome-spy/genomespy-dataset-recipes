@@ -7,6 +7,6 @@
 *.py[cod]
 .DS_Store
 
-/recipes/*/download/
-/recipes/*/work/
+/recipes/*/download
+/recipes/*/work
 /recipes/*/output/

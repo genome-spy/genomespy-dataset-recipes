@@ -1,0 +1,93 @@
+{
+  "schemaVersion": 2,
+  "releaseId": "v1",
+  "recipeId": "bpreveal-pisa",
+  "sources": [
+    {
+      "id": "bpreveal-paper-derived-files",
+      "title": "BPReveal manuscript derived files",
+      "doi": "10.5281/zenodo.20318019",
+      "recordUrl": "https://zenodo.org/records/20318019",
+      "url": "https://zenodo.org/api/records/20318019/files/zenodo-bpreveal-files.tar.bz2/content",
+      "filename": "zenodo-bpreveal-files.tar.bz2",
+      "fileSizeBytes": 28422786382,
+      "md5": "00f3387e18e1ebbabe20df2445aa0d1d",
+      "selectedMemberCount": 20,
+      "selection": "Only the PISA HDF5, prediction/importance BigWig, and motif BED members required by Figures 2a-d and the left-hand portion of Figure 3b"
+    }
+  ],
+  "parameters": {
+    "effectUnits": "log2 fold change; source HDF5 values multiplied by log2(e)",
+    "coordinateConvention": "zero-based single-base positions; motif intervals are zero-based half-open",
+    "fig2a": {
+      "assembly": "mm10",
+      "chrom": "chr1",
+      "genomeWindowStart": 180923752,
+      "midpointOffset": 1172,
+      "inputSliceWidth": 251,
+      "outputSliceWidth": 421,
+      "nativeThreshold": 0.35,
+      "nativeColorSpan": 1.3,
+      "combine": "sum positive- and negative-strand Oct4 PISA matrices"
+    },
+    "fig2b": {
+      "assembly": "mm10",
+      "chrom": "chr1",
+      "genomeWindowStart": 180923752,
+      "midpointOffset": 1172,
+      "inputSliceWidth": 251,
+      "outputSliceWidth": 421,
+      "nativeThreshold": 0.35,
+      "nativeColorSpan": 1.0,
+      "combine": "sum positive- and negative-strand Nanog residual PISA matrices"
+    },
+    "fig2cFig2d": {
+      "assembly": "dm6",
+      "chrom": "chrX",
+      "genomeWindowStart": 15643659,
+      "midpointOffset": 3290,
+      "inputSliceWidth": 601,
+      "outputSliceWidth": 901,
+      "nativeThreshold": 0.03,
+      "nativeGraphColorSpan": 0.15,
+      "nativeMatrixColorSpan": 0.1
+    },
+    "fig3b": {
+      "assembly": "dm6",
+      "chrom": "chrX",
+      "genomeWindowStart": 6996000,
+      "midpointOffset": 1499,
+      "inputSliceWidth": 401,
+      "outputSliceWidth": 2401,
+      "nativeColorSpan": 0.07
+    }
+  },
+  "tools": {
+    "python": ">=3.12",
+    "h5py": "3.15.1",
+    "numpy": "2.4.6",
+    "pyarrow": "24.0.0",
+    "pyBigWig": "0.3.24"
+  },
+  "outputs": {
+    "fig2aLinks": { "path": "output/fig2a-oct4-links.parquet", "format": "parquet", "fields": ["source", "target", "effect"] },
+    "fig2aTracks": { "path": "output/fig2a-oct4-tracks.parquet", "format": "parquet", "fields": ["position", "track", "value"] },
+    "fig2aMotifs": { "path": "output/fig2a-oct4-motifs.parquet", "format": "parquet", "fields": ["chrom", "start", "end", "name", "score", "strand"] },
+    "fig2bLinks": { "path": "output/fig2b-nanog-links.parquet", "format": "parquet", "fields": ["source", "target", "effect"] },
+    "fig2bTracks": { "path": "output/fig2b-nanog-tracks.parquet", "format": "parquet", "fields": ["position", "track", "value"] },
+    "fig2bMotifs": { "path": "output/fig2b-nanog-motifs.parquet", "format": "parquet", "fields": ["chrom", "start", "end", "name", "score", "strand"] },
+    "fig2cLinks": { "path": "output/fig2c-atac-links.parquet", "format": "parquet", "fields": ["source", "target", "effect"] },
+    "fig2dMatrix": { "path": "output/fig2d-atac-matrix.parquet", "format": "parquet", "recordCount": 541501, "fields": ["input", "output", "effect"] },
+    "fig2cdTracks": { "path": "output/fig2cd-atac-tracks.parquet", "format": "parquet", "fields": ["position", "track", "value"] },
+    "fig2cdMotifs": { "path": "output/fig2cd-atac-motifs.parquet", "format": "parquet", "fields": ["chrom", "start", "end", "name", "score", "strand"] },
+    "fig3bMatrix": { "path": "output/fig3b-h3k27ac-matrix.parquet", "format": "parquet", "recordCount": 962801, "fields": ["input", "output", "effect"] },
+    "fig3bTracks": { "path": "output/fig3b-h3k27ac-tracks.parquet", "format": "parquet", "fields": ["position", "track", "value"] },
+    "fig3bMotifs": { "path": "output/fig3b-h3k27ac-motifs.parquet", "format": "parquet", "fields": ["chrom", "start", "end", "name", "score", "strand"] },
+    "panels": { "path": "output/panels.json", "format": "json" }
+  },
+  "validation": {
+    "status": "pending first full run",
+    "syntheticShearAndSliceTests": true,
+    "acceptedOutputFingerprintsRecorded": false
+  }
+}
