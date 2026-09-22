@@ -32,6 +32,7 @@
       "params": [
         {
           "name": "matrixCursor",
+          "description": "Two-dimensional ruler for tracing input and output positions; it fades away when per-cell labels become readable.",
           "persist": false,
           "ruler": {
             "encodings": ["x", "y"],
@@ -42,11 +43,30 @@
             }
           }
         },
-        { "name": "labelXBinSize", "value": 30 },
-        { "name": "labelYBinSize", "value": 45 },
+        {
+          "name": "labelVisibilityXSpan",
+          "expr": "width / 15",
+          "description": "Maximum visible x-domain span for labels, requiring roughly 15 horizontal pixels per input base."
+        },
+        {
+          "name": "labelVisibilityYSpan",
+          "expr": "height / 8",
+          "description": "Maximum visible y-domain span for labels, requiring roughly 8 vertical pixels per output base."
+        },
+        {
+          "name": "labelXBinSize",
+          "value": 10,
+          "description": "Width in input bases of the stable tiles used to materialize labels."
+        },
+        {
+          "name": "labelYBinSize",
+          "value": 15,
+          "description": "Height in output bases of the stable tiles used to materialize labels."
+        },
         {
           "name": "showCellLabels",
-          "expr": "abs(span(domain('x'))) <= labelXBinSize && abs(span(domain('y'))) <= labelYBinSize"
+          "expr": "abs(span(domain('x'))) <= labelVisibilityXSpan && abs(span(domain('y'))) <= labelVisibilityYSpan",
+          "description": "Enable labels only when cells are large enough in both dimensions."
         },
         {
           "name": "rulerOpacity",
@@ -61,6 +81,7 @@
       ],
       "layer": [
         {
+          "description": "Full-resolution matrix cells. Index scales map each integer coordinate to one base-sized band without secondary positional channels.",
           "mark": {
             "type": "rect",
             "buildIndex": false,
@@ -122,6 +143,7 @@
         },
         {
           "name": "same-position-diagonal",
+          "description": "Dashed reference where an input base and output position have the same genomic coordinate.",
           "data": {
             "url": "../output/fig2cd-atac-tracks.parquet",
             "format": { "type": "parquet" }
@@ -161,19 +183,23 @@
           "params": [
             {
               "name": "labelXStart",
-              "expr": "showCellLabels ? floor(min(domain('x')[0], domain('x')[1]) / labelXBinSize) * labelXBinSize : null"
+              "expr": "showCellLabels ? floor(min(domain('x')[0], domain('x')[1]) / labelXBinSize) * labelXBinSize : null",
+              "description": "Left edge of the first x tile intersecting the viewport, or null while labels are hidden."
             },
             {
               "name": "labelXEnd",
-              "expr": "showCellLabels ? ceil(max(domain('x')[0], domain('x')[1]) / labelXBinSize) * labelXBinSize : null"
+              "expr": "showCellLabels ? ceil(max(domain('x')[0], domain('x')[1]) / labelXBinSize) * labelXBinSize : null",
+              "description": "Exclusive right edge of the last x tile intersecting the viewport."
             },
             {
               "name": "labelYStart",
-              "expr": "showCellLabels ? floor(min(domain('y')[0], domain('y')[1]) / labelYBinSize) * labelYBinSize : null"
+              "expr": "showCellLabels ? floor(min(domain('y')[0], domain('y')[1]) / labelYBinSize) * labelYBinSize : null",
+              "description": "Lower coordinate edge of the first y tile intersecting the viewport, independent of the reversed display direction."
             },
             {
               "name": "labelYEnd",
-              "expr": "showCellLabels ? ceil(max(domain('y')[0], domain('y')[1]) / labelYBinSize) * labelYBinSize : null"
+              "expr": "showCellLabels ? ceil(max(domain('y')[0], domain('y')[1]) / labelYBinSize) * labelYBinSize : null",
+              "description": "Exclusive upper coordinate edge of the last y tile intersecting the viewport."
             }
           ],
 
