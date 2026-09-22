@@ -6,6 +6,34 @@
     "Links connect influential input bases to affected ATAC-seq output positions. Positive effects are red and negative effects are blue."
   ],
 
+  "params": [
+    {
+      "name": "pisaRegion",
+      "persist": false,
+      "description": "Shift-drag across the tracks to focus links with either endpoint in the selected interval.",
+      "select": {
+        "type": "interval",
+        "encodings": ["x"],
+        "extent": "container",
+        "on": "mousedown[event.shiftKey]",
+        "clear": "dblclick",
+        "zoom": false,
+        "mark": {
+          "stroke": "#777777",
+          "strokeOpacity": 0.65,
+          "strokeWidth": 1,
+          "fill": "#999999",
+          "fillOpacity": 0.01,
+          "shadowBlur": 8,
+          "shadowColor": "#777777",
+          "shadowOpacity": 0.35,
+          "clip": false,
+          "measure": "inside"
+        }
+      }
+    }
+  ],
+
   "scales": {
     "x": { "domain": [15646649, 15647250], "zoom": true }
   },
@@ -25,7 +53,7 @@
         "text": "Accessibility",
         "style": "overlay-title"
       },
-      "height": 70,
+      "height": { "grow": 0.16 },
       "data": {
         "url": "../output/fig2cd-atac-tracks.parquet",
         "format": { "type": "parquet" }
@@ -34,7 +62,7 @@
         { "type": "filter", "expr": "datum.track == 'prediction'" },
         { "type": "formula", "expr": "datum.position + 1", "as": "end" }
       ],
-      "mark": { "type": "rect", "color": "#332288", "minOpacity": 1 },
+      "mark": { "type": "rect", "color": "#373483", "minOpacity": 1 },
       "encoding": {
         "x": {
           "field": "position",
@@ -71,15 +99,34 @@
               "as": "absEffect"
             }
           ],
+          "params": [
+            {
+              "name": "pisaLinkHover",
+              "select": {
+                "type": "point",
+                "on": "pointerover"
+              },
+              "persist": false
+            }
+          ],
           "mark": {
             "type": "link",
             "linkShape": "diagonal",
             "orient": "vertical",
             "size": 1.5,
-            "segments": 50,
             "minPickingSize": 2
           },
           "encoding": {
+            "order": {
+              "condition": {
+                "test": {
+                  "param": { "or": ["pisaLinkHover", "pisaRegion"] },
+                  "empty": false
+                },
+                "value": 1
+              },
+              "value": 0
+            },
             "x": {
               "field": "source",
               "type": "index",
@@ -95,48 +142,62 @@
             },
             "y2": { "datum": 1 },
             "color": {
-              "field": "effect",
-              "type": "quantitative",
-              "scale": {
-                "domain": [
-                  -0.216404, -0.173123, -0.129843, -0.086562, -0.043281, 0,
-                  0.043281, 0.086562, 0.129843, 0.173123, 0.216404
-                ],
-                "range": [
-                  "#053061",
-                  "#2166ac",
-                  "#4393c3",
-                  "#92c5de",
-                  "#d1e5f0",
-                  "#ffffff",
-                  "#fddbc7",
-                  "#f4a582",
-                  "#d6604d",
-                  "#b2182b",
-                  "#67001f"
-                ],
-                "clamp": true
+              "condition": {
+                "test": {
+                  "param": { "or": ["pisaLinkHover", "pisaRegion"] },
+                  "empty": true
+                },
+                "field": "effect",
+                "type": "quantitative",
+                "scale": {
+                  "domain": [
+                    -0.216404, -0.173123, -0.129843, -0.086562, -0.043281, 0,
+                    0.043281, 0.086562, 0.129843, 0.173123, 0.216404
+                  ],
+                  "range": [
+                    "#053061",
+                    "#2166ac",
+                    "#4393c3",
+                    "#92c5de",
+                    "#d1e5f0",
+                    "#ffffff",
+                    "#fddbc7",
+                    "#f4a582",
+                    "#d6604d",
+                    "#b2182b",
+                    "#67001f"
+                  ],
+                  "clamp": true
+                },
+                "legend": {
+                  "title": "PISA effect (log₂(fc))",
+                  "orient": "left",
+                  "direction": "vertical",
+                  "gradientLength": 84,
+                  "gradientThickness": 18,
+                  "gradientStrokeColor": "#777777",
+                  "gradientStrokeWidth": 0.5,
+                  "values": [-0.2, 0, 0.2]
+                }
               },
-              "legend": {
-                "title": "PISA effect (log₂(fc))",
-                "orient": "left",
-                "direction": "vertical",
-                "gradientLength": 84,
-                "gradientThickness": 18,
-                "gradientStrokeColor": "#777777",
-                "gradientStrokeWidth": 0.5,
-                "values": [-0.2, 0, 0.2]
-              }
+              "value": "#d8dbe0"
             },
             "opacity": {
-              "field": "absEffect",
-              "type": "quantitative",
-              "scale": {
-                "domain": [0, 0.216404],
-                "range": [0, 1],
-                "clamp": true
+              "condition": {
+                "test": {
+                  "param": { "or": ["pisaLinkHover", "pisaRegion"] },
+                  "empty": true
+                },
+                "field": "absEffect",
+                "type": "quantitative",
+                "scale": {
+                  "domain": [0, 0.216404],
+                  "range": [0, 1],
+                  "clamp": true
+                },
+                "legend": null
               },
-              "legend": null
+              "value": 0.1
             },
             "tooltip": [
               { "field": "source", "title": "Input position" },
@@ -180,7 +241,6 @@
                 "range": ["#bbcc33", "#44bb99", "#99ddff"]
               },
               "legend": {
-                "title": null,
                 "orient": "left",
                 "direction": "vertical",
                 "symbolOpacity": 1
@@ -203,7 +263,7 @@
         "text": "Contribution score",
         "style": "overlay-title"
       },
-      "height": 65,
+      "height": { "grow": 0.16 },
       "data": {
         "url": "../output/fig2cd-atac-tracks.parquet",
         "format": { "type": "parquet" }
@@ -212,7 +272,7 @@
         { "type": "filter", "expr": "datum.track == 'importance'" },
         { "type": "formula", "expr": "datum.position + 1", "as": "end" }
       ],
-      "mark": { "type": "rect", "color": "#332288", "minOpacity": 1 },
+      "mark": { "type": "rect", "color": "#373483", "minOpacity": 1 },
       "encoding": {
         "x": {
           "field": "position",
@@ -236,7 +296,7 @@
   ],
 
   "config": {
-    "axis": { "grid": false, "tickCount": 6 },
+    "axis": { "domain": false },
     "legend": {
       "labelFontSize": 11,
       "titleFontSize": 11,

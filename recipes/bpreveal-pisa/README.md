@@ -88,11 +88,15 @@ and record count after writing.
 
 The shared Figure 2c/2d locus has an accepted local run recorded in
 `provenance.json`. The cached archive index confirms that the deposit does not
-contain the PISA HDF5 matrices used for Figures 2a, 2b, and 3b; reproducing
-those panels would require additional upstream analysis, so they are excluded
-from this recipe. The motif table contains all annotations intersecting the
-displayed locus rather than only the subset emphasized in the paper. Reference
-sequence letters are not extracted in this initial output contract.
+contain the PISA HDF5 matrices used for Figures 2a, 2b, and 3b. It does include
+the trained OSKN and H3K27ac models, analysis configurations, and supporting
+tracks, so the missing locus-scale matrices could be regenerated with
+BPReveal's `interpretPisa` without retraining. Linux with an NVIDIA GPU is the
+simplest option; CPU execution is slower, while DGX Spark requires a compatible
+ARM64 TensorFlow/CUDA environment. Those analyses are outside the current
+recipe. The motif table contains all annotations intersecting the displayed
+locus rather than only the subset emphasized in the paper. Reference sequence
+letters are not extracted in this initial output contract.
 
 ## Data rights
 
