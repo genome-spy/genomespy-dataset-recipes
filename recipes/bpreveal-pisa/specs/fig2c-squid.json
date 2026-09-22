@@ -7,17 +7,25 @@
   ],
 
   "scales": {
-    "x": { "domain": [15646349, 15647550], "zoom": true }
+    "x": { "domain": [15646649, 15647250], "zoom": true }
   },
 
-  "resolve": { "scale": { "x": "shared" }, "axis": { "x": "shared" } },
-  "spacing": 3,
+  "resolve": {
+    "scale": { "x": "shared" },
+    "axis": { "x": "shared" },
+    "legend": { "color": "collected" }
+  },
+  "padding": { "top": 8, "right": 30, "bottom": 8, "left": 10 },
+  "spacing": 0,
 
   "vconcat": [
     {
       "name": "prediction",
-      "title": "Predicted bias-minimized ATAC-seq profile",
-      "height": 80,
+      "title": {
+        "text": "Accessibility",
+        "style": "overlay-title"
+      },
+      "height": 70,
       "data": {
         "url": "../output/fig2cd-atac-tracks.parquet",
         "format": { "type": "parquet" }
@@ -26,19 +34,19 @@
         { "type": "filter", "expr": "datum.track == 'prediction'" },
         { "type": "formula", "expr": "datum.position + 1", "as": "end" }
       ],
-      "mark": { "type": "rect", "color": "#30343b", "minOpacity": 1 },
+      "mark": { "type": "rect", "color": "#332288", "minOpacity": 1 },
       "encoding": {
         "x": {
           "field": "position",
           "type": "index",
-          "title": "chrX position (dm6)"
+          "title": "dm6 chrX"
         },
         "x2": { "field": "end" },
         "y": {
           "field": "value",
           "type": "quantitative",
-          "title": "Prediction",
-          "scale": { "zero": true }
+          "scale": { "zero": true },
+          "axis": null
         },
         "y2": { "datum": 0 },
         "tooltip": [
@@ -48,71 +56,154 @@
       }
     },
     {
-      "name": "pisa-links",
-      "title": "PISA input-to-output effects",
-      "height": 220,
-      "data": {
-        "url": "../output/fig2c-atac-links.parquet",
-        "format": { "type": "parquet" }
-      },
-      "transform": [
-        { "type": "formula", "expr": "abs(datum.effect)", "as": "absEffect" }
-      ],
-      "mark": {
-        "type": "link",
-        "linkShape": "line",
-        "minPickingSize": 2
-      },
-      "encoding": {
-        "x": {
-          "field": "source",
-          "type": "index",
-          "title": "chrX position (dm6)"
-        },
-        "x2": { "field": "target" },
-        "y": {
-          "datum": 0,
-          "type": "quantitative",
-          "scale": { "domain": [0, 1] },
-          "axis": null
-        },
-        "y2": { "datum": 1 },
-        "color": {
-          "field": "effect",
-          "type": "quantitative",
-          "scale": {
-            "domain": [-0.216404, 0, 0.216404],
-            "range": ["#2166ac", "#eeeeee", "#b2182b"],
-            "clamp": true
+      "resolve": { "scale": { "color": "independent" } },
+      "layer": [
+        {
+          "name": "pisa-links",
+          "data": {
+            "url": "../output/fig2c-atac-links.parquet",
+            "format": { "type": "parquet" }
           },
-          "legend": { "title": "PISA effect (log2 fold change)" }
-        },
-        "size": {
-          "field": "absEffect",
-          "type": "quantitative",
-          "scale": {
-            "domain": [0.043281, 0.216404],
-            "range": [0.25, 2.5],
-            "clamp": true
+          "transform": [
+            {
+              "type": "formula",
+              "expr": "abs(datum.effect)",
+              "as": "absEffect"
+            }
+          ],
+          "mark": {
+            "type": "link",
+            "linkShape": "diagonal",
+            "orient": "vertical",
+            "size": 1.5,
+            "segments": 50,
+            "minPickingSize": 2
           },
-          "legend": null
-        },
-        "opacity": { "value": 0.55 },
-        "tooltip": [
-          { "field": "source", "title": "Input position" },
-          { "field": "target", "title": "Output position" },
-          {
-            "field": "effect",
-            "title": "PISA effect (log2 fold change)",
-            "format": ".4f"
+          "encoding": {
+            "x": {
+              "field": "source",
+              "type": "index",
+              "title": "dm6 chrX",
+              "buildIndex": false
+            },
+            "x2": { "field": "target" },
+            "y": {
+              "datum": 0,
+              "type": "quantitative",
+              "scale": { "domain": [0, 1] },
+              "axis": null
+            },
+            "y2": { "datum": 1 },
+            "color": {
+              "field": "effect",
+              "type": "quantitative",
+              "scale": {
+                "domain": [
+                  -0.216404, -0.173123, -0.129843, -0.086562, -0.043281, 0,
+                  0.043281, 0.086562, 0.129843, 0.173123, 0.216404
+                ],
+                "range": [
+                  "#053061",
+                  "#2166ac",
+                  "#4393c3",
+                  "#92c5de",
+                  "#d1e5f0",
+                  "#ffffff",
+                  "#fddbc7",
+                  "#f4a582",
+                  "#d6604d",
+                  "#b2182b",
+                  "#67001f"
+                ],
+                "clamp": true
+              },
+              "legend": {
+                "title": "PISA effect (log₂(fc))",
+                "orient": "left",
+                "direction": "vertical",
+                "gradientLength": 84,
+                "gradientThickness": 18,
+                "gradientStrokeColor": "#777777",
+                "gradientStrokeWidth": 0.5,
+                "values": [-0.2, 0, 0.2]
+              }
+            },
+            "opacity": {
+              "field": "absEffect",
+              "type": "quantitative",
+              "scale": {
+                "domain": [0, 0.216404],
+                "range": [0, 1],
+                "clamp": true
+              },
+              "legend": null
+            },
+            "tooltip": [
+              { "field": "source", "title": "Input position" },
+              { "field": "target", "title": "Output position" },
+              {
+                "field": "effect",
+                "title": "PISA effect (log2 fold change)",
+                "format": ".4f"
+              }
+            ]
           }
-        ]
-      }
+        },
+        {
+          "name": "motifs",
+          "data": {
+            "url": "../output/fig2cd-atac-motifs.parquet",
+            "format": { "type": "parquet" }
+          },
+          "transform": [
+            {
+              "type": "formula",
+              "expr": "datum.name == 'm1bp' ? 'M1bp' : datum.name == 'gaga' ? 'Gaga' : 'Zelda'",
+              "as": "motifLabel"
+            }
+          ],
+          "mark": { "type": "rect", "minOpacity": 1 },
+          "encoding": {
+            "x": {
+              "field": "start",
+              "type": "index",
+              "title": "dm6 chrX"
+            },
+            "x2": { "field": "end" },
+            "y": { "value": { "expr": "4 / height" } },
+            "y2": { "value": { "expr": "20 / height" } },
+            "color": {
+              "field": "motifLabel",
+              "type": "nominal",
+              "scale": {
+                "domain": ["M1bp", "Gaga", "Zelda"],
+                "range": ["#bbcc33", "#44bb99", "#99ddff"]
+              },
+              "legend": {
+                "title": null,
+                "orient": "left",
+                "direction": "vertical",
+                "symbolOpacity": 1
+              }
+            },
+            "tooltip": [
+              { "field": "motifLabel", "title": "Motif" },
+              { "field": "start", "title": "Start" },
+              { "field": "end", "title": "End" },
+              { "field": "strand", "title": "Strand" },
+              { "field": "score", "title": "Score" }
+            ]
+          }
+        }
+      ]
     },
     {
       "name": "importance",
-      "title": "Input-base contribution",
-      "height": 60,
+      "title": {
+        "text": "Contribution score",
+        "style": "overlay-title"
+      },
+      "height": 65,
       "data": {
         "url": "../output/fig2cd-atac-tracks.parquet",
         "format": { "type": "parquet" }
@@ -121,19 +212,19 @@
         { "type": "filter", "expr": "datum.track == 'importance'" },
         { "type": "formula", "expr": "datum.position + 1", "as": "end" }
       ],
-      "mark": { "type": "rect", "color": "#4c78a8", "minOpacity": 1 },
+      "mark": { "type": "rect", "color": "#332288", "minOpacity": 1 },
       "encoding": {
         "x": {
           "field": "position",
           "type": "index",
-          "title": "chrX position (dm6)"
+          "title": "dm6 chrX"
         },
         "x2": { "field": "end" },
         "y": {
           "field": "value",
           "type": "quantitative",
-          "title": "Contribution",
-          "scale": { "zero": true }
+          "scale": { "zero": true },
+          "axis": null
         },
         "y2": { "datum": 0 },
         "tooltip": [
@@ -141,42 +232,18 @@
           { "field": "value", "title": "Contribution", "format": ".4g" }
         ]
       }
-    },
-    {
-      "name": "motifs",
-      "title": "Motif calls",
-      "height": 22,
-      "data": {
-        "url": "../output/fig2cd-atac-motifs.parquet",
-        "format": { "type": "parquet" }
-      },
-      "mark": { "type": "rect", "minOpacity": 1 },
-      "encoding": {
-        "x": {
-          "field": "start",
-          "type": "index",
-          "title": "chrX position (dm6)"
-        },
-        "x2": { "field": "end" },
-        "color": {
-          "field": "name",
-          "type": "nominal",
-          "scale": { "scheme": "tableau10" },
-          "legend": { "title": "Motif" }
-        },
-        "tooltip": [
-          { "field": "name", "title": "Motif" },
-          { "field": "start", "title": "Start" },
-          { "field": "end", "title": "End" },
-          { "field": "strand", "title": "Strand" },
-          { "field": "score", "title": "Score" }
-        ]
-      }
     }
   ],
 
   "config": {
-    "legend": { "orient": "top" },
-    "view": { "stroke": "#d8d8d8", "strokeWidth": 1 }
+    "axis": { "grid": false, "tickCount": 6 },
+    "legend": {
+      "labelFontSize": 11,
+      "titleFontSize": 11,
+      "layout": { "left": { "anchor": "middle", "wrap": false } }
+    },
+    "legendTrack": { "style": null },
+    "title": { "fontSize": 12, "fontWeight": "normal", "offset": 2 },
+    "view": { "stroke": "transparent", "strokeWidth": 0 }
   }
 }
