@@ -45,6 +45,7 @@ OUTPUT_DIR = RECIPE_DIR / "output"
 PROVENANCE_PATH = RECIPE_DIR / "provenance.json"
 EXTRACTION_MANIFEST = WORK_DIR / "extracted-members.json"
 RUN_MANIFEST = WORK_DIR / "run-manifest.json"
+ARCHIVE_INDEX = WORK_DIR / "archive-members.txt"
 USER_AGENT = "GenomeSpy dataset recipe bpreveal-pisa"
 LOG2_E = math.log2(math.e)
 DOWNLOAD_REPORT_BYTES = 1024**3
@@ -101,6 +102,7 @@ class TrackSpec:
     member: str
     label: str
     multiplier: float = 1.0
+    region: str = "input"
 
 
 @dataclass(frozen=True)
@@ -144,68 +146,16 @@ class Panel:
     def genomic_input_end(self) -> int:
         return self.genome_window_start + self.input_end_offset
 
+    @property
+    def genomic_output_start(self) -> int:
+        return self.genome_window_start + self.output_start_offset
+
+    @property
+    def genomic_output_end(self) -> int:
+        return self.genome_window_start + self.output_end_offset
+
 
 MEMBERS = (
-    MemberSpec(
-        "fig2aPisaPositive",
-        "tmp/oskn/shap/pisa_oct4_positive.h5",
-        "fig2a-oct4-positive-pisa.h5",
-    ),
-    MemberSpec(
-        "fig2aPisaNegative",
-        "tmp/oskn/shap/pisa_oct4_negative.h5",
-        "fig2a-oct4-negative-pisa.h5",
-    ),
-    MemberSpec(
-        "fig2aPredictionPositive",
-        "tmp/oskn/pred/oct4_residual_positive.bw",
-        "fig2a-oct4-positive-prediction.bw",
-    ),
-    MemberSpec(
-        "fig2aPredictionNegative",
-        "tmp/oskn/pred/oct4_residual_negative.bw",
-        "fig2a-oct4-negative-prediction.bw",
-    ),
-    MemberSpec(
-        "fig2aImportance",
-        "tmp/oskn/shap/oct4_profile.bw",
-        "fig2a-oct4-importance.bw",
-    ),
-    MemberSpec(
-        "fig2aMotifs",
-        "tmp/oskn/scan/oct4_profile.bed",
-        "fig2a-oct4-motifs.bed",
-    ),
-    MemberSpec(
-        "fig2bPisaPositive",
-        "tmp/nanogOnly/shap/pisa_nanog_positive_residual.h5",
-        "fig2b-nanog-positive-pisa.h5",
-    ),
-    MemberSpec(
-        "fig2bPisaNegative",
-        "tmp/nanogOnly/shap/pisa_nanog_negative_residual.h5",
-        "fig2b-nanog-negative-pisa.h5",
-    ),
-    MemberSpec(
-        "fig2bPredictionPositive",
-        "tmp/nanogOnly/pred/nanog_residual_positive.bw",
-        "fig2b-nanog-positive-prediction.bw",
-    ),
-    MemberSpec(
-        "fig2bPredictionNegative",
-        "tmp/nanogOnly/pred/nanog_residual_negative.bw",
-        "fig2b-nanog-negative-prediction.bw",
-    ),
-    MemberSpec(
-        "fig2bImportance",
-        "tmp/nanogOnly/shap/nanog_profile.bw",
-        "fig2b-nanog-importance.bw",
-    ),
-    MemberSpec(
-        "fig2bMotifs",
-        "tmp/nanogOnly/scan/nanog_profile.bed",
-        "fig2b-nanog-motifs.bed",
-    ),
     MemberSpec(
         "fig2cdPisa",
         "tmp/atac/shap/pisa_residual.h5",
@@ -226,66 +176,9 @@ MEMBERS = (
         "tmp/atac/scan/counts_residual_filtered.bed",
         "fig2cd-atac-motifs.bed",
     ),
-    MemberSpec(
-        "fig3bPisa",
-        "tmp/histone-modifications/shap/pisa_h3k27ac.h5",
-        "fig3b-h3k27ac-pisa.h5",
-    ),
-    MemberSpec(
-        "fig3bPrediction",
-        "tmp/histone-modifications/pred/"
-        "model_convSize7_profilesize7_layers11_filters64_h3k27ac.bw",
-        "fig3b-h3k27ac-prediction.bw",
-    ),
-    MemberSpec(
-        "fig3bImportance",
-        "tmp/histone-modifications/shap/h3k27ac_profile.bw",
-        "fig3b-h3k27ac-importance.bw",
-    ),
-    MemberSpec(
-        "fig3bMotifs",
-        "tmp/histone-modifications/scan/h3k27ac_profile.bed",
-        "fig3b-h3k27ac-motifs.bed",
-    ),
 )
 
 PANELS = (
-    Panel(
-        identifier="fig2a-oct4",
-        assembly="mm10",
-        chrom="chr1",
-        genome_window_start=180_923_752,
-        midpoint_offset=1172,
-        input_width=251,
-        output_width=421,
-        pisa_members=("fig2aPisaPositive", "fig2aPisaNegative"),
-        tracks=(
-            TrackSpec("fig2aPredictionPositive", "predictionPositive"),
-            TrackSpec("fig2aPredictionNegative", "predictionNegative", -1.0),
-            TrackSpec("fig2aImportance", "importance"),
-        ),
-        motifs_member="fig2aMotifs",
-        threshold=0.35,
-        color_span=1.3,
-    ),
-    Panel(
-        identifier="fig2b-nanog",
-        assembly="mm10",
-        chrom="chr1",
-        genome_window_start=180_923_752,
-        midpoint_offset=1172,
-        input_width=251,
-        output_width=421,
-        pisa_members=("fig2bPisaPositive", "fig2bPisaNegative"),
-        tracks=(
-            TrackSpec("fig2bPredictionPositive", "predictionPositive"),
-            TrackSpec("fig2bPredictionNegative", "predictionNegative", -1.0),
-            TrackSpec("fig2bImportance", "importance"),
-        ),
-        motifs_member="fig2bMotifs",
-        threshold=0.35,
-        color_span=1.0,
-    ),
     Panel(
         identifier="fig2cd-atac",
         assembly="dm6",
@@ -296,29 +189,12 @@ PANELS = (
         output_width=901,
         pisa_members=("fig2cdPisa",),
         tracks=(
-            TrackSpec("fig2cdPrediction", "prediction"),
+            TrackSpec("fig2cdPrediction", "prediction", region="output"),
             TrackSpec("fig2cdImportance", "importance"),
         ),
         motifs_member="fig2cdMotifs",
         threshold=0.03,
         color_span=0.15,
-    ),
-    Panel(
-        identifier="fig3b-h3k27ac",
-        assembly="dm6",
-        chrom="chrX",
-        genome_window_start=6_996_000,
-        midpoint_offset=1499,
-        input_width=401,
-        output_width=2401,
-        pisa_members=("fig3bPisa",),
-        tracks=(
-            TrackSpec("fig3bPrediction", "prediction"),
-            TrackSpec("fig3bImportance", "importance"),
-        ),
-        motifs_member="fig3bMotifs",
-        threshold=None,
-        color_span=0.07,
     ),
 )
 
@@ -329,7 +205,7 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
         "--stage",
-        choices=("all", "download", "extract", "wrangle", "verify"),
+        choices=("all", "download", "index", "extract", "wrangle", "verify"),
         default="all",
         help="Run the full workflow or one restartable stage.",
     )
@@ -340,6 +216,12 @@ def parse_args() -> argparse.Namespace:
             "Use an existing archive rather than "
             "download/zenodo-bpreveal-files.tar.bz2."
         ),
+    )
+    parser.add_argument(
+        "--panel",
+        choices=("all", *(panel.identifier for panel in PANELS)),
+        default="all",
+        help="Prepare all configured panels or one panel and its required inputs.",
     )
     parser.add_argument(
         "--test",
@@ -535,10 +417,54 @@ def copy_member(input_file: IO[bytes], destination: Path) -> dict[str, Any]:
     return {"fileSizeBytes": size, "sha256": sha256.hexdigest()}
 
 
-def selected_paths() -> dict[str, Path]:
+def write_archive_index(archive: Path, destination: Path, archive_md5: str) -> int:
+    """Write a reusable, source-identified list of every archive member."""
+
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    header = f"# archiveMd5={archive_md5}"
+    if destination.is_file():
+        with destination.open(encoding="utf-8") as input_file:
+            if input_file.readline().rstrip("\n") == header:
+                count = sum(1 for _ in input_file)
+                print(f"Using archive member index with {count:,} entries")
+                return count
+
+    temporary = destination.with_name(destination.name + ".part")
+    temporary.unlink(missing_ok=True)
+    count = 0
+    try:
+        with temporary.open("w", encoding="utf-8", newline="\n") as output_file:
+            output_file.write(header + "\n")
+            with tarfile.open(archive, mode="r:bz2") as input_archive:
+                for entry in input_archive:
+                    output_file.write(entry.name + "\n")
+                    count += 1
+        temporary.replace(destination)
+    finally:
+        temporary.unlink(missing_ok=True)
+    print(f"Indexed {count:,} archive members: {destination}")
+    return count
+
+
+def selected_paths(members: Sequence[MemberSpec] = MEMBERS) -> dict[str, Path]:
     """Return selected local member paths keyed by stable identifier."""
 
-    return {member.identifier: SELECTED_DIR / member.local_name for member in MEMBERS}
+    return {member.identifier: SELECTED_DIR / member.local_name for member in members}
+
+
+def members_for_panels(panels: Sequence[Panel]) -> tuple[MemberSpec, ...]:
+    """Return archive members required by the selected panels."""
+
+    identifiers = {
+        identifier
+        for panel in panels
+        for identifier in (
+            *panel.pisa_members,
+            *(track.member for track in panel.tracks),
+            panel.motifs_member,
+        )
+    }
+    return tuple(member for member in MEMBERS if member.identifier in identifiers)
 
 
 def load_extraction_manifest() -> dict[str, Any] | None:
@@ -550,18 +476,19 @@ def load_extraction_manifest() -> dict[str, Any] | None:
     return value if isinstance(value, dict) else None
 
 
-def validate_selected_cache() -> dict[str, Path] | None:
+def validate_selected_cache(
+    members: Sequence[MemberSpec] = MEMBERS,
+) -> dict[str, Path] | None:
     """Return validated selected members, or None when extraction is required."""
 
     manifest = load_extraction_manifest()
     if manifest is None or manifest.get("archiveMd5") != source_record()["md5"]:
         return None
     identities = manifest.get("members")
-    if not isinstance(identities, dict) or set(identities) != {
-        member.identifier for member in MEMBERS
-    }:
+    required = {member.identifier for member in members}
+    if not isinstance(identities, dict) or not required.issubset(identities):
         return None
-    paths = selected_paths()
+    paths = selected_paths(members)
     for identifier, path in paths.items():
         identity = identities.get(identifier)
         if not isinstance(identity, dict) or not path.is_file():
@@ -587,23 +514,37 @@ def member_for_archive_path(name: str) -> MemberSpec | None:
     return matches[0] if matches else None
 
 
-def extract_selected_members(archive: Path) -> dict[str, Path]:
-    """Scan the bzip2 stream once and extract only selected members."""
+def extract_selected_members(
+    archive: Path, members: Sequence[MemberSpec] = MEMBERS
+) -> dict[str, Path]:
+    """Scan the compressed tar once and extract only selected members."""
 
-    cached = validate_selected_cache()
+    cached = validate_selected_cache(members)
     if cached is not None:
         print("Using verified selected-member cache")
         return cached
 
     SELECTED_DIR.mkdir(parents=True, exist_ok=True)
-    remaining = {member.identifier for member in MEMBERS}
-    identities: dict[str, dict[str, Any]] = {}
-    paths = selected_paths()
+    remaining = {member.identifier for member in members}
+    existing_manifest = load_extraction_manifest()
+    existing_identities = (
+        existing_manifest.get("members", {})
+        if isinstance(existing_manifest, dict)
+        and existing_manifest.get("archiveMd5") == source_record()["md5"]
+        else {}
+    )
+    identities: dict[str, dict[str, Any]] = (
+        dict(existing_identities) if isinstance(existing_identities, dict) else {}
+    )
+    paths = selected_paths(members)
+    requested = set(remaining)
     print(f"Scanning archive for {len(remaining)} selected members")
-    with tarfile.open(archive, mode="r|bz2") as input_archive:
+    # BZ2File, used by seekable mode, handles concatenated bzip2 streams. The
+    # streaming tar wrapper stops at the first stream in pbzip2-style archives.
+    with tarfile.open(archive, mode="r:bz2") as input_archive:
         for entry in input_archive:
             member = member_for_archive_path(entry.name)
-            if member is None:
+            if member is None or member.identifier not in requested:
                 continue
             if member.identifier not in remaining:
                 raise ValueError(f"Duplicate selected member: {entry.name}")
@@ -629,16 +570,18 @@ def extract_selected_members(archive: Path) -> dict[str, Path]:
         EXTRACTION_MANIFEST,
         {"archiveMd5": source_record()["md5"], "members": identities},
     )
-    validated = validate_selected_cache()
+    validated = validate_selected_cache(members)
     if validated is None:
         raise ValueError("Selected-member cache failed post-extraction validation")
     return validated
 
 
-def require_selected_members() -> dict[str, Path]:
+def require_selected_members(
+    members: Sequence[MemberSpec] = MEMBERS,
+) -> dict[str, Path]:
     """Require a complete, validated extraction cache."""
 
-    paths = validate_selected_cache()
+    paths = validate_selected_cache(members)
     if paths is None:
         raise FileNotFoundError(
             "Selected members are absent or invalid; run --stage extract first"
@@ -854,11 +797,17 @@ def write_tracks(path: Path, panel: Panel, paths: dict[str, Path]) -> int:
     label_parts: list[pa.Array] = []
     value_parts: list[np.ndarray] = []
     for track in panel.tracks:
+        if track.region == "input":
+            start, end = panel.genomic_input_start, panel.genomic_input_end
+        elif track.region == "output":
+            start, end = panel.genomic_output_start, panel.genomic_output_end
+        else:
+            raise ValueError(f"Unknown track region: {track.region}")
         positions, values = read_bigwig_values(
             paths[track.member],
             panel.chrom,
-            panel.genomic_input_start,
-            panel.genomic_input_end,
+            start,
+            end,
         )
         if len(positions) == 0:
             raise ValueError(f"No finite values for {panel.identifier}/{track.label}")
@@ -979,12 +928,12 @@ def write_json_atomic(path: Path, value: Any) -> None:
         temporary.unlink(missing_ok=True)
 
 
-def wrangle(paths: dict[str, Path]) -> dict[str, int]:
+def wrangle(paths: dict[str, Path], panels: Sequence[Panel] = PANELS) -> dict[str, int]:
     """Create every Parquet and metadata output."""
 
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     counts: dict[str, int] = {}
-    for panel in PANELS:
+    for panel in panels:
         print(f"Preparing {panel.identifier}")
         counts[f"{panel.identifier}-tracks"] = write_tracks(
             OUTPUT_DIR / f"{panel.identifier}-tracks.parquet", panel, paths
@@ -1023,36 +972,48 @@ def wrangle(paths: dict[str, Path]) -> dict[str, int]:
 
     write_json_atomic(
         OUTPUT_DIR / "panels.json",
-        {panel.identifier: panel_metadata(panel) for panel in PANELS},
+        {panel.identifier: panel_metadata(panel) for panel in panels},
     )
     return counts
 
 
-def expected_outputs() -> dict[str, tuple[pa.Schema, int | None]]:
+def expected_outputs(
+    panels: Sequence[Panel] = PANELS,
+) -> dict[str, tuple[pa.Schema, int | None]]:
     """Return required Parquet schemas and fixed row counts."""
 
-    return {
-        "fig2a-oct4-links.parquet": (LINK_SCHEMA, None),
-        "fig2a-oct4-tracks.parquet": (TRACK_SCHEMA, None),
-        "fig2a-oct4-motifs.parquet": (MOTIF_SCHEMA, None),
-        "fig2b-nanog-links.parquet": (LINK_SCHEMA, None),
-        "fig2b-nanog-tracks.parquet": (TRACK_SCHEMA, None),
-        "fig2b-nanog-motifs.parquet": (MOTIF_SCHEMA, None),
-        "fig2c-atac-links.parquet": (LINK_SCHEMA, None),
-        "fig2cd-atac-tracks.parquet": (TRACK_SCHEMA, None),
-        "fig2cd-atac-motifs.parquet": (MOTIF_SCHEMA, None),
-        "fig2d-atac-matrix.parquet": (MATRIX_SCHEMA, 901 * 601),
-        "fig3b-h3k27ac-matrix.parquet": (MATRIX_SCHEMA, 2401 * 401),
-        "fig3b-h3k27ac-tracks.parquet": (TRACK_SCHEMA, None),
-        "fig3b-h3k27ac-motifs.parquet": (MOTIF_SCHEMA, None),
-    }
+    contracts: dict[str, tuple[pa.Schema, int | None]] = {}
+    for panel in panels:
+        identifier = panel.identifier
+        contracts[f"{identifier}-tracks.parquet"] = (TRACK_SCHEMA, None)
+        contracts[f"{identifier}-motifs.parquet"] = (MOTIF_SCHEMA, None)
+        if panel.threshold is not None:
+            link_name = (
+                "fig2c-atac-links.parquet"
+                if identifier == "fig2cd-atac"
+                else f"{identifier}-links.parquet"
+            )
+            contracts[link_name] = (LINK_SCHEMA, None)
+        if identifier == "fig2cd-atac":
+            contracts["fig2d-atac-matrix.parquet"] = (
+                MATRIX_SCHEMA,
+                panel.output_width * panel.input_width,
+            )
+        elif identifier == "fig3b-h3k27ac":
+            contracts["fig3b-h3k27ac-matrix.parquet"] = (
+                MATRIX_SCHEMA,
+                panel.output_width * panel.input_width,
+            )
+    return contracts
 
 
-def verify_outputs() -> dict[str, dict[str, Any]]:
+def verify_outputs(
+    panels: Sequence[Panel] = PANELS,
+) -> dict[str, dict[str, Any]]:
     """Validate output schemas and return their local identities."""
 
     identities: dict[str, dict[str, Any]] = {}
-    for name, (schema, fixed_count) in expected_outputs().items():
+    for name, (schema, fixed_count) in expected_outputs(panels).items():
         path = OUTPUT_DIR / name
         if not path.is_file():
             raise FileNotFoundError(path)
@@ -1072,11 +1033,11 @@ def verify_outputs() -> dict[str, dict[str, Any]]:
         }
 
     panels_path = OUTPUT_DIR / "panels.json"
-    panels: Any = json.loads(panels_path.read_text(encoding="utf-8"))
-    if not isinstance(panels, dict) or set(panels) != {
-        panel.identifier for panel in PANELS
+    panel_metadata_value: Any = json.loads(panels_path.read_text(encoding="utf-8"))
+    if not isinstance(panel_metadata_value, dict) or set(panel_metadata_value) != {
+        panel.identifier for panel in panels
     }:
-        raise ValueError("panels.json does not describe every panel")
+        raise ValueError("panels.json does not describe every selected panel")
     identities[panels_path.name] = {
         "fileSizeBytes": panels_path.stat().st_size,
         "sha256": file_digest(panels_path),
@@ -1113,6 +1074,14 @@ def run_tests() -> int:
     return pytest.main([str(RECIPE_DIR / "tests"), "-q"])
 
 
+def select_panels(value: str) -> tuple[Panel, ...]:
+    """Resolve the CLI panel selector."""
+
+    if value == "all":
+        return PANELS
+    return tuple(panel for panel in PANELS if panel.identifier == value)
+
+
 def main() -> None:
     """Run the selected restartable stage."""
 
@@ -1123,30 +1092,37 @@ def main() -> None:
     for directory in (DOWNLOAD_DIR, WORK_DIR, OUTPUT_DIR):
         directory.mkdir(parents=True, exist_ok=True)
 
+    panels = select_panels(args.panel)
+    members = members_for_panels(panels)
+
     if args.stage == "download":
         resolve_archive(args.archive, allow_download=True)
         return
+    if args.stage == "index":
+        archive = resolve_archive(args.archive, allow_download=False)
+        write_archive_index(archive, ARCHIVE_INDEX, str(source_record()["md5"]))
+        return
     if args.stage == "extract":
         archive = resolve_archive(args.archive, allow_download=False)
-        extract_selected_members(archive)
+        extract_selected_members(archive, members)
         return
     if args.stage == "wrangle":
-        selected = require_selected_members()
-        wrangle(selected)
-        outputs = verify_outputs()
+        selected = require_selected_members(members)
+        wrangle(selected, panels)
+        outputs = verify_outputs(panels)
         write_run_manifest(selected, outputs)
         return
     if args.stage == "verify":
-        selected = require_selected_members()
-        outputs = verify_outputs()
+        selected = require_selected_members(members)
+        outputs = verify_outputs(panels)
         write_run_manifest(selected, outputs)
         print("BPReveal PISA output verification passed")
         return
 
     archive = resolve_archive(args.archive, allow_download=True)
-    selected = extract_selected_members(archive)
-    wrangle(selected)
-    outputs = verify_outputs()
+    selected = extract_selected_members(archive, members)
+    wrangle(selected, panels)
+    outputs = verify_outputs(panels)
     write_run_manifest(selected, outputs)
     print("BPReveal PISA preparation and verification passed")
 

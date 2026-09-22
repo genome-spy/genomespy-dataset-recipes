@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import bz2
 import importlib.util
 import sys
 import tarfile
@@ -149,17 +150,48 @@ def test_archive_member_matching_allows_a_prefix() -> None:
 
 
 def test_member_selection_count_matches_provenance() -> None:
-    assert len(prepare.MEMBERS) == 20
-    assert len({member.identifier for member in prepare.MEMBERS}) == 20
-    assert len({member.local_name for member in prepare.MEMBERS}) == 20
+    assert len(prepare.MEMBERS) == 4
+    assert len({member.identifier for member in prepare.MEMBERS}) == 4
+    assert len({member.local_name for member in prepare.MEMBERS}) == 4
     assert all(not Path(member.suffix).is_absolute() for member in prepare.MEMBERS)
 
 
-def test_bzip2_stream_mode_is_supported(tmp_path: Path) -> None:
+def test_fig2cd_panel_selection_is_self_contained() -> None:
+    panels = prepare.select_panels("fig2cd-atac")
+    assert [panel.identifier for panel in panels] == ["fig2cd-atac"]
+    assert {member.identifier for member in prepare.members_for_panels(panels)} == {
+        "fig2cdPisa",
+        "fig2cdPrediction",
+        "fig2cdImportance",
+        "fig2cdMotifs",
+    }
+    assert set(prepare.expected_outputs(panels)) == {
+        "fig2c-atac-links.parquet",
+        "fig2cd-atac-tracks.parquet",
+        "fig2cd-atac-motifs.parquet",
+        "fig2d-atac-matrix.parquet",
+    }
+
+
+def test_concatenated_bzip2_streams_are_supported(tmp_path: Path) -> None:
     source = tmp_path / "source.txt"
     source.write_text("test\n", encoding="utf-8")
-    archive = tmp_path / "test.tar.bz2"
-    with tarfile.open(archive, "w:bz2") as output:
+    uncompressed = tmp_path / "test.tar"
+    with tarfile.open(uncompressed, "w") as output:
         output.add(source, arcname="prefix/source.txt")
-    with tarfile.open(archive, "r|bz2") as input_archive:
+    tar_bytes = uncompressed.read_bytes()
+    midpoint = len(tar_bytes) // 2
+    archive = tmp_path / "test.tar.bz2"
+    archive.write_bytes(
+        bz2.compress(tar_bytes[:midpoint]) + bz2.compress(tar_bytes[midpoint:])
+    )
+    with tarfile.open(archive, "r:bz2") as input_archive:
         assert next(iter(input_archive)).name == "prefix/source.txt"
+
+    index = tmp_path / "archive-members.txt"
+    assert prepare.write_archive_index(archive, index, "test-md5") == 1
+    assert index.read_text(encoding="utf-8").splitlines() == [
+        "# archiveMd5=test-md5",
+        "prefix/source.txt",
+    ]
+    assert prepare.write_archive_index(archive, index, "test-md5") == 1

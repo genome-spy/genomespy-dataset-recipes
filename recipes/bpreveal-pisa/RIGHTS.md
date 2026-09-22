@@ -3,10 +3,9 @@
 ## Scope
 
 The input is the authors' `zenodo-bpreveal-files.tar.bz2` archive from Zenodo
-record 20318019. The recipe extracts selected derived PISA HDF5 matrices,
-predicted and importance BigWigs, and motif BED files. Its outputs are small
-locus-specific Parquet transformations for Figures 2a–d and the left-hand
-portion of Figure 3b.
+record 20318019. The recipe extracts the derived PISA HDF5 matrix, predicted
+and importance BigWigs, and motif BED file for the shared Figure 2c/2d locus.
+Its outputs are small locus-specific Parquet transformations.
 
 ## Evidence and interpretation
 

@@ -12,35 +12,13 @@
       "filename": "zenodo-bpreveal-files.tar.bz2",
       "fileSizeBytes": 28422786382,
       "md5": "00f3387e18e1ebbabe20df2445aa0d1d",
-      "selectedMemberCount": 20,
-      "selection": "Only the PISA HDF5, prediction/importance BigWig, and motif BED members required by Figures 2a-d and the left-hand portion of Figure 3b"
+      "selectedMemberCount": 4,
+      "selection": "The PISA HDF5, prediction/importance BigWig, and motif BED members required by the shared Figure 2c/2d locus"
     }
   ],
   "parameters": {
     "effectUnits": "log2 fold change; source HDF5 values multiplied by log2(e)",
     "coordinateConvention": "zero-based single-base positions; motif intervals are zero-based half-open",
-    "fig2a": {
-      "assembly": "mm10",
-      "chrom": "chr1",
-      "genomeWindowStart": 180923752,
-      "midpointOffset": 1172,
-      "inputSliceWidth": 251,
-      "outputSliceWidth": 421,
-      "nativeThreshold": 0.35,
-      "nativeColorSpan": 1.3,
-      "combine": "sum positive- and negative-strand Oct4 PISA matrices"
-    },
-    "fig2b": {
-      "assembly": "mm10",
-      "chrom": "chr1",
-      "genomeWindowStart": 180923752,
-      "midpointOffset": 1172,
-      "inputSliceWidth": 251,
-      "outputSliceWidth": 421,
-      "nativeThreshold": 0.35,
-      "nativeColorSpan": 1.0,
-      "combine": "sum positive- and negative-strand Nanog residual PISA matrices"
-    },
     "fig2cFig2d": {
       "assembly": "dm6",
       "chrom": "chrX",
@@ -51,15 +29,6 @@
       "nativeThreshold": 0.03,
       "nativeGraphColorSpan": 0.15,
       "nativeMatrixColorSpan": 0.1
-    },
-    "fig3b": {
-      "assembly": "dm6",
-      "chrom": "chrX",
-      "genomeWindowStart": 6996000,
-      "midpointOffset": 1499,
-      "inputSliceWidth": 401,
-      "outputSliceWidth": 2401,
-      "nativeColorSpan": 0.07
     }
   },
   "tools": {
@@ -70,24 +39,16 @@
     "pyBigWig": "0.3.24"
   },
   "outputs": {
-    "fig2aLinks": { "path": "output/fig2a-oct4-links.parquet", "format": "parquet", "fields": ["source", "target", "effect"] },
-    "fig2aTracks": { "path": "output/fig2a-oct4-tracks.parquet", "format": "parquet", "fields": ["position", "track", "value"] },
-    "fig2aMotifs": { "path": "output/fig2a-oct4-motifs.parquet", "format": "parquet", "fields": ["chrom", "start", "end", "name", "score", "strand"] },
-    "fig2bLinks": { "path": "output/fig2b-nanog-links.parquet", "format": "parquet", "fields": ["source", "target", "effect"] },
-    "fig2bTracks": { "path": "output/fig2b-nanog-tracks.parquet", "format": "parquet", "fields": ["position", "track", "value"] },
-    "fig2bMotifs": { "path": "output/fig2b-nanog-motifs.parquet", "format": "parquet", "fields": ["chrom", "start", "end", "name", "score", "strand"] },
-    "fig2cLinks": { "path": "output/fig2c-atac-links.parquet", "format": "parquet", "fields": ["source", "target", "effect"] },
-    "fig2dMatrix": { "path": "output/fig2d-atac-matrix.parquet", "format": "parquet", "recordCount": 541501, "fields": ["input", "output", "effect"] },
-    "fig2cdTracks": { "path": "output/fig2cd-atac-tracks.parquet", "format": "parquet", "fields": ["position", "track", "value"] },
-    "fig2cdMotifs": { "path": "output/fig2cd-atac-motifs.parquet", "format": "parquet", "fields": ["chrom", "start", "end", "name", "score", "strand"] },
-    "fig3bMatrix": { "path": "output/fig3b-h3k27ac-matrix.parquet", "format": "parquet", "recordCount": 962801, "fields": ["input", "output", "effect"] },
-    "fig3bTracks": { "path": "output/fig3b-h3k27ac-tracks.parquet", "format": "parquet", "fields": ["position", "track", "value"] },
-    "fig3bMotifs": { "path": "output/fig3b-h3k27ac-motifs.parquet", "format": "parquet", "fields": ["chrom", "start", "end", "name", "score", "strand"] },
-    "panels": { "path": "output/panels.json", "format": "json" }
+    "fig2cLinks": { "path": "output/fig2c-atac-links.parquet", "format": "parquet", "recordCount": 5093, "fileSizeBytes": 42296, "sha256": "92b969d418b08332e6cde05b702ed9932d3ac2dedace4bf49c9fefdfd1dbf986", "fields": ["source", "target", "effect"] },
+    "fig2dMatrix": { "path": "output/fig2d-atac-matrix.parquet", "format": "parquet", "recordCount": 541501, "fileSizeBytes": 2673598, "sha256": "bca657e584cbc8a8aecbcd0961c73dbe89910fd3341c77258b5f72d2116f9497", "fields": ["input", "output", "effect"] },
+    "fig2cdTracks": { "path": "output/fig2cd-atac-tracks.parquet", "format": "parquet", "recordCount": 1502, "fileSizeBytes": 14478, "sha256": "fec326a0b6d60fbca07eda3b28493875ccd51015847b2564563c32b969ea0382", "fields": ["position", "track", "value"] },
+    "fig2cdMotifs": { "path": "output/fig2cd-atac-motifs.parquet", "format": "parquet", "recordCount": 6, "fileSizeBytes": 1708, "sha256": "5819ffbad099f86f1cb97736d2f9d75644383756b38499ac181d74c30bb89689", "fields": ["chrom", "start", "end", "name", "score", "strand"] },
+    "panels": { "path": "output/panels.json", "format": "json", "fileSizeBytes": 351, "sha256": "02cd8ad69626c25f428d7567b818fdcd817696fae6b165e4a78e2f8e44cd39e2" }
   },
   "validation": {
-    "status": "pending first full run",
+    "status": "accepted local run",
+    "acceptedPanels": ["fig2cd-atac"],
     "syntheticShearAndSliceTests": true,
-    "acceptedOutputFingerprintsRecorded": false
+    "acceptedOutputFingerprintsRecorded": true
   }
 }
