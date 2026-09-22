@@ -59,8 +59,7 @@
         "format": { "type": "parquet" }
       },
       "transform": [
-        { "type": "filter", "expr": "datum.track == 'prediction'" },
-        { "type": "formula", "expr": "datum.position + 1", "as": "end" }
+        { "type": "filter", "expr": "datum.track == 'prediction'" }
       ],
       "mark": { "type": "rect", "color": "#332288", "minOpacity": 1 },
       "encoding": {
@@ -69,7 +68,6 @@
           "type": "index",
           "title": "dm6 chrX"
         },
-        "x2": { "field": "end" },
         "y": {
           "field": "value",
           "type": "quantitative",
@@ -88,6 +86,7 @@
       "layer": [
         {
           "name": "pisa-links",
+          "description": "With no interval brush, links use their normal effect color and magnitude opacity. During brushing, links with an endpoint in the selected region are drawn last with the normal encoding while all other links are muted.",
           "data": {
             "url": "../output/fig2c-atac-links.parquet",
             "format": { "type": "parquet" }
@@ -96,17 +95,8 @@
             {
               "type": "formula",
               "expr": "abs(datum.effect)",
-              "as": "absEffect"
-            }
-          ],
-          "params": [
-            {
-              "name": "pisaLinkHover",
-              "select": {
-                "type": "point",
-                "on": "pointerover"
-              },
-              "persist": false
+              "as": "absEffect",
+              "description": "Precompute effect magnitude for the normal link-opacity encoding."
             }
           ],
           "mark": {
@@ -120,7 +110,7 @@
             "order": {
               "condition": {
                 "test": {
-                  "param": { "or": ["pisaLinkHover", "pisaRegion"] },
+                  "param": "pisaRegion",
                   "empty": false
                 },
                 "value": 1
@@ -144,7 +134,7 @@
             "color": {
               "condition": {
                 "test": {
-                  "param": { "or": ["pisaLinkHover", "pisaRegion"] },
+                  "param": "pisaRegion",
                   "empty": true
                 },
                 "field": "effect",
@@ -185,7 +175,7 @@
             "opacity": {
               "condition": {
                 "test": {
-                  "param": { "or": ["pisaLinkHover", "pisaRegion"] },
+                  "param": "pisaRegion",
                   "empty": true
                 },
                 "field": "absEffect",
@@ -212,6 +202,7 @@
         },
         {
           "name": "motifs",
+          "description": "Motif intervals share the genomic x scale with the links. Normalized y values keep the overlay at a fixed pixel height near the bottom of the link view.",
           "data": {
             "url": "../output/fig2cd-atac-motifs.parquet",
             "format": { "type": "parquet" }
@@ -269,8 +260,7 @@
         "format": { "type": "parquet" }
       },
       "transform": [
-        { "type": "filter", "expr": "datum.track == 'importance'" },
-        { "type": "formula", "expr": "datum.position + 1", "as": "end" }
+        { "type": "filter", "expr": "datum.track == 'importance'" }
       ],
       "mark": { "type": "rect", "color": "#332288", "minOpacity": 1 },
       "encoding": {
@@ -279,7 +269,6 @@
           "type": "index",
           "title": "dm6 chrX"
         },
-        "x2": { "field": "end" },
         "y": {
           "field": "value",
           "type": "quantitative",
