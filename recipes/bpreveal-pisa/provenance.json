@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 2,
+  "releaseId": "v1",
+  "recipeId": "bpreveal-pisa",
+  "distribution": {
+    "baseUrl": "https://data.genomespy.app/datasets/bpreveal-pisa/v1/",
+    "artifacts": {
+      "output/fig2c-atac-links.parquet": {
+        "fileSizeBytes": 42296,
+        "sha256": "92b969d418b08332e6cde05b702ed9932d3ac2dedace4bf49c9fefdfd1dbf986"
+      },
+      "output/fig2cd-atac-motifs.parquet": {
+        "fileSizeBytes": 1708,
+        "sha256": "5819ffbad099f86f1cb97736d2f9d75644383756b38499ac181d74c30bb89689"
+      },
+      "output/fig2cd-atac-tracks.parquet": {
+        "fileSizeBytes": 14478,
+        "sha256": "fec326a0b6d60fbca07eda3b28493875ccd51015847b2564563c32b969ea0382"
+      },
+      "output/fig2d-atac-matrix.parquet": {
+        "fileSizeBytes": 2673598,
+        "sha256": "bca657e584cbc8a8aecbcd0961c73dbe89910fd3341c77258b5f72d2116f9497"
+      }
+    }
+  },
+  "sources": [
+    {
+      "id": "bpreveal-paper-derived-files",
+      "title": "Positional Interpretation of Cis-Regulatory Code and Nucleosome Organization with Deep Learning Models: Data, models, and code",
+      "doi": "10.5281/zenodo.20318019",
+      "recordUrl": "https://zenodo.org/records/20318019",
+      "url": "https://zenodo.org/api/records/20318019/files/zenodo-bpreveal-files.tar.bz2/content",
+      "filename": "zenodo-bpreveal-files.tar.bz2",
+      "fileSizeBytes": 28422786382,
+      "md5": "00f3387e18e1ebbabe20df2445aa0d1d",
+      "selectedMemberCount": 4,
+      "selection": "The PISA HDF5, prediction/importance BigWig, and motif BED members required by the shared Figure 2c/2d locus"
+    }
+  ],
+  "parameters": {
+    "effectUnits": "log2 fold change; source HDF5 values multiplied by log2(e)",
+    "coordinateConvention": "zero-based single-base positions; motif intervals are zero-based half-open",
+    "fig2cFig2d": {
+      "assembly": "dm6",
+      "chrom": "chrX",
+      "genomeWindowStart": 15643659,
+      "midpointOffset": 3290,
+      "inputSliceWidth": 601,
+      "outputSliceWidth": 901,
+      "nativeThreshold": 0.03,
+      "nativeGraphColorSpan": 0.15,
+      "nativeMatrixColorSpan": 0.1
+    }
+  },
+  "tools": {
+    "python": ">=3.12",
+    "h5py": "3.15.1",
+    "numpy": "2.4.6",
+    "pyarrow": "24.0.0",
+    "pyBigWig": "0.3.24"
+  },
+  "outputs": {
+    "fig2cLinks": { "path": "output/fig2c-atac-links.parquet", "format": "parquet", "recordCount": 5093, "fileSizeBytes": 42296, "sha256": "92b969d418b08332e6cde05b702ed9932d3ac2dedace4bf49c9fefdfd1dbf986", "fields": ["source", "target", "effect"] },
+    "fig2dMatrix": { "path": "output/fig2d-atac-matrix.parquet", "format": "parquet", "recordCount": 541501, "fileSizeBytes": 2673598, "sha256": "bca657e584cbc8a8aecbcd0961c73dbe89910fd3341c77258b5f72d2116f9497", "fields": ["input", "output", "effect"] },
+    "fig2cdTracks": { "path": "output/fig2cd-atac-tracks.parquet", "format": "parquet", "recordCount": 1502, "fileSizeBytes": 14478, "sha256": "fec326a0b6d60fbca07eda3b28493875ccd51015847b2564563c32b969ea0382", "fields": ["position", "track", "value"] },
+    "fig2cdMotifs": { "path": "output/fig2cd-atac-motifs.parquet", "format": "parquet", "recordCount": 6, "fileSizeBytes": 1708, "sha256": "5819ffbad099f86f1cb97736d2f9d75644383756b38499ac181d74c30bb89689", "fields": ["chrom", "start", "end", "name", "score", "strand"] },
+    "panels": { "path": "output/panels.json", "format": "json", "fileSizeBytes": 351, "sha256": "02cd8ad69626c25f428d7567b818fdcd817696fae6b165e4a78e2f8e44cd39e2" }
+  },
+  "validation": {
+    "status": "accepted local run",
+    "acceptedPanels": ["fig2cd-atac"],
+    "syntheticShearAndSliceTests": true,
+    "acceptedOutputFingerprintsRecorded": true
+  }
+}
