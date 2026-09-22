@@ -1022,14 +1022,10 @@ def validate_accepted_output_identities(
             raise ValueError(f"Invalid provenance output record: {identifier}")
         output_path = value.get("path")
         if not isinstance(output_path, str):
-            raise ValueError(
-                f"Missing output path in provenance record: {identifier}"
-            )
+            raise ValueError(f"Missing output path in provenance record: {identifier}")
         relative_path = Path(output_path)
         if relative_path.is_absolute() or relative_path.parent != Path("output"):
-            raise ValueError(
-                f"Invalid output path in provenance record: {output_path}"
-            )
+            raise ValueError(f"Invalid output path in provenance record: {output_path}")
         if relative_path.name in accepted:
             raise ValueError(f"Duplicate output path in provenance: {output_path}")
         accepted[relative_path.name] = value
