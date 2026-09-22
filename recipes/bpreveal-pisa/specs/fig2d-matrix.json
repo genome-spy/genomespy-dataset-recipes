@@ -1,0 +1,287 @@
+{
+  "$schema": "https://unpkg.com/@genome-spy/core/dist/schema.json",
+
+  "description": [
+    "PISA matrix for the Drosophila sog enhancer (Figure 2d)",
+    "Each matrix cell shows the effect of an input base on an ATAC-seq output position. Positive effects are red and negative effects are blue; clipped extremes are pink and green."
+  ],
+
+  "width": "container",
+  "padding": { "top": 8, "right": 20, "bottom": 8, "left": 10 },
+  "columns": 2,
+  "spacing": 6,
+
+  "resolve": {
+    "scale": { "x": "shared", "y": "shared", "color": "independent" },
+    "axis": { "x": "independent", "y": "independent" },
+    "legend": { "color": "collected" }
+  },
+
+  "scales": {
+    "x": {
+      "type": "index",
+      "domain": [15646649, 15647250],
+      "zoom": true
+    },
+    "y": {
+      "type": "index",
+      "domain": [15646499, 15647400],
+      "reverse": true,
+      "zoom": true
+    }
+  },
+
+  "concat": [
+    {
+      "name": "pisa-matrix",
+      "width": { "grow": 1 },
+      "height": 520,
+      "resolve": { "scale": { "color": "independent" } },
+      "layer": [
+        {
+          "data": {
+            "url": "../output/fig2d-atac-matrix.parquet",
+            "format": { "type": "parquet" }
+          },
+          "mark": {
+            "type": "rect",
+            "buildIndex": false,
+            "tooltip": null
+          },
+          "encoding": {
+            "x": {
+              "field": "input",
+              "type": "index",
+              "axis": null
+            },
+            "y": {
+              "field": "output",
+              "type": "index",
+              "axis": {
+                "title": "Output position",
+                "tickCount": 4,
+                "grid": false
+              }
+            },
+            "color": {
+              "field": "effect",
+              "type": "quantitative",
+              "scale": {
+                "domain": [
+                  -0.14427,
+                  -0.138499,
+                  -0.115416,
+                  -0.086562,
+                  -0.057708,
+                  -0.028854,
+                  0,
+                  0.028854,
+                  0.057708,
+                  0.086562,
+                  0.115416,
+                  0.138499,
+                  0.14427
+                ],
+                "range": [
+                  "#18f894",
+                  "#053061",
+                  "#2166ac",
+                  "#4393c3",
+                  "#92c5de",
+                  "#d1e5f0",
+                  "#ffffff",
+                  "#fddbc7",
+                  "#f4a582",
+                  "#d6604d",
+                  "#b2182b",
+                  "#67001f",
+                  "#f81894"
+                ],
+                "clamp": true
+              },
+              "legend": {
+                "title": "PISA effect (log₂(fc))",
+                "orient": "left",
+                "direction": "vertical",
+                "gradientLength": 110,
+                "gradientThickness": 18,
+                "gradientStrokeColor": "#777777",
+                "gradientStrokeWidth": 0.5,
+                "values": [-0.1, -0.05, 0, 0.05, 0.1]
+              }
+            }
+          }
+        },
+        {
+          "name": "same-position-diagonal",
+          "data": {
+            "url": "../output/fig2cd-atac-tracks.parquet",
+            "format": { "type": "parquet" }
+          },
+          "transform": [
+            {
+              "type": "filter",
+              "expr": "datum.track == 'importance' && datum.position == 15646649"
+            }
+          ],
+          "mark": {
+            "type": "rule",
+            "color": "#333333",
+            "opacity": 0.35,
+            "size": 0.75,
+            "strokeDash": [3, 3],
+            "tooltip": null
+          },
+          "encoding": {
+            "x": {
+              "datum": 15646649,
+              "type": "index"
+            },
+            "x2": { "datum": 15647250 },
+            "y": {
+              "datum": 15646649,
+              "type": "index"
+            },
+            "y2": { "datum": 15647250 }
+          }
+        },
+        {
+          "name": "motifs",
+          "data": {
+            "url": "../output/fig2cd-atac-motifs.parquet",
+            "format": { "type": "parquet" }
+          },
+          "transform": [
+            {
+              "type": "formula",
+              "expr": "datum.name == 'm1bp' ? 'M1bp' : datum.name == 'gaga' ? 'Gaga' : 'Zelda'",
+              "as": "motifLabel"
+            }
+          ],
+          "mark": { "type": "rect", "minOpacity": 1 },
+          "encoding": {
+            "x": {
+              "field": "start",
+              "type": "index",
+              "axis": null
+            },
+            "x2": { "field": "end" },
+            "y": { "value": { "expr": "4 / height" } },
+            "y2": { "value": { "expr": "20 / height" } },
+            "color": {
+              "field": "motifLabel",
+              "type": "nominal",
+              "scale": {
+                "domain": ["M1bp", "Gaga", "Zelda"],
+                "range": ["#bbcc33", "#44bb99", "#99ddff"]
+              },
+              "legend": {
+                "orient": "left",
+                "direction": "vertical",
+                "symbolOpacity": 1
+              }
+            },
+            "tooltip": [
+              { "field": "motifLabel", "title": "Motif" },
+              { "field": "start", "title": "Start" },
+              { "field": "end", "title": "End" },
+              { "field": "strand", "title": "Strand" },
+              { "field": "score", "title": "Score" }
+            ]
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "accessibility",
+      "title": {
+        "text": "Accessibility",
+        "style": "overlay-title"
+      },
+      "width": { "px": 100 },
+      "height": 520,
+      "resolve": { "scale": { "x": "excluded" } },
+      "data": {
+        "url": "../output/fig2cd-atac-tracks.parquet",
+        "format": { "type": "parquet" }
+      },
+      "transform": [
+        { "type": "filter", "expr": "datum.track == 'prediction'" }
+      ],
+      "mark": { "type": "rect", "color": "#373483", "minOpacity": 1 },
+      "encoding": {
+        "x": {
+          "field": "value",
+          "type": "quantitative",
+          "scale": { "type": "linear", "zero": true },
+          "axis": null
+        },
+        "x2": { "datum": 0 },
+        "y": {
+          "field": "position",
+          "type": "index",
+          "axis": null
+        },
+        "tooltip": [
+          { "field": "position", "title": "Output position" },
+          { "field": "value", "title": "Accessibility", "format": ".4g" }
+        ]
+      }
+    },
+
+    {
+      "name": "importance",
+      "title": {
+        "text": "Contribution score",
+        "style": "overlay-title"
+      },
+      "width": { "grow": 1 },
+      "height": 70,
+      "resolve": { "scale": { "y": "excluded" } },
+      "data": {
+        "url": "../output/fig2cd-atac-tracks.parquet",
+        "format": { "type": "parquet" }
+      },
+      "transform": [
+        { "type": "filter", "expr": "datum.track == 'importance'" }
+      ],
+      "mark": { "type": "rect", "color": "#373483", "minOpacity": 1 },
+      "encoding": {
+        "x": {
+          "field": "position",
+          "type": "index",
+          "title": "dm6 chrX"
+        },
+        "y": {
+          "field": "value",
+          "type": "quantitative",
+          "scale": { "type": "linear", "zero": true },
+          "axis": null
+        },
+        "y2": { "datum": 0 },
+        "tooltip": [
+          { "field": "position", "title": "Input position" },
+          { "field": "value", "title": "Contribution", "format": ".4g" }
+        ]
+      }
+    }
+  ],
+
+  "config": {
+    "axis": {
+      "domain": false,
+      "grid": false,
+      "labelFontSize": 10,
+      "titleFontSize": 10
+    },
+    "legend": {
+      "labelFontSize": 11,
+      "titleFontSize": 11,
+      "layout": { "left": { "anchor": "middle", "wrap": false } }
+    },
+    "legendTrack": { "style": null },
+    "title": { "fontSize": 12, "fontWeight": "normal", "offset": 2 },
+    "view": { "stroke": "#333333", "strokeWidth": 0.6 }
+  }
+}

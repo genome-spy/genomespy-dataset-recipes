@@ -75,9 +75,18 @@ Parquet outputs. It uses straight `link` marks from input bases to output
 positions, with positive effects in red and negative effects in blue. The
 prediction and input-contribution profiles use one-base `rect` marks.
 
-The accepted local Figure 2c extract contains 5,093 links, 1,502 profile rows,
-and six motif calls. The link table is 42 KB and renders interactively in the
-local GenomeSpy application.
+[`specs/fig2d-matrix.json`](specs/fig2d-matrix.json) renders the corresponding
+Figure 2d PISA matrix as 541,501 one-base `rect` marks. It retains the paper's
+diverging effect colors and clipped-value colors, places the accessibility
+profile to the right, overlays motif intervals near the bottom of the matrix,
+and places the contribution track below it. Shared positional scales keep both
+margin profiles aligned with the matrix during navigation. Picking and the
+mark's spatial search index are disabled for the dense matrix marks to reduce
+their runtime overhead.
+
+The accepted local Figure 2c/2d extract contains 5,093 links, 1,502 profile rows,
+and six motif calls. The link table is 42 KB; the Figure 2d matrix table is
+2.7 MB. Both prototypes use the same accepted local extract.
 
 ## Validation and limitations
 
