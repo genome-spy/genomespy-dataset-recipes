@@ -2,10 +2,31 @@
   "schemaVersion": 2,
   "releaseId": "v1",
   "recipeId": "bpreveal-pisa",
+  "distribution": {
+    "baseUrl": "https://data.genomespy.app/datasets/bpreveal-pisa/v1/",
+    "artifacts": {
+      "output/fig2c-atac-links.parquet": {
+        "fileSizeBytes": 42296,
+        "sha256": "92b969d418b08332e6cde05b702ed9932d3ac2dedace4bf49c9fefdfd1dbf986"
+      },
+      "output/fig2cd-atac-motifs.parquet": {
+        "fileSizeBytes": 1708,
+        "sha256": "5819ffbad099f86f1cb97736d2f9d75644383756b38499ac181d74c30bb89689"
+      },
+      "output/fig2cd-atac-tracks.parquet": {
+        "fileSizeBytes": 14478,
+        "sha256": "fec326a0b6d60fbca07eda3b28493875ccd51015847b2564563c32b969ea0382"
+      },
+      "output/fig2d-atac-matrix.parquet": {
+        "fileSizeBytes": 2673598,
+        "sha256": "bca657e584cbc8a8aecbcd0961c73dbe89910fd3341c77258b5f72d2116f9497"
+      }
+    }
+  },
   "sources": [
     {
       "id": "bpreveal-paper-derived-files",
-      "title": "BPReveal manuscript derived files",
+      "title": "Positional Interpretation of Cis-Regulatory Code and Nucleosome Organization with Deep Learning Models: Data, models, and code",
       "doi": "10.5281/zenodo.20318019",
       "recordUrl": "https://zenodo.org/records/20318019",
       "url": "https://zenodo.org/api/records/20318019/files/zenodo-bpreveal-files.tar.bz2/content",

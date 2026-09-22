@@ -11,27 +11,41 @@ Its outputs are small locus-specific Parquet transformations.
 
 - Paper: <https://doi.org/10.1038/s41467-026-74807-1>
 - Zenodo record: <https://zenodo.org/records/20318019>
+- Zenodo license guidance:
+  <https://help.zenodo.org/docs/deposit/describe-records/licenses/>
 - Stowers publication record: <https://www.stowers.org/research/publications/libpb-2546>
 
-The Zenodo record labels the deposit GPL-2.0-or-later, while the archive also
-contains derived results based on several third-party experimental datasets.
-The available record does not yet establish clearly that the proposed reduced
-data extracts may be redistributed independently under that software license.
-Public accessibility and the paper's CC BY license are not sufficient evidence
-for mirroring the underlying data.
+The authors' Zenodo record identifies the resource as a dataset and assigns the
+entire deposit the GNU General Public License v2.0 or later
+(`GPL-2.0-or-later`). Zenodo describes its required license field as the terms
+under which users may reuse an upload and provides separate handling for mixed
+license deposits. The record declares only `GPL-2.0-or-later`.
+
+The selected HDF5, BigWig, and BED members are author-deposited PISA results,
+model predictions, importance scores, and motif calls rather than copies of
+the underlying sequencing reads. The Parquet files are reduced and reformatted
+derivatives of those licensed files. Although GPL is unusual for data, its
+permission to modify and redistribute the licensed work covers these extracts.
 
 ## Conditions
 
-Retain citation of the paper, the Zenodo record, and the originating
-experimental datasets. Determine the controlling terms for the selected
-derived data before any public hosting.
+- Distribute the Parquet extracts under `GPL-2.0-or-later`, retain the license
+  notice, and impose no additional restrictions on recipients.
+- State prominently that GenomeSpy selected, transformed, and reformatted the
+  data on 2026-09-22; do not present the extracts as the original deposit.
+- Retain the no-warranty notice and provide a copy of, or link to, the
+  [GPL v2 license](https://www.gnu.org/licenses/old-licenses/gpl-2.0.html).
+- Credit McAnany et al.; cite the paper and Zenodo record 20318019. Also retain
+  the paper's identification of GSE218852 as the training data source for the
+  accessibility model.
+- State that the recipe repository's CC0 dedication does not cover the data.
 
 ## Decision
 
-Local-only: unresolved.
+Eligible for GenomeSpy-managed hosting under the conditions above.
 
-The recipe may be run locally, but its generated outputs must not be uploaded
-to GenomeSpy-managed storage until authoritative redistribution evidence is
-recorded here.
+The four Parquet outputs listed in `provenance.json` may be hosted. The
+unmodified Zenodo archive and extracted HDF5, BigWig, and BED intermediates are
+outside this publication decision.
 
-Reviewed: 2026-09-21
+Reviewed: 2026-09-22

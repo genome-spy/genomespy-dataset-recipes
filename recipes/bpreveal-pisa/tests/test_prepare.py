@@ -13,6 +13,7 @@ from types import ModuleType
 import h5py
 import numpy as np
 import pyarrow.parquet as pq
+import pytest
 
 
 def load_prepare() -> ModuleType:
@@ -171,6 +172,39 @@ def test_fig2cd_panel_selection_is_self_contained() -> None:
         "fig2cd-atac-motifs.parquet",
         "fig2d-atac-matrix.parquet",
     }
+
+
+def test_accepted_output_identity_contract() -> None:
+    identities = {
+        "example.parquet": {
+            "fileSizeBytes": 12,
+            "recordCount": 3,
+            "sha256": "abc",
+            "fields": ["position", "value"],
+        },
+        "panels.json": {"fileSizeBytes": 34, "sha256": "def"},
+    }
+    provenance = {
+        "outputs": {
+            "example": {
+                "path": "output/example.parquet",
+                "format": "parquet",
+                **identities["example.parquet"],
+            },
+            "panels": {
+                "path": "output/panels.json",
+                "format": "json",
+                **identities["panels.json"],
+            },
+        }
+    }
+
+    prepare.validate_accepted_output_identities(identities, provenance)
+
+    changed = {name: dict(value) for name, value in identities.items()}
+    changed["example.parquet"]["sha256"] = "changed"
+    with pytest.raises(ValueError, match="sha256 mismatch"):
+        prepare.validate_accepted_output_identities(changed, provenance)
 
 
 def test_concatenated_bzip2_streams_are_supported(tmp_path: Path) -> None:

@@ -62,7 +62,7 @@
         { "type": "filter", "expr": "datum.track == 'prediction'" },
         { "type": "formula", "expr": "datum.position + 1", "as": "end" }
       ],
-      "mark": { "type": "rect", "color": "#373483", "minOpacity": 1 },
+      "mark": { "type": "rect", "color": "#332288", "minOpacity": 1 },
       "encoding": {
         "x": {
           "field": "position",
@@ -170,7 +170,7 @@
                   "clamp": true
                 },
                 "legend": {
-                  "title": "PISA effect (log₂(fc))",
+                  "title": "PISA (log2(fc))",
                   "orient": "left",
                   "direction": "vertical",
                   "gradientLength": 84,
@@ -272,7 +272,7 @@
         { "type": "filter", "expr": "datum.track == 'importance'" },
         { "type": "formula", "expr": "datum.position + 1", "as": "end" }
       ],
-      "mark": { "type": "rect", "color": "#373483", "minOpacity": 1 },
+      "mark": { "type": "rect", "color": "#332288", "minOpacity": 1 },
       "encoding": {
         "x": {
           "field": "position",

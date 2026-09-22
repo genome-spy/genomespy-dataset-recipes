@@ -6,10 +6,8 @@
     "Each matrix cell shows the effect of an input base on an ATAC-seq output position. Positive effects are red and negative effects are blue; clipped extremes are pink and green."
   ],
 
-  "width": "container",
-  "padding": { "top": 8, "right": 20, "bottom": 8, "left": 10 },
   "columns": 2,
-  "spacing": 6,
+  "spacing": 2,
 
   "resolve": {
     "scale": { "x": "shared", "y": "shared", "color": "independent" },
@@ -18,31 +16,51 @@
   },
 
   "scales": {
-    "x": {
-      "type": "index",
-      "domain": [15646649, 15647250],
-      "zoom": true
-    },
-    "y": {
-      "type": "index",
-      "domain": [15646499, 15647400],
-      "reverse": true,
-      "zoom": true
-    }
+    "x": { "type": "index", "domain": [15646649, 15647250] },
+    "y": { "type": "index", "domain": [15646499, 15647400], "reverse": true }
   },
 
   "concat": [
     {
       "name": "pisa-matrix",
-      "width": { "grow": 1 },
-      "height": 520,
+      "view": { "stroke": "gray" },
       "resolve": { "scale": { "color": "independent" } },
+      "data": {
+        "url": "../output/fig2d-atac-matrix.parquet",
+        "format": { "type": "parquet" }
+      },
+      "params": [
+        {
+          "name": "matrixCursor",
+          "persist": false,
+          "ruler": {
+            "encodings": ["x", "y"],
+            "extent": "view",
+            "mark": {
+              "opacity": { "expr": "rulerOpacity" },
+              "strokeDash": [3, 3]
+            }
+          }
+        },
+        { "name": "labelXBinSize", "value": 30 },
+        { "name": "labelYBinSize", "value": 45 },
+        {
+          "name": "showCellLabels",
+          "expr": "abs(span(domain('x'))) <= labelXBinSize && abs(span(domain('y'))) <= labelYBinSize"
+        },
+        {
+          "name": "rulerOpacity",
+          "expr": "showCellLabels ? 0 : 0.3",
+          "transition": {
+            "type": "lerp",
+            "halfLife": 100,
+            "epsilon": 0.01
+          },
+          "description": "Fade the matrix ruler out when cell labels become visible."
+        }
+      ],
       "layer": [
         {
-          "data": {
-            "url": "../output/fig2d-atac-matrix.parquet",
-            "format": { "type": "parquet" }
-          },
           "mark": {
             "type": "rect",
             "buildIndex": false,
@@ -58,7 +76,7 @@
               "field": "output",
               "type": "index",
               "axis": {
-                "title": "Output position",
+                "title": null,
                 "tickCount": 4,
                 "grid": false
               }
@@ -68,19 +86,9 @@
               "type": "quantitative",
               "scale": {
                 "domain": [
-                  -0.14427,
-                  -0.138499,
-                  -0.115416,
-                  -0.086562,
-                  -0.057708,
-                  -0.028854,
-                  0,
-                  0.028854,
-                  0.057708,
-                  0.086562,
-                  0.115416,
-                  0.138499,
-                  0.14427
+                  -0.14427, -0.138499, -0.115416, -0.086562, -0.057708,
+                  -0.028854, 0, 0.028854, 0.057708, 0.086562, 0.115416,
+                  0.138499, 0.14427
                 ],
                 "range": [
                   "#18f894",
@@ -100,7 +108,7 @@
                 "clamp": true
               },
               "legend": {
-                "title": "PISA effect (log₂(fc))",
+                "title": "PISA (log2(fc))",
                 "orient": "left",
                 "direction": "vertical",
                 "gradientLength": 110,
@@ -143,6 +151,67 @@
               "type": "index"
             },
             "y2": { "datum": 15647250 }
+          }
+        },
+        {
+          "name": "cell-labels",
+
+          "description": "Text labels for matrix cells, materialized only when zoomed in sufficiently. The matrix is quantized into tiles, and only tiles intersecting the current viewport are materialized.",
+
+          "params": [
+            {
+              "name": "labelXStart",
+              "expr": "showCellLabels ? floor(min(domain('x')[0], domain('x')[1]) / labelXBinSize) * labelXBinSize : null"
+            },
+            {
+              "name": "labelXEnd",
+              "expr": "showCellLabels ? ceil(max(domain('x')[0], domain('x')[1]) / labelXBinSize) * labelXBinSize : null"
+            },
+            {
+              "name": "labelYStart",
+              "expr": "showCellLabels ? floor(min(domain('y')[0], domain('y')[1]) / labelYBinSize) * labelYBinSize : null"
+            },
+            {
+              "name": "labelYEnd",
+              "expr": "showCellLabels ? ceil(max(domain('y')[0], domain('y')[1]) / labelYBinSize) * labelYBinSize : null"
+            }
+          ],
+
+          "transform": [
+            {
+              "type": "collect",
+              "description": "Cache the matrix rows so reactive label filtering replays only this branch."
+            },
+            {
+              "type": "filter",
+              "expr": "showCellLabels && datum.input >= labelXStart && datum.input < labelXEnd && datum.output >= labelYStart && datum.output < labelYEnd",
+              "description": "Materialize text marks only for quantized tiles intersecting a sufficiently small viewport."
+            }
+          ],
+          "mark": {
+            "type": "text",
+            "size": 10,
+            "opacity": 0.85,
+            "fitToBand": true,
+            "paddingX": 2.5,
+            "paddingY": 2.5,
+            "buildIndex": false,
+            "tooltip": null
+          },
+          "encoding": {
+            "x": { "field": "input", "type": "index", "axis": null },
+            "y": { "field": "output", "type": "index" },
+            "text": { "field": "effect", "format": ".2f" },
+            "color": {
+              "field": "effect",
+              "type": "quantitative",
+              "scale": {
+                "type": "threshold",
+                "domain": [-0.138499, -0.06, 0.06, 0.138499],
+                "range": ["#222222", "#ffffff", "#222222", "#ffffff", "#222222"]
+              },
+              "legend": null
+            }
           }
         },
         {
@@ -197,10 +266,13 @@
       "name": "accessibility",
       "title": {
         "text": "Accessibility",
-        "style": "overlay-title"
+        "style": "overlay-title",
+        "orient": "right",
+        "anchor": "start",
+        "angle": 90,
+        "dx": 5
       },
-      "width": { "px": 100 },
-      "height": 520,
+      "width": 60,
       "resolve": { "scale": { "x": "excluded" } },
       "data": {
         "url": "../output/fig2cd-atac-tracks.parquet",
@@ -209,7 +281,7 @@
       "transform": [
         { "type": "filter", "expr": "datum.track == 'prediction'" }
       ],
-      "mark": { "type": "rect", "color": "#373483", "minOpacity": 1 },
+      "mark": { "type": "rect", "color": "#332288", "minOpacity": 1 },
       "encoding": {
         "x": {
           "field": "value",
@@ -234,10 +306,11 @@
       "name": "importance",
       "title": {
         "text": "Contribution score",
-        "style": "overlay-title"
+        "style": "overlay-title",
+        "dx": 5
       },
       "width": { "grow": 1 },
-      "height": 70,
+      "height": 60,
       "resolve": { "scale": { "y": "excluded" } },
       "data": {
         "url": "../output/fig2cd-atac-tracks.parquet",
@@ -246,7 +319,7 @@
       "transform": [
         { "type": "filter", "expr": "datum.track == 'importance'" }
       ],
-      "mark": { "type": "rect", "color": "#373483", "minOpacity": 1 },
+      "mark": { "type": "rect", "color": "#332288", "minOpacity": 1 },
       "encoding": {
         "x": {
           "field": "position",
@@ -276,12 +349,9 @@
       "titleFontSize": 10
     },
     "legend": {
-      "labelFontSize": 11,
-      "titleFontSize": 11,
       "layout": { "left": { "anchor": "middle", "wrap": false } }
     },
     "legendTrack": { "style": null },
-    "title": { "fontSize": 12, "fontWeight": "normal", "offset": 2 },
-    "view": { "stroke": "#333333", "strokeWidth": 0.6 }
+    "title": { "fontSize": 12, "fontWeight": "normal", "offset": 2 }
   }
 }

@@ -1007,10 +1007,57 @@ def expected_outputs(
     return contracts
 
 
+def validate_accepted_output_identities(
+    identities: dict[str, dict[str, Any]], provenance: dict[str, Any]
+) -> None:
+    """Require generated outputs to match the accepted provenance contract."""
+
+    outputs = provenance.get("outputs")
+    if not isinstance(outputs, dict):
+        raise ValueError("provenance.json must contain an outputs object")
+
+    accepted: dict[str, dict[str, Any]] = {}
+    for identifier, value in outputs.items():
+        if not isinstance(value, dict):
+            raise ValueError(f"Invalid provenance output record: {identifier}")
+        output_path = value.get("path")
+        if not isinstance(output_path, str):
+            raise ValueError(
+                f"Missing output path in provenance record: {identifier}"
+            )
+        relative_path = Path(output_path)
+        if relative_path.is_absolute() or relative_path.parent != Path("output"):
+            raise ValueError(
+                f"Invalid output path in provenance record: {output_path}"
+            )
+        if relative_path.name in accepted:
+            raise ValueError(f"Duplicate output path in provenance: {output_path}")
+        accepted[relative_path.name] = value
+
+    if set(identities) != set(accepted):
+        missing = sorted(set(accepted) - set(identities))
+        unexpected = sorted(set(identities) - set(accepted))
+        raise ValueError(
+            "Generated outputs differ from the accepted contract: "
+            f"missing={missing}, unexpected={unexpected}"
+        )
+
+    for name, actual in identities.items():
+        expected = accepted[name]
+        for key, actual_value in actual.items():
+            if key not in expected:
+                raise ValueError(f"Accepted {name} record is missing {key}")
+            if expected[key] != actual_value:
+                raise ValueError(
+                    f"Accepted {name} {key} mismatch: "
+                    f"{actual_value!r} != {expected[key]!r}"
+                )
+
+
 def verify_outputs(
     panels: Sequence[Panel] = PANELS,
 ) -> dict[str, dict[str, Any]]:
-    """Validate output schemas and return their local identities."""
+    """Validate output schemas and accepted provenance identities."""
 
     identities: dict[str, dict[str, Any]] = {}
     for name, (schema, fixed_count) in expected_outputs(panels).items():
@@ -1030,6 +1077,7 @@ def verify_outputs(
             "fileSizeBytes": path.stat().st_size,
             "recordCount": count,
             "sha256": file_digest(path),
+            "fields": actual_schema.names,
         }
 
     panels_path = OUTPUT_DIR / "panels.json"
@@ -1042,6 +1090,7 @@ def verify_outputs(
         "fileSizeBytes": panels_path.stat().st_size,
         "sha256": file_digest(panels_path),
     }
+    validate_accepted_output_identities(identities, load_provenance())
     return identities
 
 
@@ -1089,8 +1138,12 @@ def main() -> None:
     if args.test:
         raise SystemExit(run_tests())
 
-    for directory in (DOWNLOAD_DIR, WORK_DIR, OUTPUT_DIR):
-        directory.mkdir(parents=True, exist_ok=True)
+    if args.stage in {"all", "download"}:
+        DOWNLOAD_DIR.mkdir(parents=True, exist_ok=True)
+    if args.stage in {"all", "index", "extract", "wrangle"}:
+        WORK_DIR.mkdir(parents=True, exist_ok=True)
+    if args.stage in {"all", "wrangle"}:
+        OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
     panels = select_panels(args.panel)
     members = members_for_panels(panels)
@@ -1113,9 +1166,7 @@ def main() -> None:
         write_run_manifest(selected, outputs)
         return
     if args.stage == "verify":
-        selected = require_selected_members(members)
-        outputs = verify_outputs(panels)
-        write_run_manifest(selected, outputs)
+        verify_outputs(panels)
         print("BPReveal PISA output verification passed")
         return
 
