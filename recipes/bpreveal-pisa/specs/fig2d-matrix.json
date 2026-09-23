@@ -242,6 +242,7 @@
         },
         {
           "name": "motifs",
+          "description": "Ranged text centers each motif name inside the colored interval overlaid near the bottom of the matrix.",
           "data": {
             "url": "../output/fig2cd-atac-motifs.parquet",
             "format": { "type": "parquet" }
@@ -253,7 +254,6 @@
               "as": "motifLabel"
             }
           ],
-          "mark": { "type": "rect", "minOpacity": 1 },
           "encoding": {
             "x": {
               "field": "start",
@@ -262,28 +262,50 @@
             },
             "x2": { "field": "end" },
             "y": { "value": { "expr": "4 / height" } },
-            "y2": { "value": { "expr": "20 / height" } },
-            "color": {
-              "field": "motifLabel",
-              "type": "nominal",
-              "scale": {
-                "domain": ["M1bp", "Gaga", "Zelda"],
-                "range": ["#bbcc33", "#44bb99", "#99ddff"]
-              },
-              "legend": {
-                "orient": "left",
-                "direction": "vertical",
-                "symbolOpacity": 1
+            "y2": { "value": { "expr": "20 / height" } }
+          },
+          "layer": [
+            {
+              "name": "Motif intervals",
+              "mark": { "type": "rect", "minOpacity": 1 },
+              "encoding": {
+                "color": {
+                  "field": "motifLabel",
+                  "type": "nominal",
+                  "scale": {
+                    "domain": ["M1bp", "Gaga", "Zelda"],
+                    "range": ["#bbcc33", "#44bb99", "#99ddff"]
+                  },
+                  "legend": {
+                    "orient": "left",
+                    "direction": "vertical",
+                    "symbolOpacity": 1
+                  }
+                },
+                "tooltip": [
+                  { "field": "motifLabel", "title": "Motif" },
+                  { "field": "start", "title": "Start" },
+                  { "field": "end", "title": "End" },
+                  { "field": "strand", "title": "Strand" },
+                  { "field": "score", "title": "Score" }
+                ]
               }
             },
-            "tooltip": [
-              { "field": "motifLabel", "title": "Motif" },
-              { "field": "start", "title": "Start" },
-              { "field": "end", "title": "End" },
-              { "field": "strand", "title": "Strand" },
-              { "field": "score", "title": "Score" }
-            ]
-          }
+            {
+              "name": "Motif labels",
+              "mark": {
+                "type": "text",
+                "align": "center",
+                "baseline": "middle",
+                "paddingX": 3,
+                "tooltip": null
+              },
+              "encoding": {
+                "text": { "field": "motifLabel" },
+                "color": { "value": "black" }
+              }
+            }
+          ]
         }
       ]
     },
@@ -345,7 +367,6 @@
       "transform": [
         { "type": "filter", "expr": "datum.track == 'importance'" }
       ],
-      "mark": { "type": "rect", "color": "#332288", "minOpacity": 1 },
       "encoding": {
         "x": {
           "field": "position",
@@ -353,17 +374,57 @@
           "title": "dm6 chrX"
         },
         "y": {
-          "field": "value",
+          "datum": 0,
           "type": "quantitative",
           "scale": { "type": "linear", "zero": true },
           "axis": null
         },
-        "y2": { "datum": 0 },
+        "y2": { "field": "value" },
         "tooltip": [
           { "field": "position", "title": "Input position" },
+          { "field": "base", "title": "Base" },
           { "field": "value", "title": "Contribution", "format": ".4g" }
         ]
-      }
+      },
+      "description": "Use compact bars in the overview and reveal the contributing reference bases as a Dynseq logo once each one-base band is at least 12 pixels wide.",
+      "stops": {
+        "channel": "x",
+        "values": [0.08333333333333333],
+        "transition": { "type": "lerp", "halfLife": 60 }
+      },
+      "multiscale": [
+        {
+          "name": "Contribution bars",
+          "mark": { "type": "rect", "color": "#332288", "minOpacity": 1 }
+        },
+        {
+          "name": "Contribution sequence logo",
+          "mark": {
+            "type": "text",
+            "font": "Source Sans Pro",
+            "fontWeight": 700,
+            "size": 100,
+            "squeeze": true,
+            "fitToBand": true,
+            "paddingX": 0,
+            "paddingY": 0,
+            "logoLetters": true
+          },
+          "encoding": {
+            "text": { "field": "base" },
+            "color": {
+              "field": "base",
+              "type": "nominal",
+              "scale": {
+                "type": "ordinal",
+                "domain": ["A", "C", "G", "T", "N"],
+                "range": ["#009E73", "#0072B2", "#F0E442", "#D55E00", "#BDBDBD"]
+              },
+              "legend": null
+            }
+          }
+        }
+      ]
     }
   ],
 

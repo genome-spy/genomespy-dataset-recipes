@@ -13,6 +13,7 @@ from types import ModuleType
 import h5py
 import numpy as np
 import pyarrow.parquet as pq
+import pyBigWig
 import pytest
 
 
@@ -101,6 +102,7 @@ def test_matrix_parquet_contract(tmp_path: Path) -> None:
         pisa_members=("unused",),
         tracks=(),
         motifs_member="unused",
+        sequence_member="unused",
         threshold=None,
         color_span=1,
     )
@@ -128,6 +130,7 @@ def test_link_threshold_and_draw_order(tmp_path: Path) -> None:
         pisa_members=("unused",),
         tracks=(),
         motifs_member="unused",
+        sequence_member="unused",
         threshold=0.5,
         color_span=1,
     )
@@ -143,6 +146,55 @@ def test_link_threshold_and_draw_order(tmp_path: Path) -> None:
     assert np.all(magnitudes[:-1] <= magnitudes[1:])
 
 
+def test_fasta_window_uses_coordinate_header_and_multiline_sequence(
+    tmp_path: Path,
+) -> None:
+    path = tmp_path / "windows.fa"
+    path.write_text(
+        ">99\nNNNN\n>100 description\nacg\nta\n>101\nCGTAA\n", encoding="ascii"
+    )
+
+    assert prepare.read_fasta_window(path, 100, 105) == "ACGTA"
+    with pytest.raises(ValueError, match="starting at 102 is absent"):
+        prepare.read_fasta_window(path, 102, 105)
+
+
+def test_track_parquet_includes_reference_bases(tmp_path: Path) -> None:
+    bigwig_path = tmp_path / "track.bw"
+    with pyBigWig.open(str(bigwig_path), "w") as bigwig:
+        bigwig.addHeader([("chr1", 1_000)])
+        bigwig.addEntries("chr1", 101, values=[1.0, 2.0, 3.0], span=1, step=1)
+    fasta_path = tmp_path / "windows.fa"
+    fasta_path.write_text(">101\nACG\n", encoding="ascii")
+    panel = prepare.Panel(
+        identifier="test",
+        assembly="test",
+        chrom="chr1",
+        genome_window_start=100,
+        midpoint_offset=2,
+        input_width=3,
+        output_width=3,
+        pisa_members=("unused",),
+        tracks=(prepare.TrackSpec("track", "importance"),),
+        motifs_member="unused",
+        sequence_member="sequence",
+        threshold=None,
+        color_span=1,
+    )
+
+    path = tmp_path / "tracks.parquet"
+    assert (
+        prepare.write_tracks(
+            path, panel, {"track": bigwig_path, "sequence": fasta_path}
+        )
+        == 3
+    )
+    table = pq.read_table(path)
+    assert table.schema == prepare.TRACK_SCHEMA
+    assert table.column("position").to_pylist() == [101, 102, 103]
+    assert table.column("base").to_pylist() == ["A", "C", "G"]
+
+
 def test_archive_member_matching_allows_a_prefix() -> None:
     member = prepare.MEMBERS[0]
     assert prepare.member_for_archive_path(member.suffix) == member
@@ -151,9 +203,9 @@ def test_archive_member_matching_allows_a_prefix() -> None:
 
 
 def test_member_selection_count_matches_provenance() -> None:
-    assert len(prepare.MEMBERS) == 4
-    assert len({member.identifier for member in prepare.MEMBERS}) == 4
-    assert len({member.local_name for member in prepare.MEMBERS}) == 4
+    assert len(prepare.MEMBERS) == 5
+    assert len({member.identifier for member in prepare.MEMBERS}) == 5
+    assert len({member.local_name for member in prepare.MEMBERS}) == 5
     assert all(not Path(member.suffix).is_absolute() for member in prepare.MEMBERS)
 
 
@@ -165,6 +217,7 @@ def test_fig2cd_panel_selection_is_self_contained() -> None:
         "fig2cdPrediction",
         "fig2cdImportance",
         "fig2cdMotifs",
+        "fig2cdSequence",
     }
     assert set(prepare.expected_outputs(panels)) == {
         "fig2c-atac-links.parquet",

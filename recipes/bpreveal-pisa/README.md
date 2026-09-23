@@ -14,9 +14,10 @@ training, DeepSHAP/PISA interpretation, motif discovery, or raw sequencing
 processing.
 
 The source is the authors' Zenodo record for the paper. The recipe downloads
-the pinned derived-files archive and extracts only the HDF5, BigWig, and BED
-members required for the shared Figure 2c/2d locus. HDF5 is an offline source
-format only; every visualization-facing table is Snappy-compressed Parquet.
+the pinned derived-files archive and extracts only the HDF5, BigWig, BED, and
+PISA-input FASTA members required for the shared Figure 2c/2d locus. HDF5 and
+FASTA are offline source formats only; every visualization-facing table is
+Snappy-compressed Parquet.
 
 The locus uses dm6 coordinates.
 
@@ -55,7 +56,7 @@ The recipe creates:
 
 - a sparse Figure 2c link table with `source`, `target`, and `effect`;
 - a dense Figure 2d matrix table with `input`, `output`, and `effect`;
-- base-resolution prediction and importance tracks;
+- base-resolution prediction and importance tracks with reference bases;
 - intersecting motif annotations; and
 - `output/panels.json`, which records assemblies, locus coordinates, display
   spans, and thresholds.
@@ -74,18 +75,21 @@ of 0.03 in the paper notebook's native logit units.
 encoding of Figure 2c using the sparse link, prediction, importance, and motif
 Parquet outputs. It uses straight `link` marks from input bases to output
 positions, with positive effects in red and negative effects in blue. The
-prediction and input-contribution profiles use one-base `rect` marks.
+prediction profile uses one-base `rect` marks. The contribution profile uses
+the same bars in the overview and switches to a base-colored Dynseq logo when
+each base is at least 12 pixels wide.
 
 [`specs/fig2d-matrix.json`](specs/fig2d-matrix.json) renders the corresponding
 Figure 2d PISA matrix as 541,501 one-base `rect` marks. It retains the paper's
 diverging effect colors and clipped-value colors, places the accessibility
 profile to the right, overlays motif intervals near the bottom of the matrix,
-and places the contribution track below it. Shared positional scales keep both
-margin profiles aligned with the matrix during navigation. Picking and the
-mark's spatial search index are disabled for the dense matrix marks to reduce
-their runtime overhead. When zoomed in sufficiently, a collected data branch
-reactively filters to the visible matrix tiles and adds formatted effect labels
-without instantiating text for the full matrix.
+and places the contribution track below it. The contribution bars likewise
+switch to a Dynseq logo at 12 pixels per base. Shared positional scales keep
+both margin profiles aligned with the matrix during navigation. Picking and
+the mark's spatial search index are disabled for the dense matrix marks to
+reduce their runtime overhead. When zoomed in sufficiently, a collected data
+branch reactively filters to the visible matrix tiles and adds formatted effect
+labels without instantiating text for the full matrix.
 
 The accepted local Figure 2c/2d extract contains 5,093 links, 1,502 profile rows,
 and six motif calls. The link table is 42 KB; the Figure 2d matrix table is
@@ -112,8 +116,7 @@ NVIDIA GPU is the simplest option; CPU execution is slower, while DGX Spark
 requires a compatible ARM64 TensorFlow/CUDA environment. Those analyses are
 outside the current recipe. The motif table contains all annotations
 intersecting the displayed locus rather than only the subset emphasized in the
-paper. Reference sequence letters are not extracted in this initial output
-contract.
+paper.
 
 ## Data rights
 

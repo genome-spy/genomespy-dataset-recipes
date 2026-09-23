@@ -4,8 +4,9 @@
 
 The input is the authors' `zenodo-bpreveal-files.tar.bz2` archive from Zenodo
 record 20318019. The recipe extracts the derived PISA HDF5 matrix, predicted
-and importance BigWigs, and motif BED file for the shared Figure 2c/2d locus.
-Its outputs are small locus-specific Parquet transformations.
+and importance BigWigs, motif BED file, and PISA-input FASTA for the shared
+Figure 2c/2d locus. Its outputs are small locus-specific Parquet
+transformations, including reference bases derived from that FASTA.
 
 ## Evidence and interpretation
 
@@ -21,11 +22,12 @@ entire deposit the GNU General Public License v2.0 or later
 under which users may reuse an upload and provides separate handling for mixed
 license deposits. The record declares only `GPL-2.0-or-later`.
 
-The selected HDF5, BigWig, and BED members are author-deposited PISA results,
-model predictions, importance scores, and motif calls rather than copies of
-the underlying sequencing reads. The Parquet files are reduced and reformatted
-derivatives of those licensed files. Although GPL is unusual for data, its
-permission to modify and redistribute the licensed work covers these extracts.
+The selected HDF5, BigWig, BED, and FASTA members are author-deposited PISA
+results, model predictions, importance scores, motif calls, and model-input
+reference sequence rather than copies of the underlying sequencing reads. The
+Parquet files are reduced and reformatted derivatives of those licensed files.
+Although GPL is unusual for data, its permission to modify and redistribute
+the licensed work covers these extracts.
 
 ## Conditions
 
@@ -45,7 +47,7 @@ permission to modify and redistribute the licensed work covers these extracts.
 Eligible for GenomeSpy-managed hosting under the conditions above.
 
 The four Parquet outputs listed in `provenance.json` may be hosted. The
-unmodified Zenodo archive and extracted HDF5, BigWig, and BED intermediates are
-outside this publication decision.
+unmodified Zenodo archive and extracted HDF5, BigWig, BED, and FASTA
+intermediates are outside this publication decision.
 
-Reviewed: 2026-09-22
+Reviewed: 2026-09-23

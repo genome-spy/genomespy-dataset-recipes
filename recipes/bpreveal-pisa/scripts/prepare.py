@@ -72,6 +72,7 @@ TRACK_SCHEMA = pa.schema(
         pa.field("position", pa.int32(), nullable=False),
         pa.field("track", pa.string(), nullable=False),
         pa.field("value", pa.float32(), nullable=False),
+        pa.field("base", pa.string(), nullable=False),
     ]
 )
 MOTIF_SCHEMA = pa.schema(
@@ -119,6 +120,7 @@ class Panel:
     pisa_members: tuple[str, ...]
     tracks: tuple[TrackSpec, ...]
     motifs_member: str
+    sequence_member: str
     threshold: float | None
     color_span: float
 
@@ -176,6 +178,11 @@ MEMBERS = (
         "tmp/atac/scan/counts_residual_filtered.bed",
         "fig2cd-atac-motifs.bed",
     ),
+    MemberSpec(
+        "fig2cdSequence",
+        "tmp/atac/shap/pisa_regions.fa",
+        "fig2cd-atac-pisa-regions.fa",
+    ),
 )
 
 PANELS = (
@@ -193,6 +200,7 @@ PANELS = (
             TrackSpec("fig2cdImportance", "importance"),
         ),
         motifs_member="fig2cdMotifs",
+        sequence_member="fig2cdSequence",
         threshold=0.03,
         color_span=0.15,
     ),
@@ -462,6 +470,7 @@ def members_for_panels(panels: Sequence[Panel]) -> tuple[MemberSpec, ...]:
             *panel.pisa_members,
             *(track.member for track in panel.tracks),
             panel.motifs_member,
+            panel.sequence_member,
         )
     }
     return tuple(member for member in MEMBERS if member.identifier in identifiers)
@@ -525,7 +534,6 @@ def extract_selected_members(
         return cached
 
     SELECTED_DIR.mkdir(parents=True, exist_ok=True)
-    remaining = {member.identifier for member in members}
     existing_manifest = load_extraction_manifest()
     existing_identities = (
         existing_manifest.get("members", {})
@@ -537,6 +545,19 @@ def extract_selected_members(
         dict(existing_identities) if isinstance(existing_identities, dict) else {}
     )
     paths = selected_paths(members)
+    remaining: set[str] = set()
+    for requested_member in members:
+        identity = identities.get(requested_member.identifier)
+        path = paths[requested_member.identifier]
+        if (
+            not isinstance(identity, dict)
+            or not path.is_file()
+            or path.stat().st_size != identity.get("fileSizeBytes")
+            or file_digest(path) != identity.get("sha256")
+        ):
+            remaining.add(requested_member.identifier)
+    if not remaining:
+        raise ValueError("Selected-member cache validation failed unexpectedly")
     requested = set(remaining)
     print(f"Scanning archive for {len(remaining)} selected members")
     # BZ2File, used by seekable mode, handles concatenated bzip2 streams. The
@@ -790,12 +811,56 @@ def read_bigwig_values(
     return positions[finite], values[finite]
 
 
+def read_fasta_window(path: Path, start: int, end: int) -> str:
+    """Read a genomic interval from a FASTA record keyed by its window start."""
+
+    if start < 0 or end <= start:
+        raise ValueError("FASTA interval must be non-negative and non-empty")
+    requested_length = end - start
+    sequence_parts: list[str] | None = None
+    with path.open(encoding="ascii") as input_file:
+        for line_number, line in enumerate(input_file, start=1):
+            value = line.strip()
+            if not value:
+                continue
+            if value.startswith(">"):
+                if sequence_parts is not None:
+                    break
+                header = value[1:].split(maxsplit=1)[0]
+                try:
+                    record_start = int(header)
+                except ValueError as error:
+                    raise ValueError(
+                        f"Non-numeric FASTA record at line {line_number} in {path}"
+                    ) from error
+                if record_start == start:
+                    sequence_parts = []
+                continue
+            if sequence_parts is not None:
+                sequence_parts.append(value.upper())
+
+    if sequence_parts is None:
+        raise ValueError(f"FASTA record starting at {start} is absent from {path}")
+    sequence = "".join(sequence_parts)
+    if len(sequence) < requested_length:
+        raise ValueError(
+            f"FASTA record at {start} is too short: "
+            f"{len(sequence)} < {requested_length}"
+        )
+    result = sequence[:requested_length]
+    invalid = sorted(set(result) - set("ACGTN"))
+    if invalid:
+        raise ValueError(f"Invalid FASTA bases at {start}: {invalid}")
+    return result
+
+
 def write_tracks(path: Path, panel: Panel, paths: dict[str, Path]) -> int:
-    """Write all profile and importance tracks for one panel."""
+    """Write profile values and their reference bases for one panel."""
 
     position_parts: list[np.ndarray] = []
     label_parts: list[pa.Array] = []
     value_parts: list[np.ndarray] = []
+    base_parts: list[pa.Array] = []
     for track in panel.tracks:
         if track.region == "input":
             start, end = panel.genomic_input_start, panel.genomic_input_end
@@ -811,14 +876,18 @@ def write_tracks(path: Path, panel: Panel, paths: dict[str, Path]) -> int:
         )
         if len(positions) == 0:
             raise ValueError(f"No finite values for {panel.identifier}/{track.label}")
+        sequence = read_fasta_window(paths[panel.sequence_member], start, end)
+        bases = [sequence[int(position) - start] for position in positions]
         position_parts.append(positions)
         value_parts.append(np.asarray(values * track.multiplier, dtype=np.float32))
         label_parts.append(pa.array([track.label] * len(positions), pa.string()))
+        base_parts.append(pa.array(bases, pa.string()))
     table = pa.Table.from_arrays(
         [
             pa.array(np.concatenate(position_parts), pa.int32()),
             pa.concat_arrays(label_parts),
             pa.array(np.concatenate(value_parts), pa.float32()),
+            pa.concat_arrays(base_parts),
         ],
         schema=TRACK_SCHEMA,
     )
