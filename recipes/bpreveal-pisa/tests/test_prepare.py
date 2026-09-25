@@ -103,6 +103,7 @@ def test_matrix_parquet_contract(tmp_path: Path) -> None:
         tracks=(),
         motifs_member="unused",
         sequence_member="unused",
+        sequence_padding=0,
         threshold=None,
         color_span=1,
     )
@@ -131,6 +132,7 @@ def test_link_threshold_and_draw_order(tmp_path: Path) -> None:
         tracks=(),
         motifs_member="unused",
         sequence_member="unused",
+        sequence_padding=0,
         threshold=0.5,
         color_span=1,
     )
@@ -146,17 +148,28 @@ def test_link_threshold_and_draw_order(tmp_path: Path) -> None:
     assert np.all(magnitudes[:-1] <= magnitudes[1:])
 
 
-def test_fasta_window_uses_coordinate_header_and_multiline_sequence(
+def test_fasta_window_skips_pisa_input_padding_in_multiline_sequence(
     tmp_path: Path,
 ) -> None:
     path = tmp_path / "windows.fa"
     path.write_text(
-        ">99\nNNNN\n>100 description\nacg\nta\n>101\nCGTAA\n", encoding="ascii"
+        ">99\nNNNN\n>100 description\nttac\ngta\n>101\nAACGTAA\n",
+        encoding="ascii",
     )
 
-    assert prepare.read_fasta_window(path, 100, 105) == "ACGTA"
+    assert prepare.read_fasta_window(path, 100, 105, padding=2) == "ACGTA"
     with pytest.raises(ValueError, match="starting at 102 is absent"):
-        prepare.read_fasta_window(path, 102, 105)
+        prepare.read_fasta_window(path, 102, 105, padding=2)
+
+
+def test_fasta_window_rejects_record_shorter_than_padding_and_interval(
+    tmp_path: Path,
+) -> None:
+    path = tmp_path / "windows.fa"
+    path.write_text(">100\nTTACGT\n", encoding="ascii")
+
+    with pytest.raises(ValueError, match=r"6 < 7"):
+        prepare.read_fasta_window(path, 100, 105, padding=2)
 
 
 def test_track_parquet_includes_reference_bases(tmp_path: Path) -> None:
@@ -165,7 +178,7 @@ def test_track_parquet_includes_reference_bases(tmp_path: Path) -> None:
         bigwig.addHeader([("chr1", 1_000)])
         bigwig.addEntries("chr1", 101, values=[1.0, 2.0, 3.0], span=1, step=1)
     fasta_path = tmp_path / "windows.fa"
-    fasta_path.write_text(">101\nACG\n", encoding="ascii")
+    fasta_path.write_text(">101\nTTACG\n", encoding="ascii")
     panel = prepare.Panel(
         identifier="test",
         assembly="test",
@@ -178,6 +191,7 @@ def test_track_parquet_includes_reference_bases(tmp_path: Path) -> None:
         tracks=(prepare.TrackSpec("track", "importance"),),
         motifs_member="unused",
         sequence_member="sequence",
+        sequence_padding=2,
         threshold=None,
         color_span=1,
     )

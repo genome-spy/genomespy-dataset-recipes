@@ -121,6 +121,7 @@ class Panel:
     tracks: tuple[TrackSpec, ...]
     motifs_member: str
     sequence_member: str
+    sequence_padding: int
     threshold: float | None
     color_span: float
 
@@ -201,6 +202,7 @@ PANELS = (
         ),
         motifs_member="fig2cdMotifs",
         sequence_member="fig2cdSequence",
+        sequence_padding=557,
         threshold=0.03,
         color_span=0.15,
     ),
@@ -811,10 +813,16 @@ def read_bigwig_values(
     return positions[finite], values[finite]
 
 
-def read_fasta_window(path: Path, start: int, end: int) -> str:
-    """Read a genomic interval from a FASTA record keyed by its window start."""
+def read_fasta_window(path: Path, start: int, end: int, padding: int) -> str:
+    """Read a displayed interval from a padded PISA-input FASTA record.
 
-    if start < 0 or end <= start:
+    BPReveal names each record after the first output position, but the record
+    itself begins ``padding`` bases earlier because it contains the full model
+    input. Thus, the base for ``start`` is at ``sequence[padding]`` rather than
+    at the beginning of the record.
+    """
+
+    if start < 0 or end <= start or padding < 0:
         raise ValueError("FASTA interval must be non-negative and non-empty")
     requested_length = end - start
     sequence_parts: list[str] | None = None
@@ -842,12 +850,12 @@ def read_fasta_window(path: Path, start: int, end: int) -> str:
     if sequence_parts is None:
         raise ValueError(f"FASTA record starting at {start} is absent from {path}")
     sequence = "".join(sequence_parts)
-    if len(sequence) < requested_length:
+    required_length = padding + requested_length
+    if len(sequence) < required_length:
         raise ValueError(
-            f"FASTA record at {start} is too short: "
-            f"{len(sequence)} < {requested_length}"
+            f"FASTA record at {start} is too short: {len(sequence)} < {required_length}"
         )
-    result = sequence[:requested_length]
+    result = sequence[padding:required_length]
     invalid = sorted(set(result) - set("ACGTN"))
     if invalid:
         raise ValueError(f"Invalid FASTA bases at {start}: {invalid}")
@@ -876,7 +884,9 @@ def write_tracks(path: Path, panel: Panel, paths: dict[str, Path]) -> int:
         )
         if len(positions) == 0:
             raise ValueError(f"No finite values for {panel.identifier}/{track.label}")
-        sequence = read_fasta_window(paths[panel.sequence_member], start, end)
+        sequence = read_fasta_window(
+            paths[panel.sequence_member], start, end, panel.sequence_padding
+        )
         bases = [sequence[int(position) - start] for position in positions]
         position_parts.append(positions)
         value_parts.append(np.asarray(values * track.multiplier, dtype=np.float32))

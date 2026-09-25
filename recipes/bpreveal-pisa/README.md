@@ -66,6 +66,11 @@ Coordinates are zero-based. `source`, `target`, `input`, `output`, and
 half-open intervals. PISA effects are converted to log2 fold-change units,
 matching BPReveal's plotting conversion.
 
+Each source FASTA header identifies the first PISA output position, while its
+2,114-base sequence begins 557 bases earlier to supply the model's input
+context. The recipe removes that padding before associating reference bases
+with track positions.
+
 The sparse link table retains exactly the Figure 2c absolute-effect threshold
 of 0.03 in the paper notebook's native logit units.
 
@@ -99,8 +104,8 @@ and six motif calls. The link table is 42 KB; the Figure 2d matrix table is
 
 The workflow verifies the source archive's published size and MD5, records
 SHA-256 identities for every extracted member, validates HDF5 dimensions,
-checks coordinate bounds and finite values, and validates every Parquet schema
-and record count after writing.
+checks coordinate bounds, FASTA padding, and finite values, and validates every
+Parquet schema and record count after writing.
 
 The shared Figure 2c/2d locus has an accepted local run recorded in
 `provenance.json`. The cached archive index confirms that the Zenodo archive
