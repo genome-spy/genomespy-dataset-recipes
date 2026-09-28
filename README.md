@@ -27,6 +27,9 @@ Reproducible wrangling scripts and provenance for datasets used in
 
 ## Python dataset migration recipes
 
+- [Synthetic mutation-impact reference](recipes/synthetic-mutation-impact/):
+  the fictional reference window and periodic teaching scores.
+
 - [HapMap associations](recipes/manhattanly-hapmap-associations/): exact historical
   source acquisition, output validation, and hosting manifest.
 - [Airway source tables](recipes/bioconnector-airway-rnaseq/): exact source

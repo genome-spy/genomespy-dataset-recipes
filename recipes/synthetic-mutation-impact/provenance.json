@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 2,
+  "recipeId": "synthetic-mutation-impact",
+  "releaseId": "v1",
+  "sources": [
+    {
+      "id": "reference",
+      "url": "https://raw.githubusercontent.com/genome-spy/genome-spy-python/0cbf6ba87ebe27676891e8829f045f967db034eb/src/genome_spy/datasets/data/mutation_impact_reference.json",
+      "filename": "mutation-impact-reference.json",
+      "fileSizeBytes": 1180,
+      "sha256": "81e1d4bb5803e38228e80dbdaec8ff450ccccf9dc1c5ca1c97646dcd2688f048"
+    },
+    {
+      "id": "license",
+      "url": "https://raw.githubusercontent.com/genome-spy/genome-spy-python/0cbf6ba87ebe27676891e8829f045f967db034eb/LICENSE",
+      "filename": "LICENSE-MIT.txt",
+      "fileSizeBytes": 1072,
+      "sha256": "fac836cde8421e6151245d4e952596b7aa82e4a29c99884d463ddeac527797ea"
+    }
+  ],
+  "parameters": {
+    "assembly": "synthetic-v1",
+    "chrom": "chrSynthetic",
+    "start": 100,
+    "length": 20,
+    "valueOffset": 5,
+    "valueStep": 3,
+    "valueModulus": 11,
+    "valueDivisor": 20
+  },
+  "tools": {
+    "python": "3.14.3",
+    "dependencies": "Python standard library only"
+  },
+  "outputs": {
+    "reference": {
+      "path": "output/mutation-impact-reference.json",
+      "sourceId": "reference",
+      "fileSizeBytes": 1180,
+      "sha256": "81e1d4bb5803e38228e80dbdaec8ff450ccccf9dc1c5ca1c97646dcd2688f048"
+    },
+    "license": {
+      "path": "output/LICENSE-MIT.txt",
+      "sourceId": "license",
+      "fileSizeBytes": 1072,
+      "sha256": "fac836cde8421e6151245d4e952596b7aa82e4a29c99884d463ddeac527797ea"
+    }
+  },
+  "validation": {
+    "recordCount": 20,
+    "identicalToPythonFixture": true,
+    "coordinateConvention": "Zero-based positions in a fictional reference; no real genome assembly.",
+    "limitations": [
+      "Arbitrary authored bases and periodic teaching scores, not model predictions or biological measurements."
+    ],
+    "prototype": {
+      "spec": "specs/overview.json",
+      "genomeSpyVersion": "0.86.0",
+      "browserCheck": "Twenty positions (100\u2013119) render with periodic scores and four base colors.",
+      "consoleErrors": false
+    }
+  },
+  "distribution": {
+    "baseUrl": "https://data.genomespy.app/datasets/synthetic-mutation-impact/v1/",
+    "artifacts": {
+      "output/mutation-impact-reference.json": {
+        "fileSizeBytes": 1180,
+        "sha256": "81e1d4bb5803e38228e80dbdaec8ff450ccccf9dc1c5ca1c97646dcd2688f048"
+      },
+      "output/LICENSE-MIT.txt": {
+        "fileSizeBytes": 1072,
+        "sha256": "fac836cde8421e6151245d4e952596b7aa82e4a29c99884d463ddeac527797ea"
+      }
+    }
+  }
+}
