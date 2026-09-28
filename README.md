@@ -25,6 +25,17 @@ Reproducible wrangling scripts and provenance for datasets used in
 | [`encode-mouse-fetal-development-mm10`](recipes/encode-mouse-fetal-development-mm10/) | Tissue-specific regulatory activity during mouse fetal development | mm10 | Regional H3K27ac, expression metadata, genes, elements, and bookmark tour |
 | [`mcca-cell-line-atlas-mm10`](recipes/mcca-cell-line-atlas-mm10/) | Mouse cancer cell-line multi-omics atlas | mm10 | Metadata, copy ratios, mutations, expression, genes, and bookmark tour |
 
+## Python dataset migration recipes
+
+- [HapMap associations](recipes/manhattanly-hapmap-associations/): exact historical
+  source acquisition, output validation, and hosting manifest.
+- [Airway source tables](recipes/bioconnector-airway-rnaseq/): exact source
+  acquisition, paired analysis, and a validated review bundle.
+- [RefSeq gene bodies](recipes/ucsc-refseq-gene-bodies/): reproducible hg19/hg38
+  transcript collapse and output validation.
+- [LAML oncoplot](recipes/maftools-tcga-laml-oncoplot/): six pinned inputs and
+  independently reproduced combined plot tables.
+
 ## How recipes work
 
 Each recipe keeps three durable records:
@@ -109,9 +120,13 @@ uv sync --locked
 uv run python tools/check_repo.py
 uv run ruff check .
 uv run ruff format --check .
-uv run python tools/typecheck.py
+uv run --isolated --only-group dev python tools/typecheck.py
 uv run pytest
 ```
+
+The default environment includes the scientific dependencies required by the
+analysis regression tests. Type checking uses only the `dev` group to keep
+recipe-specific scientific libraries out of its import environment.
 
 Python recipe entrypoints use PEP 723 metadata and run independently with
 `uv run --script <path>`. Recipes with third-party dependencies also commit a

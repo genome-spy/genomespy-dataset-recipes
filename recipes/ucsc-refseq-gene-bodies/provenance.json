@@ -1,0 +1,63 @@
+{
+  "schemaVersion": 2,
+  "recipeId": "ucsc-refseq-gene-bodies",
+  "releaseId": "v1",
+  "sources": [
+    {
+      "id": "hg19",
+      "url": "https://hgdownload.soe.ucsc.edu/goldenPath/hg19/database/refGene.txt.gz",
+      "filename": "hg19-refGene.txt.gz",
+      "fileSizeBytes": 8043766,
+      "sha256": "28e7fe22cf1923a6887c7b60e6004c75987f810b8374d4d396021a34ac0410d1",
+      "lastModified": "Tue, 18 Aug 2020 02:54:02 GMT"
+    },
+    {
+      "id": "hg38",
+      "url": "https://hgdownload.soe.ucsc.edu/goldenPath/hg38/database/refGene.txt.gz",
+      "filename": "hg38-refGene.txt.gz",
+      "fileSizeBytes": 8668756,
+      "sha256": "58fbc18d60bcda5fd4635e71b99dffde09d6eb67995c7f9ded3af194eb789756",
+      "lastModified": "Tue, 18 Aug 2020 01:56:52 GMT"
+    }
+  ],
+  "parameters": {
+    "assemblies": [
+      "hg19",
+      "hg38"
+    ],
+    "chromosomes": "chr1-chr22, chrX, chrY, chrM",
+    "coordinates": "zero-based half-open",
+    "grouping": "chromosome, strand, gene symbol; merge overlapping and touching transcript intervals",
+    "score": "number of retained transcripts in each merged component",
+    "ordering": "Assembly order hg19/hg38; gene groups in first occurrence order after sorting by chromosome, start, end, strand, symbol, accession."
+  },
+  "tools": {
+    "python": "3.14.3",
+    "dependencies": "Python standard library only"
+  },
+  "outputs": {
+    "geneBodies": {
+      "path": "output/refseq-gene-bodies.csv.gz",
+      "fileSizeBytes": 1297612,
+      "sha256": "0a7a55e961b78a92f550e44d9a7ef8085dafabf634e8f33bd4cd28fa4d39109e",
+      "decodedSha256": "f93746e0396c6c579a05d4da600d6b8048a0baf79284bec64823902d197cf01f"
+    }
+  },
+  "validation": {
+    "assemblyRowCounts": {
+      "hg19": 29599,
+      "hg38": 29835
+    },
+    "decodedBytesMatchPythonPackage": true,
+    "packagedSha256": "6ecb8f12d120cc10724a816d4dc6f8ebdf5e468f725950809de5082f8db17785"
+  },
+  "distribution": {
+    "baseUrl": "https://data.genomespy.app/datasets/ucsc-refseq-gene-bodies/v1/",
+    "artifacts": {
+      "output/refseq-gene-bodies.csv.gz": {
+        "fileSizeBytes": 1297612,
+        "sha256": "0a7a55e961b78a92f550e44d9a7ef8085dafabf634e8f33bd4cd28fa4d39109e"
+      }
+    }
+  }
+}

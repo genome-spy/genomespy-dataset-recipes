@@ -1,0 +1,20 @@
+{
+  "title": "HapMap coordinates with simulated association statistics",
+  "data": {
+    "url": "../output/hapmap-associations.csv",
+    "format": {
+      "type": "csv"
+    }
+  },
+  "mark": "point",
+  "encoding": {
+    "x": {
+      "field": "BP",
+      "type": "quantitative"
+    },
+    "y": {
+      "field": "P",
+      "type": "quantitative"
+    }
+  }
+}
