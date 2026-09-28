@@ -1,5 +1,5 @@
 {
-  "title": "Airway sample metadata and rounded length-scaled counts",
+  "title": "Airway sample conditions",
   "data": {
     "url": "../output/airway-metadata.csv",
     "format": {

@@ -75,7 +75,13 @@
     "recordCount": 14412,
     "knownAnomalies": [
       "21 variant IDs preserve their original AFFX-SNP probe prefix before the rs identifier."
-    ]
+    ],
+    "prototype": {
+      "spec": "specs/overview.json",
+      "genomeSpyVersion": "0.86.0",
+      "browserCheck": "Simulated p-values render against positions with visible point density.",
+      "consoleErrors": false
+    }
   },
   "distribution": {
     "baseUrl": "https://data.genomespy.app/datasets/manhattanly-hapmap-associations/v1/",

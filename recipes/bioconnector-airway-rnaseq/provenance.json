@@ -149,6 +149,12 @@
           2.0
         ]
       }
+    },
+    "prototype": {
+      "spec": "specs/overview.json",
+      "genomeSpyVersion": "0.86.0",
+      "browserCheck": "Eight sample IDs with alternating control/treated condition labels.",
+      "consoleErrors": false
     }
   }
 }

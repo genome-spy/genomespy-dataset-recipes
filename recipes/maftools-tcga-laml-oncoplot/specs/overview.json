@@ -27,7 +27,12 @@
   "encoding": {
     "x": {
       "field": "Tumor_Sample_Barcode",
-      "type": "nominal"
+      "type": "nominal",
+      "axis": {
+        "labels": false,
+        "ticks": false,
+        "title": "Sample"
+      }
     },
     "y": {
       "field": "events",

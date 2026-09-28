@@ -144,6 +144,12 @@
       "spectrum": 645
     },
     "burdenLimit": 1894,
-    "alteredSamples": 159
+    "alteredSamples": 159,
+    "prototype": {
+      "spec": "specs/overview.json",
+      "genomeSpyVersion": "0.86.0",
+      "browserCheck": "Mutation-event bars render with a zero baseline and without overlapping sample labels.",
+      "consoleErrors": false
+    }
   }
 }
