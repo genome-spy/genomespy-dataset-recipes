@@ -27,6 +27,9 @@ Reproducible wrangling scripts and provenance for datasets used in
 
 ## Python dataset migration recipes
 
+- [Single-sample BRCA mutations](recipes/maftools-tcga-brca-mutations/):
+  byte-preserving source for the rainfall example.
+
 - [Synthetic mutation-impact reference](recipes/synthetic-mutation-impact/):
   the fictional reference window and periodic teaching scores.
 
