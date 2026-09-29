@@ -1,0 +1,160 @@
+{
+  "schemaVersion": 2,
+  "recipeId": "bioconnector-airway-rnaseq",
+  "releaseId": "v2",
+  "sources": [
+    {
+      "id": "metadata",
+      "url": "https://raw.githubusercontent.com/bioconnector/workshops/b563237b8feb18857d048b74975de6e753667fad/data/airway_metadata.csv",
+      "filename": "airway_metadata.csv",
+      "fileSizeBytes": 325,
+      "sha256": "05bd7e78a0ca5b2a2f60ec715296381ca19f31a8c5a51e70c9f60583fa9fcf97"
+    },
+    {
+      "id": "counts",
+      "url": "https://raw.githubusercontent.com/bioconnector/workshops/d0c4d0cca5f21dc2c6e12912dc09d5e279e706ce/data/airway_scaledcounts.csv",
+      "filename": "airway_scaledcounts.csv",
+      "fileSizeBytes": 2102792,
+      "sha256": "4d34df15affa22fa5d5539874e148378ea18db1c9d731d175ef1b9f73cbc2927"
+    },
+    {
+      "id": "license",
+      "url": "https://raw.githubusercontent.com/bioconnector/workshops/b563237b8feb18857d048b74975de6e753667fad/LICENSE",
+      "filename": "airway-license.txt",
+      "fileSizeBytes": 20843,
+      "sha256": "307280ea2daffa166e49c940ad253bdb559f5c88fec04b04bef7217e3b093bb1"
+    }
+  ],
+  "parameters": {
+    "transformation": "Copy the pinned prepared source tables unchanged; preserve header, row order, missing-value spelling, and numeric representation.",
+    "purpose": "Airway sample metadata and rounded length-scaled counts",
+    "review": {
+      "minimumMean": 10.0,
+      "maximumGenes": 12000,
+      "effectCutoff": 1.0,
+      "pvalueCutoff": 0.01,
+      "fdrAlpha": 0.1,
+      "geneSymbols": {
+        "ENSG00000117461": "PIK3R3",
+        "ENSG00000103742": "IGDCC4",
+        "ENSG00000131771": "PPP1R1B",
+        "ENSG00000185745": "IFIT1",
+        "ENSG00000146250": "PRSS35",
+        "ENSG00000163884": "KLF15",
+        "ENSG00000127954": "STEAP4",
+        "ENSG00000163083": "INHBB",
+        "ENSG00000096060": "FKBP5",
+        "ENSG00000196136": "SERPINA3",
+        "ENSG00000109906": "ZBTB16",
+        "ENSG00000116711": "PLA2G4A",
+        "ENSG00000145777": "TSLP",
+        "ENSG00000152583": "SPARCL1"
+      },
+      "volcanoLabels": [
+        "IFIT1",
+        "IGDCC4",
+        "PIK3R3",
+        "PLA2G4A",
+        "PPP1R1B",
+        "PRSS35",
+        "TSLP",
+        "ZBTB16"
+      ],
+      "maLabels": [
+        "FKBP5",
+        "INHBB",
+        "KLF15",
+        "PLA2G4A",
+        "SERPINA3",
+        "SPARCL1",
+        "STEAP4",
+        "ZBTB16"
+      ],
+      "bundleProvenance": {
+        "analysis": "Same airway_differential_expression defaults as the gallery: paired log2(count+1) t-tests; Benjamini-Hochberg adjustment",
+        "source": "Packaged Bioconnector workshop airway_scaledcounts.csv and airway_metadata.csv; Himes et al. 2014, GSE52778",
+        "source_license": "CC-BY-NC-SA-4.0",
+        "sha256": {
+          "airway_scaledcounts.csv": "4d34df15affa22fa5d5539874e148378ea18db1c9d731d175ef1b9f73cbc2927",
+          "airway_metadata.csv": "05bd7e78a0ca5b2a2f60ec715296381ca19f31a8c5a51e70c9f60583fa9fcf97"
+        },
+        "sample_values": "Rounded tximport lengthScaledTPM counts, identical to gallery input; not DESeq2-normalized counts"
+      }
+    }
+  },
+  "tools": {
+    "python": "3.14.3",
+    "numpy": "2.4.6",
+    "pandas": "3.0.3",
+    "scipy": "1.17.1",
+    "statsmodels": "0.14.6"
+  },
+  "outputs": {
+    "metadata": {
+      "path": "output/airway-metadata.csv",
+      "sourceId": "metadata",
+      "fileSizeBytes": 325,
+      "sha256": "05bd7e78a0ca5b2a2f60ec715296381ca19f31a8c5a51e70c9f60583fa9fcf97"
+    },
+    "counts": {
+      "path": "output/airway-scaledcounts.csv",
+      "sourceId": "counts",
+      "fileSizeBytes": 2102792,
+      "sha256": "4d34df15affa22fa5d5539874e148378ea18db1c9d731d175ef1b9f73cbc2927"
+    },
+    "license": {
+      "path": "output/LICENSE-CC-BY-NC-SA-4.0.txt",
+      "sourceId": "license",
+      "fileSizeBytes": 20843,
+      "sha256": "307280ea2daffa166e49c940ad253bdb559f5c88fec04b04bef7217e3b093bb1"
+    },
+    "review": {
+      "path": "output/airway-review.json.gz",
+      "fileSizeBytes": 1263284,
+      "sha256": "1580370f80283feec6cf75e9d0a918e043e2cbc49b6bdbd7aac2bce738ad0282",
+      "decodedSha256": "6f89194241ed7571ea0d7c472c843586dd36564827f7d8eb668e47ab860795b3"
+    }
+  },
+  "validation": {
+    "metadataColumns": [
+      "id",
+      "dex",
+      "celltype",
+      "geo_id"
+    ],
+    "geneCount": 38694,
+    "review": {
+      "geneCount": 12000,
+      "sampleCount": 8,
+      "decodedBytesMatchPythonPackage": true,
+      "packagedSha256": "8839e9839623eca225de706fdd921eb9c72e093a61b1efceb88f8cb7da10d3e6",
+      "domains": {
+        "ma_x": [
+          1.5,
+          6.0
+        ],
+        "ma_y": [
+          -6.0,
+          6.0
+        ],
+        "volcano_x": [
+          -6.0,
+          6.0
+        ],
+        "volcano_y": [
+          0.0,
+          5.0
+        ],
+        "pvalue_cutoff": [
+          2.0
+        ]
+      }
+    },
+    "prototype": {
+      "spec": "specs/overview.json",
+      "genomeSpyVersion": "0.86.0",
+      "browserCheck": "Eight sample IDs with alternating control/treated condition labels.",
+      "consoleErrors": false
+    }
+  }
+}

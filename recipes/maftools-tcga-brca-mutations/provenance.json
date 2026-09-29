@@ -1,0 +1,78 @@
+{
+  "schemaVersion": 2,
+  "recipeId": "maftools-tcga-brca-mutations",
+  "releaseId": "v1",
+  "sources": [
+    {
+      "id": "mutations",
+      "filename": "brca.maf.gz",
+      "url": "https://raw.githubusercontent.com/PoisonAlien/maftools/015a4cf8c69ba89a55a3fdcea911421509e9a198/inst/extdata/brca.maf.gz",
+      "fileSizeBytes": 24011,
+      "sha256": "61d5355e960bd480bec4f245b8f096e2333408659ced0d196e42b0e38de3d724"
+    }
+  ],
+  "parameters": {
+    "transformation": "None; preserve compressed source bytes.",
+    "coordinates": "MAF one-based inclusive positions; chromosome names preserved.",
+    "assembly": "Not recorded in the source table; no assembly inferred."
+  },
+  "tools": {
+    "python": "3.14.3",
+    "dependencies": "Python standard library only"
+  },
+  "outputs": {
+    "mutations": {
+      "path": "output/brca.maf.gz",
+      "sourceId": "mutations",
+      "fileSizeBytes": 24011,
+      "sha256": "61d5355e960bd480bec4f245b8f096e2333408659ced0d196e42b0e38de3d724"
+    }
+  },
+  "validation": {
+    "columns": [
+      "Hugo_Symbol",
+      "Chromosome",
+      "Start_Position",
+      "End_Position",
+      "Reference_Allele",
+      "Tumor_Seq_Allele2",
+      "Variant_Classification",
+      "Variant_Type",
+      "Tumor_Sample_Barcode"
+    ],
+    "recordCount": 1913,
+    "sample": "TCGA-A8-A08B",
+    "chromosomes": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10",
+      "11",
+      "12",
+      "13",
+      "14",
+      "15",
+      "16",
+      "17",
+      "18",
+      "19",
+      "20",
+      "21",
+      "22",
+      "X"
+    ],
+    "identicalToPythonPackage": true,
+    "prototype": {
+      "spec": "specs/overview.json",
+      "genomeSpyVersion": "0.86.0",
+      "browserCheck": "SNV counts rendered for chromosomes 1\u201322 and X in source-coordinate-independent order.",
+      "consoleErrors": false
+    }
+  }
+}

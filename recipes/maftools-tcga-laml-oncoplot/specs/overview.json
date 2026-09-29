@@ -1,0 +1,45 @@
+{
+  "title": "LAML source mutation events per sample",
+  "data": {
+    "url": "../output/tcga_laml.maf.gz",
+    "format": {
+      "type": "tsv"
+    }
+  },
+  "transform": [
+    {
+      "type": "aggregate",
+      "groupby": [
+        "Tumor_Sample_Barcode"
+      ],
+      "fields": [
+        "Tumor_Sample_Barcode"
+      ],
+      "ops": [
+        "count"
+      ],
+      "as": [
+        "events"
+      ]
+    }
+  ],
+  "mark": "rect",
+  "encoding": {
+    "x": {
+      "field": "Tumor_Sample_Barcode",
+      "type": "nominal",
+      "axis": {
+        "labels": false,
+        "ticks": false,
+        "title": "Sample"
+      }
+    },
+    "y": {
+      "field": "events",
+      "type": "quantitative"
+    },
+    "y2": {
+      "datum": 0
+    }
+  }
+}

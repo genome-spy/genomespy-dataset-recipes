@@ -1,0 +1,155 @@
+{
+  "schemaVersion": 2,
+  "recipeId": "maftools-tcga-laml-oncoplot",
+  "releaseId": "v1",
+  "sources": [
+    {
+      "id": "tcga_laml.maf.gz",
+      "filename": "tcga_laml.maf.gz",
+      "url": "https://raw.githubusercontent.com/PoisonAlien/maftools/015a4cf8c69ba89a55a3fdcea911421509e9a198/inst/extdata/tcga_laml.maf.gz",
+      "fileSizeBytes": 64020,
+      "sha256": "d102b071a052265b6f8ad7947bad1d58d3e3036fd17d6b274f7ea09a376cd6a0"
+    },
+    {
+      "id": "tcga_laml_annot.tsv",
+      "filename": "tcga_laml_annot.tsv",
+      "url": "https://raw.githubusercontent.com/PoisonAlien/maftools/015a4cf8c69ba89a55a3fdcea911421509e9a198/inst/extdata/tcga_laml_annot.tsv",
+      "fileSizeBytes": 4478,
+      "sha256": "7033030d52868e9a0f35ffd78f45a9d7a126c2edef90cf9e74e4f5d78990a710"
+    },
+    {
+      "id": "all_lesions.conf_99.txt",
+      "filename": "all_lesions.conf_99.txt",
+      "url": "https://raw.githubusercontent.com/PoisonAlien/maftools/015a4cf8c69ba89a55a3fdcea911421509e9a198/inst/extdata/all_lesions.conf_99.txt",
+      "fileSizeBytes": 49539,
+      "sha256": "d8371321a551eded9ee17a62733d9fc367f0252fb46309d764702342aab1dda7"
+    },
+    {
+      "id": "amp_genes.conf_99.txt",
+      "filename": "amp_genes.conf_99.txt",
+      "url": "https://raw.githubusercontent.com/PoisonAlien/maftools/015a4cf8c69ba89a55a3fdcea911421509e9a198/inst/extdata/amp_genes.conf_99.txt",
+      "fileSizeBytes": 947,
+      "sha256": "b2508686509a1c766e07169c96735632661d85fea304648278c3c8142bc95cad"
+    },
+    {
+      "id": "del_genes.conf_99.txt",
+      "filename": "del_genes.conf_99.txt",
+      "url": "https://raw.githubusercontent.com/PoisonAlien/maftools/015a4cf8c69ba89a55a3fdcea911421509e9a198/inst/extdata/del_genes.conf_99.txt",
+      "fileSizeBytes": 32714,
+      "sha256": "014efee1a67d8a8f925cce38fd6e194a77ebb0412319d2a04f4f974c1d590836"
+    },
+    {
+      "id": "LAML_sig_genes.txt.gz",
+      "filename": "LAML_sig_genes.txt.gz",
+      "url": "https://raw.githubusercontent.com/PoisonAlien/maftools/015a4cf8c69ba89a55a3fdcea911421509e9a198/inst/extdata/LAML_sig_genes.txt.gz",
+      "fileSizeBytes": 356974,
+      "sha256": "9a85bf28dd59bdabb42297d0475085f257b1625b27d302779671020d8c1cd04d"
+    }
+  ],
+  "parameters": {
+    "pathways": {
+      "Signalling": [
+        "FLT3",
+        "NRAS",
+        "KIT",
+        "KRAS"
+      ],
+      "DNAm": [
+        "DNMT3A",
+        "IDH2",
+        "IDH1",
+        "TET2",
+        "DNMT3B",
+        "TET1"
+      ],
+      "ChromMod": [
+        "EZH2",
+        "ASXL1",
+        "KDM6A"
+      ],
+      "TSG": [
+        "TP53",
+        "WT1",
+        "PHF6"
+      ],
+      "TFs": [
+        "RUNX1",
+        "CEBPA"
+      ]
+    },
+    "nonsynonymousClasses": [
+      "Frame_Shift_Del",
+      "Frame_Shift_Ins",
+      "Splice_Site",
+      "Translation_Start_Site",
+      "Nonsense_Mutation",
+      "Nonstop_Mutation",
+      "In_Frame_Del",
+      "In_Frame_Ins",
+      "Missense_Mutation"
+    ],
+    "sampleIdLength": 12,
+    "bundleProvenance": {
+      "repository": "PoisonAlien/maftools",
+      "revision": "015a4cf8c69ba89a55a3fdcea911421509e9a198",
+      "sha256": {
+        "tcga_laml.maf.gz": "d102b071a052265b6f8ad7947bad1d58d3e3036fd17d6b274f7ea09a376cd6a0",
+        "tcga_laml_annot.tsv": "7033030d52868e9a0f35ffd78f45a9d7a126c2edef90cf9e74e4f5d78990a710",
+        "all_lesions.conf_99.txt": "d8371321a551eded9ee17a62733d9fc367f0252fb46309d764702342aab1dda7",
+        "amp_genes.conf_99.txt": "b2508686509a1c766e07169c96735632661d85fea304648278c3c8142bc95cad",
+        "del_genes.conf_99.txt": "014efee1a67d8a8f925cce38fd6e194a77ebb0412319d2a04f4f974c1d590836",
+        "LAML_sig_genes.txt.gz": "9a85bf28dd59bdabb42297d0475085f257b1625b27d302779671020d8c1cd04d"
+      }
+    }
+  },
+  "tools": {
+    "python": "3.14.3",
+    "pandas": "3.0.3",
+    "numpy": "2.4.6"
+  },
+  "outputs": {
+    "mutations": {
+      "path": "output/tcga_laml.maf.gz",
+      "sourceId": "tcga_laml.maf.gz",
+      "fileSizeBytes": 64020,
+      "sha256": "d102b071a052265b6f8ad7947bad1d58d3e3036fd17d6b274f7ea09a376cd6a0"
+    },
+    "clinical": {
+      "path": "output/tcga_laml_annot.tsv",
+      "sourceId": "tcga_laml_annot.tsv",
+      "fileSizeBytes": 4478,
+      "sha256": "7033030d52868e9a0f35ffd78f45a9d7a126c2edef90cf9e74e4f5d78990a710"
+    },
+    "combined": {
+      "path": "output/tcga-laml-combined-oncoplot.json.gz",
+      "fileSizeBytes": 14749,
+      "sha256": "f8ba386810d6eb402fe200089d12416a066e88b8062c7cc6f25be6f42fab4813",
+      "decodedSha256": "0995eefc7788d3c58206ec74b2fe1706db1ff34a9fb0e24b4e3ca17fdf3598a4"
+    }
+  },
+  "validation": {
+    "allTablesMatchPythonPackage": true,
+    "packagedSha256": "8e1cd49ea8e2f8f7b30b49d83b76aa6bd74a6a2c4d9b6cc95f04955b8916ef8a",
+    "tableRows": {
+      "samples": 200,
+      "events": 262,
+      "copy_number": 46,
+      "genes": 18,
+      "gene_order": 18,
+      "matrix_rows": 23,
+      "pathway_events": 265,
+      "pathway_bounds": 5,
+      "sample_domain": 2,
+      "burden": 572,
+      "spectrum": 645
+    },
+    "burdenLimit": 1894,
+    "alteredSamples": 159,
+    "prototype": {
+      "spec": "specs/overview.json",
+      "genomeSpyVersion": "0.86.0",
+      "browserCheck": "Mutation-event bars render with a zero baseline and without overlapping sample labels.",
+      "consoleErrors": false
+    }
+  }
+}
