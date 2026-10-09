@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 2,
+  "recipeId": "uniprot-p53-alignment",
+  "releaseId": "v1",
+  "sources": [
+    {
+      "id": "plotly-uniprot-fasta",
+      "url": "https://raw.githubusercontent.com/plotly/datasets/0c447c47b757ad74edecab31f0d72f849d2e67c2/Dash_Bio/Genetic/alignment_viewer_p53.fasta",
+      "filename": "p53-unaligned.fasta",
+      "fileSizeBytes": 15777,
+      "sha256": "99d9e50ea37a122cc03e1f86d9503916636fabd91443c13f81fbaa081b217658"
+    },
+    {
+      "id": "plotly-notice",
+      "url": "https://raw.githubusercontent.com/plotly/datasets/0c447c47b757ad74edecab31f0d72f849d2e67c2/LICENSE",
+      "filename": "plotly-LICENSE.txt",
+      "fileSizeBytes": 1086,
+      "sha256": "842e29495d9d99eef9b6d5f2e442785cdd0ab39d81792b2c6302d17bb0cc6030"
+    }
+  ],
+  "parameters": {
+    "algorithm": "L-INS-i",
+    "arguments": [],
+    "sequenceOrder": "input order",
+    "serialization": "MAFFT FASTA output, uncompressed",
+    "executable": "mafft-linsi",
+    "threading": "Default non-threaded invocation; adding --thread 1 changes the alignment."
+  },
+  "tools": {
+    "python": "3.14.3",
+    "mafft": "7.526",
+    "mafftSource": "https://gitlab.com/sysimm/mafft/-/tree/ee9799916df6a5d5103d46d54933f8eb6d28e244"
+  },
+  "outputs": {
+    "alignment": {
+      "path": "output/p53-aligned.fasta",
+      "fileSizeBytes": 18106,
+      "sha256": "7bcf5457303d2906c64c06ed1a42aea30a98ed0f0b4cd16ff262a9d544ecb05d"
+    },
+    "notice": {
+      "path": "output/PLOTLY-LICENSE.txt",
+      "fileSizeBytes": 1086,
+      "sha256": "842e29495d9d99eef9b6d5f2e442785cdd0ab39d81792b2c6302d17bb0cc6030"
+    }
+  },
+  "validation": {
+    "sequenceCount": 34,
+    "decodedBytesMatchPythonPackage": true,
+    "packagedSha256": "bfb9b427b31dba6d41095fca95aa6cd306f8caee9e9819254428f54407a08956",
+    "historicalMouseSequence": "P02340 sequence version 3, UniSave entry 231; not current sequence version 4",
+    "limitations": [
+      "This fixed teaching set is not a systematic phylogenetic sample. Gaps denote alignment columns, not measured deletions."
+    ]
+  },
+  "distribution": {
+    "baseUrl": "https://data.genomespy.app/datasets/uniprot-p53-alignment/v1/",
+    "artifacts": {
+      "output/p53-aligned.fasta": {
+        "fileSizeBytes": 18106,
+        "sha256": "7bcf5457303d2906c64c06ed1a42aea30a98ed0f0b4cd16ff262a9d544ecb05d"
+      },
+      "output/PLOTLY-LICENSE.txt": {
+        "fileSizeBytes": 1086,
+        "sha256": "842e29495d9d99eef9b6d5f2e442785cdd0ab39d81792b2c6302d17bb0cc6030"
+      }
+    }
+  }
+}

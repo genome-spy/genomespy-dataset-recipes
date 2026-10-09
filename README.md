@@ -27,6 +27,11 @@ Reproducible wrangling scripts and provenance for datasets used in
 
 ## Python dataset migration recipes
 
+- [P53 alignment](recipes/uniprot-p53-alignment/): exact historical MAFFT L-INS-i alignment from pinned UniProt-labelled source sequences.
+- [TAL1 reference](recipes/ucsc-tal1-hg38-reference/): UCSC hg38 reference window and preserved example metadata.
+
+- [RNF7 direct RNA](recipes/xpore-hek293t-rnf7-m6a/): reconciled existing v2 recipe for coverage, alignment events, and published m6Anet probabilities.
+
 - [Historical LUAD export](recipes/cbioportal-tcga-luad-alterations/):
   preserved pyoncoprint source with its microbiome retraction warning.
 
