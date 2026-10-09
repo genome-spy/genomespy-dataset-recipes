@@ -1,0 +1,28 @@
+{
+  "title": "Synthetic reference scores (teaching values)",
+  "data": {
+    "url": "../output/mutation-impact-reference.json",
+    "format": {
+      "type": "json",
+      "property": "rows"
+    }
+  },
+  "mark": "rect",
+  "encoding": {
+    "x": {
+      "field": "position",
+      "type": "ordinal"
+    },
+    "y": {
+      "field": "value",
+      "type": "quantitative"
+    },
+    "y2": {
+      "datum": 0
+    },
+    "color": {
+      "field": "base",
+      "type": "nominal"
+    }
+  }
+}

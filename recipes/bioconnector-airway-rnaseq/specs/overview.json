@@ -1,0 +1,19 @@
+{
+  "title": "Airway sample conditions",
+  "data": {
+    "url": "../output/airway-metadata.csv",
+    "format": {
+      "type": "csv"
+    }
+  },
+  "mark": "text",
+  "encoding": {
+    "y": {
+      "field": "id",
+      "type": "nominal"
+    },
+    "text": {
+      "field": "dex"
+    }
+  }
+}

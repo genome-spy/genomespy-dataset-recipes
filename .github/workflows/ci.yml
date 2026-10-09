@@ -42,7 +42,7 @@ jobs:
         run: uv run ruff format --check .
 
       - name: Type-check Python
-        run: uv run python tools/typecheck.py
+        run: uv run --isolated --only-group dev python tools/typecheck.py
 
       - name: Run tests
         run: uv run pytest

@@ -1,0 +1,103 @@
+{
+  "schemaVersion": 2,
+  "recipeId": "manhattanly-hapmap-associations",
+  "releaseId": "v1",
+  "sources": [
+    {
+      "id": "associations",
+      "url": "https://raw.githubusercontent.com/sahirbhatnagar/manhattanly/f959be07f7c1df747ed5fe0169d72a97a49b343a/data-raw/HapMap.csv",
+      "filename": "hapmap.csv",
+      "fileSizeBytes": 939280,
+      "sha256": "20eb668da67431679afc1f9816a051f037c209b99027bcbb6c33019f006c6547"
+    },
+    {
+      "id": "copyright",
+      "url": "https://raw.githubusercontent.com/sahirbhatnagar/manhattanly/f959be07f7c1df747ed5fe0169d72a97a49b343a/LICENSE",
+      "filename": "hapmap-license.txt",
+      "fileSizeBytes": 49,
+      "sha256": "66a7badcc07d26717757887778cf0a2e85b16b44f1fc6b6fa27512493e63eee5"
+    },
+    {
+      "id": "license",
+      "url": "https://www.r-project.org/Licenses/MIT",
+      "filename": "mit.txt",
+      "fileSizeBytes": 1380,
+      "sha256": "dabc720ac4a1dacea5f2d72070cef67e9fafb623e0db6e86aae3ff6e31db0d91"
+    },
+    {
+      "id": "package-description",
+      "url": "https://raw.githubusercontent.com/sahirbhatnagar/manhattanly/f959be07f7c1df747ed5fe0169d72a97a49b343a/DESCRIPTION",
+      "filename": "hapmap-description.txt",
+      "fileSizeBytes": 2073,
+      "sha256": "9391723c781019dad82015a1c2d36129d5d081ba01055cc486a866d6a64f38a9"
+    }
+  ],
+  "parameters": {
+    "transformation": "Copy the pinned prepared source tables unchanged; preserve header, row order, missing-value spelling, and numeric representation.",
+    "purpose": "HapMap coordinates with simulated association statistics",
+    "limitations": "Reproduces acquisition of the accepted historical table, not its original HapMap sampling/simulation pipeline. The original annotation intermediate and external helper are unavailable; no new random statistics are generated."
+  },
+  "tools": {
+    "python": "3.14.3",
+    "dependencies": "Python standard library only"
+  },
+  "outputs": {
+    "associations": {
+      "path": "output/hapmap-associations.csv",
+      "sourceId": "associations",
+      "fileSizeBytes": 939280,
+      "sha256": "20eb668da67431679afc1f9816a051f037c209b99027bcbb6c33019f006c6547"
+    },
+    "copyright": {
+      "path": "output/UPSTREAM-COPYRIGHT.txt",
+      "sourceId": "copyright",
+      "fileSizeBytes": 49,
+      "sha256": "66a7badcc07d26717757887778cf0a2e85b16b44f1fc6b6fa27512493e63eee5"
+    },
+    "license": {
+      "path": "output/LICENSE-MIT.txt",
+      "sourceId": "license",
+      "fileSizeBytes": 1380,
+      "sha256": "dabc720ac4a1dacea5f2d72070cef67e9fafb623e0db6e86aae3ff6e31db0d91"
+    }
+  },
+  "validation": {
+    "columns": [
+      "CHR",
+      "BP",
+      "P",
+      "SNP",
+      "ZSCORE",
+      "EFFECTSIZE",
+      "GENE",
+      "DISTANCE"
+    ],
+    "recordCount": 14412,
+    "knownAnomalies": [
+      "21 variant IDs preserve their original AFFX-SNP probe prefix before the rs identifier."
+    ],
+    "prototype": {
+      "spec": "specs/overview.json",
+      "genomeSpyVersion": "0.86.0",
+      "browserCheck": "Simulated p-values render against positions with visible point density.",
+      "consoleErrors": false
+    }
+  },
+  "distribution": {
+    "baseUrl": "https://data.genomespy.app/datasets/manhattanly-hapmap-associations/v1/",
+    "artifacts": {
+      "output/hapmap-associations.csv": {
+        "fileSizeBytes": 939280,
+        "sha256": "20eb668da67431679afc1f9816a051f037c209b99027bcbb6c33019f006c6547"
+      },
+      "output/UPSTREAM-COPYRIGHT.txt": {
+        "fileSizeBytes": 49,
+        "sha256": "66a7badcc07d26717757887778cf0a2e85b16b44f1fc6b6fa27512493e63eee5"
+      },
+      "output/LICENSE-MIT.txt": {
+        "fileSizeBytes": 1380,
+        "sha256": "dabc720ac4a1dacea5f2d72070cef67e9fafb623e0db6e86aae3ff6e31db0d91"
+      }
+    }
+  }
+}

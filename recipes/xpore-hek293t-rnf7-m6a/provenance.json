@@ -1,0 +1,175 @@
+{
+  "schemaVersion": 2,
+  "releaseId": "v2",
+  "recipeId": "xpore-hek293t-rnf7-m6a",
+  "sources": [
+    {
+      "id": "xpore-demo",
+      "title": "xPore: Identification of differential RNA modifications from nanopore direct RNA sequencing",
+      "conceptDoi": "https://doi.org/10.5281/zenodo.4587661",
+      "record": "https://zenodo.org/records/5707193",
+      "url": "https://zenodo.org/api/records/5707193/files/demo.tar.gz/content",
+      "filename": "demo.tar.gz",
+      "license": "CC-BY-4.0",
+      "fileSizeBytes": 84504086,
+      "md5": "1efbfe41784480e2d5f88b5b35b117eb",
+      "sha256": "b0cc0ad962acaf9987b6bc6026cb06f6f54d1d043147ad45638a4b6066bc703f",
+      "members": {
+        "demo/data/HEK293T-WT-rep1/bamtx/aligned.bam": {
+          "fileSizeBytes": 3306090,
+          "sha256": "57297f0ed03f232097d6039ee41346c0090e90695d9147821edfb2d99a65a125"
+        },
+        "demo/data/HEK293T-WT-rep1/bamtx/aligned.bam.bai": {
+          "fileSizeBytes": 1747360,
+          "sha256": "0e3075ddc0e77b3262df8726113024c9bc0524421dad46ca4ea6d2526eb06532"
+        },
+        "demo/data/HEK293T-METTL3-KO-rep1/bamtx/aligned.bam": {
+          "fileSizeBytes": 3461642,
+          "sha256": "d57d1b561de90b2e5970aa66fd4f7aada472a38e6ae55d08f6bb8fd7ba16ef69"
+        },
+        "demo/data/HEK293T-METTL3-KO-rep1/bamtx/aligned.bam.bai": {
+          "fileSizeBytes": 1747504,
+          "sha256": "b206eb14505eefa5b6bdf61410781c7746e823e40574230406f6b7acb814948d"
+        },
+        "demo/demo.gtf": {
+          "fileSizeBytes": 39064,
+          "sha256": "78cd6f319a3d753ae29cf6466f94aad542a2b4ea7cfca9baf468910b43667289"
+        }
+      }
+    },
+    {
+      "id": "m6anet-supplementary-table-6",
+      "title": "Hendra et al. 2022 Supplementary Table 6",
+      "articleDoi": "https://doi.org/10.1038/s41592-022-01666-1",
+      "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41592-022-01666-1/MediaObjects/41592_2022_1666_MOESM9_ESM.csv",
+      "filename": "41592_2022_1666_MOESM9_ESM.csv",
+      "license": "CC-BY-4.0",
+      "fileSizeBytes": 7962251,
+      "md5": "7b5d43a0381dad3be9d4a2f127828f76",
+      "sha256": "28a81253e6ff456a44e57cad75c63cc6ec9ea2dc03cecfeb93842e81e71fecbd"
+    },
+    {
+      "id": "ensembl-rnf7-exon-1",
+      "title": "GRCh38 chromosome 3 sequence for RNF7-201 exon 1",
+      "url": "https://rest.ensembl.org/sequence/region/human/3:141738204..141738516:1?coord_system_version=GRCh38",
+      "filename": "rnf7-exon-1.txt",
+      "headers": {
+        "Content-Type": "text/plain"
+      },
+      "license": "Ensembl data available without restriction",
+      "rights": "https://www.ensembl.org/info/about/legal/disclaimer.html",
+      "fileSizeBytes": 313,
+      "sha256": "3f53a0a792bca9fdbf8dc494671447ad11d4ca69b71122c90faf04190f84efb5"
+    },
+    {
+      "id": "ensembl-rnf7-exon-2",
+      "title": "GRCh38 chromosome 3 sequence for RNF7-201 exon 2",
+      "url": "https://rest.ensembl.org/sequence/region/human/3:141743509..141743556:1?coord_system_version=GRCh38",
+      "filename": "rnf7-exon-2.txt",
+      "headers": {
+        "Content-Type": "text/plain"
+      },
+      "license": "Ensembl data available without restriction",
+      "rights": "https://www.ensembl.org/info/about/legal/disclaimer.html",
+      "fileSizeBytes": 48,
+      "sha256": "35eb99abd87de16798b80280da7a49cc56cbe6f9bec26aee1fd9afe737e6312d"
+    },
+    {
+      "id": "ensembl-rnf7-exon-3",
+      "title": "GRCh38 chromosome 3 sequence for RNF7-201 exon 3",
+      "url": "https://rest.ensembl.org/sequence/region/human/3:141745159..141747560:1?coord_system_version=GRCh38",
+      "filename": "rnf7-exon-3.txt",
+      "headers": {
+        "Content-Type": "text/plain"
+      },
+      "license": "Ensembl data available without restriction",
+      "rights": "https://www.ensembl.org/info/about/legal/disclaimer.html",
+      "fileSizeBytes": 2402,
+      "sha256": "90812490c407dcc4beb0782152107f3c32c859bf79ab1debefa5bf64bf63dd45"
+    }
+  ],
+  "parameters": {
+    "gene": "RNF7",
+    "geneId": "ENSG00000114125",
+    "transcriptId": "ENST00000273480.3",
+    "siteTableTranscriptId": "ENST00000273480",
+    "displayStart": 0,
+    "displayEnd": 920,
+    "coordinateConvention": "zero-based transcript coordinates; half-open intervals",
+    "alignmentFilter": "mapped primary alignments only",
+    "coverage": "number and fraction of retained reads with an aligned query base at each reference position",
+    "referenceSequence": "GRCh38 exon sequences from the demo GTF, concatenated in RNF7-201 transcript order",
+    "alignmentEvents": "mismatches derived by comparing BAM query bases with the reconstructed transcript; insertion, deletion, skip, and soft-clip events derived from CIGAR operations",
+    "readLanes": "condition-local greedy interval packing in stable read order",
+    "siteScores": "published condition-level m6Anet probabilities; not recomputed from the selected demo alignments",
+    "readLabels": "stable condition-local labels after sorting by start, end, and source query name"
+  },
+  "tools": {
+    "python": "3.12.13",
+    "pysam": "0.23.3"
+  },
+  "outputs": {
+    "bundle": {
+      "path": "output/rnf7-direct-rna.json.gz",
+      "mediaType": "application/json",
+      "contentEncoding": "gzip",
+      "fileSizeBytes": 176051,
+      "sha256": "2aee7e31edd025341ed453110fa2e2358e369c61b784779b407102028293b54a"
+    }
+  },
+  "validation": {
+    "transcriptLength": 2763,
+    "displayLength": 920,
+    "exons": 3,
+    "readCounts": {
+      "WT": 77,
+      "KO": 151
+    },
+    "tableRows": {
+      "coverage": 1840,
+      "reads": 228,
+      "events": 18702,
+      "sites": 24,
+      "exons": 3,
+      "sequence": 920
+    },
+    "alignmentEvents": {
+      "deletion": 6695,
+      "insertion": 4280,
+      "mismatch": 7282,
+      "skip": 16,
+      "softClip": 429
+    },
+    "maxReadLane": {
+      "WT": 76,
+      "KO": 149
+    },
+    "candidateSites": 12,
+    "maxCoverage": {
+      "WT": 77,
+      "KO": 150
+    },
+    "coveredPositions": {
+      "WT": 902,
+      "KO": 918
+    },
+    "position614Probability": {
+      "WT": 0.9885296821594238,
+      "KO": 0.3039894700050354
+    },
+    "reconciliation": {
+      "sourceRecipeCommit": "cb02e8a9fb9b696ef81feb835ef30909bda0ec77",
+      "reproducedFromPinnedInputs": true,
+      "packagedBytesMatch": true
+    }
+  },
+  "distribution": {
+    "baseUrl": "https://data.genomespy.app/datasets/xpore-hek293t-rnf7-m6a/v2/",
+    "artifacts": {
+      "output/rnf7-direct-rna.json.gz": {
+        "fileSizeBytes": 176051,
+        "sha256": "2aee7e31edd025341ed453110fa2e2358e369c61b784779b407102028293b54a"
+      }
+    }
+  }
+}

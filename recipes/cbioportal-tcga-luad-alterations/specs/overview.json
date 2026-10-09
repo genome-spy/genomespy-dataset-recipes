@@ -1,0 +1,40 @@
+{
+  "title": "Historical LUAD export: source tracks by type",
+  "data": {
+    "url": "../output/tcga.tsv",
+    "format": {
+      "type": "tsv"
+    }
+  },
+  "transform": [
+    {
+      "type": "aggregate",
+      "groupby": [
+        "track_type"
+      ],
+      "fields": [
+        "track_type"
+      ],
+      "ops": [
+        "count"
+      ],
+      "as": [
+        "tracks"
+      ]
+    }
+  ],
+  "mark": "rect",
+  "encoding": {
+    "y": {
+      "field": "track_type",
+      "type": "nominal"
+    },
+    "x": {
+      "field": "tracks",
+      "type": "quantitative"
+    },
+    "x2": {
+      "datum": 0
+    }
+  }
+}
