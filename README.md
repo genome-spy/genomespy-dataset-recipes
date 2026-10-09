@@ -27,6 +27,8 @@ Reproducible wrangling scripts and provenance for datasets used in
 
 ## Python dataset migration recipes
 
+- [PBMC3k marker expression](recipes/scanpy-pbmc3k-marker-expression/): pinned preparation for five AnnData gallery examples.
+
 - [P53 alignment](recipes/uniprot-p53-alignment/): exact historical MAFFT L-INS-i alignment from pinned UniProt-labelled source sequences.
 - [TAL1 reference](recipes/ucsc-tal1-hg38-reference/): UCSC hg38 reference window and preserved example metadata.
 

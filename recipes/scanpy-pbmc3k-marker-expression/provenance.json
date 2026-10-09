@@ -1,0 +1,129 @@
+{
+  "schemaVersion": 2,
+  "recipeId": "scanpy-pbmc3k-marker-expression",
+  "releaseId": "v1",
+  "sources": [
+    {
+      "id": "h5ad",
+      "filename": "pbmc3k.h5ad",
+      "url": "https://raw.githubusercontent.com/chanzuckerberg/cellxgene/68dfbcc2eb675e96c6a5e2a6b7a0d3465ccf46bc/example-dataset/pbmc3k.h5ad",
+      "fileSizeBytes": 24653425,
+      "sha256": "0db367b991dd95809732b218539ede489bea99113807f62ebd7ccc970025fe38"
+    },
+    {
+      "id": "producer",
+      "url": "https://raw.githubusercontent.com/genome-spy/genome-spy-python/fd3a272ecad54dbf92bf1a7390c0d627d346296b/tools/prepare_pbmc_gallery_data.py",
+      "filename": "prepare_pbmc_gallery_data.py",
+      "fileSizeBytes": 8798,
+      "sha256": "43922684d25ebd609480a8a6da870f7c5e7eefc860e957be14f3ec292043e545"
+    },
+    {
+      "id": "producerLicense",
+      "url": "https://raw.githubusercontent.com/genome-spy/genome-spy-python/fd3a272ecad54dbf92bf1a7390c0d627d346296b/LICENSE",
+      "filename": "PYTHON-MIT-LICENSE.txt",
+      "fileSizeBytes": 1072,
+      "sha256": "fac836cde8421e6151245d4e952596b7aa82e4a29c99884d463ddeac527797ea"
+    },
+    {
+      "id": "dataLicense",
+      "url": "https://raw.githubusercontent.com/genome-spy/genome-spy-python/fd3a272ecad54dbf92bf1a7390c0d627d346296b/LICENSES/CC-BY-4.0.txt",
+      "filename": "CC-BY-4.0.txt",
+      "fileSizeBytes": 17023,
+      "sha256": "d557539df68e771cc1eedcc91d13f70fca930e508d11eedcafa4b15db49e3744"
+    }
+  ],
+  "parameters": {
+    "producerCommit": "fd3a272ecad54dbf92bf1a7390c0d627d346296b",
+    "expressionField": "raw.X, saved log1p counts before normalization",
+    "embeddingField": "obsm.X_umap, retained without recomputing",
+    "markerGenes": [
+      "IL7R",
+      "CD14",
+      "LYZ",
+      "MS4A1",
+      "CD8A",
+      "GNLY",
+      "NKG7",
+      "FCGR3A",
+      "MS4A7",
+      "FCER1A",
+      "CST3",
+      "PPBP"
+    ],
+    "umapGenes": [
+      "CD79A",
+      "MS4A1",
+      "IGJ",
+      "CD3D",
+      "FCER1A",
+      "FCGR3A"
+    ],
+    "groupClustering": {
+      "method": "single",
+      "metric": "euclidean",
+      "optimalOrdering": false
+    },
+    "cellOrder": "Dendrogram groups, stable source order within groups",
+    "serialization": "Producer compact JSON bytes in gzip level 9, empty filename, mtime 0, OS 255"
+  },
+  "tools": {
+    "python": "3.14.3",
+    "anndata": "0.12.19",
+    "numpy": "2.4.6",
+    "scipy": "1.17.1",
+    "h5py": "3.16.0",
+    "zlib": "1.2.12"
+  },
+  "outputs": {
+    "bundle": {
+      "path": "output/pbmc-markers.json.gz",
+      "fileSizeBytes": 104083,
+      "sha256": "2f292aac1475ae3c9d448d1754bd6fb63b771985573c7228d4628aa8cb1647fd",
+      "decodedSha256": "c634fcc7cd3d2f9768f2ad25f94bd29ecd715f195a3334d5ebd0766881bbd069"
+    },
+    "producerLicense": {
+      "path": "output/PYTHON-MIT-LICENSE.txt",
+      "sourceId": "producerLicense",
+      "fileSizeBytes": 1072,
+      "sha256": "fac836cde8421e6151245d4e952596b7aa82e4a29c99884d463ddeac527797ea"
+    },
+    "dataLicense": {
+      "path": "output/CC-BY-4.0.txt",
+      "sourceId": "dataLicense",
+      "fileSizeBytes": 17023,
+      "sha256": "d557539df68e771cc1eedcc91d13f70fca930e508d11eedcafa4b15db49e3744"
+    }
+  },
+  "validation": {
+    "cells": 2638,
+    "markers": 12,
+    "umapMarkers": 6,
+    "groups": 8,
+    "means": 96,
+    "treeSegments": 21,
+    "decodedBytesMatchMergedPythonBundle": true,
+    "packagedSha256": "ad18582cc9b08e8273caafe02efafbd731a9d8ee97ce67a40ac829e770bb97e3",
+    "limitations": [
+      "Prepared teaching subset from one healthy donor; not a new differential-expression analysis.",
+      "Saved source UMAP and labels are reused, not recomputed."
+    ],
+    "gzipDifferenceFromMergedBundle": "Only OS byte at offset 9 differs (255 instead of 3)."
+  },
+  "distribution": {
+    "baseUrl": "https://data.genomespy.app/datasets/scanpy-pbmc3k-marker-expression/v1/",
+    "artifacts": {
+      "output/pbmc-markers.json.gz": {
+        "fileSizeBytes": 104083,
+        "sha256": "2f292aac1475ae3c9d448d1754bd6fb63b771985573c7228d4628aa8cb1647fd"
+      },
+      "output/PYTHON-MIT-LICENSE.txt": {
+        "fileSizeBytes": 1072,
+        "sha256": "fac836cde8421e6151245d4e952596b7aa82e4a29c99884d463ddeac527797ea"
+      },
+      "output/CC-BY-4.0.txt": {
+        "fileSizeBytes": 17023,
+        "sha256": "d557539df68e771cc1eedcc91d13f70fca930e508d11eedcafa4b15db49e3744"
+      }
+    }
+  }
+}
