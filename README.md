@@ -27,6 +27,9 @@ Reproducible wrangling scripts and provenance for datasets used in
 
 ## Python dataset migration recipes
 
+- [Historical LUAD export](recipes/cbioportal-tcga-luad-alterations/):
+  preserved pyoncoprint source with its microbiome retraction warning.
+
 - [Single-sample BRCA mutations](recipes/maftools-tcga-brca-mutations/):
   byte-preserving source for the rainfall example.
 

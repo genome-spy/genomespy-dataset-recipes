@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 2,
+  "recipeId": "cbioportal-tcga-luad-alterations",
+  "releaseId": "v1",
+  "sources": [
+    {
+      "id": "alterations",
+      "filename": "tcga.tsv",
+      "url": "https://raw.githubusercontent.com/pnucolab/pyoncoprint/31e6d6de78b64070a9c6c582ce3ef571b14e4c71/example_data/tcga.tsv",
+      "fileSizeBytes": 149070,
+      "sha256": "39a90fc1f50ebcd113c37fd03894fb41b17dca4d6014f7efcf0e3f234c957742"
+    }
+  ],
+  "parameters": {
+    "transformation": "None; preserve source bytes, column order, empty cells, and historical track identities.",
+    "study": "TCGA LUAD PanCancer Atlas 2018 historical cBioPortal export",
+    "coordinates": "No genomic coordinate fields or assembly conversion."
+  },
+  "tools": {
+    "python": "3.14.3",
+    "dependencies": "Python standard library only"
+  },
+  "outputs": {
+    "alterations": {
+      "path": "output/tcga.tsv",
+      "sourceId": "alterations",
+      "fileSizeBytes": 149070,
+      "sha256": "39a90fc1f50ebcd113c37fd03894fb41b17dca4d6014f7efcf0e3f234c957742"
+    }
+  },
+  "validation": {
+    "sampleCount": 507,
+    "trackCount": 145,
+    "trackTypes": {
+      "CLINICAL": 8,
+      "CNA": 26,
+      "MUTATIONS": 26,
+      "MRNA": 26,
+      "PROTEIN": 26,
+      "STRUCTURAL_VARIANT": 26,
+      "HEATMAP MRNA_EXPRESSION Z-SCORE": 3,
+      "HEATMAP GENERIC_ASSAY LIMIT-VALUE": 4
+    },
+    "historicalMicrobiomeTrack": [
+      "Dicipivirus",
+      "HEATMAP GENERIC_ASSAY LIMIT-VALUE"
+    ],
+    "identicalToPythonPackage": true,
+    "limitations": [
+      "Dicipivirus values originate from Poore et al. (2020), retracted in 2024. They are historical fixture data, not validated biological findings."
+    ],
+    "prototype": {
+      "spec": "specs/overview.json",
+      "genomeSpyVersion": "0.86.0",
+      "browserCheck": "Eight track types render with counts 8, 26, 26, 26, 26, 26, 3, and 4. Labels are readable; no clinical or microbiome measurements are plotted.",
+      "consoleErrors": false
+    }
+  }
+}
