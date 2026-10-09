@@ -1,0 +1,1755 @@
+{
+  "config": {
+    "view": {
+      "stroke": "#dedee5"
+    }
+  },
+  "description": "Condition-specific aggregate coverage and published m6Anet site probabilities above RNF7-201 reference sequence and separate wild-type and METTL3-knockout long-read alignments with real mismatch and CIGAR-event overlays.",
+  "padding": 28,
+  "params": [
+    {
+      "name": "transcriptWindow"
+    },
+    {
+      "bind": {
+        "input": "range",
+        "max": 14,
+        "min": 3,
+        "name": "Read row height: ",
+        "step": 1
+      },
+      "name": "laneHeight",
+      "transition": {
+        "type": "lerp",
+        "halfLife": 30,
+        "epsilon": 0.02
+      },
+      "value": 6
+    }
+  ],
+  "resolve": {
+    "scale": {
+      "color": "independent",
+      "x": "independent",
+      "y": "independent"
+    },
+    "axis": {
+      "x": "independent",
+      "y": "independent"
+    }
+  },
+  "spacing": 6,
+  "title": "RNF7 ONT direct-RNA coverage, m6A evidence, and alignments",
+  "vconcat": [
+    {
+      "axes": {
+        "x": {
+          "grid": false,
+          "orient": "top",
+          "tickCount": 10,
+          "title": "RNF7-201 transcript position (nt)"
+        }
+      },
+      "params": [
+        {
+          "name": "transcriptCursor",
+          "persist": false,
+          "ruler": {
+            "encodings": [
+              "x"
+            ],
+            "extent": "container",
+            "mark": {
+              "opacity": 0.35,
+              "stroke": "#4d4d55",
+              "strokeWidth": 1
+            },
+            "snap": false
+          }
+        }
+      ],
+      "resolve": {
+        "scale": {
+          "x": "shared",
+          "y": "independent"
+        },
+        "axis": {
+          "x": "shared",
+          "y": "independent"
+        }
+      },
+      "scales": {
+        "x": {
+          "domain": {
+            "initial": [
+              0,
+              920
+            ],
+            "param": "transcriptWindow"
+          },
+          "nice": false,
+          "zoom": true
+        }
+      },
+      "spacing": 3,
+      "vconcat": [
+        {
+          "height": 94,
+          "layer": [
+            {
+              "data": {
+                "url": "../output/rnf7-direct-rna.json.gz",
+                "format": {
+                  "type": "json",
+                  "property": "coverage"
+                }
+              },
+              "encoding": {
+                "tooltip": [
+                  {
+                    "field": "conditionLabel",
+                    "type": "nominal",
+                    "title": "Condition"
+                  },
+                  {
+                    "field": "position",
+                    "type": "quantitative",
+                    "title": "Transcript position"
+                  },
+                  {
+                    "field": "coverage",
+                    "type": "quantitative",
+                    "title": "Read depth"
+                  },
+                  {
+                    "field": "coverageFraction",
+                    "type": "quantitative",
+                    "format": ".1%",
+                    "title": "Fraction of displayed reads"
+                  }
+                ],
+                "x": {
+                  "field": "position",
+                  "type": "index"
+                },
+                "x2": {
+                  "field": "positionEnd"
+                },
+                "y": {
+                  "field": "coverage",
+                  "type": "quantitative",
+                  "scale": {
+                    "domain": [
+                      0,
+                      160
+                    ],
+                    "nice": false,
+                    "zero": true
+                  },
+                  "axis": {
+                    "grid": true,
+                    "title": "Read depth",
+                    "values": [
+                      0,
+                      80,
+                      160
+                    ]
+                  }
+                }
+              },
+              "mark": {
+                "type": "rect",
+                "clip": "x",
+                "color": "#e38335",
+                "minWidth": 0.5,
+                "opacity": 0.5
+              },
+              "transform": [
+                {
+                  "type": "filter",
+                  "expr": "(datum.condition === 'KO')"
+                },
+                {
+                  "type": "formula",
+                  "as": "positionEnd",
+                  "expr": "(datum.position + 1)"
+                }
+              ]
+            },
+            {
+              "data": {
+                "url": "../output/rnf7-direct-rna.json.gz",
+                "format": {
+                  "type": "json",
+                  "property": "coverage"
+                }
+              },
+              "encoding": {
+                "tooltip": [
+                  {
+                    "field": "conditionLabel",
+                    "type": "nominal",
+                    "title": "Condition"
+                  },
+                  {
+                    "field": "position",
+                    "type": "quantitative",
+                    "title": "Transcript position"
+                  },
+                  {
+                    "field": "coverage",
+                    "type": "quantitative",
+                    "title": "Read depth"
+                  },
+                  {
+                    "field": "coverageFraction",
+                    "type": "quantitative",
+                    "format": ".1%",
+                    "title": "Fraction of displayed reads"
+                  }
+                ],
+                "x": {
+                  "field": "position",
+                  "type": "index"
+                },
+                "x2": {
+                  "field": "positionEnd"
+                },
+                "y": {
+                  "field": "coverage",
+                  "type": "quantitative",
+                  "scale": {
+                    "domain": [
+                      0,
+                      160
+                    ],
+                    "nice": false,
+                    "zero": true
+                  },
+                  "axis": {
+                    "grid": true,
+                    "title": "Read depth",
+                    "values": [
+                      0,
+                      80,
+                      160
+                    ]
+                  }
+                }
+              },
+              "mark": {
+                "type": "rect",
+                "clip": "x",
+                "color": "#6656c7",
+                "minWidth": 0.5,
+                "opacity": 0.5
+              },
+              "transform": [
+                {
+                  "type": "filter",
+                  "expr": "(datum.condition === 'WT')"
+                },
+                {
+                  "type": "formula",
+                  "as": "positionEnd",
+                  "expr": "(datum.position + 1)"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "data": {
+            "url": "../output/rnf7-direct-rna.json.gz",
+            "format": {
+              "type": "json",
+              "property": "exons"
+            }
+          },
+          "height": 32,
+          "layer": [
+            {
+              "encoding": {
+                "tooltip": [
+                  {
+                    "field": "exon",
+                    "type": "ordinal",
+                    "title": "RNF7-201 exon"
+                  },
+                  {
+                    "field": "genomicStart",
+                    "type": "quantitative",
+                    "format": ",",
+                    "title": "GRCh38 start"
+                  },
+                  {
+                    "field": "genomicEnd",
+                    "type": "quantitative",
+                    "format": ",",
+                    "title": "GRCh38 end"
+                  }
+                ],
+                "x": {
+                  "field": "displayStart",
+                  "type": "index"
+                },
+                "x2": {
+                  "field": "displayEnd"
+                }
+              },
+              "mark": {
+                "type": "rect",
+                "color": "#55555f",
+                "cornerRadius": 2,
+                "stroke": "white",
+                "strokeWidth": 2,
+                "y": 0.22,
+                "y2": 0.78
+              }
+            },
+            {
+              "encoding": {
+                "text": {
+                  "field": "label",
+                  "type": "nominal"
+                },
+                "x": {
+                  "field": "displayCenter",
+                  "type": "index"
+                },
+                "y": {
+                  "value": 0.5
+                }
+              },
+              "mark": {
+                "type": "text",
+                "color": "white",
+                "fontWeight": 500,
+                "tooltip": null
+              },
+              "transform": [
+                {
+                  "type": "formula",
+                  "as": "label",
+                  "expr": "'Exon ' + datum.exon"
+                }
+              ]
+            }
+          ],
+          "name": "transcript-model"
+        },
+        {
+          "data": {
+            "url": "../output/rnf7-direct-rna.json.gz",
+            "format": {
+              "type": "json",
+              "property": "sequence"
+            }
+          },
+          "height": 44,
+          "layer": [
+            {
+              "encoding": {
+                "color": {
+                  "field": "base",
+                  "type": "nominal",
+                  "scale": {
+                    "domain": [
+                      "A",
+                      "C",
+                      "G",
+                      "T",
+                      "N"
+                    ],
+                    "range": [
+                      "#4fbf45",
+                      "#4d96e8",
+                      "#e8b322",
+                      "#e85f78",
+                      "#bdbdbd"
+                    ]
+                  },
+                  "legend": null
+                },
+                "tooltip": [
+                  {
+                    "field": "position",
+                    "type": "quantitative",
+                    "title": "Transcript position"
+                  },
+                  {
+                    "field": "base",
+                    "type": "nominal",
+                    "title": "Reference base"
+                  }
+                ],
+                "x": {
+                  "field": "position",
+                  "type": "index"
+                },
+                "x2": {
+                  "field": "positionEnd"
+                }
+              },
+              "mark": {
+                "type": "rect",
+                "opacity": 0.7,
+                "y": 0.28,
+                "y2": 0.72
+              },
+              "transform": [
+                {
+                  "type": "formula",
+                  "as": "positionEnd",
+                  "expr": "(datum.position + 1)"
+                }
+              ]
+            },
+            {
+              "encoding": {
+                "text": {
+                  "field": "base",
+                  "type": "nominal"
+                },
+                "x": {
+                  "field": "baseCenter",
+                  "type": "index"
+                }
+              },
+              "mark": {
+                "type": "text",
+                "color": "#111111",
+                "size": 11,
+                "tooltip": null,
+                "y": 0.5
+              },
+              "opacity": {
+                "unitsPerPixel": [
+                  0.2,
+                  0.1
+                ],
+                "values": [
+                  0,
+                  1
+                ]
+              },
+              "transform": [
+                {
+                  "type": "formula",
+                  "as": "baseCenter",
+                  "expr": "(datum.position + 0.5)"
+                }
+              ]
+            },
+            {
+              "data": {
+                "url": "../output/rnf7-direct-rna.json.gz",
+                "format": {
+                  "type": "json",
+                  "property": "sites"
+                }
+              },
+              "encoding": {
+                "size": {
+                  "field": "probability",
+                  "type": "quantitative",
+                  "scale": {
+                    "clamp": true,
+                    "domain": [
+                      0,
+                      1
+                    ],
+                    "nice": false,
+                    "range": [
+                      12,
+                      72
+                    ]
+                  },
+                  "legend": null
+                },
+                "tooltip": [
+                  {
+                    "field": "conditionLabel",
+                    "type": "nominal",
+                    "title": "Condition"
+                  },
+                  {
+                    "field": "position",
+                    "type": "quantitative",
+                    "title": "Transcript position"
+                  },
+                  {
+                    "field": "genomicPosition",
+                    "type": "quantitative",
+                    "format": ",",
+                    "title": "GRCh38 position"
+                  },
+                  {
+                    "field": "kmer",
+                    "type": "nominal",
+                    "title": "5-mer context"
+                  },
+                  {
+                    "field": "probability",
+                    "type": "quantitative",
+                    "format": ".3f",
+                    "title": "m6Anet probability"
+                  },
+                  {
+                    "field": "difference",
+                    "type": "quantitative",
+                    "format": "+.3f",
+                    "title": "WT − KO"
+                  },
+                  {
+                    "field": "highConfidence",
+                    "type": "nominal",
+                    "title": "High confidence"
+                  }
+                ],
+                "x": {
+                  "field": "position",
+                  "type": "index"
+                }
+              },
+              "mark": {
+                "type": "point",
+                "clip": "x",
+                "color": "#6656c7",
+                "filled": true,
+                "shape": "triangle-down",
+                "stroke": "white",
+                "strokeWidth": 0.8,
+                "y": 0.12
+              },
+              "transform": [
+                {
+                  "type": "filter",
+                  "expr": "(datum.condition === 'WT')"
+                }
+              ]
+            },
+            {
+              "data": {
+                "url": "../output/rnf7-direct-rna.json.gz",
+                "format": {
+                  "type": "json",
+                  "property": "sites"
+                }
+              },
+              "encoding": {
+                "size": {
+                  "field": "probability",
+                  "type": "quantitative",
+                  "scale": {
+                    "clamp": true,
+                    "domain": [
+                      0,
+                      1
+                    ],
+                    "nice": false,
+                    "range": [
+                      12,
+                      72
+                    ]
+                  },
+                  "legend": null
+                },
+                "tooltip": [
+                  {
+                    "field": "conditionLabel",
+                    "type": "nominal",
+                    "title": "Condition"
+                  },
+                  {
+                    "field": "position",
+                    "type": "quantitative",
+                    "title": "Transcript position"
+                  },
+                  {
+                    "field": "genomicPosition",
+                    "type": "quantitative",
+                    "format": ",",
+                    "title": "GRCh38 position"
+                  },
+                  {
+                    "field": "kmer",
+                    "type": "nominal",
+                    "title": "5-mer context"
+                  },
+                  {
+                    "field": "probability",
+                    "type": "quantitative",
+                    "format": ".3f",
+                    "title": "m6Anet probability"
+                  },
+                  {
+                    "field": "difference",
+                    "type": "quantitative",
+                    "format": "+.3f",
+                    "title": "WT − KO"
+                  },
+                  {
+                    "field": "highConfidence",
+                    "type": "nominal",
+                    "title": "High confidence"
+                  }
+                ],
+                "x": {
+                  "field": "position",
+                  "type": "index"
+                }
+              },
+              "mark": {
+                "type": "point",
+                "clip": "x",
+                "color": "#e38335",
+                "filled": true,
+                "shape": "triangle-up",
+                "stroke": "white",
+                "strokeWidth": 0.8,
+                "y": 0.88
+              },
+              "transform": [
+                {
+                  "type": "filter",
+                  "expr": "(datum.condition === 'KO')"
+                }
+              ]
+            }
+          ],
+          "name": "reference-sequence-m6a"
+        },
+        {
+          "encoding": {
+            "y": {
+              "field": "lane",
+              "type": "index",
+              "scale": {
+                "padding": 0.18,
+                "reverse": true,
+                "zoom": false
+              },
+              "axis": {
+                "labels": false,
+                "ticks": false,
+                "title": null
+              }
+            }
+          },
+          "height": {
+            "step": {
+              "expr": "laneHeight"
+            }
+          },
+          "layer": [
+            {
+              "data": {
+                "url": "../output/rnf7-direct-rna.json.gz",
+                "format": {
+                  "type": "json",
+                  "property": "reads"
+                }
+              },
+              "encoding": {
+                "direction": {
+                  "value": "forward"
+                },
+                "opacity": {
+                  "field": "mapq",
+                  "type": "quantitative",
+                  "scale": {
+                    "domain": [
+                      0,
+                      60
+                    ],
+                    "range": [
+                      0.28,
+                      1
+                    ]
+                  },
+                  "legend": null
+                },
+                "tooltip": [
+                  {
+                    "field": "conditionLabel",
+                    "type": "nominal",
+                    "title": "Condition"
+                  },
+                  {
+                    "field": "read",
+                    "type": "nominal",
+                    "title": "Molecule"
+                  },
+                  {
+                    "field": "start",
+                    "type": "quantitative",
+                    "title": "Start"
+                  },
+                  {
+                    "field": "end",
+                    "type": "quantitative",
+                    "title": "End"
+                  },
+                  {
+                    "field": "queryLength",
+                    "type": "quantitative",
+                    "title": "Query length"
+                  },
+                  {
+                    "field": "mapq",
+                    "type": "quantitative",
+                    "title": "Mapping quality"
+                  }
+                ],
+                "x": {
+                  "field": "start",
+                  "type": "index"
+                },
+                "x2": {
+                  "field": "end"
+                }
+              },
+              "mark": {
+                "type": "arrow",
+                "fill": "#6656c7",
+                "fillOpacity": 0.38,
+                "minStemLength": 8,
+                "stroke": "#6656c7",
+                "strokeOpacity": 0.62,
+                "strokeWidth": 0.5,
+                "style": "arrow-block"
+              },
+              "transform": [
+                {
+                  "type": "filter",
+                  "expr": "(datum.condition === 'WT')"
+                }
+              ]
+            },
+            {
+              "encoding": {
+                "tooltip": [
+                  {
+                    "field": "read",
+                    "type": "nominal",
+                    "title": "Molecule"
+                  },
+                  {
+                    "field": "start",
+                    "type": "quantitative",
+                    "title": "Deletion start"
+                  },
+                  {
+                    "field": "length",
+                    "type": "quantitative",
+                    "title": "Deleted bases"
+                  }
+                ],
+                "x": {
+                  "field": "start",
+                  "type": "index",
+                  "band": 0
+                },
+                "x2": {
+                  "field": "end",
+                  "band": 0
+                }
+              },
+              "layer": [
+                {
+                  "data": {
+                    "url": "../output/rnf7-direct-rna.json.gz",
+                    "format": {
+                      "type": "json",
+                      "property": "events"
+                    }
+                  },
+                  "mark": {
+                    "type": "rect",
+                    "color": "white",
+                    "minWidth": 1,
+                    "tooltip": null
+                  },
+                  "transform": [
+                    {
+                      "type": "filter",
+                      "expr": "(datum.condition === 'WT')"
+                    },
+                    {
+                      "type": "filter",
+                      "expr": "(datum.eventType === 'deletion')"
+                    }
+                  ]
+                },
+                {
+                  "data": {
+                    "url": "../output/rnf7-direct-rna.json.gz",
+                    "format": {
+                      "type": "json",
+                      "property": "events"
+                    }
+                  },
+                  "mark": {
+                    "type": "rule",
+                    "color": "#222222",
+                    "minLength": 1
+                  },
+                  "transform": [
+                    {
+                      "type": "filter",
+                      "expr": "(datum.condition === 'WT')"
+                    },
+                    {
+                      "type": "filter",
+                      "expr": "(datum.eventType === 'deletion')"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "data": {
+                "url": "../output/rnf7-direct-rna.json.gz",
+                "format": {
+                  "type": "json",
+                  "property": "events"
+                }
+              },
+              "encoding": {
+                "tooltip": [
+                  {
+                    "field": "read",
+                    "type": "nominal",
+                    "title": "Molecule"
+                  },
+                  {
+                    "field": "start",
+                    "type": "quantitative",
+                    "title": "Skipped-region start"
+                  },
+                  {
+                    "field": "length",
+                    "type": "quantitative",
+                    "title": "Skipped bases"
+                  }
+                ],
+                "x": {
+                  "field": "start",
+                  "type": "index"
+                },
+                "x2": {
+                  "field": "end"
+                }
+              },
+              "mark": {
+                "type": "rule",
+                "color": "#555555",
+                "minLength": 1,
+                "strokeDash": [
+                  2,
+                  2
+                ]
+              },
+              "transform": [
+                {
+                  "type": "filter",
+                  "expr": "(datum.condition === 'WT')"
+                },
+                {
+                  "type": "filter",
+                  "expr": "(datum.eventType === 'skip')"
+                }
+              ]
+            },
+            {
+              "data": {
+                "url": "../output/rnf7-direct-rna.json.gz",
+                "format": {
+                  "type": "json",
+                  "property": "events"
+                }
+              },
+              "encoding": {
+                "tooltip": [
+                  {
+                    "field": "read",
+                    "type": "nominal",
+                    "title": "Molecule"
+                  },
+                  {
+                    "field": "start",
+                    "type": "quantitative",
+                    "title": "Insertion position"
+                  },
+                  {
+                    "field": "length",
+                    "type": "quantitative",
+                    "title": "Inserted bases"
+                  },
+                  {
+                    "field": "insertedSequence",
+                    "type": "nominal",
+                    "title": "Inserted sequence"
+                  }
+                ],
+                "x": {
+                  "field": "start",
+                  "type": "index"
+                }
+              },
+              "mark": {
+                "type": "text",
+                "color": "#171717",
+                "size": {
+                  "expr": "(laneHeight * 0.9)"
+                },
+                "text": "I"
+              },
+              "transform": [
+                {
+                  "type": "filter",
+                  "expr": "(datum.condition === 'WT')"
+                },
+                {
+                  "type": "filter",
+                  "expr": "(datum.eventType === 'insertion')"
+                }
+              ]
+            },
+            {
+              "data": {
+                "url": "../output/rnf7-direct-rna.json.gz",
+                "format": {
+                  "type": "json",
+                  "property": "events"
+                }
+              },
+              "encoding": {
+                "tooltip": [
+                  {
+                    "field": "read",
+                    "type": "nominal",
+                    "title": "Molecule"
+                  },
+                  {
+                    "field": "length",
+                    "type": "quantitative",
+                    "title": "Soft-clipped bases"
+                  }
+                ],
+                "x": {
+                  "field": "start",
+                  "type": "index"
+                }
+              },
+              "mark": {
+                "type": "text",
+                "color": "#555555",
+                "size": {
+                  "expr": "(laneHeight * 0.9)"
+                },
+                "text": "S"
+              },
+              "transform": [
+                {
+                  "type": "filter",
+                  "expr": "(datum.condition === 'WT')"
+                },
+                {
+                  "type": "filter",
+                  "expr": "(datum.eventType === 'softClip')"
+                }
+              ]
+            },
+            {
+              "data": {
+                "url": "../output/rnf7-direct-rna.json.gz",
+                "format": {
+                  "type": "json",
+                  "property": "events"
+                }
+              },
+              "encoding": {
+                "color": {
+                  "field": "base",
+                  "type": "nominal",
+                  "scale": {
+                    "domain": [
+                      "A",
+                      "C",
+                      "G",
+                      "T",
+                      "N"
+                    ],
+                    "range": [
+                      "#4fbf45",
+                      "#4d96e8",
+                      "#e8b322",
+                      "#e85f78",
+                      "#bdbdbd"
+                    ]
+                  },
+                  "legend": null
+                },
+                "opacity": {
+                  "field": "baseQuality",
+                  "type": "quantitative",
+                  "scale": {
+                    "clamp": true,
+                    "domain": [
+                      5,
+                      20
+                    ],
+                    "nice": false,
+                    "range": [
+                      0.2,
+                      1
+                    ]
+                  },
+                  "legend": null
+                },
+                "tooltip": [
+                  {
+                    "field": "read",
+                    "type": "nominal",
+                    "title": "Molecule"
+                  },
+                  {
+                    "field": "start",
+                    "type": "quantitative",
+                    "title": "Mismatch position"
+                  },
+                  {
+                    "field": "refBase",
+                    "type": "nominal",
+                    "title": "Reference"
+                  },
+                  {
+                    "field": "base",
+                    "type": "nominal",
+                    "title": "Read base"
+                  },
+                  {
+                    "field": "baseQuality",
+                    "type": "quantitative",
+                    "title": "Base quality"
+                  }
+                ],
+                "x": {
+                  "field": "start",
+                  "type": "index"
+                },
+                "x2": {
+                  "field": "end"
+                }
+              },
+              "mark": {
+                "type": "rect",
+                "minWidth": 1
+              },
+              "transform": [
+                {
+                  "type": "filter",
+                  "expr": "(datum.condition === 'WT')"
+                },
+                {
+                  "type": "filter",
+                  "expr": "(datum.eventType === 'mismatch')"
+                }
+              ]
+            },
+            {
+              "data": {
+                "url": "../output/rnf7-direct-rna.json.gz",
+                "format": {
+                  "type": "json",
+                  "property": "events"
+                }
+              },
+              "encoding": {
+                "text": {
+                  "field": "base",
+                  "type": "nominal"
+                },
+                "x": {
+                  "field": "baseCenter",
+                  "type": "index"
+                }
+              },
+              "mark": {
+                "type": "text",
+                "color": "#111111",
+                "size": {
+                  "expr": "(laneHeight * 0.72)"
+                },
+                "tooltip": null
+              },
+              "opacity": {
+                "unitsPerPixel": [
+                  0.2,
+                  0.1
+                ],
+                "values": [
+                  0,
+                  1
+                ]
+              },
+              "transform": [
+                {
+                  "type": "filter",
+                  "expr": "(datum.condition === 'WT')"
+                },
+                {
+                  "type": "filter",
+                  "expr": "(datum.eventType === 'mismatch')"
+                },
+                {
+                  "type": "formula",
+                  "as": "baseCenter",
+                  "expr": "(datum.start + 0.5)"
+                }
+              ]
+            }
+          ],
+          "resolve": {
+            "scale": {
+              "color": "independent",
+              "opacity": "independent"
+            }
+          },
+          "viewportHeight": 190
+        },
+        {
+          "encoding": {
+            "y": {
+              "field": "lane",
+              "type": "index",
+              "scale": {
+                "padding": 0.18,
+                "reverse": true,
+                "zoom": false
+              },
+              "axis": {
+                "labels": false,
+                "ticks": false,
+                "title": null
+              }
+            }
+          },
+          "height": {
+            "step": {
+              "expr": "laneHeight"
+            }
+          },
+          "layer": [
+            {
+              "data": {
+                "url": "../output/rnf7-direct-rna.json.gz",
+                "format": {
+                  "type": "json",
+                  "property": "reads"
+                }
+              },
+              "encoding": {
+                "direction": {
+                  "value": "forward"
+                },
+                "opacity": {
+                  "field": "mapq",
+                  "type": "quantitative",
+                  "scale": {
+                    "domain": [
+                      0,
+                      60
+                    ],
+                    "range": [
+                      0.28,
+                      1
+                    ]
+                  },
+                  "legend": null
+                },
+                "tooltip": [
+                  {
+                    "field": "conditionLabel",
+                    "type": "nominal",
+                    "title": "Condition"
+                  },
+                  {
+                    "field": "read",
+                    "type": "nominal",
+                    "title": "Molecule"
+                  },
+                  {
+                    "field": "start",
+                    "type": "quantitative",
+                    "title": "Start"
+                  },
+                  {
+                    "field": "end",
+                    "type": "quantitative",
+                    "title": "End"
+                  },
+                  {
+                    "field": "queryLength",
+                    "type": "quantitative",
+                    "title": "Query length"
+                  },
+                  {
+                    "field": "mapq",
+                    "type": "quantitative",
+                    "title": "Mapping quality"
+                  }
+                ],
+                "x": {
+                  "field": "start",
+                  "type": "index"
+                },
+                "x2": {
+                  "field": "end"
+                }
+              },
+              "mark": {
+                "type": "arrow",
+                "fill": "#e38335",
+                "fillOpacity": 0.38,
+                "minStemLength": 8,
+                "stroke": "#e38335",
+                "strokeOpacity": 0.62,
+                "strokeWidth": 0.5,
+                "style": "arrow-block"
+              },
+              "transform": [
+                {
+                  "type": "filter",
+                  "expr": "(datum.condition === 'KO')"
+                }
+              ]
+            },
+            {
+              "encoding": {
+                "tooltip": [
+                  {
+                    "field": "read",
+                    "type": "nominal",
+                    "title": "Molecule"
+                  },
+                  {
+                    "field": "start",
+                    "type": "quantitative",
+                    "title": "Deletion start"
+                  },
+                  {
+                    "field": "length",
+                    "type": "quantitative",
+                    "title": "Deleted bases"
+                  }
+                ],
+                "x": {
+                  "field": "start",
+                  "type": "index",
+                  "band": 0
+                },
+                "x2": {
+                  "field": "end",
+                  "band": 0
+                }
+              },
+              "layer": [
+                {
+                  "data": {
+                    "url": "../output/rnf7-direct-rna.json.gz",
+                    "format": {
+                      "type": "json",
+                      "property": "events"
+                    }
+                  },
+                  "mark": {
+                    "type": "rect",
+                    "color": "white",
+                    "minWidth": 1,
+                    "tooltip": null
+                  },
+                  "transform": [
+                    {
+                      "type": "filter",
+                      "expr": "(datum.condition === 'KO')"
+                    },
+                    {
+                      "type": "filter",
+                      "expr": "(datum.eventType === 'deletion')"
+                    }
+                  ]
+                },
+                {
+                  "data": {
+                    "url": "../output/rnf7-direct-rna.json.gz",
+                    "format": {
+                      "type": "json",
+                      "property": "events"
+                    }
+                  },
+                  "mark": {
+                    "type": "rule",
+                    "color": "#222222",
+                    "minLength": 1
+                  },
+                  "transform": [
+                    {
+                      "type": "filter",
+                      "expr": "(datum.condition === 'KO')"
+                    },
+                    {
+                      "type": "filter",
+                      "expr": "(datum.eventType === 'deletion')"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "data": {
+                "url": "../output/rnf7-direct-rna.json.gz",
+                "format": {
+                  "type": "json",
+                  "property": "events"
+                }
+              },
+              "encoding": {
+                "tooltip": [
+                  {
+                    "field": "read",
+                    "type": "nominal",
+                    "title": "Molecule"
+                  },
+                  {
+                    "field": "start",
+                    "type": "quantitative",
+                    "title": "Skipped-region start"
+                  },
+                  {
+                    "field": "length",
+                    "type": "quantitative",
+                    "title": "Skipped bases"
+                  }
+                ],
+                "x": {
+                  "field": "start",
+                  "type": "index"
+                },
+                "x2": {
+                  "field": "end"
+                }
+              },
+              "mark": {
+                "type": "rule",
+                "color": "#555555",
+                "minLength": 1,
+                "strokeDash": [
+                  2,
+                  2
+                ]
+              },
+              "transform": [
+                {
+                  "type": "filter",
+                  "expr": "(datum.condition === 'KO')"
+                },
+                {
+                  "type": "filter",
+                  "expr": "(datum.eventType === 'skip')"
+                }
+              ]
+            },
+            {
+              "data": {
+                "url": "../output/rnf7-direct-rna.json.gz",
+                "format": {
+                  "type": "json",
+                  "property": "events"
+                }
+              },
+              "encoding": {
+                "tooltip": [
+                  {
+                    "field": "read",
+                    "type": "nominal",
+                    "title": "Molecule"
+                  },
+                  {
+                    "field": "start",
+                    "type": "quantitative",
+                    "title": "Insertion position"
+                  },
+                  {
+                    "field": "length",
+                    "type": "quantitative",
+                    "title": "Inserted bases"
+                  },
+                  {
+                    "field": "insertedSequence",
+                    "type": "nominal",
+                    "title": "Inserted sequence"
+                  }
+                ],
+                "x": {
+                  "field": "start",
+                  "type": "index"
+                }
+              },
+              "mark": {
+                "type": "text",
+                "color": "#171717",
+                "size": {
+                  "expr": "(laneHeight * 0.9)"
+                },
+                "text": "I"
+              },
+              "transform": [
+                {
+                  "type": "filter",
+                  "expr": "(datum.condition === 'KO')"
+                },
+                {
+                  "type": "filter",
+                  "expr": "(datum.eventType === 'insertion')"
+                }
+              ]
+            },
+            {
+              "data": {
+                "url": "../output/rnf7-direct-rna.json.gz",
+                "format": {
+                  "type": "json",
+                  "property": "events"
+                }
+              },
+              "encoding": {
+                "tooltip": [
+                  {
+                    "field": "read",
+                    "type": "nominal",
+                    "title": "Molecule"
+                  },
+                  {
+                    "field": "length",
+                    "type": "quantitative",
+                    "title": "Soft-clipped bases"
+                  }
+                ],
+                "x": {
+                  "field": "start",
+                  "type": "index"
+                }
+              },
+              "mark": {
+                "type": "text",
+                "color": "#555555",
+                "size": {
+                  "expr": "(laneHeight * 0.9)"
+                },
+                "text": "S"
+              },
+              "transform": [
+                {
+                  "type": "filter",
+                  "expr": "(datum.condition === 'KO')"
+                },
+                {
+                  "type": "filter",
+                  "expr": "(datum.eventType === 'softClip')"
+                }
+              ]
+            },
+            {
+              "data": {
+                "url": "../output/rnf7-direct-rna.json.gz",
+                "format": {
+                  "type": "json",
+                  "property": "events"
+                }
+              },
+              "encoding": {
+                "color": {
+                  "field": "base",
+                  "type": "nominal",
+                  "scale": {
+                    "domain": [
+                      "A",
+                      "C",
+                      "G",
+                      "T",
+                      "N"
+                    ],
+                    "range": [
+                      "#4fbf45",
+                      "#4d96e8",
+                      "#e8b322",
+                      "#e85f78",
+                      "#bdbdbd"
+                    ]
+                  },
+                  "legend": null
+                },
+                "opacity": {
+                  "field": "baseQuality",
+                  "type": "quantitative",
+                  "scale": {
+                    "clamp": true,
+                    "domain": [
+                      5,
+                      20
+                    ],
+                    "nice": false,
+                    "range": [
+                      0.2,
+                      1
+                    ]
+                  },
+                  "legend": null
+                },
+                "tooltip": [
+                  {
+                    "field": "read",
+                    "type": "nominal",
+                    "title": "Molecule"
+                  },
+                  {
+                    "field": "start",
+                    "type": "quantitative",
+                    "title": "Mismatch position"
+                  },
+                  {
+                    "field": "refBase",
+                    "type": "nominal",
+                    "title": "Reference"
+                  },
+                  {
+                    "field": "base",
+                    "type": "nominal",
+                    "title": "Read base"
+                  },
+                  {
+                    "field": "baseQuality",
+                    "type": "quantitative",
+                    "title": "Base quality"
+                  }
+                ],
+                "x": {
+                  "field": "start",
+                  "type": "index"
+                },
+                "x2": {
+                  "field": "end"
+                }
+              },
+              "mark": {
+                "type": "rect",
+                "minWidth": 1
+              },
+              "transform": [
+                {
+                  "type": "filter",
+                  "expr": "(datum.condition === 'KO')"
+                },
+                {
+                  "type": "filter",
+                  "expr": "(datum.eventType === 'mismatch')"
+                }
+              ]
+            },
+            {
+              "data": {
+                "url": "../output/rnf7-direct-rna.json.gz",
+                "format": {
+                  "type": "json",
+                  "property": "events"
+                }
+              },
+              "encoding": {
+                "text": {
+                  "field": "base",
+                  "type": "nominal"
+                },
+                "x": {
+                  "field": "baseCenter",
+                  "type": "index"
+                }
+              },
+              "mark": {
+                "type": "text",
+                "color": "#111111",
+                "size": {
+                  "expr": "(laneHeight * 0.72)"
+                },
+                "tooltip": null
+              },
+              "opacity": {
+                "unitsPerPixel": [
+                  0.2,
+                  0.1
+                ],
+                "values": [
+                  0,
+                  1
+                ]
+              },
+              "transform": [
+                {
+                  "type": "filter",
+                  "expr": "(datum.condition === 'KO')"
+                },
+                {
+                  "type": "filter",
+                  "expr": "(datum.eventType === 'mismatch')"
+                },
+                {
+                  "type": "formula",
+                  "as": "baseCenter",
+                  "expr": "(datum.start + 0.5)"
+                }
+              ]
+            }
+          ],
+          "resolve": {
+            "scale": {
+              "color": "independent",
+              "opacity": "independent"
+            }
+          },
+          "viewportHeight": 190
+        }
+      ]
+    },
+    {
+      "resolve": {
+        "scale": {
+          "x": "excluded"
+        }
+      },
+      "vconcat": [
+        {
+          "height": 78,
+          "layer": [
+            {
+              "data": {
+                "url": "../output/rnf7-direct-rna.json.gz",
+                "format": {
+                  "type": "json",
+                  "property": "reads"
+                }
+              },
+              "encoding": {
+                "color": {
+                  "field": "conditionLabel",
+                  "type": "nominal",
+                  "scale": {
+                    "domain": [
+                      "Wild type",
+                      "METTL3 knockout"
+                    ],
+                    "range": [
+                      "#6656c7",
+                      "#e38335"
+                    ]
+                  },
+                  "legend": {
+                    "direction": "horizontal",
+                    "orient": "bottom",
+                    "title": null
+                  }
+                },
+                "tooltip": [
+                  {
+                    "field": "conditionLabel",
+                    "type": "nominal",
+                    "title": "Condition"
+                  },
+                  {
+                    "field": "read",
+                    "type": "nominal",
+                    "title": "Molecule"
+                  },
+                  {
+                    "field": "start",
+                    "type": "quantitative",
+                    "title": "Start"
+                  },
+                  {
+                    "field": "end",
+                    "type": "quantitative",
+                    "title": "End"
+                  }
+                ],
+                "x": {
+                  "field": "start",
+                  "type": "index",
+                  "scale": {
+                    "domain": [
+                      0,
+                      920
+                    ],
+                    "nice": false,
+                    "zoom": false
+                  },
+                  "axis": {
+                    "tickCount": 10,
+                    "title": "RNF7-201 transcript position (nt)"
+                  }
+                },
+                "x2": {
+                  "field": "end"
+                },
+                "y": {
+                  "field": "overviewY",
+                  "type": "quantitative",
+                  "scale": {
+                    "domain": [
+                      0,
+                      1
+                    ],
+                    "reverse": true,
+                    "zoom": false
+                  },
+                  "axis": {
+                    "labels": false,
+                    "ticks": false,
+                    "title": "All reads"
+                  }
+                }
+              },
+              "mark": {
+                "type": "rule",
+                "opacity": 0.58,
+                "size": 1
+              }
+            }
+          ],
+          "params": [
+            {
+              "name": "transcriptWindow",
+              "persist": false,
+              "push": "outer",
+              "select": {
+                "encodings": [
+                  "x"
+                ],
+                "mark": {
+                  "clip": false,
+                  "fill": "#4d70b8",
+                  "fillOpacity": 0.16,
+                  "measure": "outside",
+                  "stroke": "#355b9f",
+                  "strokeWidth": 1.2
+                },
+                "type": "interval"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "$schema": "https://cdn.jsdelivr.net/npm/@genome-spy/core@0.87.0/dist/schema.json"
+}
